@@ -1,0 +1,19 @@
+.myvideoroom-extras-boardroom-header h2 {
+	color: #000000;
+	font-family: "Montserrat", sans-serif;
+	font-size: 30px;
+	font-weight: 200;
+	text-transform: capitalize;
+}
+
+.myvideoroom-extras-boardroom-header form{
+	background-color:#c4eeff;
+	padding:20px!important;
+	border: 1px solid #001073;
+}
+
+.myvideoroom-extras-boardroom-header .myvideoroom_extras_user_layout_id_preference,
+.myvideoroom-extras-boardroom-header .myvideoroom_extras_user_reception_id_preference {
+	width: 50%;
+	display: flex;
+}

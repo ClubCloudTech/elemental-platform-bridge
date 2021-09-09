@@ -1,0 +1,192 @@
+public function get_list( $input = '' ) {
+		if ( is_numeric( $input ) ) {
+			$field_id = $input;
+		} else {
+			$field_id = $this->get_instance( SiteDefaults::class )->defaults( $input );
+		}
+
+		if ( ! is_numeric( $field_id ) ) {
+			return null;
+		} else {
+
+			$values = \xprofile_get_field( $field_id )->get_children();
+		}
+
+		?>
+		<html lang="en">
+		<head>
+			<meta charset="utf-8">
+			<title>Dynamically Generate Select Dropdowns</title>
+		</head>
+		<body>
+		<form>
+			<select>
+				<option selected="selected">Choose one</option>
+				<?php
+				// A sample product array
+				// $products = array("Mobile", "Laptop", "Tablet", "Camera");
+
+				// Iterating through the product array
+				foreach ( $values as $item ) {
+					echo "<option value='strtolower( $item)'>$item</option>";
+				}
+				?>
+			</select>
+			<input type="submit" value="Submit">
+		</form>
+		</body>
+		</html>
+
+
+
+		<?php
+	}
+
+
+	/*
+		function bpfr_hide_profile_field_group( $groups ) {
+			$user  = wp_get_current_user();
+			$roles = ( array ) $user->roles;
+			$auth  = false;
+			//case moderate own profile
+			if ( bp_is_user_profile_edit() && ! current_user_can( 'bp_moderate' ) ) {
+				$mod = true;
+			}
+			//case mod
+			if ( $user->roles[0] == 'wcfm_vendor' || $user->roles[0] == 'modistrator' ) {
+				$auth = true;
+			}
+			if ( $auth == false ) {
+				$remove_groups = array( 3 ); // Put the IDs of the groups to remove here, separated by commas.
+				foreach ( $groups as $key => $group_obj ) {
+					if ( in_array( $group_obj->id, $remove_groups ) ) {
+						unset( $groups[ $key ] );
+					}
+				}
+				$groups = array_values( $groups );
+			}
+
+			return $groups;
+		}
+
+		add_filter( 'bp_profile_get_field_groups', 'bpfr_hide_profile_field_group' ); */
+
+
+			/**
+	 * Gets subscriber level of user- and returns appropriate reception, and Room XProfile setting
+	 * This is because users can be premium stores or basic accounts.
+	 * It accepts userid as an argument and type (future use), and returns an array of Xprofile, Room name, and Reception Setting
+	 */
+	/*
+	public function getaccountinfo( $user_id, $type = '' ) {
+
+		if ( ! $user_id ) {
+			return 'No User ID';
+		}
+
+		$user       = $this->get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $user_id );
+		$user_roles = $this->get_instance( UserRoles::class, array( $user ) );
+
+		// Separating Return for Premium Subscriptions which Use WCFM from Basic which uses Buddypress
+		if ( $user_roles->is_wcfm_vendor() || $user_roles->is_wcfm_shop_staff() ) {
+
+			$membership_level = get_user_meta( $user->id, 'ihc_user_levels' );
+			$memlev           = explode( ',', $membership_level[0] );
+			$array_count      = count( $memlev );
+			// Role Selection Switch- There are Array of subscription options, so we run this once for each major position in Array.
+			for ( $x = 0; $x <= $array_count - 1; $x ++ ) {
+				switch ( $memlev[ $x ] ) {
+					case MembershipLevel::BUSINESS:
+						if ( 'room' === $type ) {
+							$xprofile_setting = $this->get_instance( SiteDefaults::class )->defaults( 'xprofile_storefront_sitedefault' );
+							$map              = $this->get_instance( SiteDefaults::class )->room_map( 'mvr', $user->id );
+							$reception        = xprofile_get_field_data( $this->get_instance( SiteDefaults::class )->defaults( 'merchant_reception_field' ), $user->id );
+							if ( ! $reception ) {
+								$reception = 'yes';
+							}
+
+							$returnarray = array(
+								'xprofile'  => $xprofile_setting,
+								'roomname'  => $map,
+								'reception' => $reception,
+
+							);
+
+							return $returnarray;
+						}
+						break;
+
+					case MembershipLevel::PREMIUM:
+					case MembershipLevel::BASIC:
+						break;
+
+				}
+			}
+			// Section for BP
+			// else{      }
+
+		}
+	}
+	*/
+
+
+	  bp_core_add_message( __( 'Settings saved successfully', 'buddypress' ) );
+
+        bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'mod/' . $this->slug );
+
+
+
+		public function members_autocomplete() {
+        check_ajax_referer( 'buddymeet_members_autocomplete' );
+
+        global $bp;
+
+        $group_id = absint( $bp->groups->current_group->id);
+        $search_terms =  isset( $_REQUEST['term']) ? sanitize_text_field( $_REQUEST['term']) : null;
+        $room =   isset( $_REQUEST['room']) ? sanitize_text_field( $_REQUEST['room']) : null;
+
+        $args = array(
+            'group_id'   => $group_id,
+            'group_role' => array( 'member', 'mod', 'mod', 'banned' ),
+            'fields' => 'all'
+        );
+        if ( $search_terms ) {
+            $args['search_terms'] = $search_terms;
+        }
+
+        $exclude = array(get_current_user_id() );
+        $room_members = groups_get_groupmeta( $group_id, BuddyMeet::ROOM_MEMBERS_PREFIX . $room);
+        if( $room_members){
+            $exclude = array_unique(array_merge( $exclude, $room_members) );
+        }
+
+        $suggestions = array();
+        $group_members = groups_get_group_members( $args );
+        if( $group_members && !empty( $group_members) ) {
+            foreach ( $group_members['members'] as $user ) {
+                if(!in_array( $user->ID, $exclude) ) {
+                    $suggestions[] = array(
+                        'value' => $user->ID,
+                        'label' => $user->display_name . ' ( ' . $user->user_login . ' )'
+                    );
+                }
+            }
+        }
+
+        die(json_encode( $suggestions ) );
+    } 	
+
+
+
+
+
+	function importTemplate( $file ) {  
+        $fileContent = file_get_contents( $file );  
+        \Elementor\Plugin::instance()->templates_manager->import_template( [  
+                'fileData' => base64_encode( $fileContent ),  
+                'fileName' => 'test.json',  
+            ]  
+        );  
+}
+
+
