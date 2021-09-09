@@ -2,15 +2,16 @@
 /**
  * Helper functions for WordPress User Roles
  *
- * @package MyVideoRoomExtrasPlugin\Library
+ * @package ElementalPlugin\Library
  */
 
-namespace MyVideoRoomExtrasPlugin\Library;
+namespace ElementalPlugin\Library;
 
 /**
  * Class UserRoles
  */
 class UserRoles {
+
 
 	/**
 	 * The target user

@@ -3,21 +3,22 @@
 /**
  * Connect MyVideoRoom to Woocommerce Bookings
  *
- * @package MyVideoRoomExtrasPlugin\WoocommerceBookings
+ * @package ElementalPlugin\WoocommerceBookings
  */
 
-namespace MyVideoRoomExtrasPlugin\WoocommerceBookings;
+namespace ElementalPlugin\WoocommerceBookings;
 
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Library\SectionTemplates;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Core\Sitedefaults;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Library\SectionTemplates;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Core\Sitedefaults;
 
 /**
  * Class  Connect
  */
 class  Connect extends Shortcode {
+
 
 
 
@@ -88,7 +89,7 @@ class  Connect extends Shortcode {
 
 			// Security Engine - blocks room rendering if another setting has blocked it (eg upgrades, site lockdown, or other feature)
 
-			$render_block = Factory::get_instance( \MyVideoRoomExtrasPlugin\Core\FiltersUtilities::class )->render_block( 0, 'connect', SiteDefaults::MODULE_WC_BOOKINGS_ID );
+			$render_block = Factory::get_instance( \ElementalPlugin\Core\FiltersUtilities::class )->render_block( 0, 'connect', SiteDefaults::MODULE_WC_BOOKINGS_ID );
 			if ( $render_block ) {
 				return $render_block;
 			}
@@ -123,8 +124,8 @@ class  Connect extends Shortcode {
 
 		// Set up Merchant Status.
 		$is_merchant = $user && ( $user_roles->is_wcfm_vendor() ||
-			$user_roles->is_wcfm_shop_staff() ||
-			$user_roles->is_wordpress_administrator() );
+		$user_roles->is_wcfm_shop_staff() ||
+		$user_roles->is_wordpress_administrator() );
 
 		// Begin Signed in User section - first deal with merchants w/ bookingnum, merchants w/o bookingnum, customers without order numbers.
 		if ( $is_logged_in ) {
@@ -134,7 +135,7 @@ class  Connect extends Shortcode {
 
 			if ( $booking && $is_merchant ) {
 				// Security Engine - Checking if Page can be Rendered
-				$render_block = Factory::get_instance( \MyVideoRoomExtrasPlugin\Core\FiltersUtilities::class )->render_bloc( $user_id, 'connectmerchant', SiteDefaults::MODULE_WC_BOOKINGS_ID );
+				$render_block = Factory::get_instance( \ElementalPlugin\Core\FiltersUtilities::class )->render_bloc( $user_id, 'connectmerchant', SiteDefaults::MODULE_WC_BOOKINGS_ID );
 				if ( $render_block ) {
 					return $render_block;
 				}
@@ -191,7 +192,7 @@ OUTPUT;
 
 				// Merchant Display Booking Logic.
 				if ( $multi_booking_call['validcount'] >= 1 || $multi_booking_call['futurecount'] >= 1 ) {
-					$display_default = false;
+						  $display_default = false;
 					if ( $multi_booking_call['validcount'] >= 1 ) {
 						$display_default = false;
 					}
@@ -228,7 +229,7 @@ OUTPUT;
 			// In the Customer Personality - We Return this User's Customer Perspective Orders.
 			if ( ! $order && ! $booking ) {
 				// Security Engine - Checking if Page can be Rendered
-				$render_block = Factory::get_instance( \MyVideoRoomExtrasPlugin\Core\FiltersUtilities::class )->render_bloc( $user_id, 'connectcustomer', SiteDefaults::MODULE_WC_BOOKINGS_ID );
+				$render_block = Factory::get_instance( \ElementalPlugin\Core\FiltersUtilities::class )->render_bloc( $user_id, 'connectcustomer', SiteDefaults::MODULE_WC_BOOKINGS_ID );
 				if ( $render_block ) {
 					return $render_block;
 				}
@@ -310,7 +311,7 @@ OUTPUT;
 		}
 
 		if ( $display_default && $is_logged_in ) {
-			return $output_customer_string . $merchant_bookings_string . $this->get_instance( \MyVideoRoomExtrasPlugin\Library\SectionTemplates::class )->no_bookings_found_form();
+			return $output_customer_string . $merchant_bookings_string . $this->get_instance( \ElementalPlugin\Library\SectionTemplates::class )->no_bookings_found_form();
 		}
 
 		return $output_customer_string . $merchant_bookings_string;

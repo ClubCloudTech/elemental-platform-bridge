@@ -3,27 +3,28 @@
 /**
  * Addon functionality for BuddyPress
  *
- * @package MyVideoRoomExtrasPlugin\BuddyPress
+ * @package ElementalPlugin\BuddyPress
  */
 
-namespace MyVideoRoomExtrasPlugin\BuddyPress;
+namespace ElementalPlugin\BuddyPress;
 
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Shortcode\MyVideoRoomApp;
-use MyVideoRoomExtrasPlugin\Buddypress\BuddyPressVideo;
-use MyVideoRoomExtrasPlugin\DAO\ModuleConfig;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDAO;
-use MyVideoRoomExtrasPlugin\Shortcode\SecurityVideoPreference;
-use MyVideoRoomExtrasPlugin\Shortcode\UserVideoPreference;
-use MyVideoRoomExtrasPlugin\WCFM\WCFMHelpers;
+use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Shortcode\MyVideoRoomApp;
+use ElementalPlugin\Buddypress\BuddyPressVideo;
+use ElementalPlugin\DAO\ModuleConfig;
+use ElementalPlugin\Factory;
+use ElementalPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDAO;
+use ElementalPlugin\Shortcode\SecurityVideoPreference;
+use ElementalPlugin\Shortcode\UserVideoPreference;
+use ElementalPlugin\WCFM\WCFMHelpers;
 
 /**
  * Class BuddyPress
  */
 class BuddyPress extends Shortcode {
+
 
 
 
@@ -129,11 +130,10 @@ class BuddyPress extends Shortcode {
 				break;
 
 			case 'permissions':
-				if (
-					\groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id ) ||
-					\groups_is_user_mod( $bp->loggedin_user->id, $bp->groups->current_group->id ) ||
-					\is_super_admin() ||
-					\is_network_admin()
+				if ( \groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id )
+				|| \groups_is_user_mod( $bp->loggedin_user->id, $bp->groups->current_group->id )
+				|| \is_super_admin()
+				|| \is_network_admin()
 				) {
 					return true;
 				}
@@ -197,7 +197,7 @@ class BuddyPress extends Shortcode {
 	 * Bp_is_user_admin - returns admin status of a user in a group.
 	 *
 	 * @param  mixed $group_id - required.
-	 * @param  mixed $user_id - optional.
+	 * @param  mixed $user_id  - optional.
 	 * @return bool
 	 */
 	public function bp_is_user_admin( $group_id, $user_id = null ): bool {
@@ -222,7 +222,7 @@ class BuddyPress extends Shortcode {
 	 * Bp_is_user_moderator - returns whether a user id is a moderator of a BuddyPress Group
 	 *
 	 * @param  mixed $group_id - required.
-	 * @param  mixed $user_id - not required.
+	 * @param  mixed $user_id  - not required.
 	 * @return bool
 	 */
 	public function bp_is_user_moderator( $group_id, $user_id = null ): bool {
@@ -247,7 +247,7 @@ class BuddyPress extends Shortcode {
 	 * Bp_is_user_member - checks whether user is member of a group
 	 *
 	 * @param  mixed $group_id - required.
-	 * @param  mixed $user_id - optional.
+	 * @param  mixed $user_id  - optional.
 	 * @return bool
 	 */
 	public function bp_is_user_member( $group_id, $user_id = null ): bool {
@@ -269,7 +269,7 @@ class BuddyPress extends Shortcode {
 	 * Bp_can_host_group - returns whether user is a host of a group or not
 	 *
 	 * @param  mixed $group_id required.
-	 * @param  mixed $user_id optional.
+	 * @param  mixed $user_id  optional.
 	 * @return bool
 	 */
 	public function bp_can_host_group( $group_id, $user_id = null ): bool {
@@ -291,7 +291,7 @@ class BuddyPress extends Shortcode {
 	 * Bp_is_room_active - returns room state from DB
 	 *
 	 * @param  mixed $room_name - required.
-	 * @param  mixed $user_id - optional.
+	 * @param  mixed $user_id   - optional.
 	 * @return bool
 	 */
 	public function bp_is_room_active( $room_name, $user_id = null ): bool {
@@ -317,11 +317,11 @@ class BuddyPress extends Shortcode {
 		$site_friends_override = Factory::get_instance( SecurityVideoPreferenceDao::class )->read_security_settings( SiteDefaults::USER_ID_SITE_DEFAULTS, SiteDefaults::ROOM_NAME_SITE_DEFAULT, 'bp_friends_setting' );
 
 		if ( ! $user_id ) {
-				$user_id = \bp_displayed_user_id();
+			$user_id = \bp_displayed_user_id();
 		}
-			$visitor_id           = get_current_user_id();
-			$friends_status       = \friends_check_friendship_status( $user_id, $visitor_id );
-			$user_friends_setting = Factory::get_instance( SecurityVideoPreferenceDao::class )->read_security_settings( $user_id, SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM, 'bp_friends_setting' );
+		$visitor_id           = get_current_user_id();
+		$friends_status       = \friends_check_friendship_status( $user_id, $visitor_id );
+		$user_friends_setting = Factory::get_instance( SecurityVideoPreferenceDao::class )->read_security_settings( $user_id, SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM, 'bp_friends_setting' );
 
 		if ( $site_override && $site_friends_override ) {
 			$bp_friends_setting = $site_friends_override;
@@ -335,14 +335,14 @@ class BuddyPress extends Shortcode {
 		}
 		// Are We Friends ?
 		if ( 'is_friend' === $friends_status ) {
-				return false;
+			return false;
 		}
 		// Is Setting set to Do Not Disturb (in which case Render Block will need to display a template and we fall through here) OR is Setting Allow All ?
 		elseif ( '' === $bp_friends_setting || 'Do-Not-Disturb' === $bp_friends_setting ) {
-				return false;
+			return false;
 		}
 		// If none of the above fire the filter.
-			return true;
+		return true;
 	}
 
 
@@ -464,7 +464,7 @@ class BuddyPress extends Shortcode {
 		</script>
 
 		<ul class="menu">
-			<div style="display: flex!important;	justify-content: space-between!important; width: 50%;">
+			<div style="display: flex!important;    justify-content: space-between!important; width: 50%;">
 				<a class="cc-menu-header-template" href="javascript:activateTab2( 'page5' )">
 					<h2>Room Permissions</h2>Set Security
 				</a>
@@ -476,14 +476,14 @@ class BuddyPress extends Shortcode {
 
 		<div id="tabCtrl2" style="margin-top : 10px; line-height: 2;">
 			<div id="page5" style="display: block;">
-			<?php
+		<?php
 													echo $security_tab;
-			?>
+		?>
 			</div>
 			<div id="page6" style="display: none;">
-			<?php
+		<?php
 													echo $layout_setting
-			?>
+		?>
 			</div>
 
 		</div>
@@ -551,10 +551,10 @@ class BuddyPress extends Shortcode {
 
 	public function display_portfolio( $id ) {
 		$uri = $_SERVER['REQUEST_URI'];
-		if ( strpos ( $uri, 'elementor' ) != true ) {
+		if ( strpos( $uri, 'elementor' ) != true ) {
 			return null;
 		}
-		
+
 		if ( $id ) {
 			$user_id = $id;
 		} else {
@@ -592,10 +592,10 @@ class BuddyPress extends Shortcode {
 		);
 		ob_start();
 
-		require_once YZ_PUBLIC_CORE . 'functions/yz-general-functions.php';
-		require_once YZ_PUBLIC_CORE . 'functions/yz-profile-functions.php';
-		require_once YZ_PUBLIC_CORE . 'functions/yz-user-functions.php';
-		require_once YZ_PUBLIC_CORE . 'class-yz-widgets.php';
+		include_once YZ_PUBLIC_CORE . 'functions/yz-general-functions.php';
+		include_once YZ_PUBLIC_CORE . 'functions/yz-profile-functions.php';
+		include_once YZ_PUBLIC_CORE . 'functions/yz-user-functions.php';
+		include_once YZ_PUBLIC_CORE . 'class-yz-widgets.php';
 		\yz_widgets()->get_widget_content( $profile_widgets );
 
 		// reset.

@@ -5,16 +5,16 @@
  * @param string|null $current_user_setting
  * @param array $available_layouts
  *
- * @package MyVideoRoomExtrasPlugin\Views
+ * @package ElementalPlugin\Views
  */
 
-use MyVideoRoomExtrasPlugin\Entity\SecurityVideoPreference;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDAO;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Library\Templates\SecurityButtons;
-use MyVideoRoomExtrasPlugin\BuddyPress\BuddyPressConfig;
-use MyVideoRoomExtrasPlugin\DAO\ModuleConfig;
+use ElementalPlugin\Entity\SecurityVideoPreference;
+use ElementalPlugin\Factory;
+use ElementalPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDAO;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Library\Templates\SecurityButtons;
+use ElementalPlugin\BuddyPress\BuddyPressConfig;
+use ElementalPlugin\DAO\ModuleConfig;
 
 
 return function (
@@ -177,13 +177,15 @@ return function (
 				</p>
 				<?php
 				// Group setting from BP.
-				if ( ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_GROUP_ID ) ) &&
-				( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_ID ) ) ) {
+				if ( ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_GROUP_ID ) )
+					&& ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_ID ) )
+				) {
 					echo Factory::get_instance( BuddyPressConfig::class )->render_group_menu_options( $user_id, $room_name, $id_index );
 				}
 				// Friends Setting from BP.
-				if ( ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_FRIENDS_ID ) ) &&
-				( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_ID ) ) ) {
+				if ( ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_FRIENDS_ID ) )
+					&& ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_ID ) )
+				) {
 					echo Factory::get_instance( BuddyPressConfig::class )->render_friends_menu_options( $user_id, $room_name, $id_index );
 				}
 

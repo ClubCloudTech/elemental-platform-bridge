@@ -2,13 +2,13 @@
 /**
  * Display Shortcode Documentation
  *
- * @package MyVideoRoomExtrasPlugin\Library
+ * @package ElementalPlugin\Library
  */
 
-namespace MyVideoRoomExtrasPlugin\Library;
+namespace ElementalPlugin\Library;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Factory;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Factory;
 
 
 
@@ -16,6 +16,7 @@ use MyVideoRoomExtrasPlugin\Factory;
  * Class SectionTemplate
  */
 class ShortcodeDocuments {
+
 
 	// ---
 	// Shortcode Documents Section.

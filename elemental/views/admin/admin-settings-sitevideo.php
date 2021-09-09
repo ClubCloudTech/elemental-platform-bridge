@@ -2,7 +2,7 @@
 /**
  * Outputs the configuration settings for the video plugin
  *
- * @package MyVideoRoomExtrasPlugin\Views\Admin
+ * @package ElementalPlugin\Views\Admin
  */
 
 /**
@@ -15,14 +15,14 @@
  * @return string
  */
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Library\Templates\SecurityButtons;
-use MyVideoRoomExtrasPlugin\Setup\RoomAdmin;
-use MyVideoRoomExtrasPlugin\DAO\ModuleConfig;
-use MyVideoRoomExtrasPlugin\Setup\Setup;
-use MyVideoRoomExtrasPlugin\DAO\RoomMap;
-use MyVideoRoomExtrasPlugin\Shortcode\UserVideoPreference;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Templates\SecurityButtons;
+use ElementalPlugin\Setup\RoomAdmin;
+use ElementalPlugin\DAO\ModuleConfig;
+use ElementalPlugin\Setup\Setup;
+use ElementalPlugin\DAO\RoomMap;
+use ElementalPlugin\Shortcode\UserVideoPreference;
 
 
 return function (
@@ -31,7 +31,7 @@ return function (
 	array $messages = array()
 ): string {
 	ob_start();
-	$render = require __DIR__ . '/header.php';
+	$render = include __DIR__ . '/header.php';
 	echo $render( $active_tab, $tabs, $messages );
 
 	$post_id = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'site-video-room', 'post_id' );
@@ -61,18 +61,18 @@ return function (
 		
 
 		<h1 style ="display: inline" >Site Video Room</h1>
-		<?php echo Factory::get_instance( SecurityButtons::class )->site_wide_enabled(); ?>
+	<?php echo Factory::get_instance( SecurityButtons::class )->site_wide_enabled(); ?>
 				
 		<p> The Site Video Room is available for Team wide meetings at the website level. It is created automatically by the plugin, at activation. It can be secured such that any normal
-			site administrator is an owner of the room<br>	</p>
+			site administrator is an owner of the room<br>    </p>
 		
-		<?php
-			// Activation/module
-		if ( ! Factory::get_instance( ModuleConfig::class )->module_activation_button( SiteDefaults::MODULE_SITE_VIDEO_ID ) ) {
-			return '';
-		}
+	<?php
+	// Activation/module
+	if ( ! Factory::get_instance( ModuleConfig::class )->module_activation_button( SiteDefaults::MODULE_SITE_VIDEO_ID ) ) {
+		return '';
+	}
 
-		?>
+	?>
 
 		<h2>Current Room Information</h2>
 		
@@ -86,7 +86,7 @@ return function (
 				<tr>
 					<td style="width:25%; text-align: left;">
 						<?php
-							$title = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'site-video-room', 'title' );
+						$title = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'site-video-room', 'title' );
 						if ( $title ) {
 							echo $title;
 						}
@@ -94,7 +94,7 @@ return function (
 						</td>
 					<td style="width:25%; text-align: left;">
 						<?php
-							$url = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'site-video-room', 'url' );
+						$url = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'site-video-room', 'url' );
 						if ( $url ) {
 							echo '<a href="' . $url . '" target="_blank">' . $url . '</a>';
 						}
@@ -102,7 +102,7 @@ return function (
 						</td>
 					<td style="width:25%; text-align: left;">
 					<?php
-						$post_id_return = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'site-video-room', 'post_id' );
+					$post_id_return = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'site-video-room', 'post_id' );
 					if ( $post_id_return ) {
 						echo $post_id_return;
 					}
@@ -129,25 +129,25 @@ return function (
 			</table>
 			
 			<h2>Customizing the Room</h2>
-			<p> You can edit your room look and feel with any page editor of your choice - the page must contain the shortcode <b> [ccsitevideoroom]</b>	</p>
+			<p> You can edit your room look and feel with any page editor of your choice - the page must contain the shortcode <b> [ccsitevideoroom]</b>    </p>
 			<p> You can change the room name, its URL, and its parent page in the normal pages interface of WordPress.  </p>
-			<p> This room will allow any site admin as a Host, and everyone else will be a guest. For private meetings, please use your own Personal Video Room	</p>
+			<p> This room will allow any site admin as a Host, and everyone else will be a guest. For private meetings, please use your own Personal Video Room    </p>
 		
 			<h2>Room Video Settings</h2>
-			<?php
+	<?php
 				$layout_setting = Factory::get_instance( UserVideoPreference::class )->choose_settings(
 					SiteDefaults::USER_ID_SITE_DEFAULTS,
 					SiteDefaults::ROOM_NAME_SITE_VIDEO,
 					array( 'basic', 'premium' )
 				);
 			echo $layout_setting;
-			?>
+	?>
 
 	</div>
 	<div>
 	
 	<?php
-		Factory::get_instance( \MyVideoRoomExtrasPlugin\Library\ShortcodeDocuments::class )->render_sitevideoroom_shortcode_docs();
+	Factory::get_instance( \ElementalPlugin\Library\ShortcodeDocuments::class )->render_sitevideoroom_shortcode_docs();
 	?>
 	
 	</div>

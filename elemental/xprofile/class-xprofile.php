@@ -2,14 +2,15 @@
 /**
  * Connects MyVideoRoom to xprofile
  *
- * @package MyVideoRoomExtrasPlugin\XProfile
+ * @package ElementalPlugin\XProfile
  */
 
-namespace MyVideoRoomExtrasPlugin\XProfile;
+namespace ElementalPlugin\XProfile;
 
 /**
  * Class XProfile
  */
 class XProfile {
+
 
 }

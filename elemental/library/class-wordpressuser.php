@@ -2,15 +2,16 @@
 /**
  * Wrapper for WordPress User functions
  *
- * @package MyVideoRoomExtrasPlugin\Library
+ * @package ElementalPlugin\Library
  */
 
-namespace MyVideoRoomExtrasPlugin\Library;
+namespace ElementalPlugin\Library;
 
 /**
  * Class WordPressUser
  */
 class WordPressUser {
+
 
 	public function get_logged_in_wordpress_user(): ?\WP_User {
 		return \wp_get_current_user();

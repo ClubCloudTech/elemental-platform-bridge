@@ -2,25 +2,26 @@
 /**
  * Addon functionality for BuddyPress -Video Room Handlers for BuddyPress
  *
- * @package MyVideoRoomExtrasPlugin\BuddyPressVideo
+ * @package ElementalPlugin\BuddyPressVideo
  */
 
-namespace MyVideoRoomExtrasPlugin\BuddyPress;
+namespace ElementalPlugin\BuddyPress;
 
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Core\VideoHelpers;
-use MyVideoRoomExtrasPlugin\Core\Security;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Library\SectionTemplates;
-use MyVideoRoomExtrasPlugin\Shortcode\MyVideoRoomApp;
-use MyVideoRoomExtrasPlugin\Shortcode\SecurityVideoPreference;
-use MyVideoRoomExtrasPlugin\Shortcode\UserVideoPreference;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Core\VideoHelpers;
+use ElementalPlugin\Core\Security;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Library\SectionTemplates;
+use ElementalPlugin\Shortcode\MyVideoRoomApp;
+use ElementalPlugin\Shortcode\SecurityVideoPreference;
+use ElementalPlugin\Shortcode\UserVideoPreference;
 
 /**
  * Class BuddyPress
  */
 class BuddyPressVideo extends Shortcode {
+
 
 
 

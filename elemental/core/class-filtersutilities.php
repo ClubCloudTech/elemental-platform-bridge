@@ -1,16 +1,16 @@
 <?php
 
-namespace MyVideoRoomExtrasPlugin\Core;
+namespace ElementalPlugin\Core;
 
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Core\PageFilters;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\DAO\ModuleConfig;
-use MyVideoRoomExtrasPlugin\MVR\PageSwitches;
-use MyVideoRoomExtrasPlugin\DAO\SecurityVideoPreference;
-use MyVideoRoomExtrasPlugin\Library\Templates\SecurityTemplates;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Core\PageFilters;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\DAO\ModuleConfig;
+use ElementalPlugin\MVR\PageSwitches;
+use ElementalPlugin\DAO\SecurityVideoPreference;
+use ElementalPlugin\Library\Templates\SecurityTemplates;
 
 
 /**
@@ -20,15 +20,17 @@ class FiltersUtilities extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */
 	public function install() {
 
 		/**
-		Customise My Account Page.
-		This function modifies the default MyAccount page.
-*/
+		*Customise My Account Page.
+		*This function modifies the default MyAccount page.
+		*/
+
 		\add_filter( 'woocommerce_account_menu_items', array( $this, 'my_account_change_filter' ), 40 );
 
 		\add_action( 'init', array( $this, 'add_menu_endpoint_action' ) );    /* Register Permalink Endpoint  */
@@ -233,9 +235,8 @@ class FiltersUtilities extends Shortcode {
 	 * This function is attached to the 'admin_init' action hook.
 	 */
 	public function redirect_non_admin_users() {
-		if (
-			! \current_user_can( 'manage_options' ) &&
-			! ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+		if ( ! \current_user_can( 'manage_options' )
+			&& ! ( defined( 'DOING_AJAX' ) && DOING_AJAX )
 		) {
 			\wp_redirect( \home_url() );
 			exit;
@@ -288,8 +289,8 @@ class FiltersUtilities extends Shortcode {
 
 	public function my_account_change_filter( $menu_links ) {
 		$menu_links = array_slice( $menu_links, 0, 1, true )
-					  + array( 'cc_mysubs' => 'My Subscriptions' )
-					  + array_slice( $menu_links, 1, null, true );
+		  + array( 'cc_mysubs' => 'My Subscriptions' )
+		  + array_slice( $menu_links, 1, null, true );
 
 		return $menu_links;
 	}

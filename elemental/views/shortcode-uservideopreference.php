@@ -5,12 +5,12 @@
  * @param string|null $current_user_setting
  * @param array $available_layouts
  *
- * @package MyVideoRoomExtrasPlugin\Views
+ * @package ElementalPlugin\Views
  */
 
-use MyVideoRoomExtrasPlugin\Entity\UserVideoPreference;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\DAO\UserVideoPreference as UserVideoPreferenceDAO;
+use ElementalPlugin\Entity\UserVideoPreference;
+use ElementalPlugin\Factory;
+use ElementalPlugin\DAO\UserVideoPreference as UserVideoPreferenceDAO;
 
 
 return function (
@@ -30,10 +30,10 @@ return function (
 	margin: 5px;
 		">
 				<h1>Video Host Settings for
-			<?php
+	<?php
 				$output = str_replace( '-', ' ', $room_name );
 				echo esc_html( ucwords( $output ) );
-			?>
+	?>
 				</h1>
 
 				<?php

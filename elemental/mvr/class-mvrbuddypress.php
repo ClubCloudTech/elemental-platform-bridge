@@ -3,23 +3,24 @@
 /**
  * Addon functionality for BuddyPress - that is MVR Specific
  *
- * @package MyVideoRoomExtrasPlugin\BuddyPress
+ * @package ElementalPlugin\BuddyPress
  */
 
-namespace MyVideoRoomExtrasPlugin\MVR;
+namespace ElementalPlugin\MVR;
 
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Shortcode\MyVideoRoomApp;
-use MyVideoRoomExtrasPlugin\WCFM\WCFMHelpers;
-use MyVideoRoomExtrasPlugin\Buddypress\BuddyPressVideo;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Shortcode\MyVideoRoomApp;
+use ElementalPlugin\WCFM\WCFMHelpers;
+use ElementalPlugin\Buddypress\BuddyPressVideo;
 
 /**
  * Class BuddyPress
  */
 class MVRBuddyPress extends Shortcode {
+
 
 
 
@@ -93,11 +94,10 @@ class MVRBuddyPress extends Shortcode {
 				break;
 
 			case 'permissions':
-				if (
-					\groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id )
-					|| \groups_is_user_mod( $bp->loggedin_user->id, $bp->groups->current_group->id )
-					|| \is_super_admin()
-					|| \is_network_admin()
+				if ( \groups_is_user_admin( $bp->loggedin_user->id, $bp->groups->current_group->id )
+				|| \groups_is_user_mod( $bp->loggedin_user->id, $bp->groups->current_group->id )
+				|| \is_super_admin()
+				|| \is_network_admin()
 				) {
 					return true;
 				}
@@ -176,8 +176,7 @@ class MVRBuddyPress extends Shortcode {
 	public function setup_root_nav_action() {
 		$user_roles = $this->get_instance( UserRoles::class );
 
-		if (
-			$user_roles->is_wcfm_vendor()
+		if ( $user_roles->is_wcfm_vendor()
 			|| $user_roles->is_wcfm_shop_staff()
 			|| $user_roles->is_wordpress_administrator()
 		) {
@@ -290,7 +289,7 @@ class MVRBuddyPress extends Shortcode {
 	 * This function renders the Settings Page Tab function
 	 */
 	public function bp_settings_tab_action() {
-		echo $this->get_instance( \MyVideoRoomExtrasPlugin\Library\SectionTemplates::class )->account_centre_landing();
+		echo $this->get_instance( \ElementalPlugin\Library\SectionTemplates::class )->account_centre_landing();
 	}
 
 	public function settingssubtab_render_main_screen_function() {
@@ -318,7 +317,7 @@ class MVRBuddyPress extends Shortcode {
 	 * This function renders the Product Settings Subnav Tab function
 	 */
 	public function bp_productssubnav_tab_action() {
-		echo $this->get_instance( \MyVideoRoomExtrasPlugin\Library\SectionTemplates::class )->control_panel_store_products();
+		echo $this->get_instance( \ElementalPlugin\Library\SectionTemplates::class )->control_panel_store_products();
 	}
 
 	public function videosubtab_render_main_screen_function() {
@@ -331,7 +330,7 @@ class MVRBuddyPress extends Shortcode {
 	 * This function renders the Product Settings Subnav Tab function
 	 */
 	function bp_videossubnav_tab_action() {
-		echo $this->get_instance( \MyVideoRoomExtrasPlugin\Library\SectionTemplates::class )->control_panel_store_video();
+		echo $this->get_instance( \ElementalPlugin\Library\SectionTemplates::class )->control_panel_store_video();
 	}
 
 	public function customersubtab_render_main_screen_function() {
@@ -357,7 +356,7 @@ class MVRBuddyPress extends Shortcode {
 	 * This function renders the Product Settings Subnav Tab function
 	 */
 	public function bp_advancedsubnav_tab_action() {
-		echo $this->get_instance( \MyVideoRoomExtrasPlugin\Library\SectionTemplates::class )->control_panel_store_advanced();
+		echo $this->get_instance( \ElementalPlugin\Library\SectionTemplates::class )->control_panel_store_advanced();
 	}
 
 	public function account_render_main_screen_function() {
@@ -370,7 +369,7 @@ class MVRBuddyPress extends Shortcode {
 	 * This function renders the Account Tab function
 	 */
 	public function bp_account_tab_action() {
-		echo $this->get_instance( \MyVideoRoomExtrasPlugin\Library\SectionTemplates::class )->account_control_centre_alternate_dashboard();
+		echo $this->get_instance( \ElementalPlugin\Library\SectionTemplates::class )->account_control_centre_alternate_dashboard();
 	}
 
 	public function myvideo_render_main_screen_function() {
@@ -409,15 +408,15 @@ class MVRBuddyPress extends Shortcode {
 			<form>
 				<select>
 					<option selected="selected">Choose one</option>
-					<?php
-					// A sample product array
-					// $products = array("Mobile", "Laptop", "Tablet", "Camera");
+		<?php
+		// A sample product array
+		// $products = array("Mobile", "Laptop", "Tablet", "Camera");
 
-					// Iterating through the product array
-					foreach ( $values as $item ) {
-						echo "<option value='strtolower( $item)'>$item</option>";
-					}
-					?>
+		// Iterating through the product array
+		foreach ( $values as $item ) {
+			echo "<option value='strtolower( $item)'>$item</option>";
+		}
+		?>
 				</select>
 				<input type="submit" value="Submit">
 			</form>

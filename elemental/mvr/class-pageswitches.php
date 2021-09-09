@@ -1,20 +1,21 @@
 <?php
-/**MVR VERSION
+/**
+ * MVR VERSION
  * Shortcodes for pages
  *
- * @package MyVideoRoomExtrasPlugin\Core
+ * @package ElementalPlugin\Core
  */
 
-namespace MyVideoRoomExtrasPlugin\MVR;
+namespace ElementalPlugin\MVR;
 
-use MyVideoRoomExtrasPlugin\Core\MenuHelpers;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\UltimateMembershipPro\MembershipLevel;
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Library\SectionTemplates;
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\WCFM\WCFMHelpers;
+use ElementalPlugin\Core\MenuHelpers;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\UltimateMembershipPro\MembershipLevel;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Library\SectionTemplates;
+use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\WCFM\WCFMHelpers;
 
 // required for cleaning correct URL redirects in Firefox.
 ob_clean();
@@ -24,6 +25,7 @@ ob_start();
  * Class PageSwitches
  */
 class PageSwitches extends Shortcode {
+
 
 
 	/**
@@ -45,19 +47,19 @@ class PageSwitches extends Shortcode {
 		$user_id  = \get_current_user_id();
 		$owner_id = \bp_displayed_user_id();
 
-		$user = \MyVideoRoomExtrasPlugin\Factory::get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $owner_id );
+		$user = \ElementalPlugin\Factory::get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $owner_id );
 
-		$user_roles = \MyVideoRoomExtrasPlugin\Factory::get_instance( UserRoles::class, array( $user ) );
+		$user_roles = \ElementalPlugin\Factory::get_instance( UserRoles::class, array( $user ) );
 
 		// handle signed out users and return signed out templates.
 		if ( ! \is_user_logged_in() ) {
 
-			if ( \MyVideoRoomExtrasPlugin\Factory::get_instance( SiteDefaults::class )->is_premium_check( $owner_id ) && ! $user_roles->is_wcfm_shop_staff() ) {
-				$url = \MyVideoRoomExtrasPlugin\Factory::get_instance( MenuHelpers::class )->get_store_url( (int) $owner_id ) . '/' . \MyVideoRoomExtrasPlugin\Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
+			if ( \ElementalPlugin\Factory::get_instance( SiteDefaults::class )->is_premium_check( $owner_id ) && ! $user_roles->is_wcfm_shop_staff() ) {
+				$url = \ElementalPlugin\Factory::get_instance( MenuHelpers::class )->get_store_url( (int) $owner_id ) . '/' . \ElementalPlugin\Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
 				wp_redirect( $url );
 				exit();
 
-			} elseif ( \MyVideoRoomExtrasPlugin\Factory::get_instance( SiteDefaults::class )->is_premium_check( $owner_id ) && $user_roles->is_wcfm_shop_staff() ) {
+			} elseif ( \ElementalPlugin\Factory::get_instance( SiteDefaults::class )->is_premium_check( $owner_id ) && $user_roles->is_wcfm_shop_staff() ) {
 
 				return do_shortcode( '[elementor-template id="34095"]' );
 			} else {
@@ -65,8 +67,8 @@ class PageSwitches extends Shortcode {
 			}
 		} elseif ( ! $user_roles->is_wcfm_vendor() && ! $user_roles->is_wcfm_shop_staff() ) {
 			// Redirecting to Premium Store for normal users.
-			if ( \MyVideoRoomExtrasPlugin\Factory::get_instance( SiteDefaults::class )->is_premium_check( $owner_id ) ) {
-				$url = \MyVideoRoomExtrasPlugin\Factory::get_instance( MenuHelpers::class )->get_store_url( (int) $owner_id ) . '/' . \MyVideoRoomExtrasPlugin\Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
+			if ( \ElementalPlugin\Factory::get_instance( SiteDefaults::class )->is_premium_check( $owner_id ) ) {
+				$url = \ElementalPlugin\Factory::get_instance( MenuHelpers::class )->get_store_url( (int) $owner_id ) . '/' . \ElementalPlugin\Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
 
 				wp_redirect( $url );
 				exit();
@@ -81,7 +83,7 @@ class PageSwitches extends Shortcode {
 		if ( $user_roles->is_wcfm_vendor() || $user_roles->is_wcfm_shop_staff() ) {
 
 			// First Guest Owners who dont own this store (or Staff).
-			if ( $owner_id !== \MyVideoRoomExtrasPlugin\Factory::get_instance( WCFMHelpers::class )->staff_to_parent( $user_id ) ) {
+			if ( $owner_id !== \ElementalPlugin\Factory::get_instance( WCFMHelpers::class )->staff_to_parent( $user_id ) ) {
 				return do_shortcode( '[elementor-template id="34858"]' );
 			} elseif ( $user_id === $owner_id ) {
 
@@ -99,7 +101,7 @@ class PageSwitches extends Shortcode {
 
 						case MembershipLevel::VENDOR_STAFF:
 							// Basic Staff Host template.
-							if ( \MyVideoRoomExtrasPlugin\Factory::get_instance( SiteDefaults::class )->is_premium_check( $owner_id ) ) {
+							if ( \ElementalPlugin\Factory::get_instance( SiteDefaults::class )->is_premium_check( $owner_id ) ) {
 								return do_shortcode( '[elementor-template id="34858"]' );
 							} else {
 								// Upgrade Page as Account Inactive.
@@ -115,9 +117,8 @@ class PageSwitches extends Shortcode {
 			}
 
 			// Deal with Inactive Staff.
-			if (
-				$user_roles->is_wcfm_shop_staff() &&
-				! \MyVideoRoomExtrasPlugin\Factory::get_instance( SiteDefaults::class )->is_premium_check( \MyVideoRoomExtrasPlugin\Factory::get_instance( WCFMHelpers::class )->staff_to_parent( $owner_id ) )
+			if ( $user_roles->is_wcfm_shop_staff()
+				&& ! \ElementalPlugin\Factory::get_instance( SiteDefaults::class )->is_premium_check( \ElementalPlugin\Factory::get_instance( WCFMHelpers::class )->staff_to_parent( $owner_id ) )
 			) {
 				// Upgrade Page as Account Inactive.
 				return do_shortcode( ' [elementor-template id="34880"]' );
@@ -131,7 +132,7 @@ class PageSwitches extends Shortcode {
 
 	public function meet_helper( int $user_id ) {
 
-		if ( ! \MyVideoRoomExtrasPlugin\Factory::get_instance( \MyVideoRoomExtrasPlugin\Core\SiteDefaults::class )->is_mvr() ) {
+		if ( ! \ElementalPlugin\Factory::get_instance( \ElementalPlugin\Core\SiteDefaults::class )->is_mvr() ) {
 			return null;
 		}
 
@@ -180,7 +181,7 @@ class PageSwitches extends Shortcode {
 			}
 		}    //sets default case in case no selection by merchant
 		if ( $membership_block ) {
-			return \MyVideoRoomExtrasPlugin\Factory::get_instance( \MyVideoRoomExtrasPlugin\Library\SectionTemplates::class )->mvr_ump_wcfm_upgrade_template();
+			return \ElementalPlugin\Factory::get_instance( \ElementalPlugin\Library\SectionTemplates::class )->mvr_ump_wcfm_upgrade_template();
 		} else {
 			return null;
 		}
@@ -189,11 +190,10 @@ class PageSwitches extends Shortcode {
 
 	public function wcfm_membership_upgrade_block() {
 
-		$user_roles = \MyVideoRoomExtrasPlugin\Factory::get_instance( UserRoles::class );
-		if (
-			$user_roles->is_wcfm_vendor() ||
-			$user_roles->is_wcfm_shop_staff() ||
-			$user_roles->is_wordpress_administrator()
+		$user_roles = \ElementalPlugin\Factory::get_instance( UserRoles::class );
+		if ( $user_roles->is_wcfm_vendor()
+			|| $user_roles->is_wcfm_shop_staff()
+			|| $user_roles->is_wordpress_administrator()
 		) {
 			$membership_block = false;
 		} else {
@@ -201,7 +201,7 @@ class PageSwitches extends Shortcode {
 		}
 
 		if ( $membership_block ) {
-			return \MyVideoRoomExtrasPlugin\Factory::get_instance( \MyVideoRoomExtrasPlugin\Library\SectionTemplates::class )->mvr_ump_wcfm_upgrade_template();
+			return \ElementalPlugin\Factory::get_instance( \ElementalPlugin\Library\SectionTemplates::class )->mvr_ump_wcfm_upgrade_template();
 		} else {
 			return null;
 		}

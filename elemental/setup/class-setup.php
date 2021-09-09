@@ -2,20 +2,21 @@
 /**
  * Setup Functions
  *
- * @package MyVideoRoomExtrasPlugin\Setup
+ * @package ElementalPlugin\Setup
  */
 
-namespace MyVideoRoomExtrasPlugin\Setup;
+namespace ElementalPlugin\Setup;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\DAO\RoomMap;
-use MyVideoRoomExtrasPlugin\Factory;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\DAO\RoomMap;
+use ElementalPlugin\Factory;
 
 
 /**
  * Class Setup
  */
 class Setup {
+
 
 	const TABLE_NAME = 'myvideoroom_extras_room_post_mapping';
 
@@ -75,7 +76,7 @@ class Setup {
 	public function initialise_default_video_settings() {
 
 		// Site Default - Entire Site.
-		//Factory::get_instance( RoomMap::class )->room_default_settings_install( SiteDefaults::USER_ID_SITE_DEFAULTS, SiteDefaults::ROOM_NAME_SITE_DEFAULT, 'boardroom', 'default', false );
+		// Factory::get_instance( RoomMap::class )->room_default_settings_install( SiteDefaults::USER_ID_SITE_DEFAULTS, SiteDefaults::ROOM_NAME_SITE_DEFAULT, 'boardroom', 'default', false );
 
 		return '<h2>Default Settings Updated</h2>';
 	}
@@ -102,7 +103,7 @@ class Setup {
                            PRIMARY KEY (`user_id`, `room_name`)
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
 
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		\dbDelta( $sql );
 
 	}
@@ -120,7 +121,7 @@ class Setup {
 			PRIMARY KEY (`post_id`, `room_name`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
 
-			\dbDelta( $sql2 );
+		\dbDelta( $sql2 );
 	}
 
 
@@ -134,7 +135,7 @@ class Setup {
 		global $wpdb;
 		$table_name = SiteDefaults::TABLE_NAME_MODULE_CONFIG;
 		// Create Main Table for Module Config.
-					$sql = 'CREATE TABLE IF NOT EXISTS `' . $wpdb->prefix . $table_name . '` (
+		$sql = 'CREATE TABLE IF NOT EXISTS `' . $wpdb->prefix . $table_name . '` (
 						
 						`module_id` BIGINT UNSIGNED NOT NULL,
 						`module_name` VARCHAR(255) NOT NULL,
@@ -201,9 +202,9 @@ class Setup {
 						PRIMARY KEY (`module_id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
 
-			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-			\dbDelta( $sql );
-			return Factory::get_instance( ModuleDefinition::class )->define_default_modules();
+		include_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		\dbDelta( $sql );
+		return Factory::get_instance( ModuleDefinition::class )->define_default_modules();
 
 	}
 
@@ -214,9 +215,9 @@ class Setup {
 	public static function install_security_config_table() {
 		global $wpdb;
 
-				// Create Main Table for Module Config.
-		$table_name  = SiteDefaults::TABLE_NAME_SECURITY_CONFIG;
-				$sql = 'CREATE TABLE IF NOT EXISTS `' . $wpdb->prefix . $table_name . '` (
+		// Create Main Table for Module Config.
+		$table_name = SiteDefaults::TABLE_NAME_SECURITY_CONFIG;
+		$sql        = 'CREATE TABLE IF NOT EXISTS `' . $wpdb->prefix . $table_name . '` (
 					`user_id` BIGINT UNSIGNED NOT NULL,
 					`room_name` VARCHAR(255) NOT NULL,
 					`room_disabled` BOOLEAN,
@@ -267,7 +268,7 @@ class Setup {
 					PRIMARY KEY (`user_id`, `room_name`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
 
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		\dbDelta( $sql );
 
 	}

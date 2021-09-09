@@ -2,21 +2,22 @@
 /**
  * Shortcodes for menus
  *
- * @package MyVideoRoomExtrasPlugin\Core
+ * @package ElementalPlugin\Core
  */
 
-namespace MyVideoRoomExtrasPlugin\Core;
+namespace ElementalPlugin\Core;
 
-use MyVideoRoomExtrasPlugin\UltimateMembershipPro\MembershipLevel;
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\WCFM\WCFMHelpers;
+use ElementalPlugin\UltimateMembershipPro\MembershipLevel;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\WCFM\WCFMHelpers;
 
 /**
  * Class MenuHelpers
  */
 class MenuHelpers extends Shortcode {
+
 
 
 	/**
@@ -366,10 +367,9 @@ class MenuHelpers extends Shortcode {
 		if ( 'store_admin' === $type ) {
 
 			// Bounce non-store owners out.
-			if (
-					! $user_roles->is_wcfm_shop_staff() &&
-					! $user_roles->is_wcfm_vendor() &&
-					! $user_roles->is_wordpress_administrator()
+			if ( ! $user_roles->is_wcfm_shop_staff()
+				&& ! $user_roles->is_wcfm_vendor()
+				&& ! $user_roles->is_wordpress_administrator()
 			) {
 				$url = $this->get_instance( SiteDefaults::class )->defaults( 'profile_url' );
 				wp_redirect( $url );
@@ -474,9 +474,8 @@ class MenuHelpers extends Shortcode {
 
 		// parent is for returning Parent Accounts, Childaccount is for returning childaccount.
 
-		if (
-			'childaccount' === $type ||
-			'breakout' === $type
+		if ( 'childaccount' === $type
+			|| 'breakout' === $type
 		) {
 			$user_id = $po;
 
@@ -486,9 +485,8 @@ class MenuHelpers extends Shortcode {
 				$store_gravatar = $store_user->get_avatar();
 				$url            = $store_gravatar;
 				$output         = $store_info['store_name'];
-			} elseif (
-					$user_roles->is_wcfm_shop_staff() &&
-					'breakout' !== $type
+			} elseif ( $user_roles->is_wcfm_shop_staff()
+				&& 'breakout' !== $type
 			) {
 				$url    = bp_core_fetch_avatar(
 					array(
@@ -537,13 +535,13 @@ class MenuHelpers extends Shortcode {
 			<div class="yz-primary-nav-settings">
 				<div class="yz-primary-nav-img" style="background-image: url(<?php echo $url; ?>)"></div>
 				<span>
-				<?php
-				echo $output
-				?>
+		<?php
+		echo $output
+		?>
 				</span>
 
-				<?php if ( 'on' === yz_option( 'yz_disable_wp_menu_avatar_icon', 'on' ) ) : ?>
-					<i class="fas fa-angle-down yz-settings-icon"></i><?php endif; ?>
+		<?php if ( 'on' === yz_option( 'yz_disable_wp_menu_avatar_icon', 'on' ) ) : ?>
+<i class="fas fa-angle-down yz-settings-icon"></i><?php endif; ?>
 			</div>
 
 		</div>
@@ -639,15 +637,15 @@ class MenuHelpers extends Shortcode {
 			<div class="yz-primary-nav-settings">
 				<div class="yz-primary-nav-img" style="background-image: url(<?php echo $url; ?>)"></div>
 				<span>
-			<?php
-			echo get_bloginfo( 'name' );
-			?>
+		<?php
+		echo get_bloginfo( 'name' );
+		?>
 			</span>
-				<?php
-				// backup of apply filters line above to enter within span tags php echo apply_filters( 'yz_account_avatar_shortcode_username', bp_core_get_username( $user_id ), $user_id );
-				if ( 'on' === yz_option( 'yz_disable_wp_menu_avatar_icon', 'on' ) ) :
-					?>
-					<i class="fas fa-angle-down yz-settings-icon"></i><?php endif; ?>
+		<?php
+		// backup of apply filters line above to enter within span tags php echo apply_filters( 'yz_account_avatar_shortcode_username', bp_core_get_username( $user_id ), $user_id );
+		if ( 'on' === yz_option( 'yz_disable_wp_menu_avatar_icon', 'on' ) ) :
+			?>
+<i class="fas fa-angle-down yz-settings-icon"></i><?php endif; ?>
 			</div>
 
 		</div>

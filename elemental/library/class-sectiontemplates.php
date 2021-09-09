@@ -3,33 +3,32 @@
 /**
  * Display section templates
  *
- * @package MyVideoRoomExtrasPlugin\Library
+ * @package ElementalPlugin\Library
  */
 
-namespace MyVideoRoomExtrasPlugin\Library;
+namespace ElementalPlugin\Library;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Core\VideoControllers;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Shortcode\UserVideoPreference;
-use MyVideoRoomExtrasPlugin\WoocommerceBookings\Connect;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Core\VideoControllers;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Shortcode\UserVideoPreference;
+use ElementalPlugin\WoocommerceBookings\Connect;
+use ElementalPlugin\Shortcode as Shortcode;
 
 
 /**
  * Class SectionTemplate
  */
-class SectionTemplates extends Shortcode
-{
+class SectionTemplates extends Shortcode {
+
 
 	/**
 	 * Render form when no booking is found
 	 *
 	 * @return string
 	 */
-	public function no_bookings_found_form(): string
-	{
-		return $this->call_elementor_template(24508);
+	public function no_bookings_found_form(): string {
+		return $this->call_elementor_template( 24508 );
 	}
 
 	// ---
@@ -41,28 +40,27 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function meet_guest_reception_template()
-	{
+	public function meet_guest_reception_template() {
 		// Exit for MVR
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(29447);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 29447 );
 		}
 
-		wp_enqueue_style('cc-guest-reception-template', plugins_url('/stylesheets/guest-reception.css', __FILE__));
+		wp_enqueue_style( 'cc-guest-reception-template', plugins_url( '/stylesheets/guest-reception.css', __FILE__ ) );
 
-?>
+		?>
 		<div class="cc-row">
-			<h2 class="cc-reception-header">Please Select Your Meeting Host at <?php echo get_bloginfo('name'); ?></h2>
+			<h2 class="cc-reception-header">Please Select Your Meeting Host at <?php echo get_bloginfo( 'name' ); ?></h2>
 
 			<table style="width:100%">
 				<tr>
 					<th style="width:50%"><img src="
 									<?php
 									// Get ClubCloud Logo from Plugin folder for Form, or use Site Logo if loaded in theme
-									$custom_logo_id = get_theme_mod('custom_logo');
-									$image          = wp_get_attachment_image_src($custom_logo_id, 'full');
-									if (!$image) {
-										$image = plugins_url('/images/logoCC-clear.png', __FILE__);
+									$custom_logo_id = get_theme_mod( 'custom_logo' );
+									$image          = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+									if ( ! $image ) {
+										$image = plugins_url( '/images/logoCC-clear.png', __FILE__ );
 										echo $image;
 									} else {
 										echo $image[0];
@@ -87,25 +85,24 @@ class SectionTemplates extends Shortcode
 
 			</table>
 		</div>
-	<?php
+		<?php
 
 	}
 	/**
 	 * Render Meeting Center Admin or Owner Page template for meetings -
 	 *
-	 *  @TODO - Fred to clean up
+	 * @TODO   - Fred to clean up
 	 * @return string
 	 */
-	public function meet_admin_page_template()
-	{
+	public function meet_admin_page_template() {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(29498);
-			// return $this->get_instance( \MyVideoRoomExtrasPlugin\Mvr\PageSwitches::class )->meet_switch_shortcode();
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 29498 );
+			// return $this->get_instance( \ElementalPlugin\Mvr\PageSwitches::class )->meet_switch_shortcode();
 		}
 
-		wp_enqueue_style('cc-menutab-header', plugins_url('/stylesheets/menu-tab.css', __FILE__), false , 1.11 )
-	?>
+		wp_enqueue_style( 'cc-menutab-header', plugins_url( '/stylesheets/menu-tab.css', __FILE__ ), false, 1.11 )
+		?>
 		<script type="text/javascript">
 			function activateTab(pageId) {
 				var tabCtrl = document.getElementById('tabCtrl');
@@ -126,44 +123,43 @@ class SectionTemplates extends Shortcode
 				<a class="cc-menu-header" href="javascript:activateTab( 'page3' )">Host Settings</a>
 			</ul>
 			<div id="tabCtrl">
-				<div id="page1" style="display: block;"><?php echo Factory::get_instance(VideoControllers::class)->personal_meeting_guest_shortcode(); ?></div>
-				<div id="page2" style="display: none;"><?php echo Factory::get_instance(VideoControllers::class)->personal_meeting_host_shortcode(); ?></div>
+				<div id="page1" style="display: block;"><?php echo Factory::get_instance( VideoControllers::class )->personal_meeting_guest_shortcode(); ?></div>
+				<div id="page2" style="display: none;"><?php echo Factory::get_instance( VideoControllers::class )->personal_meeting_host_shortcode(); ?></div>
 				<div id="page3" style="display: none;">
 					<h2 class="cc-menu-header">Hosting Settings - Personal Room </h2>
 
-					<?php
-					$layout_setting = Factory::get_instance(UserVideoPreference::class)->choose_settings(
-						1,
-						SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM,
-						array('basic', 'premium')
-					);
+		<?php
+		$layout_setting = Factory::get_instance( UserVideoPreference::class )->choose_settings(
+			1,
+			SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM,
+			array( 'basic', 'premium' )
+		);
 					echo $layout_setting;
-					?>
+		?>
 				</div>
 			</div>
 			<br><br>
 			<p>Admin Signed in as
-				<?php
-				$current_user = wp_get_current_user();
-				echo $current_user->user_login;
-				?>
+		<?php
+		$current_user = wp_get_current_user();
+		echo $current_user->user_login;
+		?>
 		</div>
-	<?php
+		<?php
 
 	}
 
 	/**
 	 * Render Meeting Center Signed Out Page template for meetings - to switch template to signed out users for meeting Page
 	 */
-	public function meet_signed_out_page_template()
-	{
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(29492);
-			// return $this->get_instance( \MyVideoRoomExtrasPlugin\Mvr\PageSwitches::class )->meet_switch_shortcode();
+	public function meet_signed_out_page_template() {
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 29492 );
+			// return $this->get_instance( \ElementalPlugin\Mvr\PageSwitches::class )->meet_switch_shortcode();
 		}
 
-		wp_enqueue_style('cc-menutab-header', plugins_url('/stylesheets/menu-tab.css', __FILE__), false , 1.11 )
-	?>
+		wp_enqueue_style( 'cc-menutab-header', plugins_url( '/stylesheets/menu-tab.css', __FILE__ ), false, 1.11 )
+		?>
 		<script type="text/javascript">
 			function activateTab(pageId) {
 				var tabCtrl = document.getElementById('tabCtrl');
@@ -182,27 +178,26 @@ class SectionTemplates extends Shortcode
 			<a class="cc-menu-header" href="javascript:activateTab( 'page2' )">Sign In</a>
 		</ul>
 		<div id="tabCtrl">
-			<div id="page1" style="display: block;"><?php echo Factory::get_instance(VideoControllers::class)->personal_meeting_guest_shortcode(); ?></div>
+			<div id="page1" style="display: block;"><?php echo Factory::get_instance( VideoControllers::class )->personal_meeting_guest_shortcode(); ?></div>
 			<div id="page2" style="display: none;"><?php echo 'PlaceHolder for Login Form'; ?></div>
 		</div>
 		</div>
 
-	<?php
+		<?php
 
 	}
 
 	/**
 	 * Render Meeting Center Signed In normal user Page template for meetings
 	 */
-	public function meet_signed_in_page_template()
-	{
+	public function meet_signed_in_page_template() {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(29495);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 29495 );
 		}
 
-		wp_enqueue_style('cc-menutab-header', plugins_url('/stylesheets/menu-tab.css', __FILE__), false , 1.11 )
-	?>
+		wp_enqueue_style( 'cc-menutab-header', plugins_url( '/stylesheets/menu-tab.css', __FILE__ ), false, 1.11 )
+		?>
 		<script type="text/javascript">
 			function activateTab(pageId) {
 				var tabCtrl = document.getElementById('tabCtrl');
@@ -220,18 +215,18 @@ class SectionTemplates extends Shortcode
 			<a class="cc-menu-header" href="javascript:activateTab( 'page1' )">Join a Meeting</a>
 		</ul>
 		<div id="tabCtrl">
-			<div id="page1" style="display: block;"><?php echo Factory::get_instance(VideoControllers::class)->personal_meeting_guest_shortcode(); ?></div>
+			<div id="page1" style="display: block;"><?php echo Factory::get_instance( VideoControllers::class )->personal_meeting_guest_shortcode(); ?></div>
 
 		</div>
 		</div>
 		<br><br>
 		<p>User Signed in as
-			<?php
-			$current_user = wp_get_current_user();
-			echo $current_user->user_login;
-			?>
+		<?php
+		$current_user = wp_get_current_user();
+		echo $current_user->user_login;
+		?>
 		</p>
-	<?php
+		<?php
 
 	}
 
@@ -240,10 +235,9 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function meet_guest_header(): string
-	{
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(29533);
+	public function meet_guest_header(): string {
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 29533 );
 		}
 	}
 
@@ -252,10 +246,9 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function meet_host_header(): string
-	{
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(34497);
+	public function meet_host_header(): string {
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 34497 );
 		}
 	}
 
@@ -269,15 +262,14 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function booking_ctr_site_admin_template(): string
-	{
+	public function booking_ctr_site_admin_template(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(28653);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 28653 );
 		}
 
 		// Check for WCFM - If exists WCFM Template - Else Normal User Signed In Template
-		if (Factory::get_instance(SiteDefaults::class)->is_wcfm_active()) {
+		if ( Factory::get_instance( SiteDefaults::class )->is_wcfm_active() ) {
 			// @TODO make template for Store Owners as Well
 			echo 'StoreOwnerTemplate is on the TODO List';
 		} else {
@@ -290,16 +282,15 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function booking_center_signedin_template(): string
-	{
+	public function booking_center_signedin_template(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(30955);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 30955 );
 		}
 
-		wp_enqueue_style('cc-menutab-header', plugins_url('/stylesheets/menu-tab.css', __FILE__), false , 1.11 );
+		wp_enqueue_style( 'cc-menutab-header', plugins_url( '/stylesheets/menu-tab.css', __FILE__ ), false, 1.11 );
 		$user_id = get_current_user_id();
-	?>
+		?>
 		<script type="text/javascript">
 			function activateTab(pageId) {
 				var tabCtrl = document.getElementById('tabCtrl');
@@ -320,18 +311,18 @@ class SectionTemplates extends Shortcode
 			<a class="cc-menu-header" href="javascript:activateTab( 'page4' )">Host Settings</a>
 		</ul>
 		<div id="tabCtrl">
-			<div id="page1" style="display: block;"><?php echo Factory::get_instance(Connect::class)->connect(); ?></div>
-			<div id="page2" style="display: none;"><?php echo Factory::get_instance(VideoControllers::class)->personal_meeting_guest_shortcode(); ?></div>
-			<div id="page3" style="display: none;"><?php echo Factory::get_instance(VideoControllers::class)->personal_meeting_host_shortcode(); ?></div>
+			<div id="page1" style="display: block;"><?php echo Factory::get_instance( Connect::class )->connect(); ?></div>
+			<div id="page2" style="display: none;"><?php echo Factory::get_instance( VideoControllers::class )->personal_meeting_guest_shortcode(); ?></div>
+			<div id="page3" style="display: none;"><?php echo Factory::get_instance( VideoControllers::class )->personal_meeting_host_shortcode(); ?></div>
 			<div id="page4" style="display: none;">
-				<?php
-				$layout_setting = Factory::get_instance(UserVideoPreference::class)->choose_settings($user_id, SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM, array('basic', 'premium'));
-				echo $layout_setting;
-				?>
+		<?php
+		$layout_setting = Factory::get_instance( UserVideoPreference::class )->choose_settings( $user_id, SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM, array( 'basic', 'premium' ) );
+		echo $layout_setting;
+		?>
 			</div>
 		</div>
 
-	<?php
+		<?php
 		return '';
 	}
 	// WCFM CONNECT TEMPLATE SECTION
@@ -339,13 +330,12 @@ class SectionTemplates extends Shortcode
 	/**
 	 * Render guest visitor header template for Store Video Rooms - used above visiting store video rooms - provides meeting invite links, name, owner etc
 	 *
-	 *  @TODO Fred - these can and should be upgraded to more advanced templates in Elementor
+	 * @TODO   Fred - these can and should be upgraded to more advanced templates in Elementor
 	 * @return string
 	 */
-	public function wcfmc_visitor_header(): string
-	{
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(33491);
+	public function wcfmc_visitor_header(): string {
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 33491 );
 		}
 	}
 	/**
@@ -357,19 +347,18 @@ class SectionTemplates extends Shortcode
 
 
 
-	public function shortcode_template_wrapper(string $header = null, string $shortcode = null, string $admin_page = null, $permissions_page = null)
-	{
-		wp_enqueue_style('cc-menutab-header', plugins_url('/stylesheets/menu-tab-header.css', __FILE__), false, 1.12 );
+	public function shortcode_template_wrapper( string $header = null, string $shortcode = null, string $admin_page = null, $permissions_page = null ) {
+		wp_enqueue_style( 'cc-menutab-header', plugins_url( '/stylesheets/menu-tab-header.css', __FILE__ ), false, 1.12 );
 
-		if ($admin_page === null) {
+		if ( $admin_page === null ) {
 			return $header . $shortcode;
 		}
-		wp_enqueue_style('cc-menutab-header', plugins_url('/stylesheets/menu-tab.css', __FILE__), false , 1.11 );
+		wp_enqueue_style( 'cc-menutab-header', plugins_url( '/stylesheets/menu-tab.css', __FILE__ ), false, 1.11 );
 		echo $header;
 
 		// Randomizing Page ID's for Javascript as multiple frames can be rendered from this function
 
-	?>
+		?>
 		<script type="text/javascript">
 			function activateTab(pageId) {
 				var tabCtrl = document.getElementById('tabCtrl');
@@ -385,11 +374,11 @@ class SectionTemplates extends Shortcode
 		</script>
 		<ul class="menu">
 			<a class="cc-menu-header-template" href="javascript:activateTab( 'page1' )">Video Room</a>
-			<?php
-			if (\MyVideoRoomExtrasPlugin\Factory::get_instance(\MyVideoRoomExtrasPlugin\DAO\ModuleConfig::class)->module_activation_status(\MyVideoRoomExtrasPlugin\Core\SiteDefaults::MODULE_SECURITY_ID)) {
-				echo '<a class="cc-menu-header-template" href="javascript:activateTab(\'page2\' )">Room Permissions</a>';
-			}
-			?>
+		<?php
+		if ( \ElementalPlugin\Factory::get_instance( \ElementalPlugin\DAO\ModuleConfig::class )->module_activation_status( \ElementalPlugin\Core\SiteDefaults::MODULE_SECURITY_ID ) ) {
+			echo '<a class="cc-menu-header-template" href="javascript:activateTab(\'page2\' )">Room Permissions</a>';
+		}
+		?>
 			<a class="cc-menu-header-template" href="javascript:activateTab( 'page3' )">Video Host Settings</a>
 
 		</ul>
@@ -399,7 +388,7 @@ class SectionTemplates extends Shortcode
 			<div id="page3" style="display: none;"><?php echo $admin_page; ?></div>
 
 		</div>
-	<?php
+		<?php
 
 		return null;
 	}
@@ -408,21 +397,20 @@ class SectionTemplates extends Shortcode
 	 * Shortcode_template_wrapper_for WCFM
 	 * Uses a different Javascript set of variables to allow multiple shortcodes to be rendered on the same page
 	 *
-	 * @param  string $header - to place on top of room.
-	 * @param  string $shortcode - room to execute.
-	 * @param  string $admin_page - admin page if any.
+	 * @param  string $header           - to place on top of room.
+	 * @param  string $shortcode        - room to execute.
+	 * @param  string $admin_page       - admin page if any.
 	 * @param  string $permissions_page - if any.
 	 * @return string - the completed formatted page.
 	 */
-	public function shortcode_template_wrapper_wcfm(string $header, string $shortcode, string $admin_page = null, $permissions_page = null)
-	{
-		wp_enqueue_style('cc-menutab-header', plugins_url('/stylesheets/menu-tab-header.css', __FILE__), false, 1.12 );
-		if ($admin_page === null) {
+	public function shortcode_template_wrapper_wcfm( string $header, string $shortcode, string $admin_page = null, $permissions_page = null ) {
+		wp_enqueue_style( 'cc-menutab-header', plugins_url( '/stylesheets/menu-tab-header.css', __FILE__ ), false, 1.12 );
+		if ( $admin_page === null ) {
 			return $header . $shortcode;
 		}
 		echo $header;
 
-	?>
+		?>
 		<script type="text/javascript">
 			function activateTab2(pageId) {
 				var tabCtrl2 = document.getElementById('tabCtrl2');
@@ -438,11 +426,11 @@ class SectionTemplates extends Shortcode
 		</script>
 		<ul class="menu">
 			<a class="cc-menu-header-template" href="javascript:activateTab2( 'page4' )">Video Room</a>
-			<?php
-			if (\MyVideoRoomExtrasPlugin\Factory::get_instance(\MyVideoRoomExtrasPlugin\DAO\ModuleConfig::class)->module_activation_status(\MyVideoRoomExtrasPlugin\Core\SiteDefaults::MODULE_SECURITY_ID)) {
-				echo '<a class="cc-menu-header-template" href="javascript:activateTab2(\'page5\' )">Room Permissions</a> ';
-			}
-			?>
+		<?php
+		if ( \ElementalPlugin\Factory::get_instance( \ElementalPlugin\DAO\ModuleConfig::class )->module_activation_status( \ElementalPlugin\Core\SiteDefaults::MODULE_SECURITY_ID ) ) {
+			echo '<a class="cc-menu-header-template" href="javascript:activateTab2(\'page5\' )">Room Permissions</a> ';
+		}
+		?>
 			<a class="cc-menu-header-template" href="javascript:activateTab2( 'page6' )">Video Host Settings</a>
 		</ul>
 		<div id="tabCtrl2" style="margin-top : 10px; line-height: 2;">
@@ -450,7 +438,7 @@ class SectionTemplates extends Shortcode
 			<div id="page5" style="display: none;"><?php echo $permissions_page; ?></div>
 			<div id="page6" style="display: none;"><?php echo $admin_page; ?></div>
 		</div>
-	<?php
+		<?php
 
 		return null;
 	}
@@ -462,14 +450,13 @@ class SectionTemplates extends Shortcode
 	/**
 	 * Render guest host header template for Store Video Rooms - used above owner/staff own store video rooms - provides meeting invite links, name, owner etc
 	 *
-	 *  @TODO Fred - these can and should be upgraded to more advanced templates in Elementor
+	 * @TODO   Fred - these can and should be upgraded to more advanced templates in Elementor
 	 * @return string
 	 */
-	public function wcfmc_host_header()
-	{
+	public function wcfmc_host_header() {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(35409);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 35409 );
 		} else {
 			return 'MVR Test Failed';
 		}
@@ -481,11 +468,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string,null
 	 */
-	public function mvr_ump_wcfm_upgrade_template()
-	{
+	public function mvr_ump_wcfm_upgrade_template() {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(29585);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 29585 );
 		} else {
 			return null;
 		}
@@ -498,16 +484,15 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function booking_ctr_store_owner_template(): string
-	{
+	public function booking_ctr_store_owner_template(): string {
 
 		// Filter MVR - suitable for Elementor Template Change
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(28637);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 28637 );
 		}
 
 		// Check for WCFM - If exists WCFM Template - Else Normal User Signed In Template
-		if (Factory::get_instance(SiteDefaults::class)->is_wcfm_active()) {
+		if ( Factory::get_instance( SiteDefaults::class )->is_wcfm_active() ) {
 			// @TODO make template for Store Owners as Well
 			echo 'StoreOwnerTemplate is on the TODO List';
 		} else {
@@ -520,15 +505,14 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function booking_ctr_request_booking_number_form(): string
-	{
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(30831);
+	public function booking_ctr_request_booking_number_form(): string {
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 30831 );
 		}
 
-		wp_enqueue_style('cc-booking-ctr', plugins_url('/stylesheets/booking-ctr.css', __FILE__));
+		wp_enqueue_style( 'cc-booking-ctr', plugins_url( '/stylesheets/booking-ctr.css', __FILE__ ) );
 
-	?>
+		?>
 		<div class="cc-row">
 			<h2 class="cc-reception-header">Please Enter Your Booking Number </h2>
 
@@ -537,10 +521,10 @@ class SectionTemplates extends Shortcode
 					<th style="width:50%"><img src="
 										<?php
 										// Get ClubCloud Logo from Plugin folder for Form, or use Site Logo if loaded in theme
-										$custom_logo_id = get_theme_mod('custom_logo');
-										$image          = wp_get_attachment_image_src($custom_logo_id, 'full');
-										if (!$image) {
-											$image = plugins_url('/images/logoCC-clear.png', __FILE__);
+										$custom_logo_id = get_theme_mod( 'custom_logo' );
+										$image          = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+										if ( ! $image ) {
+											$image = plugins_url( '/images/logoCC-clear.png', __FILE__ );
 											echo $image;
 										} else {
 											echo $image[0];
@@ -561,7 +545,7 @@ class SectionTemplates extends Shortcode
 
 			</table>
 		</div>
-	<?php
+		<?php
 
 		return '';
 	}
@@ -572,15 +556,14 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function booking_ctr_signed_out_template(): string
-	{
+	public function booking_ctr_signed_out_template(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(28648);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 28648 );
 		}
 
-		wp_enqueue_style('cc-menutab-header', plugins_url('/stylesheets/menu-tab.css', __FILE__), false , 1.11 )
-	?>
+		wp_enqueue_style( 'cc-menutab-header', plugins_url( '/stylesheets/menu-tab.css', __FILE__ ), false, 1.11 )
+		?>
 		<script type="text/javascript">
 			function activateTab(pageId) {
 				var tabCtrl = document.getElementById('tabCtrl');
@@ -600,13 +583,13 @@ class SectionTemplates extends Shortcode
 			<a class="cc-menu-header" href="javascript:activateTab( 'page3' )">Sign In</a>
 		</ul>
 		<div id="tabCtrl">
-			<div id="page1" style="display: block;"><?php echo Factory::get_instance(Connect::class)->connect(); ?></div>
-			<div id="page2" style="display: none;"><?php echo Factory::get_instance(VideoControllers::class)->personal_meeting_guest_shortcode(); ?></div>
+			<div id="page1" style="display: block;"><?php echo Factory::get_instance( Connect::class )->connect(); ?></div>
+			<div id="page2" style="display: none;"><?php echo Factory::get_instance( VideoControllers::class )->personal_meeting_guest_shortcode(); ?></div>
 			<div id="page3" style="display: none;"><?php echo 'PlaceHolder for Login Form'; ?></div>
 		</div>
 		</div>
 
-	<?php
+		<?php
 		return '';
 	}
 
@@ -619,10 +602,9 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function mvr_ctr_basic_admin_template(): string
-	{
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(28653);
+	public function mvr_ctr_basic_admin_template(): string {
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 28653 );
 		}
 	}
 
@@ -635,10 +617,9 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function account_centre_landing(): string
-	{
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(35999);
+	public function account_centre_landing(): string {
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 35999 );
 		}
 	}
 
@@ -647,11 +628,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function control_panel_store_advanced(): string
-	{
+	public function control_panel_store_advanced(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(36024);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 36024 );
 		}
 	}
 
@@ -660,11 +640,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function control_panel_store_products(): string
-	{
+	public function control_panel_store_products(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(36003);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 36003 );
 		}
 	}
 
@@ -673,10 +652,9 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function control_panel_store_video(): string
-	{
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(36009);
+	public function control_panel_store_video(): string {
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 36009 );
 		}
 	}
 
@@ -688,11 +666,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function find_signed_in_template(): string
-	{
+	public function find_signed_in_template(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(29134);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 29134 );
 		}
 	}
 	/**
@@ -700,11 +677,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function find_signed_out_template(): string
-	{
+	public function find_signed_out_template(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(31200);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 31200 );
 		}
 	}
 
@@ -716,11 +692,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function site_boardroom_host_template()
-	{
+	public function site_boardroom_host_template() {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(27972);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 27972 );
 		}
 
 		return null;
@@ -731,11 +706,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function site_boardroom_guest_template()
-	{
+	public function site_boardroom_guest_template() {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(27975);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 27975 );
 		}
 	}
 
@@ -746,35 +720,34 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function site_default_settings_template(): string
-	{
+	public function site_default_settings_template(): string {
 		wp_enqueue_style(
 			'cc-boardroom',
-			plugins_url('/stylesheets/boardroom-header.css', __FILE__),
+			plugins_url( '/stylesheets/boardroom-header.css', __FILE__ ),
 			array(),
 			$this->get_plugin_version()
 		);
 
 		ob_start();
-	?>
+		?>
 		<div class="myvideoroom-extras-boardroom-header">
 			<div class="row">
 				<div class="column">
-					<h2><?php echo esc_html(get_bloginfo('name')); ?> Site Default Configuration</h2>
+					<h2><?php echo esc_html( get_bloginfo( 'name' ) ); ?> Site Default Configuration</h2>
 				</div>
 			</div><br />
 
 			<h2> Site Wide Video Room Default Settings</h2>
 
-			<?php
-			echo Factory::get_instance(UserVideoPreference::class)->choose_settings(
-				SiteDefaults::USER_ID_SITE_DEFAULTS,
-				SiteDefaults::ROOM_NAME_SITE_DEFAULT,
-				array('basic', 'premium')
-			);
-			?>
+		<?php
+		echo Factory::get_instance( UserVideoPreference::class )->choose_settings(
+			SiteDefaults::USER_ID_SITE_DEFAULTS,
+			SiteDefaults::ROOM_NAME_SITE_DEFAULT,
+			array( 'basic', 'premium' )
+		);
+		?>
 		</div>
-	<?php
+		<?php
 
 		return ob_get_clean();
 	}
@@ -787,11 +760,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function bp_group_host_template(): string
-	{
+	public function bp_group_host_template(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(32917);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 32917 );
 		}
 	}
 
@@ -800,11 +772,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function bp_group_guest_template(): string
-	{
+	public function bp_group_guest_template(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(32949);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 32949 );
 		}
 	}
 
@@ -816,29 +787,28 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function bp_plugin_control_centre_dashboard()
-	{
+	public function bp_plugin_control_centre_dashboard() {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
 			// @todo Amanda to do landing template for admin
 			// return $this->call_elementor_template( 32917 );
 		}
 
-		wp_enqueue_style('cc-guest-reception-template', plugins_url('/stylesheets/guest-reception.css', __FILE__));
+		wp_enqueue_style( 'cc-guest-reception-template', plugins_url( '/stylesheets/guest-reception.css', __FILE__ ) );
 
-	?>
+		?>
 		<div class="cc-row">
-			<h2 class="cc-reception-header">Video Settings for <?php echo get_bloginfo('name'); ?></h2>
+			<h2 class="cc-reception-header">Video Settings for <?php echo get_bloginfo( 'name' ); ?></h2>
 
 			<table style="width:100%">
 				<tr>
 					<th style="width:50%"><img src="
 									<?php
 									// Get ClubCloud Logo from Plugin folder for Form, or use Site Logo if loaded in theme
-									$custom_logo_id = get_theme_mod('custom_logo');
-									$image          = wp_get_attachment_image_src($custom_logo_id, 'full');
-									if (!$image) {
-										$image = plugins_url('/images/logoCC-clear.png', __FILE__);
+									$custom_logo_id = get_theme_mod( 'custom_logo' );
+									$image          = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+									if ( ! $image ) {
+										$image = plugins_url( '/images/logoCC-clear.png', __FILE__ );
 										echo $image;
 									} else {
 										echo $image[0];
@@ -854,12 +824,13 @@ class SectionTemplates extends Shortcode
 
 			</table>
 		</div>
-	<?php
+		<?php
 
 	}
 
 
-	/**  Security Templates
+	/**
+	 * Security Templates
 	 * Render Main Dashboard Template for user's own account control panel
 	 *
 	 * @return string
@@ -867,35 +838,34 @@ class SectionTemplates extends Shortcode
 
 
 
-	public function room_blocked_by_user()
-	{
+	public function room_blocked_by_user() {
 		ob_start();
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
 		}
 
-		wp_enqueue_style('cc-guest-reception-template', plugins_url('/stylesheets/guest-reception.css', __FILE__));
+		wp_enqueue_style( 'cc-guest-reception-template', plugins_url( '/stylesheets/guest-reception.css', __FILE__ ) );
 
-	?>
+		?>
 		<div class="cc-row">
-			<h2 class="cc-reception-header"><?php echo get_bloginfo('name'); ?> </h2>
+			<h2 class="cc-reception-header"><?php echo get_bloginfo( 'name' ); ?> </h2>
 
 
 
 			<table style="width:100%">
 				<tr>
 					<th style="width:50%">
-						<?php
-						// Get ClubCloud Logo from Plugin folder for Form, or use Site Logo if loaded in theme.
-						$custom_logo_id = get_theme_mod('custom_logo');
-						$image          = wp_get_attachment_image_src($custom_logo_id, 'full');
-						if (!$image) {
-							$image_src = plugins_url('/mvr-imagelogo.png', __DIR__);
-						} else {
-							$image_src = $image[0];
-						}
-						?>
+		<?php
+		 // Get ClubCloud Logo from Plugin folder for Form, or use Site Logo if loaded in theme.
+		 $custom_logo_id = get_theme_mod( 'custom_logo' );
+		 $image          = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+		if ( ! $image ) {
+			$image_src = plugins_url( '/mvr-imagelogo.png', __DIR__ );
+		} else {
+			$image_src = $image[0];
+		}
+		?>
 
-						<img src="<?php echo esc_url($image_src); ?>" alt="Site Logo">
+						<img src="<?php echo esc_url( $image_src ); ?>" alt="Site Logo">
 					</th>
 					<th>
 						Your administrator has disabled this room type. Please contact the Site Owner to re-enable this room type.
@@ -906,7 +876,7 @@ class SectionTemplates extends Shortcode
 
 			</table>
 		</div>
-<?php
+		<?php
 
 		return ' ';
 	}
@@ -924,11 +894,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function account_control_centre_dashboard(): string
-	{
+	public function account_control_centre_dashboard(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(27468);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 27468 );
 		}
 	}
 	/**
@@ -936,11 +905,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function account_control_centre_alternate_dashboard(): string
-	{
+	public function account_control_centre_alternate_dashboard(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(29160);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 29160 );
 		}
 	}
 
@@ -952,11 +920,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function staff_lobby_get_credentials_template(): string
-	{
+	public function staff_lobby_get_credentials_template(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(22918);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 22918 );
 		}
 	}
 
@@ -965,11 +932,10 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	public function staff_lobby_sales_landing_template(): string
-	{
+	public function staff_lobby_sales_landing_template(): string {
 
-		if (Factory::get_instance(SiteDefaults::class)->is_mvr()) {
-			return $this->call_elementor_template(22921);
+		if ( Factory::get_instance( SiteDefaults::class )->is_mvr() ) {
+			return $this->call_elementor_template( 22921 );
 		}
 	}
 
@@ -980,8 +946,7 @@ class SectionTemplates extends Shortcode
 	 *
 	 * @return string
 	 */
-	private function call_elementor_template(int $elementor_template_id): string
-	{
-		return \do_shortcode('[elementor-template id="' . $elementor_template_id . '"]');
+	private function call_elementor_template( int $elementor_template_id ): string {
+		return \do_shortcode( '[elementor-template id="' . $elementor_template_id . '"]' );
 	}
 }

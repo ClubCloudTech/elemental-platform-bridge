@@ -5,20 +5,20 @@
  * Called from
  */
 
-namespace MyVideoRoomExtrasPlugin\Core;
+namespace ElementalPlugin\Core;
 
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
+use ElementalPlugin\Library\UserRoles;
 
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\DAO\ModuleConfig;
-use MyVideoRoomExtrasPlugin\Library\SectionTemplates;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\BuddyPress\BuddyPress;
-use MyVideoRoomExtrasPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDAO;
-use MyVideoRoomExtrasPlugin\Library\Templates\SecurityTemplates;
-use MyVideoRoomExtrasPlugin\Shortcode\SecurityVideoPreference;
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\DAO\ModuleConfig;
+use ElementalPlugin\Library\SectionTemplates;
+use ElementalPlugin\Factory;
+use ElementalPlugin\BuddyPress\BuddyPress;
+use ElementalPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDAO;
+use ElementalPlugin\Library\Templates\SecurityTemplates;
+use ElementalPlugin\Shortcode\SecurityVideoPreference;
+use ElementalPlugin\Library\WordPressUser;
 
 
 
@@ -26,6 +26,7 @@ use MyVideoRoomExtrasPlugin\Library\WordPressUser;
  * Class Template
  */
 class PageFilters extends Shortcode {
+
 
 
 	/**
@@ -66,7 +67,7 @@ class PageFilters extends Shortcode {
 	public function block_disabled_room_video_render( int $user_id, string $room_name, $host_status, $room_type = null ) {
 		// Check BuddyPress as both itself and Personal Video Scenarios.
 		$is_room_disabled = Factory::get_instance( SecurityVideoPreferenceDAO::class )
-			->read_security_settings( $user_id, $room_name, 'room_disabled' );
+		->read_security_settings( $user_id, $room_name, 'room_disabled' );
 
 		// Is Disable setting active ?
 		if ( $is_room_disabled ) {
@@ -97,10 +98,10 @@ class PageFilters extends Shortcode {
 
 
 	public function block_anonymous_room_video_render( int $user_id, string $room_name, $host_status, $room_type = null ) {
-		 // Check to see if User has blocked Anonymous Access in the database and render block template if so.
+		// Check to see if User has blocked Anonymous Access in the database and render block template if so.
 
 		$is_room_disabled = Factory::get_instance( SecurityVideoPreferenceDAO::class )
-			->read_security_settings( $user_id, $room_name, 'anonymous_enabled' );
+		->read_security_settings( $user_id, $room_name, 'anonymous_enabled' );
 		// If the restrict room setting is enabled fire the block.
 		if ( $is_room_disabled ) {
 			$blocked_display = Factory::get_instance( SecurityTemplates::class )->anonymous_blocked_by_user( $user_id, $room_type );
@@ -138,7 +139,7 @@ class PageFilters extends Shortcode {
 
 		// Decide whether to allow or block.
 		$allow_to_block_switch = Factory::get_instance( SecurityVideoPreferenceDAO::class )
-			->read_security_settings( $owner_id, $room_name, 'block_role_control_enabled' );
+		->read_security_settings( $owner_id, $room_name, 'block_role_control_enabled' );
 
 		// Get List of Allowed/Blocked Roles from DB.
 
@@ -221,7 +222,7 @@ class PageFilters extends Shortcode {
 		$is_user_member    = Factory::get_instance( BuddyPress::class )->bp_is_user_member( $group_id, $user_id );
 		$is_user_moderator = Factory::get_instance( BuddyPress::class )->bp_is_user_moderator( $group_id, $user_id );
 		$is_user_admin     = Factory::get_instance( BuddyPress::class )->bp_is_user_admin( $group_id, $user_id );
-		// echo 	'block fire->member'.$is_user_member . '<br>moder'. $is_user_moderator .'<br>admin'. $is_user_admin .'<br>room access' . $room_access_setting. '<br> room name->'. $room_name;.
+		// echo     'block fire->member'.$is_user_member . '<br>moder'. $is_user_moderator .'<br>admin'. $is_user_admin .'<br>room access' . $room_access_setting. '<br> room name->'. $room_name;.
 		// echo var_dump ( $room_access_setting );
 		switch ( $room_access_setting ) {
 			case 'Administrators':
@@ -242,7 +243,7 @@ class PageFilters extends Shortcode {
 				// Else Fire the Block.
 
 		}
-			return Factory::get_instance( SecurityTemplates::class )->blocked_by_group_membership( $creator_id, $room_type );
+		return Factory::get_instance( SecurityTemplates::class )->blocked_by_group_membership( $creator_id, $room_type );
 
 	}
 
@@ -257,28 +258,28 @@ class PageFilters extends Shortcode {
 
 	public function block_bp_friend_video_render( int $user_id, string $room_name, $host_status, $room_type = null ) {
 
-			// Check Settings.
-			global $bp;
-			$user_id_original = $user_id;
-			$site_override    = Factory::get_instance( SecurityVideoPreferenceDao::class )->read_security_settings( SiteDefaults::USER_ID_SITE_DEFAULTS, SiteDefaults::ROOM_NAME_SITE_DEFAULT, 'site_override_enabled' );
-			$site_override    = Factory::get_instance( SecurityVideoPreferenceDao::class )->read_security_settings( SiteDefaults::USER_ID_SITE_DEFAULTS, SiteDefaults::ROOM_NAME_SITE_DEFAULT, 'site_override_enabled' );
+		// Check Settings.
+		global $bp;
+		$user_id_original = $user_id;
+		$site_override    = Factory::get_instance( SecurityVideoPreferenceDao::class )->read_security_settings( SiteDefaults::USER_ID_SITE_DEFAULTS, SiteDefaults::ROOM_NAME_SITE_DEFAULT, 'site_override_enabled' );
+		$site_override    = Factory::get_instance( SecurityVideoPreferenceDao::class )->read_security_settings( SiteDefaults::USER_ID_SITE_DEFAULTS, SiteDefaults::ROOM_NAME_SITE_DEFAULT, 'site_override_enabled' );
 		if ( $site_override ) {
 			$owner_id  = SiteDefaults::USER_ID_SITE_DEFAULTS;
 			$room_name = SiteDefaults::ROOM_NAME_SITE_DEFAULT;
 		} else {
 			$owner_id = $user_id;
 		}
-			$room_access_setting = Factory::get_instance( SecurityVideoPreferenceDAO::class )->read_security_settings( $owner_id, $room_name, 'bp_friends_setting' );
+		$room_access_setting = Factory::get_instance( SecurityVideoPreferenceDAO::class )->read_security_settings( $owner_id, $room_name, 'bp_friends_setting' );
 
-			// Exit early if no setting for filter.
+		// Exit early if no setting for filter.
 		if ( ! $room_access_setting ) {
 			return null;
 		}
 
-			// Get Global Information on User Relationships to start.
-			$visitor_id     = get_current_user_id();
-			$friends_status = friends_check_friendship_status( $user_id, $visitor_id );
-			// echo '<br><br>Friends-Status<br><br>Hostid->'.$user_id.' <br>GuestID->'. $visitor_id . '<br> Friends Status ->'. $friends_status . '<br>Room-Access->'.$room_access_setting;
+		// Get Global Information on User Relationships to start.
+		$visitor_id     = get_current_user_id();
+		$friends_status = friends_check_friendship_status( $user_id, $visitor_id );
+		// echo '<br><br>Friends-Status<br><br>Hostid->'.$user_id.' <br>GuestID->'. $visitor_id . '<br> Friends Status ->'. $friends_status . '<br>Room-Access->'.$room_access_setting;
 		switch ( $room_access_setting ) {
 			case '':
 				return null;
@@ -295,10 +296,10 @@ class PageFilters extends Shortcode {
 
 				// Else Fire the Block.
 		}
-			return Factory::get_instance( SecurityTemplates::class )->room_blocked_by_user( $user_id_original, $room_type );
+		return Factory::get_instance( SecurityTemplates::class )->room_blocked_by_user( $user_id_original, $room_type );
 
 		// echo  'block fire->member'.$is_user_member . '<br>moder'. $is_user_moderator .'<br>admin'. $is_user_admin .'<br>room access' . $room_access_setting. '<br> room name->'. $room_name;
-			// echo var_dump ( $room_access_setting );.
+		// echo var_dump ( $room_access_setting );.
 	}
 
 
@@ -345,18 +346,18 @@ class PageFilters extends Shortcode {
 		// Set up basics.
 
 		if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_active() && bp_displayed_user_id() ) {
-				$url = \bp_core_fetch_avatar(
-					array(
-						'item_id' => \bp_displayed_user_id(),
-						'type'    => 'full',
-						'html'    => false,
-					)
-				);
+			$url = \bp_core_fetch_avatar(
+				array(
+					'item_id' => \bp_displayed_user_id(),
+					'type'    => 'full',
+					'html'    => false,
+				)
+			);
 			return $url;
 		}
 
-			$custom_logo_id = get_theme_mod( 'custom_logo' );
-			$image          = wp_get_attachment_image_src( $custom_logo_id, 'full' );
-			return $image[0];
+		$custom_logo_id = get_theme_mod( 'custom_logo' );
+		$image          = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+		return $image[0];
 	}
 }//end class

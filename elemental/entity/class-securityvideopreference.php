@@ -2,15 +2,16 @@
 /**
  * A User Video Preference
  *
- * @package MyVideoRoomExtrasPlugin\Entity
+ * @package ElementalPlugin\Entity
  */
 
-namespace MyVideoRoomExtrasPlugin\Entity;
+namespace ElementalPlugin\Entity;
 
 /**
  * Class SecurityVideoPreference
  */
 class SecurityVideoPreference {
+
 
 	private int $user_id;
 	private string $room_name;
@@ -48,7 +49,6 @@ class SecurityVideoPreference {
 		bool $site_override_enabled = false,
 		string $restrict_group_to_members_setting = null,
 		string $bp_friends_setting = null
-
 	) {
 		$this->user_id                           = $user_id;
 		$this->room_name                         = $room_name;
@@ -182,7 +182,8 @@ class SecurityVideoPreference {
 		return $this;
 	}
 
-	/**Site Override
+	/**
+	 * Site Override
 	 *
 	 * @return bool
 	 */
@@ -190,7 +191,8 @@ class SecurityVideoPreference {
 		return $this->site_override_enabled;
 	}
 
-	/**Site Override
+	/**
+	 * Site Override
 	 *
 	 * @param bool $site_override_enabled
 	 *

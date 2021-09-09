@@ -2,15 +2,16 @@
 /**
  * Membership levels
  *
- * @package MyVideoRoomExtrasPlugin\Library
+ * @package ElementalPlugin\Library
  */
 
-namespace MyVideoRoomExtrasPlugin\UltimateMembershipPro;
+namespace ElementalPlugin\UltimateMembershipPro;
 
 /**
  * Class MembershipLevel
  */
 class MembershipLevel {
+
 	const PREMIUM      = 8;
 	const BASIC        = 13;
 	const BUSINESS     = 15;

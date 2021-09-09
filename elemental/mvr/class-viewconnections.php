@@ -2,18 +2,19 @@
 /**
  * View Connections
  *
- * @package MyVideoRoomExtrasPlugin\WCFM
+ * @package ElementalPlugin\WCFM
  */
 
-namespace MyVideoRoomExtrasPlugin\MVR;
+namespace ElementalPlugin\MVR;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Shortcode as Shortcode;
 
 /**
  * Class ViewConnections
  */
 class ViewConnections extends Shortcode {
+
 
 	/**
 	 * Install the shortcode

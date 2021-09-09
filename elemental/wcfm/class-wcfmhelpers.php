@@ -2,22 +2,23 @@
 /**
  * Helpers for WCFM
  *
- * @package MyVideoRoomExtrasPlugin\WCFM
+ * @package ElementalPlugin\WCFM
  */
 
-namespace MyVideoRoomExtrasPlugin\WCFM;
+namespace ElementalPlugin\WCFM;
 
 use BuddyPress;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use \MyVideoRoomExtrasPlugin\Core\SiteDefaults;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
+use \ElementalPlugin\Core\SiteDefaults;
 
 /**
  * Class WCFMHelpers
  */
 class WCFMHelpers extends Shortcode {
+
 
 
 	/**
@@ -155,12 +156,12 @@ class WCFMHelpers extends Shortcode {
 				$url            = $store_gravatar;
 			} else {
 				if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_active() ) {
-				$url = \bp_core_fetch_avatar(
-					array(
-						'item_id' => get_current_user_id(),
-						'type'    => 'full',
-						'html'    => false,
-					)
+					$url = \bp_core_fetch_avatar(
+						array(
+							'item_id' => get_current_user_id(),
+							'type'    => 'full',
+							'html'    => false,
+						)
 					);
 				}
 			}
@@ -178,9 +179,8 @@ class WCFMHelpers extends Shortcode {
 				$store_gravatar = $store_user->get_avatar();
 				$url            = $store_gravatar;
 				$output         = $store_info['store_name'];
-			} elseif (
-					$user_roles->is_wcfm_shop_staff() &&
-					'breakout' !== $type
+			} elseif ( $user_roles->is_wcfm_shop_staff()
+				&& 'breakout' !== $type
 			) {
 				$url    = bp_core_fetch_avatar(
 					array(
@@ -230,13 +230,13 @@ class WCFMHelpers extends Shortcode {
 			<div class="yz-primary-nav-settings">
 				<div class="yz-primary-nav-img" style="background-image: url(<?php echo $url; ?>)"></div>
 				<span>
-			<?php
-			echo $output
-			?>
+		<?php
+		echo $output
+		?>
 			</span>
 
-				<?php if ( 'on' == yz_option( 'yz_disable_wp_menu_avatar_icon', 'on' ) ) : ?>
-					<i class="fas fa-angle-down yz-settings-icon"></i><?php endif; ?>
+		<?php if ( 'on' == yz_option( 'yz_disable_wp_menu_avatar_icon', 'on' ) ) : ?>
+<i class="fas fa-angle-down yz-settings-icon"></i><?php endif; ?>
 			</div>
 
 		</div>

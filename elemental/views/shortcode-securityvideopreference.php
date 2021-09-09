@@ -5,16 +5,16 @@
  * @param string|null $current_user_setting
  * @param array $available_layouts
  *
- * @package MyVideoRoomExtrasPlugin\Views
+ * @package ElementalPlugin\Views
  */
 
-use MyVideoRoomExtrasPlugin\Entity\SecurityVideoPreference;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDAO;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\DAO\ModuleConfig;
-use MyVideoRoomExtrasPlugin\BuddyPress\BuddyPressConfig;
-use MyVideoRoomExtrasPlugin\Library\Templates\SecurityButtons;
+use ElementalPlugin\Entity\SecurityVideoPreference;
+use ElementalPlugin\Factory;
+use ElementalPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDAO;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\DAO\ModuleConfig;
+use ElementalPlugin\BuddyPress\BuddyPressConfig;
+use ElementalPlugin\Library\Templates\SecurityButtons;
 
 
 return function (
@@ -23,7 +23,7 @@ return function (
 	int $id_index = 0,
 	int $user_id = null,
 	string $group_name = null
-	): string {
+): string {
 	ob_start(); ?>
 <div id="security-video-host-wrap"style="border: 3px solid #969696;
 	background: #ebedf1;
@@ -31,10 +31,10 @@ return function (
 	margin: 5px;
 		">
 			<h1>Security Settings for  
-			<?php
-			$output = str_replace( '-', ' ', $room_name );
-			echo esc_attr( ucwords( $output ) );
-			?>
+	<?php
+	$output = str_replace( '-', ' ', $room_name );
+	echo esc_attr( ucwords( $output ) );
+	?>
 				</h1>
 
 				<?php
@@ -46,7 +46,7 @@ return function (
 
 				if ( ! $site_override ) {
 
-					if ( Factory::get_instance( \MyVideoRoomExtrasPlugin\Core\SiteDefaults::class )->is_buddypress_active() ) {
+					if ( Factory::get_instance( \ElementalPlugin\Core\SiteDefaults::class )->is_buddypress_active() ) {
 						$restrict_group_to_members_enabled = Factory::get_instance( SecurityVideoPreferenceDAO::class )->read_security_settings( $user_id, $room_name, 'restrict_group_to_members_enabled' );
 						if ( $restrict_group_to_members_enabled ) {
 							echo '<a class="button button-primary" style="background-color:blue">Restricted to Members</a>';
@@ -162,7 +162,7 @@ return function (
 					name="myvideoroom_extras_security_block_role_control_enabled_preference"
 					id="myvideoroom_extras_security_block_role_control_enabled_preference_<?php echo esc_attr( $id_index ); ?>"
 					<?php
-						echo $current_user_setting && $current_user_setting->is_block_role_control_enabled() ? 'checked' : '';
+					echo $current_user_setting && $current_user_setting->is_block_role_control_enabled() ? 'checked' : '';
 					?>
 				/>
 					<br>
@@ -176,13 +176,15 @@ return function (
 				$is_group_page   = $bp->groups->current_group->slug;
 				$is_profile_page = \bp_is_my_profile();
 				// Group setting from BP.
-				if ( ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_GROUP_ID ) ) &&
-				( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_ID ) ) && $is_group_page ) {
+				if ( ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_GROUP_ID ) )
+					&& ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_ID ) ) && $is_group_page
+				) {
 					echo esc_attr( Factory::get_instance( BuddyPressConfig::class )->render_group_menu_options( $bp->groups->current_group->creator_id, $room_name, $id_index ) );
 				}
 				// Friends Setting from BP.
-				if ( ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_FRIENDS_ID ) ) &&
-				( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_ID ) ) && $is_profile_page ) {
+				if ( ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_FRIENDS_ID ) )
+					&& ( Factory::get_instance( ModuleConfig::class )->module_activation_status( SiteDefaults::MODULE_BUDDYPRESS_ID ) ) && $is_profile_page
+				) {
 					echo esc_attr( Factory::get_instance( BuddyPressConfig::class )->render_friends_menu_options( $user_id, $room_name, $id_index ) );
 				}
 

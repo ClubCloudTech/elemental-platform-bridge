@@ -2,20 +2,21 @@
 /**
  * Allow user to change video preferences
  *
- * @package MyVideoRoomExtrasPlugin\BuddyPress
+ * @package ElementalPlugin\BuddyPress
  */
 
-namespace MyVideoRoomExtrasPlugin\Shortcode;
+namespace ElementalPlugin\Shortcode;
 
-use MyVideoRoomExtrasPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDao;
-use MyVideoRoomExtrasPlugin\Entity\SecurityVideoPreference as SecurityVideoPreferenceEntity;
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
+use ElementalPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDao;
+use ElementalPlugin\Entity\SecurityVideoPreference as SecurityVideoPreferenceEntity;
+use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
 
 /**
  * Class SecurityVideoPreference
  */
 class SecurityVideoPreference extends Shortcode {
+
 	/**
 	 * A increment in case the same element is placed on the page twice
 	 *
@@ -76,7 +77,7 @@ class SecurityVideoPreference extends Shortcode {
 		if ( isset( $_SERVER['REQUEST_METHOD'] )
 			&& 'POST' === $_SERVER['REQUEST_METHOD']
 			&& sanitize_text_field( wp_unslash( $_POST['myvideoroom_extras_security_room_name'] ?? null ) ) === $room_name
-			) {
+		) {
 			check_admin_referer( 'myvideoroom_extras_update_security_video_preference', 'nonce' );
 			$blocked_roles                     = sanitize_text_field( wp_unslash( $_POST['myvideoroom_extras_security_blocked_roles_preference'] ?? null ) );
 			$room_disabled                     = sanitize_text_field( wp_unslash( $_POST['myvideoroom_extras_security_room_disabled_preference'] ?? '' ) ) === 'on';
@@ -95,13 +96,13 @@ class SecurityVideoPreference extends Shortcode {
 			}
 			/*
 			if ( $bp_friends_setting ) {
-				if ( '' === $bp_friends_setting ) {
-					$bp_friends_setting = null;
-				}
+			if ( '' === $bp_friends_setting ) {
+			$bp_friends_setting = null;
+			}
 			}*/
 
 			// Handle Multi_box array and change it to a Database compatible string.
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized  --  Sanitised in function below (post MultiBox Array dissasembly that is destroyed by WP sanitising functions).
+         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized  --  Sanitised in function below (post MultiBox Array dissasembly that is destroyed by WP sanitising functions).
 			$inbound_multibox = $_POST['myvideoroom_extras_security_allowed_roles_preference'] ?? null;
 			if ( $inbound_multibox ) {
 				$output_data = array_unique( $inbound_multibox ); // ensure there are no duplicated roles.
@@ -150,7 +151,7 @@ class SecurityVideoPreference extends Shortcode {
 			}
 		}// End update handler.
 		if ( 'admin' === $type ) {
-				$render = include __DIR__ . '/../views/shortcode-securityadminvideopreference.php';
+			$render = include __DIR__ . '/../views/shortcode-securityadminvideopreference.php';
 		} else {
 			$render = include __DIR__ . '/../views/shortcode-securityvideopreference.php';
 		}

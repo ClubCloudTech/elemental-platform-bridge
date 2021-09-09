@@ -2,20 +2,20 @@
 /**
  * Shortcodes for pages
  *
- * @package MyVideoRoomExtrasPlugin\Core
+ * @package ElementalPlugin\Core
  */
 
-namespace MyVideoRoomExtrasPlugin\Core;
+namespace ElementalPlugin\Core;
 
-use MyVideoRoomExtrasPlugin\UltimateMembershipPro\MembershipLevel;
-use MyVideoRoomExtrasPlugin\Library\SectionTemplates;
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Core\Security;
-use MyVideoRoomExtrasPlugin\DAO\ModuleConfig;
-use MyVideoRoomExtrasPlugin\Setup\Setup;
+use ElementalPlugin\UltimateMembershipPro\MembershipLevel;
+use ElementalPlugin\Library\SectionTemplates;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Core\Security;
+use ElementalPlugin\DAO\ModuleConfig;
+use ElementalPlugin\Setup\Setup;
 
 
 // required for cleaning correct URL redirects in Firefox.
@@ -26,6 +26,7 @@ ob_start();
  * Class PageSwitches
  */
 class PageSwitches extends Shortcode {
+
 
 	const TABLE_NAME = 'myvideoroom_extras_room_post_mapping';
 
@@ -133,9 +134,9 @@ class PageSwitches extends Shortcode {
 
 		// Handling Admin Roles - sending them to Admin Lounge.
 		if ( $user_roles->is_wordpress_administrator() ) {
-			return $this->get_instance( \MyVideoRoomExtrasPlugin\Core\VideoControllers::class )->site_videoroom_member_shortcode();
+			return $this->get_instance( \ElementalPlugin\Core\VideoControllers::class )->site_videoroom_member_shortcode();
 		} else {
-			return $this->get_instance( \MyVideoRoomExtrasPlugin\Core\VideoControllers::class )->site_videoroom_guest_shortcode();
+			return $this->get_instance( \ElementalPlugin\Core\VideoControllers::class )->site_videoroom_guest_shortcode();
 		}
 	}
 
@@ -213,9 +214,8 @@ class PageSwitches extends Shortcode {
 		// Empty error handling is done in Site Default Area in SiteDefaults::xp.
 		$xprofile_setting = $this->get_instance( SiteDefaults::class )->get_layout_id( 'storeswitch', $user_id );
 
-		if (
-			$user_roles->is_wcfm_vendor() &&
-			! $this->get_instance( SiteDefaults::class )->is_premium_check( $user_id )
+		if ( $user_roles->is_wcfm_vendor()
+			&& ! $this->get_instance( SiteDefaults::class )->is_premium_check( $user_id )
 		) {
 			// Looking for Merchants that are NOT Premium.
 			$url = bp_core_get_user_domain( $user_id );
@@ -269,7 +269,7 @@ class PageSwitches extends Shortcode {
 			return do_shortcode( '[elementor-template id="20006"]' );
 		}
 
-		if ( \Factory::get_instance( \MyVideoRoomExtrasPlugin\Core\SiteDefaults::class )->is_wcfm_active() ) {
+		if ( \Factory::get_instance( \ElementalPlugin\Core\SiteDefaults::class )->is_wcfm_active() ) {
 			// If user is non-admin Then get membership level and Re-create Array from WordPress text input.
 			$membership_level = get_user_meta( $user->id, 'ihc_user_levels' );
 			$memlev           = explode( ',', $membership_level[0] );
@@ -327,9 +327,9 @@ class PageSwitches extends Shortcode {
 		// Handling Admin Roles - sending them to Admin Template.
 		if ( $user_roles->is_wordpress_administrator() ) {
 			return $this->get_instance( SectionTemplates::class )->booking_ctr_site_admin_template();
-		} elseif ( \Factory::get_instance( \MyVideoRoomExtrasPlugin\Core\SiteDefaults::class )->is_wcfm_active() &&
-			( $user_roles->is_wcfm_vendor() ||
-			$user_roles->is_wcfm_shop_staff() )
+		} elseif ( \Factory::get_instance( \ElementalPlugin\Core\SiteDefaults::class )->is_wcfm_active()
+			&& ( $user_roles->is_wcfm_vendor()
+			|| $user_roles->is_wcfm_shop_staff() )
 		) {
 			return $this->get_instance( SectionTemplates::class )->booking_ctr_store_owner_template();
 		}
@@ -377,8 +377,8 @@ class PageSwitches extends Shortcode {
 		}
 		// TODO - add WCFM Support Here
 
-		if ( Factory::get_instance( \MyVideoRoomExtrasPlugin\Core\SiteDefaults::class )->is_mvr() ) {
-			return $this->get_instance( \MyVideoRoomExtrasPlugin\Mvr\PageSwitches::class )->meet_helper( $user->id );
+		if ( Factory::get_instance( \ElementalPlugin\Core\SiteDefaults::class )->is_mvr() ) {
+			return $this->get_instance( \ElementalPlugin\Mvr\PageSwitches::class )->meet_helper( $user->id );
 		}
 
 		return $this->get_instance( SectionTemplates::class )->meet_signed_in_page_template();

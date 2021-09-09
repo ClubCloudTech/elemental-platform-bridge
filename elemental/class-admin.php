@@ -2,19 +2,20 @@
 /**
  * Manages the configuration settings for the video plugin .
  *
- * @package MyVideoRoomExtrasPlugin\Admin
+ * @package ElementalPlugin\Admin
  */
 
 declare(strict_types=1);
 
-namespace MyVideoRoomExtrasPlugin;
+namespace ElementalPlugin;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
+use ElementalPlugin\Core\SiteDefaults;
 
 /**
  * Class Admin
  */
 class Admin extends Shortcode {
+
 
 	/**
 	 * Initialise the menu item.
@@ -43,7 +44,7 @@ class Admin extends Shortcode {
 	 * Create the extra admin page contents.
 	 */
 	public function create_extras_admin_page(): void {
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Not required
+     // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Not required
 		$active_tab = $_GET['tab'] ?? null;
 
 		$tabs = array(
@@ -63,9 +64,9 @@ class Admin extends Shortcode {
 		}
 
 		$messages = array();
-		$render   = require __DIR__ . '/views/admin/' . $active_tab . '.php';
-// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped -- Not required as function has escaping within it.
-		echo $render( $active_tab, $tabs, $messages );
+		$render   = include __DIR__ . '/views/admin/' . $active_tab . '.php';
+   // phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped -- Not required as function has escaping within it.
+     echo $render( $active_tab, $tabs, $messages );
 	}
 
 }

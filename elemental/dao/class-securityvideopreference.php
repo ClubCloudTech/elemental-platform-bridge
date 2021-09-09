@@ -2,19 +2,20 @@
 /**
  * Data Access Object for user video preferences
  *
- * @package MyVideoRoomExtrasPlugin\DAO
+ * @package ElementalPlugin\DAO
  */
 
-namespace MyVideoRoomExtrasPlugin\DAO;
+namespace ElementalPlugin\DAO;
 
-use MyVideoRoomExtrasPlugin\Entity\SecurityVideoPreference as SecurityVideoPreferenceEntity;
+use ElementalPlugin\Entity\SecurityVideoPreference as SecurityVideoPreferenceEntity;
 
 /**
  * Class SecurityVideoPreference
  */
 class SecurityVideoPreference {
 
-	const TABLE_NAME = \MyVideoRoomExtrasPlugin\Core\SiteDefaults::TABLE_NAME_SECURITY_CONFIG;
+
+	const TABLE_NAME = \ElementalPlugin\Core\SiteDefaults::TABLE_NAME_SECURITY_CONFIG;
 
 
 	/**
@@ -31,12 +32,12 @@ class SecurityVideoPreference {
 
 		/*
 		$cache_key = $this->create_cache_key(
-			$user_video_preference->get_user_id(),
-			$user_video_preference->get_room_name());
+		$user_video_preference->get_user_id(),
+		$user_video_preference->get_room_name());
 
 		*/
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->insert(
 			$wpdb->prefix . self::TABLE_NAME,
 			array(
@@ -66,7 +67,7 @@ class SecurityVideoPreference {
 	/**
 	 * Get a User Video Preference from the database
 	 *
-	 * @param int    $user_id The user id.
+	 * @param int    $user_id   The user id.
 	 * @param string $room_name The room name.
 	 *
 	 * @return SecurityVideoPreferenceEntity|null
@@ -78,7 +79,7 @@ class SecurityVideoPreference {
 		$cached_result = wp_cache_get( $cache_key );
 
 		if ( $cached_result && $cached_result instanceof SecurityVideoPreferenceEntity ) {
-			return $cached_result;
+		return $cached_result;
 		}*/
 
 		$raw_sql = '
@@ -88,7 +89,7 @@ class SecurityVideoPreference {
 			';
 
 		$prepared_query = $wpdb->prepare(
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+      // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$raw_sql,
 			array(
 				$user_id,
@@ -96,7 +97,7 @@ class SecurityVideoPreference {
 			)
 		);
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 		$row = $wpdb->get_row( $prepared_query );
 
 		$result = null;
@@ -134,11 +135,11 @@ class SecurityVideoPreference {
 		global $wpdb;
 		/*
 		$cache_key = $this->create_cache_key(
-			$user_video_preference->get_user_id(),
-			$user_video_preference->get_room_name()
+		$user_video_preference->get_user_id(),
+		$user_video_preference->get_room_name()
 		);*/
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->update(
 			$wpdb->prefix . self::TABLE_NAME,
 			array(
@@ -194,9 +195,9 @@ class SecurityVideoPreference {
 		// Now need to exclude a setting if already returned above.
 		foreach ( $all_roles as $key ) {
 			if ( strpos( $db_setting, $key['name'] ) === false ) {
-				if ( $current_user_setting &&
-							$current_user_setting->get_allowed_roles() === $key['name']
-						) {
+				if ( $current_user_setting
+					&& $current_user_setting->get_allowed_roles() === $key['name']
+				) {
 					$output .= '<option value="' . esc_attr( $key['name'] ) . '" selected>' . esc_html( $key['name'] ) . '</option>';
 				} else {
 					$output .= '<option value="' . esc_attr( $key['name'] ) . '">' . esc_html( $key['name'] ) . '</option>';
@@ -244,11 +245,11 @@ class SecurityVideoPreference {
 
 		/*
 		$cache_key = $this->create_cache_key(
-			$user_video_preference->get_user_id(),
-			$user_video_preference->get_room_name()
+		$user_video_preference->get_user_id(),
+		$user_video_preference->get_room_name()
 		);*/
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->delete(
 			$wpdb->prefix . self::TABLE_NAME,
 			array(
@@ -270,7 +271,7 @@ class SecurityVideoPreference {
 	/**
 	 * Create a cache key
 	 *
-	 * @param int    $user_id The user id.
+	 * @param int    $user_id   The user id.
 	 * @param string $room_name The room name.
 	 *
 	 * @return string
@@ -283,10 +284,10 @@ class SecurityVideoPreference {
 	/**
 	 * Get a Just Preference Data from the database
 	 *
-	 * @param int    $user_id The user id.
+	 * @param int    $user_id   The user id.
 	 * @param string $room_name The room name.
 	 *
-	 * Returns layout ID, Reception ID, or Reception Enabled Status
+	 *                          Returns layout ID, Reception ID, or Reception Enabled Status
 	 */
 	public static function read_security_settings( int $user_id, string $room_name, string $return_type ) {
 		global $wpdb;
@@ -309,7 +310,7 @@ class SecurityVideoPreference {
 			)
 		);
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 		$row = $wpdb->get_row( $prepared_query );
 
 		if ( $row ) {

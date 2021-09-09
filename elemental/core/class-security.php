@@ -1,14 +1,14 @@
 <?php
 
-namespace MyVideoRoomExtrasPlugin\Core;
+namespace ElementalPlugin\Core;
 
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Core\PageFilters;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\DAO\ModuleConfig;
-use MyVideoRoomExtrasPlugin\MVR\PageSwitches;
-use MyVideoRoomExtrasPlugin\DAO\SecurityVideoPreference;
-use MyVideoRoomExtrasPlugin\Library\Templates\SecurityTemplates;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Core\PageFilters;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\DAO\ModuleConfig;
+use ElementalPlugin\MVR\PageSwitches;
+use ElementalPlugin\DAO\SecurityVideoPreference;
+use ElementalPlugin\Library\Templates\SecurityTemplates;
 
 
 /**
@@ -16,11 +16,12 @@ use MyVideoRoomExtrasPlugin\Library\Templates\SecurityTemplates;
  */
 class Security {
 
+
 	/**
 	 * This function is called by all video switches to determine if they can return the video room, or if a setting has blocked their rendering
 	 * It is a constructor only with other functions doing the filtering
 	 *
-	 * @param takes $host_id - user_id of host to send to upstream filters. $room_type - string of type of room to filter on
+	 * @param  takes $host_id - user_id of host to send to upstream filters. $room_type - string of type of room to filter on
 	 * @return null|string  - null if nothing blocks, or template page if it does
 	 */
 	public function render_block( $host_id = null, string $room_type, $module_id = null, $room_name = null ) {

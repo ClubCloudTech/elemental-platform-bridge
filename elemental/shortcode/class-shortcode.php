@@ -2,23 +2,24 @@
 /**
  * Abstract class for all shortcodes
  *
- * @package MyVideoRoomExtrasPlugin\ValueObjects
+ * @package ElementalPlugin\ValueObjects
  */
 
 declare(strict_types=1);
 
-namespace MyVideoRoomExtrasPlugin\Shortcode;
+namespace ElementalPlugin\Shortcode;
 
 /**
  * Abstract Shortcode
  */
 abstract class Shortcode {
 
+
 	/**
 	 * Render and return a shortcode
 	 *
 	 * @param string $shortcode The shortcode.
-	 * @param array  $params Key=>Value dictionary of params for the shortcode.
+	 * @param array  $params    Key=>Value dictionary of params for the shortcode.
 	 *
 	 * @return string
 	 */

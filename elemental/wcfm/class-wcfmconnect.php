@@ -2,26 +2,27 @@
 /**
  * Connect MyVideoRoom to Woocommerce FrontEnd Manager Video
  *
- * @package MyVideoRoomExtrasPlugin\WoocommerceBookings
+ * @package ElementalPlugin\WoocommerceBookings
  */
 
-namespace MyVideoRoomExtrasPlugin\WCFM;
+namespace ElementalPlugin\WCFM;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Library\SectionTemplates;
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Shortcode\MyVideoRoomApp;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Core\VideoHelpers;
-use MyVideoRoomExtrasPlugin\Core\Security;
-use MyVideoRoomExtrasPlugin\Shortcode\SecurityVideoPreference;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Library\SectionTemplates;
+use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Shortcode\MyVideoRoomApp;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Core\VideoHelpers;
+use ElementalPlugin\Core\Security;
+use ElementalPlugin\Shortcode\SecurityVideoPreference;
 
 /**
  * Class WCFM Connect
  */
 class WCFMConnect extends Shortcode {
+
 
 
 	/**
@@ -40,14 +41,14 @@ class WCFMConnect extends Shortcode {
 	 * Function used to render both Merchant and Staff Member Aware Store Video  It requires WCFM
 	 */
 	public function wcfmvideo( $params = array() ) {
-		// phpcs:ignore as wp_filter no html is more restrictive than unslash.etc so its sanitised propertly with just that. 
+     // phpcs:ignore as wp_filter no html is more restrictive than unslash.etc so its sanitised propertly with just that. 
 		$host = $params['host'] ?? wp_filter_nohtml_kses( $_GET['host'] ?? '' );
-		// phpcs:ignore as wp_filter no html is more restrictive than unslash.etc so its sanitised propertly with just that. 
+     // phpcs:ignore as wp_filter no html is more restrictive than unslash.etc so its sanitised propertly with just that. 
 		$invite = $params['invite'] ?? wp_filter_nohtml_kses( $_GET['invite'] ?? '' );
 
-		$user_id            = get_current_user_id();
-		$owner_id           = Factory::get_instance( SiteDefaults::class )->page_owner();
-		$store_name         = Factory::get_instance( WCFMHelpers::class )->store_displayname( $owner_id, 'slug' );
+		$user_id    = get_current_user_id();
+		$owner_id   = Factory::get_instance( SiteDefaults::class )->page_owner();
+		$store_name = Factory::get_instance( WCFMHelpers::class )->store_displayname( $owner_id, 'slug' );
 		if ( ! $store_name ) {
 			$store_name = 'yoga-for-life';
 		}
@@ -70,9 +71,8 @@ class WCFMConnect extends Shortcode {
 			return $render_block;
 		}
 
-		if (
-			! is_user_logged_in() || // // First Deal with Signed Out Users.
-			( ! $user_roles->is_wcfm_vendor() && ! $user_roles->is_wcfm_shop_staff() ) // Next deal with Plain Users.
+		if ( ! is_user_logged_in()  // // First Deal with Signed Out Users.
+			|| ( ! $user_roles->is_wcfm_vendor() && ! $user_roles->is_wcfm_shop_staff() ) // Next deal with Plain Users.
 		) {
 
 			$myvideoroom_app = MyVideoRoomApp::create_instance(
@@ -104,10 +104,10 @@ class WCFMConnect extends Shortcode {
 						$room_name,
 						$video_template,
 					)->enable_admin();
-					// Prepare Room Settings to Send to Wrapper Template - Host.
-					$header           = Factory::get_instance( SectionTemplates::class )->wcfmc_visitor_header();
-					$shortcode        = $myvideoroom_app->output_shortcode();
-					$admin_page       = Factory::get_instance( \MyVideoRoomExtrasPlugin\Shortcode\UserVideoPreference::class )->choose_settings(
+					   // Prepare Room Settings to Send to Wrapper Template - Host.
+					   $header        = Factory::get_instance( SectionTemplates::class )->wcfmc_visitor_header();
+					   $shortcode     = $myvideoroom_app->output_shortcode();
+					$admin_page       = Factory::get_instance( \ElementalPlugin\Shortcode\UserVideoPreference::class )->choose_settings(
 						$owner_id,
 						$store_name,
 						array( 'basic', 'premium' )
@@ -117,7 +117,7 @@ class WCFMConnect extends Shortcode {
 						$store_name
 					);
 
-					return Factory::get_instance( SectionTemplates::class )->shortcode_template_wrapper_wcfm( $header, $shortcode, $admin_page, $permissions_page );
+					   return Factory::get_instance( SectionTemplates::class )->shortcode_template_wrapper_wcfm( $header, $shortcode, $admin_page, $permissions_page );
 				}
 			}
 
@@ -130,7 +130,7 @@ class WCFMConnect extends Shortcode {
 				);
 
 				if ( $reception_setting ) {
-					$myvideoroom_app->enable_reception()->set_reception_id( $reception_template );
+					   $myvideoroom_app->enable_reception()->set_reception_id( $reception_template );
 
 					if ( $video_reception_state ) {
 						echo 'reception';

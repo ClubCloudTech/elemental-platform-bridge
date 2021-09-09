@@ -2,19 +2,20 @@
 /**
  * Data Access Object for user video preferences
  *
- * @package MyVideoRoomExtrasPlugin\DAO
+ * @package ElementalPlugin\DAO
  */
 
-namespace MyVideoRoomExtrasPlugin\DAO;
+namespace ElementalPlugin\DAO;
 
-use MyVideoRoomExtrasPlugin\Entity\UserVideoPreference as UserVideoPreferenceEntity;
+use ElementalPlugin\Entity\UserVideoPreference as UserVideoPreferenceEntity;
 
 /**
  * Class UserVideoPreference
  */
 class UserVideoPreference {
 
-	const TABLE_NAME = \MyVideoRoomExtrasPlugin\Core\SiteDefaults::TABLE_NAME_USER_VIDEO_PREFERENCE;
+
+	const TABLE_NAME = \ElementalPlugin\Core\SiteDefaults::TABLE_NAME_USER_VIDEO_PREFERENCE;
 
 
 	/**
@@ -31,8 +32,8 @@ class UserVideoPreference {
 
 		/*
 		$cache_key = $this->create_cache_key(
-			$user_video_preference->get_user_id(),
-			$user_video_preference->get_room_name()
+		$user_video_preference->get_user_id(),
+		$user_video_preference->get_room_name()
 		);*/
 
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
@@ -61,7 +62,7 @@ class UserVideoPreference {
 	/**
 	 * Get a User Video Preference from the database
 	 *
-	 * @param int    $user_id The user id.
+	 * @param int    $user_id   The user id.
 	 * @param string $room_name The room name.
 	 *
 	 * @return UserVideoPreferenceEntity|null
@@ -73,7 +74,7 @@ class UserVideoPreference {
 		$cached_result = wp_cache_get( $cache_key );
 
 		if ( $cached_result && $cached_result instanceof UserVideoPreferenceEntity ) {
-			return $cached_result;
+		return $cached_result;
 		}*/
 
 		$raw_sql = '
@@ -129,8 +130,8 @@ class UserVideoPreference {
 		global $wpdb;
 		/*
 		$cache_key = $this->create_cache_key(
-			$user_video_preference->get_user_id(),
-			$user_video_preference->get_room_name()
+		$user_video_preference->get_user_id(),
+		$user_video_preference->get_room_name()
 		);*/
 
 		$wpdb->show_errors();
@@ -176,8 +177,8 @@ class UserVideoPreference {
 
 		/*
 		$cache_key = $this->create_cache_key(
-			$user_video_preference->get_user_id(),
-			$user_video_preference->get_room_name()
+		$user_video_preference->get_user_id(),
+		$user_video_preference->get_room_name()
 		);*/
 
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
@@ -203,7 +204,7 @@ class UserVideoPreference {
 	/**
 	 * Create a cache key
 	 *
-	 * @param int    $user_id The user id.
+	 * @param int    $user_id   The user id.
 	 * @param string $room_name The room name.
 	 *
 	 * @return string
@@ -215,10 +216,10 @@ class UserVideoPreference {
 	/**
 	 * Get a Just Preference Data from the database
 	 *
-	 * @param int    $user_id The user id.
+	 * @param int    $user_id   The user id.
 	 * @param string $room_name The room name.
 	 *
-	 * Returns layout ID, Reception ID, or Reception Enabled Status
+	 *                          Returns layout ID, Reception ID, or Reception Enabled Status
 	 */
 	public function read_user_video_settings( int $user_id, string $room_name, string $return_type ) {
 		global $wpdb;
@@ -264,10 +265,10 @@ class UserVideoPreference {
 	/**
 	 * Get a Just Preference Data from the database
 	 *
-	 * @param int    $user_id The user id.
+	 * @param int    $user_id   The user id.
 	 * @param string $room_name The room name.
 	 *
-	 * Returns layout ID, Reception ID, or Reception Enabled Status
+	 *                          Returns layout ID, Reception ID, or Reception Enabled Status
 	 */
 	public function read_user_settings( int $user_id, string $room_name, string $return_type ) {
 		global $wpdb;
@@ -290,7 +291,7 @@ class UserVideoPreference {
 			)
 		);
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 		$row = $wpdb->get_row( $prepared_query );
 
 		return $row->$return_type;

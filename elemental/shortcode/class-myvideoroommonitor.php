@@ -2,15 +2,16 @@
 /**
  * Represents a myvideoroom_monitor shortcode
  *
- * @package MyVideoRoomExtrasPlugin\ValueObjects
+ * @package ElementalPlugin\ValueObjects
  */
 
-namespace MyVideoRoomExtrasPlugin\Shortcode;
+namespace ElementalPlugin\Shortcode;
 
 /**
  * Class MyVideoRoomMonitor
  */
 class MyVideoRoomMonitor extends Shortcode {
+
 
 	public const MYVIDEOROOM_MONITOR_SHORTCODE = 'myvideoroom_monitor';
 
@@ -74,13 +75,13 @@ class MyVideoRoomMonitor extends Shortcode {
 	/**
 	 * Create an instance - allows for easier chaining
 	 *
-	 * @param string $type The type of the monitor.
-	 * @param string $name The text to show while loading.
-	 * @param string $text_loading The text to show while loading.
-	 * @param string $text_empty The text to show if the room is empty.
-	 * @param string $text_single The text to show if a single person is in the room.
+	 * @param string $type              The type of the monitor.
+	 * @param string $name              The text to show while loading.
+	 * @param string $text_loading      The text to show while loading.
+	 * @param string $text_empty        The text to show if the room is empty.
+	 * @param string $text_single       The text to show if a single person is in the room.
 	 * @param string $text_single_plain The plain text to show if a single person is in the room.
-	 * @param string $text_plural The text to show if multiple people are in the room.
+	 * @param string $text_plural       The text to show if multiple people are in the room.
 	 * @param string $text_plural_plain The plain text to show if multiple people are in the room.
 	 *
 	 * @return static
@@ -93,7 +94,8 @@ class MyVideoRoomMonitor extends Shortcode {
 		string $text_single,
 		string $text_single_plain,
 		string $text_plural,
-		string $text_plural_plain ): self {
+		string $text_plural_plain
+	): self {
 		return new self(
 			$type,
 			$name,
@@ -110,13 +112,13 @@ class MyVideoRoomMonitor extends Shortcode {
 	/**
 	 * MyVideoRoomMonitor constructor.
 	 *
-	 * @param string $type The type of the monitor.
-	 * @param string $name The text to show while loading.
-	 * @param string $text_loading The text to show while loading.
-	 * @param string $text_empty The text to show if the room is empty.
-	 * @param string $text_single The text to show if a single person is in the room.
+	 * @param string $type              The type of the monitor.
+	 * @param string $name              The text to show while loading.
+	 * @param string $text_loading      The text to show while loading.
+	 * @param string $text_empty        The text to show if the room is empty.
+	 * @param string $text_single       The text to show if a single person is in the room.
 	 * @param string $text_single_plain The plain text to show if a single person is in the room.
-	 * @param string $text_plural The text to show if multiple people are in the room.
+	 * @param string $text_plural       The text to show if multiple people are in the room.
 	 * @param string $text_plural_plain The plain text to show if multiple people are in the room.
 	 */
 	public function __construct(

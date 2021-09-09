@@ -2,23 +2,24 @@
 /**
  * Data Access Object for user video preferences default room setup
  *
- * @package MyVideoRoomExtrasPlugin\DAO
+ * @package ElementalPlugin\DAO
  */
 
-namespace MyVideoRoomExtrasPlugin\DAO;
+namespace ElementalPlugin\DAO;
 
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\DAO\UserVideoPreference as UserVideoPreferenceDao;
-use MyVideoRoomExtrasPlugin\Entity\UserVideoPreference as UserVideoPreferenceEntity;
-use MyVideoRoomExtrasPlugin\Factory;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\DAO\UserVideoPreference as UserVideoPreferenceDao;
+use ElementalPlugin\Entity\UserVideoPreference as UserVideoPreferenceEntity;
+use ElementalPlugin\Factory;
 
 
 /**
  * Class UserVideoPreference
  */
 class RoomInit {
-	const TABLE_NAME = \MyVideoRoomExtrasPlugin\Core\SiteDefaults::TABLE_NAME_ROOM_MAP;
+
+	const TABLE_NAME = \ElementalPlugin\Core\SiteDefaults::TABLE_NAME_ROOM_MAP;
 
 
 
@@ -33,8 +34,8 @@ class RoomInit {
 
 		if ( $current_user_setting ) {
 			$current_user_setting->set_layout_id( $layout_id_to_set )
-								 ->set_reception_id( $reception_id_to_set )
-								 ->set_reception_enabled( $reception_enabled );
+				->set_reception_id( $reception_id_to_set )
+				->set_reception_enabled( $reception_enabled );
 			$video_preference_dao->update( $current_user_setting );
 		} else {
 			$current_user_setting = new UserVideoPreferenceEntity(

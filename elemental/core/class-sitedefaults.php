@@ -3,25 +3,26 @@
 /**
  * Default settings and params
  *
- * @package MyVideoRoomExtrasPlugin\Core
+ * @package ElementalPlugin\Core
  */
 
-namespace MyVideoRoomExtrasPlugin\Core;
+namespace ElementalPlugin\Core;
 
-use MyVideoRoomExtrasPlugin\UltimateMembershipPro\MembershipLevel;
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\WoocommerceBookings\ShortCodeConstructor;
-use MyVideoRoomExtrasPlugin\WoocommerceBookings\WCHelpers;
-use MyVideoRoomExtrasPlugin\WCFM\WCFMHelpers;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Dao\RoomMap;
+use ElementalPlugin\UltimateMembershipPro\MembershipLevel;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\WoocommerceBookings\ShortCodeConstructor;
+use ElementalPlugin\WoocommerceBookings\WCHelpers;
+use ElementalPlugin\WCFM\WCFMHelpers;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Dao\RoomMap;
 
 /**
  * Class SiteDefaults
  */
 class SiteDefaults extends Shortcode {
+
 
 	// For Personal Video Module.
 	const ROOM_NAME_PERSONAL_BOARDROOM              = 'personal-video-room';
@@ -90,14 +91,14 @@ class SiteDefaults extends Shortcode {
 	const MODULE_BUDDYPRESS_NAME = 'buddypress-module';
 	const MODULE_BUDDYPRESS_ID   = 4;
 
-		const MODULE_BUDDYPRESS_GROUP_NAME = 'buddypress-group-module';
-		const MODULE_BUDDYPRESS_GROUP_ID   = 8;
+	const MODULE_BUDDYPRESS_GROUP_NAME = 'buddypress-group-module';
+	const MODULE_BUDDYPRESS_GROUP_ID   = 8;
 
-		const MODULE_BUDDYPRESS_USER_NAME = 'buddypress-user-module';
-		const MODULE_BUDDYPRESS_USER_ID   = 9;
+	const MODULE_BUDDYPRESS_USER_NAME = 'buddypress-user-module';
+	const MODULE_BUDDYPRESS_USER_ID   = 9;
 
-		const MODULE_BUDDYPRESS_FRIENDS_NAME = 'buddypress-friends-module';
-		const MODULE_BUDDYPRESS_FRIENDS_ID   = 11;
+	const MODULE_BUDDYPRESS_FRIENDS_NAME = 'buddypress-friends-module';
+	const MODULE_BUDDYPRESS_FRIENDS_ID   = 11;
 
 	const MODULE_WCFM_NAME = 'wcfm-module';
 	const MODULE_WCFM_ID   = 6;
@@ -168,7 +169,7 @@ class SiteDefaults extends Shortcode {
 	// This function checks if Elementor is Active in Site
 
 	public function is_elementor_active() {
-		 include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 		if ( is_plugin_active( 'elementor/elementor.php' ) ) {
 			// plugin is active
@@ -412,7 +413,7 @@ class SiteDefaults extends Shortcode {
 		switch ( $type ) {
 			case 'numberupcomingbookings': // Number of Bookings to enter in header switches
 				return 2;
-				break;
+			break;
 			case 'timewindowfilter': // Time window to look for a booking to put a room monitor in- so 12 hours ahead is the max time a switch will look to put a room monitor in
 				return 43200;  // 12*60*60 is 12 hours in seconds;
 				break;
@@ -655,7 +656,7 @@ class SiteDefaults extends Shortcode {
 				$store_name = $this->get_instance( WCHelpers::class )->orderinfo_by_booking( 0, 'store_slug', $input_id );
 				// Handling Store not having been setup yet, we hash the store owner ID
 				if ( is_numeric( $store_name ) || $store_name == '' ) {
-					return $this->get_instance( MenuHelpers::class )->nice_name( (int) $input_id ) . \MyVideoRoomExtrasPlugin\Library\MeetingIdGenerator::get_meeting_hash_from_user_id( $input_id );
+					return $this->get_instance( MenuHelpers::class )->nice_name( (int) $input_id ) . \ElementalPlugin\Library\MeetingIdGenerator::get_meeting_hash_from_user_id( $input_id );
 				}
 				$output = preg_replace( '/[^A-Za-z0-9\-]/', '', $store_name ); // remove special characters from username
 

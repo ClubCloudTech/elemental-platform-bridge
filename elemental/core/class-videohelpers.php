@@ -5,15 +5,15 @@
  *
  * One function is added per setting
  *
- * @package MyVideoRoomExtrasPlugin\BuddyPressVideo
+ * @package ElementalPlugin\BuddyPressVideo
  */
 
-namespace MyVideoRoomExtrasPlugin\Core;
+namespace ElementalPlugin\Core;
 
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\DAO\UserVideoPreference as UserVideoPreferenceDao;
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\DAO\UserVideoPreference as UserVideoPreferenceDao;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Core\SiteDefaults;
 
 
 
@@ -22,6 +22,7 @@ use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
  * Class Template
  */
 class VideoHelpers extends Shortcode {
+
 
 
 	/**
@@ -92,10 +93,10 @@ class VideoHelpers extends Shortcode {
 		}
 		// Now Try the Category Preference
 
-			$current_user_setting = $video_preference_dao->read(
-				SiteDefaults::USER_ID_SITE_DEFAULTS,
-				$room_name
-			);
+		$current_user_setting = $video_preference_dao->read(
+			SiteDefaults::USER_ID_SITE_DEFAULTS,
+			$room_name
+		);
 
 		if ( $current_user_setting && $current_user_setting->get_reception_video_url_setting() ) {
 			return $current_user_setting->get_reception_video_url_setting();
@@ -241,7 +242,7 @@ class VideoHelpers extends Shortcode {
 	 * Show Floorplan Function
 	 * Gets the floorplan setting for a user
 	 *
-	 * @param  int    $user_id - required.
+	 * @param  int    $user_id   - required.
 	 * @param  string $room_name - required.
 	 * @return void
 	 */

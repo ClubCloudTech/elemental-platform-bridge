@@ -2,7 +2,7 @@
 /**
  * Outputs the security configuration settings for the video plugin
  *
- * @package MyVideoRoomExtrasPlugin\Views\Admin
+ * @package ElementalPlugin\Views\Admin
  */
 
 /**
@@ -14,11 +14,11 @@
  *
  * @return string
  */
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Library\Templates\SecurityButtons;
-use MyVideoRoomExtrasPlugin\Setup\RoomAdmin;
-use MyVideoRoomExtrasPlugin\DAO\ModuleConfig;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Library\Templates\SecurityButtons;
+use ElementalPlugin\Setup\RoomAdmin;
+use ElementalPlugin\DAO\ModuleConfig;
 
 return function (
 	string $active_tab,
@@ -35,9 +35,9 @@ return function (
 	<div class="security-wrap">
 
 		<h1 style ="display: inline">Room Security Modules</h1> 
-		<?php
-		echo Factory::get_instance( SecurityButtons::class )->site_wide_enabled();
-		?>
+	<?php
+	echo Factory::get_instance( SecurityButtons::class )->site_wide_enabled();
+	?>
 
 		<p> The Room Security Module adds permissions settings to each room that a user can manage, including what
 		groups and roles are allowed or denied, if anonymous users are allowed, and some module specific security
@@ -45,12 +45,12 @@ return function (
 		and every room, and gives security settings on a per room type, and plugin basis. 
 		</p>
 
-		<?php
-		// Activation/module.
-		if ( ! Factory::get_instance( ModuleConfig::class )->module_activation_button( SiteDefaults::MODULE_SECURITY_ID ) ) {
-			return '';
-		}
-		?>
+	<?php
+	// Activation/module.
+	if ( ! Factory::get_instance( ModuleConfig::class )->module_activation_button( SiteDefaults::MODULE_SECURITY_ID ) ) {
+		return '';
+	}
+	?>
 
 
 		<h2>Current Room Security Information</h2>
@@ -65,8 +65,8 @@ return function (
 				<tr>
 					<td style="width:25%; text-align: left;">
 						<?php
-							$title = Factory::get_instance( RoomAdmin::class )
-							->get_videoroom_info( 'site-video-room', 'title' );
+						$title = Factory::get_instance( RoomAdmin::class )
+						->get_videoroom_info( 'site-video-room', 'title' );
 						if ( $title ) {
 							echo $title;
 						}
@@ -74,8 +74,8 @@ return function (
 						</td>
 					<td style="width:25%; text-align: left;">
 						<?php
-							$url = Factory::get_instance( RoomAdmin::class )
-							->get_videoroom_info( 'site-video-room', 'url' );
+						$url = Factory::get_instance( RoomAdmin::class )
+						->get_videoroom_info( 'site-video-room', 'url' );
 						if ( $url ) {
 							echo '<a href="' . $url . '" target="_blank">' . $url . '</a>';
 						}
@@ -83,8 +83,8 @@ return function (
 						</td>
 					<td style="width:25%; text-align: left;">
 					<?php
-						$post_id_return = Factory::get_instance( RoomAdmin::class )
-						->get_videoroom_info( 'site-video-room', 'post_id' );
+					$post_id_return = Factory::get_instance( RoomAdmin::class )
+					->get_videoroom_info( 'site-video-room', 'post_id' );
 					if ( $post_id_return ) {
 						echo $post_id_return;
 					}
@@ -117,13 +117,13 @@ return function (
 			<a id="disabled"></a>
 			<h1>Room Security Settings</h1>
 	<?php
-		$layout_setting = Factory::get_instance( \MyVideoRoomExtrasPlugin\Shortcode\SecurityVideoPreference::class )
-		->choose_settings(
-			SiteDefaults::USER_ID_SITE_DEFAULTS,
-			SiteDefaults::ROOM_NAME_SITE_DEFAULT,
-			null,
-			'admin'
-		);
+	$layout_setting = Factory::get_instance( \ElementalPlugin\Shortcode\SecurityVideoPreference::class )
+	->choose_settings(
+		SiteDefaults::USER_ID_SITE_DEFAULTS,
+		SiteDefaults::ROOM_NAME_SITE_DEFAULT,
+		null,
+		'admin'
+	);
 
 			echo $layout_setting;
 	?>
@@ -132,8 +132,8 @@ return function (
 	<div>
 
 	<?php
-		Factory::get_instance( \MyVideoRoomExtrasPlugin\Library\ShortcodeDocuments::class )
-		->render_sitevideoroom_shortcode_docs();
+	Factory::get_instance( \ElementalPlugin\Library\ShortcodeDocuments::class )
+	->render_sitevideoroom_shortcode_docs();
 	?>
 
 	</div>

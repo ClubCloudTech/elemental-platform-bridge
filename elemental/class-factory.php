@@ -3,16 +3,18 @@
  * A factory method to create new objects
  * Allows for easy mocking in tests f
  *
- * @package MyVideoRoomExtrasPlugin */
+ * @package ElementalPlugin
+ */
 
 declare(strict_types=1);
 
-namespace MyVideoRoomExtrasPlugin;
+namespace ElementalPlugin;
 
 /**
  * Class Factory
  */
 class Factory {
+
 
 
 	/**

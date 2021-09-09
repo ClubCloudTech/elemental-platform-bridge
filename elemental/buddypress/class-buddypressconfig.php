@@ -2,14 +2,14 @@
 /**
  * Addon functionality for BuddyPress -Video Room Handlers for BuddyPress
  *
- * @package MyVideoRoomExtrasPlugin\BuddyPressVideo
+ * @package ElementalPlugin\BuddyPressVideo
  */
 
-namespace MyVideoRoomExtrasPlugin\BuddyPress;
+namespace ElementalPlugin\BuddyPress;
 
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDAO;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
+use ElementalPlugin\Factory;
+use ElementalPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDAO;
+use ElementalPlugin\Core\SiteDefaults;
 
 /**
  * Class BuddyPress
@@ -17,13 +17,14 @@ use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
 class BuddyPressConfig {
 
 
+
 	/**
 	 * Render_group_menu_options
 	 *
-	 * @param    int    $user_id - required.
-	 * @param    string $room_name - required.
-	 * @param    int    $id_index - required.
-	 * @return   null
+	 * @param  int    $user_id   - required.
+	 * @param  string $room_name - required.
+	 * @param  int    $id_index  - required.
+	 * @return null
 	 */
 	public function render_group_menu_options( int $user_id, string $room_name, int $id_index ) {
 
@@ -63,15 +64,15 @@ class BuddyPressConfig {
 		?>
 
 						Currently set to:  
-						<?php
-						// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized  --  Sanitised in construction of options above.
-							echo $current_selection;
-						?>
+		<?php
+         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized  --  Sanitised in construction of options above.
+			echo $current_selection;
+			?>
 
-						<option value="Administrators">Administrators Only</option>	
+						<option value="Administrators">Administrators Only</option>    
 						<option value="Moderators">Moderators and above</option>
 						<option value="Members">Members and above</option>
-						<option value="">Turned Off- all roles allowed</option>				
+						<option value="">Turned Off- all roles allowed</option>                
 
 					</select>
 
@@ -89,10 +90,10 @@ class BuddyPressConfig {
 	/**
 	 * Render_friends_menu_options - Formats Friends Security Dialog Box selectors.
 	 *
-	 * @param    int    $user_id - required.
-	 * @param    string $room_name - required.
-	 * @param    int    $id_index - required.
-	 * @return   null
+	 * @param  int    $user_id   - required.
+	 * @param  string $room_name - required.
+	 * @param  int    $id_index  - required.
+	 * @return null
 	 */
 	public function render_friends_menu_options( int $user_id, string $room_name, int $id_index ) {
 
@@ -115,7 +116,7 @@ class BuddyPressConfig {
 		} elseif ( ! $current_selection && $site_override ) {
 			$current_selection_text = 'Current Setting->Override Active - Turned Off';
 		} elseif ( ! $current_selection && ! $site_override ) {
-				$current_selection_text = 'Current Setting->User Decides';
+			$current_selection_text = 'Current Setting->User Decides';
 		}
 		// Format Display Box if there WAS a setting returned.
 		if ( ! $current_selection_text ) {
@@ -123,9 +124,9 @@ class BuddyPressConfig {
 		}
 		?>
 						<option value="<?php echo esc_html( $current_selection ); ?>"><?php echo esc_html( $current_selection_text ); ?> </option>
-						<option value="Stealth-Remove-Video">Stealth- Remove Video Tab from My Profile to Non-Friends</option>	
+						<option value="Stealth-Remove-Video">Stealth- Remove Video Tab from My Profile to Non-Friends</option>    
 						<option value="Do-Not-Disturb">Do Not Disturb Page - Show to Non Friends</option>
-						<option value="">Allow All- Friends and Non-Friends allowed</option>			
+						<option value="">Allow All- Friends and Non-Friends allowed</option>            
 					</select>
 							<p>
 								You can chose if you want to restrict access to your Video Room. This setting has an option to allow all users to access your room(default), or to enable access control.

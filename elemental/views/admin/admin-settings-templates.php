@@ -2,7 +2,7 @@
 /**
  * Outputs the configuration settings for the video plugin
  *
- * @package MyVideoRoomExtrasPlugin\Views\Admin
+ * @package ElementalPlugin\Views\Admin
  */
 
 /**
@@ -14,16 +14,16 @@
  *
  * @return string
  */
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Library\AdminTemplates;
-use MyVideoRoomExtrasPlugin\Library\Templates\SecurityButtons;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Library\AdminTemplates;
+use ElementalPlugin\Library\Templates\SecurityButtons;
 return function (
 	string $active_tab,
 	array $tabs,
 	array $messages = array()
 ): string {
 
-	$render = require __DIR__ . '/header.php';
+	$render = include __DIR__ . '/header.php';
 	echo $render( $active_tab, $tabs, $messages );
 	ob_start();
 	// phpcs:ignore -- not needed as escaped in function

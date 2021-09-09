@@ -2,22 +2,23 @@
 /**
  * Display Shortcode Documentation
  *
- * @package MyVideoRoomExtrasPlugin\Library
+ * @package ElementalPlugin\Library
  */
 
-namespace MyVideoRoomExtrasPlugin\Library;
+namespace ElementalPlugin\Library;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Core\VideoControllers;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\WoocommerceBookings\Connect;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Core\VideoControllers;
+use ElementalPlugin\Factory;
+use ElementalPlugin\WoocommerceBookings\Connect;
+use ElementalPlugin\Shortcode as Shortcode;
 
 
 /**
  * Provides Helper Shortcodes for Usage
  */
 class ShortcodeHelpers extends Shortcode {
+
 
 	/**
 	 * Install the shortcodes
@@ -42,11 +43,11 @@ class ShortcodeHelpers extends Shortcode {
 </table>
 	<h1>Site Video Room Settings</h1>
 	<p> The Site Video Room is available for Team wide meetings at the website level. It is created automatically by the plugin, at activation. It can be secured such that any normal
-	site administrator is an owner of the room<br>	</p>
+	site administrator is an owner of the room<br>    </p>
 		<?php
-		$layout_setting = \MyVideoRoomExtrasPlugin\Factory::get_instance( \MyVideoRoomExtrasPlugin\Shortcode\UserVideoPreference::class )->choose_settings(
-			\MyVideoRoomExtrasPlugin\Core\SiteDefaults::USER_ID_SITE_DEFAULTS,
-			\MyVideoRoomExtrasPlugin\Core\SiteDefaults::ROOM_NAME_SITE_VIDEO,
+		$layout_setting = \ElementalPlugin\Factory::get_instance( \ElementalPlugin\Shortcode\UserVideoPreference::class )->choose_settings(
+			\ElementalPlugin\Core\SiteDefaults::USER_ID_SITE_DEFAULTS,
+			\ElementalPlugin\Core\SiteDefaults::ROOM_NAME_SITE_VIDEO,
 			array( 'basic', 'premium' )
 		);
 		echo $layout_setting;
@@ -74,11 +75,11 @@ class ShortcodeHelpers extends Shortcode {
 					
 	</table>
 		<h1>Personal Meeting Video Room Settings</h1>
-		<p> The Personal Video Room is private to each user. Use these settings to update your room configuration, privacy, and video layouts<br>	</p>
+		<p> The Personal Video Room is private to each user. Use these settings to update your room configuration, privacy, and video layouts<br>    </p>
 		<?php
-		$layout_setting = \MyVideoRoomExtrasPlugin\Factory::get_instance( \MyVideoRoomExtrasPlugin\Shortcode\UserVideoPreference::class )->choose_settings(
+		$layout_setting = \ElementalPlugin\Factory::get_instance( \ElementalPlugin\Shortcode\UserVideoPreference::class )->choose_settings(
 			$user_id,
-			\MyVideoRoomExtrasPlugin\Core\SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM,
+			\ElementalPlugin\Core\SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM,
 			array( 'basic', 'premium' )
 		);
 		echo $layout_setting;

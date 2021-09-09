@@ -2,22 +2,23 @@
 /**
  * Shortcodes fro woocommerce bookings
  *
- * @package MyVideoRoomExtrasPlugin\WoocommerceBookings
+ * @package ElementalPlugin\WoocommerceBookings
  */
 
-namespace MyVideoRoomExtrasPlugin\WoocommerceBookings;
+namespace ElementalPlugin\WoocommerceBookings;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Library\MeetingIdGenerator;
-use MyVideoRoomExtrasPlugin\Shortcode\MyVideoRoomApp;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Library\MeetingIdGenerator;
+use ElementalPlugin\Shortcode\MyVideoRoomApp;
 
 
 /**
  * Class ShortCodeConstructor
  */
 class ShortCodeConstructor extends Shortcode {
+
 
 
 	/**
@@ -31,9 +32,9 @@ class ShortCodeConstructor extends Shortcode {
 	}
 
 	/*
-		Constructs the MyVideoRoom App Shortcode correctly with right settings
-		# Arguments - Shortcode Type, Order Number, VendorID(optional), XProfile Field Number, BookingID, and Time Offset)
-		# Returns - a correctly formatted shortcode, or rejection of Booking information*/
+	Constructs the MyVideoRoom App Shortcode correctly with right settings
+	# Arguments - Shortcode Type, Order Number, VendorID(optional), XProfile Field Number, BookingID, and Time Offset)
+	# Returns - a correctly formatted shortcode, or rejection of Booking information*/
 	public function shortcode_build( $sc_type, $ordernum, $vendor_id, $xprofile_field, $booking_id, $time_offset, $showpast ) {
 		global $WCFM, $WCFMmp;
 		if ( $booking_id != '' && is_array( $booking_id ) == false ) {
@@ -47,7 +48,7 @@ class ShortCodeConstructor extends Shortcode {
 		if ( is_array( $booking_id ) == true ) {
 			$bookingout = array();
 			foreach ( $booking_id as $bookingitem ) {
-				$vendor_temp = $this->get_instance( \MyVideoRoomExtrasPlugin\WooCommerceBookings\WCHelpers::class )->validate_booking_time( $bookingitem, (int) $time_offset, 'singleid', $xprofile_field );
+				$vendor_temp = $this->get_instance( \ElementalPlugin\WooCommerceBookings\WCHelpers::class )->validate_booking_time( $bookingitem, (int) $time_offset, 'singleid', $xprofile_field );
 				if ( $vendor_temp != '' ) {
 					array_push( $bookingout, $vendor_temp );
 				}

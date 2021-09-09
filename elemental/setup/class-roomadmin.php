@@ -2,21 +2,22 @@
 /**
  * Room Admin Functions
  *
- * @package MyVideoRoomExtrasPlugin\RoomAdmin
+ * @package ElementalPlugin\RoomAdmin
  */
 
-namespace MyVideoRoomExtrasPlugin\Setup;
+namespace ElementalPlugin\Setup;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\DAO\RoomMap;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\DAO\UserVideoPreference as UserVideoPreferenceDao;
-use MyVideoRoomExtrasPlugin\Factory;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\DAO\RoomMap;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\DAO\UserVideoPreference as UserVideoPreferenceDao;
+use ElementalPlugin\Factory;
 
 /**
  * Class RoomAdmin
  */
 class RoomAdmin extends Shortcode {
+
 
 	const TABLE_NAME = SiteDefaults::TABLE_NAME_ROOM_MAP;
 
@@ -53,14 +54,15 @@ class RoomAdmin extends Shortcode {
 	 * Returns Video Page information of pages created in the database.
 	 *
 	 * @param string $room_name - name of room.
-	 * @param string $type - type of room.
+	 * @param string $type      - type of room.
 	 *
 	 * @return bool|int|string|null
 	 */
 	public function get_videoroom_info( string $room_name, string $type = 'name' ) {
 		// Trap Blank Input.
 		if ( ! $room_name ) {
-			return null;}
+			return null;
+		}
 		// Get Data from Database.
 		$room_post_id = Factory::get_instance( RoomMap::class )->read( $room_name );
 		// Retrieve Post Object from Post.
@@ -89,10 +91,10 @@ class RoomAdmin extends Shortcode {
 	/**
 	 * Create a page into the Worpress environment, register in page table, and ensure its enabled.
 	 *
-	 * @param  string $room_name - name of room to build.
+	 * @param  string $room_name     - name of room to build.
 	 * @param  string $display_title - Title of Page.
-	 * @param  string $slug - Worpress Slug to assign page.
-	 * @param  string $shortcode - Shortcode to place on page.
+	 * @param  string $slug          - Worpress Slug to assign page.
+	 * @param  string $shortcode     - Shortcode to place on page.
 	 * @return null  - page executes database functions doesn't return to user.
 	 */
 	public function create_and_check_page( string $room_name, string $display_title, string $slug, string $shortcode ) {

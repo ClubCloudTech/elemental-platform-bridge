@@ -2,7 +2,7 @@
 /**
  * Outputs the configuration settings for the video plugin
  *
- * @package MyVideoRoomExtrasPlugin\Views\Admin
+ * @package ElementalPlugin\Views\Admin
  */
 
 /**
@@ -16,12 +16,12 @@
  */
 
 
-use MyVideoRoomExtrasPlugin\Library\AdminTemplates;
-use MyVideoRoomExtrasPlugin\Shortcode\ShortcodeVisualiser;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Setup\RoomAdmin;
-use MyVideoRoomExtrasPlugin\Library\ShortcodeDocuments;
+use ElementalPlugin\Library\AdminTemplates;
+use ElementalPlugin\Shortcode\ShortcodeVisualiser;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Setup\RoomAdmin;
+use ElementalPlugin\Library\ShortcodeDocuments;
 
 return function (
 	string $active_tab,
@@ -29,7 +29,7 @@ return function (
 	array $messages = array()
 ): string {
 
-	$render = require __DIR__ . '/header.php';
+	$render = include __DIR__ . '/header.php';
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped. 
 	echo $render( $active_tab, $tabs, $messages );
 	ob_start();
@@ -160,7 +160,7 @@ return function (
 				<tr>
 					<td style="width:25%; text-align: left;">
 					<?php
-						$title = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'meet-center', 'title' );
+					$title = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'meet-center', 'title' );
 					if ( $title ) {
 						echo esc_url_raw( $title );
 					}
@@ -170,7 +170,8 @@ return function (
 					<?php
 					$url = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'meet-center', 'url' );
 					if ( $url ) {
-						echo '<a href="' . esc_url_raw( $url ) . '" target="_blank">' . esc_url_raw( $url ) . '</a>';}
+						echo '<a href="' . esc_url_raw( $url ) . '" target="_blank">' . esc_url_raw( $url ) . '</a>';
+					}
 					?>
 					</td>
 
@@ -238,9 +239,9 @@ return function (
 
 				<h2>All Shortcodes</h2>
 				<p>This section shows all available shortcodes that are possible with the plugin in all modules. To view just installed shortcodes please click on the Installed Tab</p>
-			<?php
-			Factory::get_instance( \MyVideoRoomExtrasPlugin\Library\ShortcodeDocuments::class )->render_all_shortcode_docs();
-			?>
+	<?php
+	Factory::get_instance( \ElementalPlugin\Library\ShortcodeDocuments::class )->render_all_shortcode_docs();
+	?>
 			</div>
 
 			<div id="page4" style="

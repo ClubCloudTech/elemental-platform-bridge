@@ -2,17 +2,18 @@
 /**
  * Addon functionality for BuddyPress -Video Room Handlers for BuddyPress
  *
- * @package MyVideoRoomExtrasPlugin\BuddyPressVideo
+ * @package ElementalPlugin\BuddyPressVideo
  */
 
-namespace MyVideoRoomExtrasPlugin\Template;
+namespace ElementalPlugin\Template;
 
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Shortcode as Shortcode;
 
 /**
  * Class Template
  */
 class Template extends Shortcode {
+
 
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * Outputs the header for admin pages
  *
- * @package MyVideoRoomExtrasPlugin\Views\Admin
+ * @package ElementalPlugin\Views\Admin
  */
 
 return function (
@@ -31,24 +31,24 @@ return function (
 
 
 	<h2 class="nav-tab-wrapper">
-		<?php
-		foreach ( $tabs as $tab_key => $tab_name ) {
-			$active = '';
-			if ( $active_tab === $tab_key ) {
-				$active = ' nav-tab-active';
-			}
-
-			echo '<a class="nav-tab' . esc_attr( $active ) . '" href="?page=my-video-room-extras&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_name ) . '</a>';
+	<?php
+	foreach ( $tabs as $tab_key => $tab_name ) {
+		$active = '';
+		if ( $active_tab === $tab_key ) {
+			$active = ' nav-tab-active';
 		}
-		?>
+
+		echo '<a class="nav-tab' . esc_attr( $active ) . '" href="?page=my-video-room-extras&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_name ) . '</a>';
+	}
+	?>
 	</h2>
 
 	<ul>
-		<?php
-		foreach ( $messages as $message ) {
-			echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
-		}
-		?>
+	<?php
+	foreach ( $messages as $message ) {
+		echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
+	}
+	?>
 	</ul>
 	<?php
 	return ob_get_clean();

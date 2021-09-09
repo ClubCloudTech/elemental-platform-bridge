@@ -2,15 +2,16 @@
 /**
  * A User Video Preference
  *
- * @package MyVideoRoomExtrasPlugin\Entity
+ * @package ElementalPlugin\Entity
  */
 
-namespace MyVideoRoomExtrasPlugin\Entity;
+namespace ElementalPlugin\Entity;
 
 /**
  * Class UserVideoPreference
  */
 class UserVideoPreference {
+
 
 	private int $user_id;
 	private string $room_name;
@@ -39,7 +40,6 @@ class UserVideoPreference {
 		bool $reception_video_enabled = false,
 		string $reception_video_url = null,
 		bool $show_floorplan = false
-
 	) {
 		$this->user_id                 = $user_id;
 		$this->room_name               = $room_name;
@@ -154,9 +154,9 @@ class UserVideoPreference {
 
 
 
-		/**
-		 * @return bool
-		 */
+	/**
+	 * @return bool
+	 */
 	public function get_show_floorplan_setting(): bool {
 		return $this->show_floorplan;
 	}

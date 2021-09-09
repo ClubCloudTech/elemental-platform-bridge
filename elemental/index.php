@@ -2,7 +2,7 @@
 /**
  * My Video Room Extras Plugin Initializer. Will be auto-called by WordPress
  *
- * @package MyVideoRoomExtrasPlugin
+ * @package ElementalPlugin
  */
 
 declare(strict_types=1);
@@ -21,7 +21,7 @@ declare(strict_types=1);
  */
 
 
-namespace MyVideoRoomExtrasPlugin;
+namespace ElementalPlugin;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -42,10 +42,10 @@ if ( ! class_exists( Plugin::class ) ) {
 	 * @return boolean
 	 */
 	function autoloader( string $class_name ): bool {
-		if ( strpos( $class_name, 'MyVideoRoomExtrasPlugin' ) === 0 ) {
+		if ( strpos( $class_name, 'ElementalPlugin' ) === 0 ) {
 			$src_location = realpath( plugin_dir_path( __FILE__ ) ) . DIRECTORY_SEPARATOR;
 
-			$file_name = str_replace( 'MyVideoRoomExtrasPlugin\\', '', $class_name );
+			$file_name = str_replace( 'ElementalPlugin\\', '', $class_name );
 			$file_name = strtolower( $file_name );
 
 			$file_name = str_replace( '\\', DIRECTORY_SEPARATOR, $file_name ) . '.php';
@@ -56,7 +56,7 @@ if ( ! class_exists( Plugin::class ) ) {
 			if ( ! file_exists( $location ) ) {
 
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+                 // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 					trigger_error(
 						esc_html( 'Failed to include "' . $src_location . $path['dirname'] . '/class-' . $path['basename'] . '"' ),
 						E_USER_ERROR
@@ -72,12 +72,10 @@ if ( ! class_exists( Plugin::class ) ) {
 		return false;
 	}
 
-	spl_autoload_register( 'MyVideoRoomExtrasPlugin\autoloader' );
+	spl_autoload_register( 'ElementalPlugin\autoloader' );
 
 	add_action( 'plugins_loaded', array( Plugin::class, 'init' ) );
 	register_activation_hook( __FILE__, array( Activation::class, 'activate' ) );
 	register_uninstall_hook( __FILE__, array( Activation::class, 'uninstall' ) );
 
-	require_once __DIR__ . '/globals.php';
 }
-

@@ -2,22 +2,23 @@
 /**
  * Helpers for Woocommerce Bookings
  *
- * @package MyVideoRoomExtrasPlugin\WoocommerceBookings
+ * @package ElementalPlugin\WoocommerceBookings
  */
 
-namespace MyVideoRoomExtrasPlugin\WoocommerceBookings;
+namespace ElementalPlugin\WoocommerceBookings;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Shortcode\MyVideoRoomApp;
-use MyVideoRoomExtrasPlugin\WCFM\WCFMHelpers;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Shortcode\MyVideoRoomApp;
+use ElementalPlugin\WCFM\WCFMHelpers;
 
 /**
  * Class WCHelpers
  */
 class WCHelpers extends Shortcode {
+
 
 	/**
 	 * Install the shortcode
@@ -319,8 +320,8 @@ class WCHelpers extends Shortcode {
 	/**
 	 * Club Cloud - A Function to Filter Expired Bookings
 	 *
-	 * @param $booking BookingID - passed into it as string
-	 * @param $time_offset TimeOffset (to check how long in future we allow meetings to be entered)
+	 * @param $booking            BookingID - passed into it as string
+	 * @param $time_offset        TimeOffset (to check how long in future we allow meetings to be entered)
 	 * @param $return_menu_option if Menu items for multiple bookings need to be constructed
 	 * @param $xprofile_field
 	 *
@@ -363,18 +364,17 @@ class WCHelpers extends Shortcode {
 		}
 
 		// Construct Messages.
-		if (
-			in_array(
-				$return_menu_option,
-				array(
-					'singlebook',
-					'message',
-					'singleid',
-					'merchantbook',
-					'messagecustomer',
-				),
-				true
-			)
+		if ( in_array(
+			$return_menu_option,
+			array(
+				'singlebook',
+				'message',
+				'singleid',
+				'merchantbook',
+				'messagecustomer',
+			),
+			true
+		)
 		) {
 			// return $return_menu_option." RetMenu at 1669<br>";
 			// Get template for room
@@ -479,8 +479,8 @@ class WCHelpers extends Shortcode {
 	 * the Processing and Completed emails sent from WooCommerce itself.
 	 *
 	 * @param array  $attachments Current array of attachments being filtered.
-	 * @param string $email_id The id of the email being sent.
-	 * @param object $order The order for which the email is being sent.
+	 * @param string $email_id    The id of the email being sent.
+	 * @param object $order       The order for which the email is being sent.
 	 *
 	 * @return array The filtered list of attachments.
 	 */

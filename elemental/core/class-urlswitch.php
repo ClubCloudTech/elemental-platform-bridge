@@ -2,22 +2,23 @@
 /**
  * Shortcodes for URLS
  *
- * @package MyVideoRoomExtrasPlugin\Core
+ * @package ElementalPlugin\Core
  */
 
-namespace MyVideoRoomExtrasPlugin\Core;
+namespace ElementalPlugin\Core;
 
-use MyVideoRoomExtrasPlugin\UltimateMembershipPro\MembershipLevel;
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Shortcode\UserVideoPreference;
-use MyVideoRoomExtrasPlugin\WoocommerceBookings\WCHelpers;
-use MyVideoRoomExtrasPlugin\WCFM\WCFMHelpers;
+use ElementalPlugin\UltimateMembershipPro\MembershipLevel;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Shortcode\UserVideoPreference;
+use ElementalPlugin\WoocommerceBookings\WCHelpers;
+use ElementalPlugin\WCFM\WCFMHelpers;
 
 /**
  * Class URLSwitch
  */
 class URLSwitch extends Shortcode {
+
 
 
 	/**
@@ -166,8 +167,8 @@ class URLSwitch extends Shortcode {
 				for ( $x = 0; $x <= $array_count - 1; $x ++ ) {
 					switch ( $membership_level[ $x ] ) {
 						case MembershipLevel::BUSINESS:
-							$store_user = \wcfmmp_get_store( $user->ID );
-							$store_info = $store_user->get_shop_info();
+								$store_user = \wcfmmp_get_store( $user->ID );
+								$store_info = $store_user->get_shop_info();
 							return '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $store_info['store_slug'] . '/profile/edit/group/2/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
 						case MembershipLevel::PREMIUM:
 							$store_user = \wcfmmp_get_store( $user->ID );
@@ -189,15 +190,15 @@ class URLSwitch extends Shortcode {
 
 				switch ( true ) {
 					case $user_roles->is_wcfm_vendor():
-						$store_user = wcfmmp_get_store( $user->ID );
-						$store_info = $store_user->get_shop_info();
+							$store_user = wcfmmp_get_store( $user->ID );
+							$store_info = $store_user->get_shop_info();
 						return '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $store_info['store_slug'] . '/profile/edit/group/2/" width="1600px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
 
 					case $user_roles->is_wcfm_shop_staff():
 						return '<div style="font-size:1.5em;color:black">Staff Members cannot Access Store Video Appearance <br></div>';
 
 					default:
-						// If they aren't a vendor then we simply return User Login.
+							 // If they aren't a vendor then we simply return User Login.
 						return '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $user->user_login . '/profile/edit/group/2/" width="1600px" height="900px" frameborder="0" scrolling="yes" align="left"></iframe>';
 				}
 				// Returning Basic or Premium Personal Boardroom Type Configuration Windows from Calls from Buttons.
@@ -210,18 +211,18 @@ class URLSwitch extends Shortcode {
 				for ( $x = 0; $x <= $array_count - 1; $x ++ ) {
 					switch ( $membership_level[ $x ] ) {
 						case MembershipLevel::BUSINESS:
-							$layout_setting = $this->get_instance( UserVideoPreference::class )->choose_settings(
-								$user->ID,
-								SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM,
-								array( 'basic', 'premium' )
-							);
+									$layout_setting = $this->get_instance( UserVideoPreference::class )->choose_settings(
+										$user->ID,
+										SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM,
+										array( 'basic', 'premium' )
+									);
 
-							$store_user = \wcfmmp_get_store( $user->ID );
-							$store_info = $store_user->get_shop_info();
+									$store_user = \wcfmmp_get_store( $user->ID );
+									$store_info = $store_user->get_shop_info();
 
 							return $layout_setting;
-							// MVR_ change backup return $layout_setting . '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $store_info['store_slug'] . '/profile/edit/group/4/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
-							break;
+									// MVR_ change backup return $layout_setting . '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $store_info['store_slug'] . '/profile/edit/group/4/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
+									break;
 						case MembershipLevel::PREMIUM:
 							$layout_setting = $this->get_instance( UserVideoPreference::class )->choose_settings(
 								$user->ID,
@@ -233,8 +234,8 @@ class URLSwitch extends Shortcode {
 							$store_info = $store_user->get_shop_info();
 
 							return $layout_setting;
-							// MVR_ change backup return $layout_setting . '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $store_info['store_slug'] . '/profile/edit/group/4/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
-							break;
+									// MVR_ change backup return $layout_setting . '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $store_info['store_slug'] . '/profile/edit/group/4/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
+									break;
 						case MembershipLevel::BASIC:
 							$layout_setting = $this->get_instance( UserVideoPreference::class )->choose_settings(
 								$user->ID,
@@ -245,16 +246,17 @@ class URLSwitch extends Shortcode {
 							$store_user = \wcfmmp_get_store( $user->ID );
 							$store_info = $store_user->get_shop_info();
 							return $layout_setting;
-							// return $layout_setting . '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $store_info['store_slug'] . '/profile/edit/group/9/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
-							break;
+									// return $layout_setting . '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $store_info['store_slug'] . '/profile/edit/group/9/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
+									break;
 
-						// @TODO Fred- fix this membership logic
+									// @TODO Fred- fix this membership logic
 						case MembershipLevel::VENDOR_STAFF:
 							$parent_id = $user->_wcfm_vendor;
 							if ( $this->get_instance( SiteDefaults::class )->is_premium_check( $parent_id ) == true ) {
-								return '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $user->user_nicename . '/profile/edit/group/4/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
+								  return '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $user->user_nicename . '/profile/edit/group/4/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
 							} else {
-								return '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $user->user_nicename . '/profile/edit/group/9/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>'; }
+								return '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $user->user_nicename . '/profile/edit/group/9/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
+							}
 					}
 				}
 
@@ -282,7 +284,7 @@ class URLSwitch extends Shortcode {
 							$store_user = \wcfmmp_get_store( $user->ID );
 							$store_info = $store_user->get_shop_info();
 							return '<iframe style="visibility: hidden;" onload="removeHeader()" name="iframe1" id="iframe1" src="/users/' . $store_info['store_slug'] . '/profile/edit/group/5/" width="1200px" height="900px" frameborder="0" scrolling="yes" align="left"> </iframe>';
-							break;
+						break;
 						case MembershipLevel::PREMIUM:
 							$store_user = \wcfmmp_get_store( $user->ID );
 							$store_info = $store_user->get_shop_info();
@@ -348,15 +350,18 @@ class URLSwitch extends Shortcode {
 					switch ( $membership_level[ $x ] ) {
 						case MembershipLevel::BUSINESS:
 							if ( $owner_id === $user->id ) {
-								return \do_shortcode( '[elementor-template id="36300"]' );}
+								return \do_shortcode( '[elementor-template id="36300"]' );
+							}
 
 							break;              case MembershipLevel::PREMIUM:
 							if ( $owner_id === $user->id ) {
-								return \do_shortcode( '[elementor-template id="36300"]' );}
+								return \do_shortcode( '[elementor-template id="36300"]' );
+							}
 
 													break;          case MembershipLevel::BASIC:
 								if ( $owner_id === $user->id ) {
-									return \do_shortcode( '[elementor-template id="36300"]' );}
+									return \do_shortcode( '[elementor-template id="36300"]' );
+								}
 
 																		break;
 													case MembershipLevel::PLATINUM:
@@ -370,11 +375,10 @@ class URLSwitch extends Shortcode {
 				}
 
 				// Handling Admin Users.
-				if (
-						$user_roles->is_wordpress_administrator() &&
-						$user->id === $owner_id
+				if ( $user_roles->is_wordpress_administrator()
+				&& $user->id === $owner_id
 				) {
-						return do_shortcode( '[elementor-template id="36300"]' );
+					return do_shortcode( '[elementor-template id="36300"]' );
 				}
 				return do_shortcode( '[elementor-template id="36297"]' );
 

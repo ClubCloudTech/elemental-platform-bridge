@@ -2,16 +2,17 @@
 /**
  * Data Access Object for controlling Room Mapping Database Entries
  *
- * @package MyVideoRoomExtrasPlugin\DAO
+ * @package ElementalPlugin\DAO
  */
 
-namespace MyVideoRoomExtrasPlugin\DAO;
+namespace ElementalPlugin\DAO;
 
 /**
  * Class UserVideoPreference
  */
 class RoomMap {
-	const TABLE_NAME = \MyVideoRoomExtrasPlugin\Core\SiteDefaults::TABLE_NAME_ROOM_MAP;
+
+	const TABLE_NAME = \ElementalPlugin\Core\SiteDefaults::TABLE_NAME_ROOM_MAP;
 
 
 
@@ -23,21 +24,21 @@ class RoomMap {
 	 */
 	public function read( string $room_name ) {
 		global $wpdb;
-		$raw_sql            = '
+		$raw_sql        = '
 				SELECT post_id
 				FROM ' . $wpdb->prefix . self::TABLE_NAME . '
 				WHERE room_name = %s
 			';
-			$prepared_query = $wpdb->prepare(
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-				$raw_sql,
-				array(
-					$room_name,
-				)
-			);
+		$prepared_query = $wpdb->prepare(
+       // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$raw_sql,
+			array(
+				$room_name,
+			)
+		);
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
-			$row = $wpdb->get_row( $prepared_query );
+      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+		$row = $wpdb->get_row( $prepared_query );
 		if ( $row ) {
 			return $row->post_id;
 		}
@@ -76,8 +77,8 @@ class RoomMap {
 	 *
 	 *  This plugin will update the room name in the database with the parameter
 	 *
-	 *  @param  string Post_ID , string room_name - both needed
-	 *  @return Database updated result or False
+	 * @param  string Post_ID , string room_name - both needed
+	 * @return Database updated result or False
 	 */
 
 	public function update_room_post_id( string $post_id, string $room_name ) {
@@ -89,19 +90,19 @@ class RoomMap {
 		}
 		// First Check Database for Room and Post ID - return No if blank
 
-		$raw_sql            = '
+		$raw_sql        = '
 				UPDATE ' . $wpdb->prefix . self::TABLE_NAME . '
 				SET post_id = %s
 				WHERE room_name = %s
 			';
-			$prepared_query = $wpdb->prepare(
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-				$raw_sql,
-				array(
-					$room_name,
-					$post_id,
-				)
-			);
+		$prepared_query = $wpdb->prepare(
+       // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$raw_sql,
+			array(
+				$room_name,
+				$post_id,
+			)
+		);
 
 		$result = $wpdb->query( $prepared_query );
 
@@ -112,8 +113,8 @@ class RoomMap {
 	 *
 	 *  This function will delete the room name in the database with the parameter.
 	 *
-	 *  @param  string Post_ID , string room_name - both needed
-	 *  @return Database updated result or False
+	 * @param  string Post_ID , string room_name - both needed
+	 * @return Database updated result or False
 	 */
 	public function delete_room_mapping( string $room_name ) {
 		global $wpdb;
@@ -123,18 +124,18 @@ class RoomMap {
 			return false;
 		}
 
-		$raw_sql            = '
+		$raw_sql        = '
 				DELETE FROM ' . $wpdb->prefix . self::TABLE_NAME . '
 				WHERE room_name = %s
 			';
-			$prepared_query = $wpdb->prepare(
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared.
-				$raw_sql,
-				array(
-					$room_name,
+		$prepared_query = $wpdb->prepare(
+       // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared.
+			$raw_sql,
+			array(
+				$room_name,
 
-				)
-			);
+			)
+		);
 
 		$result = $wpdb->query( $prepared_query );
 
@@ -159,7 +160,7 @@ class RoomMap {
 		}
 		// First Check Database for Room and Post ID - return No if blank
 
-		$post_id_check = \MyVideoRoomExtrasPlugin\Factory::get_instance( \MyVideoRoomExtrasPlugin\Dao\RoomMap::class )->read( $room_name );
+		$post_id_check = \ElementalPlugin\Factory::get_instance( \ElementalPlugin\Dao\RoomMap::class )->read( $room_name );
 		if ( ! $post_id_check ) {
 			return 'No';
 		}

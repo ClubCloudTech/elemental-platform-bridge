@@ -5,11 +5,11 @@
  * @param string|null $current_user_setting
  * @param array $available_layouts
  *
- * @package MyVideoRoomExtrasPlugin\Views
+ * @package ElementalPlugin\Views
  */
 
-use MyVideoRoomExtrasPlugin\Entity\UserVideoPreference;
-use MyVideoRoomExtrasPlugin\Factory;
+use ElementalPlugin\Entity\UserVideoPreference;
+use ElementalPlugin\Factory;
 
 
 
@@ -32,10 +32,10 @@ return function (
 				<table style="width:100%">
 				<tr>
 					<th style="width:80%" ><h1 style="    text-align-last: center;">Shortcode Visualizer for Room:
-			<?php
+	<?php
 				$output = str_replace( '-', ' ', $room_name );
 				echo esc_html( ucwords( $output ) );
-			?>
+	?>
 			</h1></th>
 					<th style="width:20%" >
 						<img
@@ -60,7 +60,7 @@ return function (
 
 					<td>
 						<label for="myvideoroom_visualiser_room_name">Room Name</label>
-						<input	type="text"
+						<input    type="text"
 								id="myvideoroom_visualiser_room_name"
 								name="myvideoroom_visualiser_room_name"
 								style= "    width: 65%;    background: #e3e7e8; "

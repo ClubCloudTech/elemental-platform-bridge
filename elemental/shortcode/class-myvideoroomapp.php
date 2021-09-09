@@ -2,15 +2,16 @@
 /**
  * Represents a myvideoroom app shortcode
  *
- * @package MyVideoRoomExtrasPlugin\Shortcode
+ * @package ElementalPlugin\Shortcode
  */
 
-namespace MyVideoRoomExtrasPlugin\Shortcode;
+namespace ElementalPlugin\Shortcode;
 
 /**
  * Class MyVideoRoomApp
  */
 class MyVideoRoomApp extends Shortcode {
+
 
 	public const MYVIDEOROOM_APP_SHORTCODE = 'myvideoroom';
 
@@ -77,7 +78,7 @@ class MyVideoRoomApp extends Shortcode {
 	/**
 	 * Create an instance - allows for easier chaining
 	 *
-	 * @param string $name The name of the room.
+	 * @param string $name   The name of the room.
 	 * @param string $layout The layout.
 	 *
 	 * @return MyVideoRoomApp
@@ -89,7 +90,7 @@ class MyVideoRoomApp extends Shortcode {
 	/**
 	 * MyVideoRoomApp constructor.
 	 *
-	 * @param string $name The name of the room.
+	 * @param string $name   The name of the room.
 	 * @param string $layout The layout.
 	 */
 	public function __construct(
@@ -137,7 +138,7 @@ class MyVideoRoomApp extends Shortcode {
 	/**
 	 * Set_reception_video_url.
 	 *
-	 * @param string $reception_video_url - Sets it in object.
+	 * @param  string $reception_video_url - Sets it in object.
 	 * @return self - the URL object
 	 */
 	public function set_reception_video_url( string $reception_video_url ): self {
@@ -206,36 +207,36 @@ class MyVideoRoomApp extends Shortcode {
 	 */
 	public function output_shortcode( string $text_safe = null ): string {
 
-			$shortcode_array = array(
-				'name'   => $this->name,
-				'layout' => $this->layout,
-			);
+		$shortcode_array = array(
+			'name'   => $this->name,
+			'layout' => $this->layout,
+		);
 
-			if ( true === $this->admin ) {
-				$shortcode_array['admin'] = true;
-			} elseif ( false === $this->admin ) {
-				$shortcode_array['admin'] = false;
-			}
+		if ( true === $this->admin ) {
+			$shortcode_array['admin'] = true;
+		} elseif ( false === $this->admin ) {
+			$shortcode_array['admin'] = false;
+		}
 			// Reception Setting. Note it can be modified by other parameters like Floorplan which require Reception to be on.
-			if ( $this->reception ) {
-				$shortcode_array['reception']    = true;
-				$shortcode_array['reception-id'] = $this->reception_id;
-			}
+		if ( $this->reception ) {
+			$shortcode_array['reception']    = true;
+			$shortcode_array['reception-id'] = $this->reception_id;
+		}
 			// Floorplan setting.
-			if ( true === $this->floorplan ) {
-				$shortcode_array['floorplan'] = true;
-				$shortcode_array['reception'] = true;
-			} elseif ( false === $this->floorplan ) {
-				$shortcode_array['floorplan'] = false;
-			}
+		if ( true === $this->floorplan ) {
+			$shortcode_array['floorplan'] = true;
+			$shortcode_array['reception'] = true;
+		} elseif ( false === $this->floorplan ) {
+			$shortcode_array['floorplan'] = false;
+		}
 			// Lobby setting.
-			if ( $this->lobby ) {
-				$shortcode_array['lobby'] = true;
-			}
+		if ( $this->lobby ) {
+			$shortcode_array['lobby'] = true;
+		}
 
-			if ( $this->reception_video_url ?? false ) {
-				$shortcode_array['reception-video'] = $this->reception_video_url;
-			}
+		if ( $this->reception_video_url ?? false ) {
+			$shortcode_array['reception-video'] = $this->reception_video_url;
+		}
 			return $this->render_shortcode( self::MYVIDEOROOM_APP_SHORTCODE, $shortcode_array, $text_safe );
 	}
 

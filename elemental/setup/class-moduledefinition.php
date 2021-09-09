@@ -2,19 +2,20 @@
 /**
  * Setup Functions - Module Definition File- Config Modules will get initialised here.
  *
- * @package MyVideoRoomExtrasPlugin\Setup
+ * @package ElementalPlugin\Setup
  */
 
-namespace MyVideoRoomExtrasPlugin\Setup;
+namespace ElementalPlugin\Setup;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\DAO\ModuleConfig;
-use MyVideoRoomExtrasPlugin\Factory;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\DAO\ModuleConfig;
+use ElementalPlugin\Factory;
 
 /**
  * Class Module Definition
  */
 class ModuleDefinition extends SiteDefaults {
+
 
 	/**
 	 * Site Default Module Definition
@@ -29,9 +30,9 @@ class ModuleDefinition extends SiteDefaults {
 		Factory::get_instance( ModuleConfig::class )->register_module_in_db( SiteDefaults::MODULE_PERSONAL_MEETING_NAME, SiteDefaults::MODULE_PERSONAL_MEETING_ID );
 
 		Factory::get_instance( ModuleConfig::class )->register_module_in_db( SiteDefaults::MODULE_BUDDYPRESS_NAME, SiteDefaults::MODULE_BUDDYPRESS_ID );
-			Factory::get_instance( ModuleConfig::class )->register_module_in_db( SiteDefaults::MODULE_BUDDYPRESS_GROUP_NAME, SiteDefaults::MODULE_BUDDYPRESS_GROUP_ID );
-			Factory::get_instance( ModuleConfig::class )->register_module_in_db( SiteDefaults::MODULE_BUDDYPRESS_USER_NAME, SiteDefaults::MODULE_BUDDYPRESS_USER_ID );
-			Factory::get_instance( ModuleConfig::class )->register_module_in_db( SiteDefaults::MODULE_BUDDYPRESS_FRIENDS_NAME, SiteDefaults::MODULE_BUDDYPRESS_FRIENDS_ID );
+		Factory::get_instance( ModuleConfig::class )->register_module_in_db( SiteDefaults::MODULE_BUDDYPRESS_GROUP_NAME, SiteDefaults::MODULE_BUDDYPRESS_GROUP_ID );
+		Factory::get_instance( ModuleConfig::class )->register_module_in_db( SiteDefaults::MODULE_BUDDYPRESS_USER_NAME, SiteDefaults::MODULE_BUDDYPRESS_USER_ID );
+		Factory::get_instance( ModuleConfig::class )->register_module_in_db( SiteDefaults::MODULE_BUDDYPRESS_FRIENDS_NAME, SiteDefaults::MODULE_BUDDYPRESS_FRIENDS_ID );
 
 		Factory::get_instance( ModuleConfig::class )->register_module_in_db( SiteDefaults::MODULE_SECURITY_NAME, SiteDefaults::MODULE_SECURITY_ID );
 
@@ -50,18 +51,18 @@ class ModuleDefinition extends SiteDefaults {
 	 * Register Additional Modules in DB If Needed
 	 */
 	public function add_additional_modules_in_db( int $module_id, string $module_name, $initialise_callback_function = null ) {
-			// Exit on no input.
+		// Exit on no input.
 		if ( ! $module_id && ! $module_name ) {
 			return null;
 		}
 
-				Factory::get_instance( ModuleConfig::class )->register_module_in_db( $module_name, $module_id );
+		Factory::get_instance( ModuleConfig::class )->register_module_in_db( $module_name, $module_id );
 
-			// Initialise.
+		// Initialise.
 		if ( $initialise_callback_function ) {
-				return $initialise_callback_function;
+			return $initialise_callback_function;
 		}
-			return null;
+		return null;
 	}
 
 

@@ -74,7 +74,7 @@
             }
             //Not yet implemented
 
-            $permissions_page = \MyVideoRoomExtrasPlugin\Factory::get_instance( \MyVideoRoomExtrasPlugin\Shortcode\SecurityVideoPreference::class )->choose_settings(
+            $permissions_page = \ElementalPlugin\Factory::get_instance( \ElementalPlugin\Shortcode\SecurityVideoPreference::class )->choose_settings(
                 $user_id,
                 SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM);
 

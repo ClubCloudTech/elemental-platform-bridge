@@ -3,20 +3,21 @@
  * Shortcodes for headers
  * This area contains all of the functions pertaining to switching My Video Room monitors
  *
- * @package MyVideoRoomExtrasPlugin\Core
+ * @package ElementalPlugin\Core
  */
 
-namespace MyVideoRoomExtrasPlugin\Core;
+namespace ElementalPlugin\Core;
 
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Shortcode\MyVideoRoomMonitor;
-use MyVideoRoomExtrasPlugin\WoocommerceBookings\WCHelpers;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Shortcode\MyVideoRoomMonitor;
+use ElementalPlugin\WoocommerceBookings\WCHelpers;
 
 /**
  * Class HeaderSwitches
  */
 class HeaderSwitches extends Shortcode {
+
 
 	/**
 	 * Install the shortcode
@@ -56,9 +57,8 @@ class HeaderSwitches extends Shortcode {
 		}
 
 		// Shop Owners.
-		if (
-			$user_roles->is_wcfm_vendor() &&
-			! $user_roles->is_wcfm_shop_staff()
+		if ( $user_roles->is_wcfm_vendor()
+			&& ! $user_roles->is_wcfm_shop_staff()
 		) {
 			$output_array[] = $this->generate_watcher_shortcode(
 				$site_defaults->room_map( 'store', $user_id ),
@@ -141,7 +141,7 @@ class HeaderSwitches extends Shortcode {
 	/**
 	 * Generate text for watcher
 	 *
-	 * @param string $href The href to navigate to when clicking on the notification.
+	 * @param string $href  The href to navigate to when clicking on the notification.
 	 * @param string $title The title text of the notification.
 	 *
 	 * @return string

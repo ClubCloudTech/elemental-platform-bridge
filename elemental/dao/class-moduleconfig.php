@@ -2,20 +2,21 @@
 /**
  * Data Access Object for controlling Room Mapping Database Entries
  *
- * @package MyVideoRoomExtrasPlugin\DAO
+ * @package ElementalPlugin\DAO
  */
 
-namespace MyVideoRoomExtrasPlugin\DAO;
+namespace ElementalPlugin\DAO;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Dao\RoomMap;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Dao\RoomMap;
 
 
 /**
  * Class UserVideoPreference
  */
 class ModuleConfig {
+
 
 	const TABLE_NAME = SiteDefaults::TABLE_NAME_MODULE_CONFIG;
 
@@ -36,14 +37,14 @@ class ModuleConfig {
 				WHERE room_name = %s
 			';
 		$prepared_query = $wpdb->prepare(
-	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$raw_sql,
 			array(
 				$room_name,
 			)
 		);
 
-	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 		$row = $wpdb->get_row( $prepared_query );
 		if ( $row ) {
 			$result = $row->post_id;
@@ -82,7 +83,7 @@ class ModuleConfig {
 	 */
 
 	public function update_enabled_status( int $module_id, bool $module_enabled ) {
-		 global $wpdb;
+		global $wpdb;
 		$table_name = $wpdb->prefix . self::TABLE_NAME;
 		// First Check Database for Room and Post ID - return No if blank
 
@@ -97,7 +98,7 @@ class ModuleConfig {
 				WHERE module_id = %d
 			';
 		$prepared_query = $wpdb->prepare(
-	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$raw_sql,
 			array(
 				$module_enabled,
@@ -116,7 +117,7 @@ class ModuleConfig {
 	 * Read Enabled Module Status in Database
 	 */
 	public function read_enabled_status( int $module_id ) {
-		 global $wpdb;
+		global $wpdb;
 		$table_name = $wpdb->prefix . self::TABLE_NAME;
 		// First Check Database for Room and Post ID - return No if blank.
 
@@ -130,7 +131,7 @@ class ModuleConfig {
 				WHERE module_id = %s
 			';
 		$prepared_query = $wpdb->prepare(
-	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$raw_sql,
 			array(
 				$module_id,
@@ -176,7 +177,7 @@ class ModuleConfig {
 				WHERE room_name = %s
 			';
 		$prepared_query = $wpdb->prepare(
-	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$raw_sql,
 			array(
 				$room_name,

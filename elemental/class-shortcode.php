@@ -2,12 +2,12 @@
 /**
  * Abstract class for all shortcodes
  *
- * @package MyVideoRoomExtrasPlugin
+ * @package ElementalPlugin
  */
 
 declare(strict_types=1);
 
-namespace MyVideoRoomExtrasPlugin;
+namespace ElementalPlugin;
 
 /**
  * Abstract Shortcode
@@ -15,10 +15,11 @@ namespace MyVideoRoomExtrasPlugin;
 abstract class Shortcode {
 
 
+
 	/**
 	 * Registers a shortcode in WordPress
 	 *
-	 * @param string   $tag The suffix of the tag.
+	 * @param string   $tag      The suffix of the tag.
 	 * @param callable $callback The callback to render the shortcode.
 	 */
 	protected function add_shortcode( string $tag, callable $callback ) {

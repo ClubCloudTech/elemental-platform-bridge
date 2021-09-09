@@ -2,28 +2,29 @@
 /**
  * Shortcodes for video controllers
  *
- * @package MyVideoRoomExtrasPlugin\Core
+ * @package ElementalPlugin\Core
  */
 
-namespace MyVideoRoomExtrasPlugin\Core;
+namespace ElementalPlugin\Core;
 
-use MyVideoRoomExtrasPlugin\Library\UserRoles;
-use MyVideoRoomExtrasPlugin\Library\WordPressUser;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Shortcode\MyVideoRoomApp;
-use MyVideoRoomExtrasPlugin\WoocommerceBookings\ShortCodeConstructor;
-use MyVideoRoomExtrasPlugin\Library\SectionTemplates;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Core\VideoHelpers;
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Shortcode\UserVideoPreference;
-use MyVideoRoomExtrasPlugin\Core\Security;
-use MyVideoRoomExtrasPlugin\Shortcode\SecurityVideoPreference;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Shortcode\MyVideoRoomApp;
+use ElementalPlugin\WoocommerceBookings\ShortCodeConstructor;
+use ElementalPlugin\Library\SectionTemplates;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Core\VideoHelpers;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Shortcode\UserVideoPreference;
+use ElementalPlugin\Core\Security;
+use ElementalPlugin\Shortcode\SecurityVideoPreference;
 
 /**
  * Class VideoControllers
  */
 class VideoControllers extends Shortcode {
+
 
 
 	/**
@@ -89,7 +90,7 @@ class VideoControllers extends Shortcode {
 
 		// Floorplan.
 		if ( $show_floorplan ) {
-			$myvideoroom_app->enable_floorplan();
+		$myvideoroom_app->enable_floorplan();
 		}
 		*/
 
@@ -97,21 +98,18 @@ class VideoControllers extends Shortcode {
 		$reception_template = $this->get_instance( SiteDefaults::class )->get_layout_id( 'store_reception_template', $currentpost_store_id );
 
 		/*
-			  if ( $reception_setting ) {
-			$myvideoroom_app->enable_reception()->set_reception_id( $reception_template );
+		if ( $reception_setting ) {
+		$myvideoroom_app->enable_reception()->set_reception_id( $reception_template );
 
-			if ( $video_reception_state ) {
-				echo 'reception';
-				$myvideoroom_app->set_reception_video_url( $video_reception_url );
-			}
+		if ( $video_reception_state ) {
+		echo 'reception';
+		$myvideoroom_app->set_reception_video_url( $video_reception_url );
+		}
 		}*/
 
-		if (
-			! \is_user_logged_in() || (
-				! $user_roles->is_wordpress_administrator() &&
-				! $user_roles->is_wcfm_shop_staff() &&
-				! $user_roles->is_wcfm_vendor()
-			)
+		if ( ! \is_user_logged_in() || ( ! $user_roles->is_wordpress_administrator()
+			&& ! $user_roles->is_wcfm_shop_staff()
+			&& ! $user_roles->is_wcfm_vendor() )
 		) {
 			return $myvideoroom_app->output_shortcode();
 		}
@@ -141,9 +139,8 @@ class VideoControllers extends Shortcode {
 		// Switch Store Owner from Staff and Other.
 		// echo Check is a WCFM vendor, or store staff.
 
-		if (
-			( $user_roles->is_wcfm_vendor() && $my_owner_id === $currentpost_store_id ) || // case of an Owner in their own store.
-			( $user_roles->is_wcfm_shop_staff() && $my_vendor_id === $currentpost_store_id ) // case of a Staff Member in their own store.
+		if ( ( $user_roles->is_wcfm_vendor() && $my_owner_id === $currentpost_store_id )  // case of an Owner in their own store.
+			|| ( $user_roles->is_wcfm_shop_staff() && $my_vendor_id === $currentpost_store_id ) // case of a Staff Member in their own store.
 		) {
 			$myvideoroom_app->enable_admin();
 		}
@@ -213,11 +210,11 @@ class VideoControllers extends Shortcode {
 		// Get Room Parameters.
 		$video_template = $this->get_instance( VideoHelpers::class )->get_videoroom_template( $user_id, SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM );
 		// Build the Room.
-				$myvideoroom_app = MyVideoRoomApp::create_instance(
-					$this->get_instance( SiteDefaults::class )->room_map( 'userbr', $user_id ),
-					$video_template
-				)
-				->enable_admin();
+		$myvideoroom_app = MyVideoRoomApp::create_instance(
+			$this->get_instance( SiteDefaults::class )->room_map( 'userbr', $user_id ),
+			$video_template
+		)
+		->enable_admin();
 
 		// Construct Shortcode Template - and execute.
 		$header = Factory::get_instance( SectionTemplates::class )->meet_host_header();
@@ -256,7 +253,7 @@ class VideoControllers extends Shortcode {
 	/**
 	 * Personal Boardroom Video - Guest entrance.
 	 *
-	 * @param  string $host - optional user name from parameter passed as url in personal meeting guest shortcode function.
+	 * @param  string $host   - optional user name from parameter passed as url in personal meeting guest shortcode function.
 	 * @param  string $invite - optional - invite code from hash generation function.
 	 * @return string - the shorcode object.
 	 */
@@ -290,7 +287,7 @@ class VideoControllers extends Shortcode {
 		$user_checksum = \get_current_user_id();
 		if ( \is_user_logged_in() ) {
 			if ( $user_checksum === $user_id ) {
-				$meet_page = $this->get_instance( \MyVideoRoomExtrasPlugin\Setup\RoomAdmin::class )->get_videoroom_info( 'meet-center', 'url' );
+				$meet_page = $this->get_instance( \ElementalPlugin\Setup\RoomAdmin::class )->get_videoroom_info( 'meet-center', 'url' );
 				wp_safe_redirect( $meet_page );
 				exit();
 			}

@@ -3,15 +3,15 @@
 /**
  * Display section templates
  *
- * @package MyVideoRoomExtrasPlugin\Library
+ * @package ElementalPlugin\Library
  */
 
-namespace MyVideoRoomExtrasPlugin\Library\Templates;
+namespace ElementalPlugin\Library\Templates;
 
-use MyVideoRoomExtrasPlugin\Core\SiteDefaults;
-use MyVideoRoomExtrasPlugin\Factory;
-use MyVideoRoomExtrasPlugin\Shortcode as Shortcode;
-use MyVideoRoomExtrasPlugin\Core\PageFilters;
+use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Factory;
+use ElementalPlugin\Shortcode as Shortcode;
+use ElementalPlugin\Core\PageFilters;
 
 
 
@@ -23,14 +23,17 @@ class SecurityTemplates extends Shortcode {
 
 
 
-	/**  Security Templates
+
+	/**
+	 * Security Templates
 	 * Render Main Dashboard Template for user's own account control panel
 	 *
 	 * @return string
 	 */
 
 
-	/**  Room Blocked by Site
+	/**
+	 * Room Blocked by Site
 	 */
 
 
@@ -48,22 +51,22 @@ class SecurityTemplates extends Shortcode {
 				<tr>
 					<th style="width:50%">
 					<img class="cc-user-image" src="
-					<?php
+		<?php
 											$url = Factory::get_instance( PageFilters::class )->get_picture_template( $user_id );
 											echo esc_url( $url );
-					?>
+		?>
 					" alt="Image">
 
 					</th>
 					<th>
 
-				<?php
-				if ( 'anonymous' === $input_type ) {
-						echo '<h2 style="font-size: 18px;">' . esc_html( get_bloginfo( 'name' ) ) . ' - This Room is Restricted to Signed in Users Only </h2>';
-				} else {
-					echo '<h2 style="font-size: 18px;">' . esc_html( get_bloginfo( 'name' ) ) . ' - This Room is Offline </h2>';
-				}
-				?>
+		<?php
+		if ( 'anonymous' === $input_type ) {
+			echo '<h2 style="font-size: 18px;">' . esc_html( get_bloginfo( 'name' ) ) . ' - This Room is Restricted to Signed in Users Only </h2>';
+		} else {
+			echo '<h2 style="font-size: 18px;">' . esc_html( get_bloginfo( 'name' ) ) . ' - This Room is Offline </h2>';
+		}
+		?>
 
 
 						<img class="cc-user-image" src="
@@ -71,13 +74,13 @@ class SecurityTemplates extends Shortcode {
 					</th>
 				</tr>
 			</table>
-			<?php
-			if ( 'anonymous' === $input_type ) {
-					echo '<p style="font-size: 18px;">' . esc_html( get_bloginfo( 'name' ) ) . ' require all meeting rooms to be signed in users, please register and try again. </p>';
-			} else {
-				echo '<p style="font-size: 18px;">The administrators have disabled this room. Please contact the site owner for more assistance. </p>';
-			}
-			?>
+		<?php
+		if ( 'anonymous' === $input_type ) {
+			echo '<p style="font-size: 18px;">' . esc_html( get_bloginfo( 'name' ) ) . ' require all meeting rooms to be signed in users, please register and try again. </p>';
+		} else {
+			echo '<p style="font-size: 18px;">The administrators have disabled this room. Please contact the site owner for more assistance. </p>';
+		}
+		?>
 
 		</div>
 		<?php
@@ -86,7 +89,8 @@ class SecurityTemplates extends Shortcode {
 	}
 
 
-	/**Blocked By User Template.
+	/**
+	 * Blocked By User Template.
 	 */
 
 
@@ -104,10 +108,10 @@ class SecurityTemplates extends Shortcode {
 				<tr>
 					<th style="width:50%">
 					<img class="cc-user-image" src="
-					<?php
+		<?php
 											$url = Factory::get_instance( PageFilters::class )->get_picture_template( $user_id );
 											echo esc_url( $url );
-					?>
+		?>
 					" alt="Image">
 					</th>
 					<th>
@@ -117,25 +121,25 @@ class SecurityTemplates extends Shortcode {
 									<?php echo get_site_url() . '/wp-content/plugins/myvideoroom-extras/noentry.jpg'; ?>" alt="Site Logo">
 					</th>
 					<p class="cc-header-text">
-				<?php
+		<?php
 
-				$new_user   = get_userdata( $user_id );
-				$first_name = $new_user->user_firstname;
-				$nicename   = $new_user->user_nicename;
-				if ( $first_name ) {
-					echo esc_html( $first_name );
-				} else {
-					echo esc_html( $nicename );
-				}
-				?>
+		$new_user   = get_userdata( $user_id );
+		$first_name = $new_user->user_firstname;
+		$nicename   = $new_user->user_nicename;
+		if ( $first_name ) {
+			echo esc_html( $first_name );
+		} else {
+			echo esc_html( $nicename );
+		}
+		?>
 				has disabled this room. Please contact the site owner, or 
-				<?php
-				if ( $first_name ) {
-					echo esc_html( $first_name );
-				} else {
-					echo esc_html( $nicename );
-				}
-				?>
+		<?php
+		if ( $first_name ) {
+			echo esc_html( $first_name );
+		} else {
+			echo esc_html( $nicename );
+		}
+		?>
 				for more assistance. </p>
 			</table>
 
@@ -164,17 +168,17 @@ class SecurityTemplates extends Shortcode {
 		<tr>
 			<th style="width:50%">
 			<img class="cc-user-image" src="
-			<?php
+		<?php
 									$url = Factory::get_instance( PageFilters::class )->get_picture_template( $user_id );
 									echo esc_url( $url );
-			?>
+		?>
 			" alt="Image">
 			</th>
 			<th>
 				<h2 class="cc-reception-header"><?php echo esc_html( esc_html( get_bloginfo( 'name' ) ) ); ?>- This room is set to Signed in Users Only</h2>
 
 				<img class="cc-access-image" src="
-							<?php echo get_site_url() . '/wp-content/plugins/myvideoroom-extras/noentry.jpg'; ?>" alt="Site Logo">
+		<?php echo get_site_url() . '/wp-content/plugins/myvideoroom-extras/noentry.jpg'; ?>" alt="Site Logo">
 			</th>
 			<p class="cc-header-text">
 		<?php
@@ -222,10 +226,10 @@ class SecurityTemplates extends Shortcode {
 				<tr>
 					<th style="width:50%">
 					<img class="cc-user-image" src="
-					<?php
+		<?php
 											$url = Factory::get_instance( PageFilters::class )->get_picture_template( $user_id );
 											echo esc_url( $url );
-					?>
+		?>
 					" alt="Image">
 
 					</th>
@@ -238,34 +242,34 @@ class SecurityTemplates extends Shortcode {
 				</tr>
 			</table>
 			<p class="cc-header-text">
-				<?php
+		<?php
 
-				$new_user   = get_userdata( $user_id );
-				$first_name = $new_user->user_firstname;
-				$nicename   = $new_user->user_nicename;
-				if ( $first_name ) {
-					echo esc_html( $first_name );
-				} else {
-					echo esc_html( $nicename );
-				}
-				?>
+		$new_user   = get_userdata( $user_id );
+		$first_name = $new_user->user_firstname;
+		$nicename   = $new_user->user_nicename;
+		if ( $first_name ) {
+			echo esc_html( $first_name );
+		} else {
+			echo esc_html( $nicename );
+		}
+		?>
 				has enabled this room only for specific roles of users. You are not in a group that 
-				<?php
-				if ( $first_name ) {
+		<?php
+		if ( $first_name ) {
 																										echo esc_html( $first_name );
-				} else {
-					echo esc_html( $nicename );
-				}
-				?>
+		} else {
+			echo esc_html( $nicename );
+		}
+		?>
 																									has allowed. <br>
 				Please contact the site owner or 
-				<?php
-				if ( $first_name ) {
+		<?php
+		if ( $first_name ) {
 														echo esc_html( $first_name );
-				} else {
-					echo esc_html( $nicename );
-				}
-				?>
+		} else {
+			echo esc_html( $nicename );
+		}
+		?>
 													for more assistance. </p>
 		</div>
 		<?php
@@ -288,10 +292,10 @@ class SecurityTemplates extends Shortcode {
 				<tr>
 					<th style="width:50%">
 					<img class="cc-user-image" src="
-					<?php
+		<?php
 											$url = Factory::get_instance( PageFilters::class )->get_picture_template( $user_id );
 											echo esc_url( $url );
-					?>
+		?>
 					" alt="Image">
 					</th>
 					<th>
@@ -302,25 +306,25 @@ class SecurityTemplates extends Shortcode {
 					</th>
 					</table>
 					<p class="cc-header-text">
-				<?php
+		<?php
 
-				$new_user   = get_userdata( $user_id );
-				$first_name = $new_user->user_firstname;
-				$nicename   = $new_user->user_nicename;
-				if ( $first_name ) {
-					echo esc_html( $first_name );
-				} else {
-					echo esc_html( $nicename );
-				}
-				?>
+		$new_user   = get_userdata( $user_id );
+		$first_name = $new_user->user_firstname;
+		$nicename   = $new_user->user_nicename;
+		if ( $first_name ) {
+			echo esc_html( $first_name );
+		} else {
+			echo esc_html( $nicename );
+		}
+		?>
 				or one of the moderators have enabled this room only for specific membership of the group. You are not in a class of user that 
-				<?php
-				if ( $first_name ) {
-					echo esc_html( $first_name );
-				} else {
-					echo esc_html( $nicename );
-				}
-				?>
+		<?php
+		if ( $first_name ) {
+			echo esc_html( $first_name );
+		} else {
+			echo esc_html( $nicename );
+		}
+		?>
 				or the group moderators have allowed. <br> Please contact any of the group admins or moderators for assistance.
 
 		</div>
