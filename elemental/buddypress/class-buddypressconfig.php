@@ -67,7 +67,7 @@ class BuddyPressConfig {
 		<?php
          // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized  --  Sanitised in construction of options above.
 			echo $current_selection;
-			?>
+		?>
 
 						<option value="Administrators">Administrators Only</option>    
 						<option value="Moderators">Moderators and above</option>

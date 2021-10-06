@@ -434,7 +434,7 @@ class BuddyPress extends Shortcode {
 
 
 
-	public function render_group_settings() {
+	public function bp_render_group_settings() {
 		global $bp;
 		$group_id = $bp->groups->current_group->slug;
 
@@ -525,7 +525,7 @@ class BuddyPress extends Shortcode {
 	 */
 	public function group_video_admin_screen_function() {
 		// add title and content here - last is to call the members plugin.php template.
-		\add_action( 'bp_template_content', array( $this, 'render_group_settings' ) );
+		\add_action( 'bp_template_content', array( $this, 'bp_render_group_settings' ) );
 		\bp_core_load_template( \apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
 	}
 
