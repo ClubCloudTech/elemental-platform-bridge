@@ -2,61 +2,59 @@
 /**
  * Manages the configuration settings for the video plugin .
  *
- * @package ElementalPlugin\Admin
+ * @package MyVideoRoomExtrasPlugin\Admin
  */
 
 declare(strict_types=1);
 
 namespace ElementalPlugin;
 
-use ElementalPlugin\Core\SiteDefaults;
+use \MyVideoRoomPlugin\Module\Security\Security;
+use \MyVideoRoomPlugin\Module\SiteVideo\MVRSiteVideo;
+use ElementalPlugin\DAO\ModuleConfig;
+use \MyVideoRoomPlugin\SiteDefaults;
+
 
 /**
  * Class Admin
  */
-class Admin extends Shortcode {
-
-
+class Admin {
+	const SHORTCODE_TAG = 'elemental_';
 	/**
-	 * Initialise the menu item.
+	 * Initialise menu items.
 	 */
-	public function install() {
-		add_action( 'myvideoroom_admin_menu', array( $this, 'add_admin_menu' ) );
+	public function init() {
+		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+
+		add_shortcode( self::SHORTCODE_TAG . 'proxytest', array( $this, 'proxy_test_function' ) );
 	}
 
 	/**
 	 * Add the admin menu page.
 	 *
-	 * @param string $parent_slug The parent menu slug.
+	 * @return void
 	 */
-	public function add_admin_menu( string $parent_slug ) {
-		add_submenu_page(
-			$parent_slug,
-			'Extras',
-			'Extras',
+	public function add_admin_menu() {
+		add_menu_page(
+			'Elemental Configuration',
+			'Elemental',
 			'manage_options',
 			'my-video-room-extras',
-			array( $this, 'create_extras_admin_page' )
+			array( $this, 'create_extras_admin_page' ),
+			'dashicons-menu-alt3'
 		);
 	}
-
 	/**
 	 * Create the extra admin page contents.
 	 */
 	public function create_extras_admin_page(): void {
-     // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Not required
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Not required
 		$active_tab = $_GET['tab'] ?? null;
 
 		$tabs = array(
-			'admin-settings-sitedefault'               => 'Default Video Settings',
-			SiteDefaults::MODULE_SITE_VIDEO_ADMIN_PAGE => SiteDefaults::MODULE_SITE_VIDEO_DISPLAY,
-			'admin-settings-personalvideo'             => 'Personal Meeting Settings',
-			'admin-settings-buddypress'                => 'BuddyPress Video Settings',
-			'admin-settings-bookings'                  => 'WooComm Bookings Integration',
-			'admin-settings-wcfm'                      => 'WCFM Store Integration',
-			'admin-settings-templates'                 => 'Room Template Browser',
-			'admin-settings-roombuilder'               => 'Room Builder',
-			SiteDefaults::MODULE_SECURITY_ADMIN_PAGE   => SiteDefaults::MODULE_SECURITY_DISPLAY,
+			'admin-settings-sitedefault' => 'Membership Settings',
+			'admin-settings-bookings'    => 'WooComm Bookings Integration',
+			'admin-settings-wcfm'        => 'WCFM Store Integration',
 		);
 
 		if ( ! $active_tab || ! isset( $tabs[ $active_tab ] ) ) {
@@ -64,10 +62,21 @@ class Admin extends Shortcode {
 		}
 
 		$messages = array();
-		$render   = include __DIR__ . '/views/admin/' . $active_tab . '.php';
-   // phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped -- Not required as function has escaping within it.
-     echo $render( $active_tab, $tabs, $messages );
+		$render   = require __DIR__ . '/views/admin/' . $active_tab . '.php';
+
+		echo $render( $active_tab, $tabs, $messages );
 	}
 
+	/**
+	 * A shortcode to Proxy Functions to Front End for Testing
+	 * Used to Setup basic settings
+	 * Used to run whatever is in here from the /test page
+	 *
+	 * @return null
+	 */
+	public function proxy_test_function() {
+		Factory::get_instance( Security::class )->activate_module();
+		return null;
+	}
 }
 

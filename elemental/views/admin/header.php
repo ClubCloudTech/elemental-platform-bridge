@@ -12,23 +12,30 @@ return function (
 ): string {
 	ob_start();
 	?>
-	<table style="width:100%">
-			<tr>
-					<th style="width:30%" >
-						<img
-								src="<?php echo esc_url( plugins_url( '/mvr-imagelogo.png', realpath( __DIR__ . '/../' ) ) ); ?>"
-								alt="My Video Room Extras"
-								width="120"
-								height="120"
-						/>
-					</th>
+		<header>
+		<h1 class="myvideoroom-header-config-title">
+			<?php \esc_html_e( 'Elemental Bridge Settings and Configuration', 'myvideoroom' ); ?>
+		</h1>
 
-					<th style="width:70%">
-						<h1>My Video Room Extras Settings and Configuration</h1>
-					</th>
-			</tr>
-	</table>
+		<div class="overview">
+			<strong>
+				<?php echo \esc_html__( 'Elemental is the plugin from ClubCloud that allows Membership Management to a whole new level', 'myvideoroom' ); ?>
+			</strong>
 
+			<em>
+				<?php \esc_html_e( 'MyVideoRoom by ClubCloud, video with themed rooms, made simple.' ); ?>
+			</em>
+			<?php
+	foreach ( $messages as $message ) {
+		echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
+	}
+	?>
+		
+		</div>
+
+		<img src="<?php echo \esc_url( \plugins_url( '/img/screen-1.png', \realpath( __DIR__ . '/../' ) ) ); ?>"
+			alt="" />
+	</header>
 
 	<h2 class="nav-tab-wrapper">
 	<?php
@@ -43,13 +50,7 @@ return function (
 	?>
 	</h2>
 
-	<ul>
-	<?php
-	foreach ( $messages as $message ) {
-		echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
-	}
-	?>
-	</ul>
+
 	<?php
 	return ob_get_clean();
 };

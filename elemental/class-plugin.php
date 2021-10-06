@@ -21,7 +21,7 @@ class Plugin {
 	 * Plugin constructor.
 	 */
 	public function __construct() {
-
+Factory::get_instance( Admin::class )->init();
 	}
 
 	/**
