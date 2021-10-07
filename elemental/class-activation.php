@@ -11,6 +11,7 @@ namespace ElementalPlugin;
 
 use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Setup\Setup;
+use ElementalPlugin\Membership\DAO\MembershipDAO;
 
 /**
  * Class Activation
@@ -23,7 +24,7 @@ class Activation {
 	 * Activate the plugin.
 	 */
 	public static function activate() {
-
+		Factory::get_instance( MembershipDAO::class )->install_membership_mapping_table();
 	}
 
 

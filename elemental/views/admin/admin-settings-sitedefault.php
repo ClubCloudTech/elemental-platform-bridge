@@ -5,6 +5,9 @@
  * @package ElementalPlugin\Views\Admin
  */
 
+use ElementalPlugin\Factory;
+use ElementalPlugin\Membership\Membership;
+
 /**
  * Render the admin page
  *
@@ -25,12 +28,18 @@ return function (
 	echo $render( $active_tab, $tabs, $messages );
 
 	ob_start();
-?>
+	?>
 <div class="wrap">
+	<?php
+	//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped;
+	echo Factory::get_instance( Membership::class )->render_membership_config_page();
+
+	?>
+
 
 </div>
 
-<?php
+	<?php
 	return ob_get_clean();
 };
 

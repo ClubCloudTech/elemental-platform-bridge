@@ -44,4 +44,6 @@ class MembershipLevel {
 	 * @deprecated
 	 */
 	const AMBASSADOR = 12;
+
+
 }

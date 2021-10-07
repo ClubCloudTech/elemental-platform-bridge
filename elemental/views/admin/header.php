@@ -26,10 +26,10 @@ return function (
 				<?php \esc_html_e( 'MyVideoRoom by ClubCloud, video with themed rooms, made simple.' ); ?>
 			</em>
 			<?php
-	foreach ( $messages as $message ) {
-		echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
-	}
-	?>
+			foreach ( $messages as $message ) {
+				echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
+			}
+			?>
 		
 		</div>
 
