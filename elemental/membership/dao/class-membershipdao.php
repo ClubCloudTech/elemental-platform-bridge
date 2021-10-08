@@ -39,45 +39,36 @@ class MembershipDAO {
 		return \maybe_create_table( $table_name, $sql_create );
 	}
 
-
 	/**
 	 * Register a given room in the Database, and ensure it does not already exist
 	 *
-	 * @param string  $room_name    The Room Name.
-	 * @param int     $post_id      The Post iD.
-	 * @param string  $room_type    The type of room to register.
-	 * @param string  $display_name The Room Display Name for Header.
-	 * @param string  $slug         The Slug.
-	 * @param ?string $shortcode    The shortcode.
+	 * @param int $user_limit    The User Limit to store.
+	 * @param int $membership_level    The Membership Level.
 	 *
 	 * @return string|int|false
 	 */
-	public function register_room_in_db( string $room_name, int $post_id, string $room_type, string $display_name, string $slug, string $shortcode = null ) {
+	public function register_account_limit( int $user_limit, int $membership_level ) {
 		global $wpdb;
-		// Empty input exit.
-		if ( ! $room_name || ! $post_id ) {
-			return 'Room Name or PostID Blank';
-		}
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->insert(
 			$this->get_table_name(),
 			array(
-				'room_name'    => $room_name,
-				'post_id'      => $post_id,
-				'room_type'    => $room_type,
-				'display_name' => $display_name,
-				'slug'         => $slug,
-				'shortcode'    => $shortcode,
+				'membership_level' => $membership_level,
+				'user_limit'       => $user_limit,
 			)
 		);
 
-		\wp_cache_delete( $room_name, __CLASS__ . '::get_post_id_by_room_name' );
-		\wp_cache_delete( $room_type, __CLASS__ . '::get_all_post_ids_of_rooms' );
-		\wp_cache_delete( $post_id, __CLASS__ . '::get_room_info' );
-		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_post_ids_of_rooms' );
+		\wp_cache_delete( $user_limit, __CLASS__ . '::get_limit_by_membership' );
+		\wp_cache_delete( $membership_level, __CLASS__ . '::get_all_membership_limits' );
+		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_membership_limits' );
 
-		return $result;
+		if ( $result ) {
+			return $result;
+		} else {
+			return false;
+		}
+
 	}
 
 	/**
@@ -94,63 +85,64 @@ class MembershipDAO {
 	 * Update Room Post ID in Database
 	 * This plugin will update the room name in the database with the parameter
 	 *
-	 * @param string $post_id   The Post iD.
-	 * @param string $room_name The Room Name.
+	 * @param int $user_limit   The user limit.
+	 * @param int $membership_level Membership level to update.
 	 *
 	 * @return bool|null
 	 */
-	public function update_room_post_id( string $post_id, string $room_name ): ?bool {
+	public function update_membership_limit( int $user_limit, int $membership_level ): ?bool {
 		global $wpdb;
 
-		// Empty input exit.
-		if ( ! $post_id || ! $room_name ) {
-			return false;
+		// Check Record Exists.
+		$record_exists = $this->get_limit_info( $membership_level );
+		if ( ! $record_exists ) {
+			$success = $this->register_account_limit( $user_limit, $membership_level );
+			if ( $success ) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-		$wpdb->query(
+		$success = $wpdb->query(
 			$wpdb->prepare(
 				'
 					UPDATE ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
-					SET post_id = %s
-					WHERE room_name = %s
+					SET user_limit = %d
+					WHERE membership_level = %d
 				',
-				$post_id,
-				$room_name,
+				$user_limit,
+				$membership_level,
 			)
 		);
 
-		\wp_cache_delete( $room_name, __CLASS__ . '::get_post_id_by_room_name' );
-		\wp_cache_delete( $post_id, __CLASS__ . '::get_room_info' );
+		\wp_cache_delete( $user_limit, __CLASS__ . '::get_limit_by_membership' );
+		\wp_cache_delete( $membership_level, __CLASS__ . '::get_limit_info' );
 
-		return null;
+		return $success;
 	}
 
 	/**
 	 * Delete a Room Record in Database.
 	 * This function will delete the room name in the database with the parameter.
 	 *
-	 * @param string $room_name The Room Name.
+	 * @param int $membership_level The Membership Level to query.
 	 *
 	 * @return bool
 	 */
-	public function delete_room_mapping( string $room_name ): bool {
+	public function delete_level_mapping( int $membership_level ): bool {
 		global $wpdb;
 
-		// empty input exit.
-		if ( ! $room_name ) {
+		$membership_level = $this->get_limit_by_membership( $membership_level );
+
+		if ( ! $membership_level ) {
 			return false;
 		}
 
-		$post_id = $this->get_post_id_by_room_name( $room_name );
+		$record_exists = $this->get_limit_info( $membership_level );
 
-		if ( ! $post_id ) {
-			return false;
-		}
-
-		$room_info = $this->get_room_info( $post_id );
-
-		if ( ! $room_info ) {
+		if ( ! $record_exists ) {
 			return false;
 		}
 
@@ -159,16 +151,16 @@ class MembershipDAO {
 			$wpdb->prepare(
 				'
 					DELETE FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
-				    WHERE room_name = %s
+				    WHERE membership_level = %d
 			    ',
-				$room_name,
+				$membership_level,
 			)
 		);
 
-		\wp_cache_delete( $room_name, __CLASS__ . '::get_post_id_by_room_name' );
-		\wp_cache_delete( $room_info->room_type, __CLASS__ . '::get_all_post_ids_of_rooms' );
-		\wp_cache_delete( $post_id, __CLASS__ . '::get_room_info' );
-		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_post_ids_of_rooms' );
+		\wp_cache_delete( $membership_level, __CLASS__ . '::get_limit_by_membership' );
+		\wp_cache_delete( $record_exists->user_limit, __CLASS__ . '::get_all_membership_limits' );
+		\wp_cache_delete( $membership_level, __CLASS__ . '::get_limit_info' );
+		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_membership_limits' );
 
 		return true;
 	}
@@ -176,33 +168,33 @@ class MembershipDAO {
 	/**
 	 * Get a PostID from the Database for a Page
 	 *
-	 * @param string $room_name inbound room from user.
+	 * @param int $membership_level The Membership Level.
 	 *
 	 * @return ?int
 	 */
-	public function get_post_id_by_room_name( string $room_name ): ?int {
+	public function get_limit_by_membership( int $membership_level ): ?int {
 		global $wpdb;
 
-		$result = \wp_cache_get( $room_name, __METHOD__ );
+		$result = \wp_cache_get( $membership_level, __METHOD__ );
 
 		if ( false === $result ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$row = $wpdb->get_row(
 				$wpdb->prepare(
 					'
-						SELECT post_id 
+						SELECT user_limit
 						FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
-						WHERE room_name = %s
+						WHERE membership_level = %d
 					',
-					$room_name,
+					$membership_level,
 				)
 			);
 
 			if ( $row ) {
-				$result = (int) $row->post_id;
+				$result = (int) $row->user_limit;
 			}
 
-			\wp_cache_set( $room_name, $result, __METHOD__ );
+			\wp_cache_set( $membership_level, $result, __METHOD__ );
 		}
 
 		return (int) $result;
@@ -211,35 +203,34 @@ class MembershipDAO {
 	/**
 	 * Get Room Info from Database.
 	 *
-	 * @param int $post_id The Room iD to query.
+	 * @param int $membership_level The Room iD to query.
 	 *
 	 * @return ?\stdClass
 	 */
-	public function get_room_info( int $post_id ): ?\stdClass {
+	public function get_limit_info( int $membership_level ): ?\stdClass {
 		global $wpdb;
 
-		$result = \wp_cache_get( $post_id, __METHOD__ );
+		$result = \wp_cache_get( $membership_level, __METHOD__ );
 
 		if ( false === $result ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$result = $wpdb->get_row(
 				$wpdb->prepare(
 					'
-						SELECT room_name, post_id, room_type, display_name, slug
+						SELECT record_id, membership_level, woocomm_level, user_limit
 						FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
-						WHERE post_id = %d
+						WHERE membership_level = %d
 					',
-					$post_id,
+					$membership_level,
 				),
 				'ARRAY_A'
 			);
-
-			\wp_cache_set( $post_id, $result, __METHOD__ );
+			\wp_cache_set( $membership_level, $result, __METHOD__ );
 		}
 
 		if ( $result ) {
 			$result     = (object) $result;
-			$result->id = $result->post_id;
+			$result->id = $result->membership_level;
 		} else {
 			$result = null;
 		}
@@ -247,53 +238,52 @@ class MembershipDAO {
 		return $result;
 	}
 
-	
 
 	/**
-	 * Get Additional Rooms Installed
+	 * Get All Membership Level Data
 	 *
-	 * @param ?string $room_type The room type to query.
+	 * @param int $membership_level Membership level to update.
 	 *
 	 * @return array
 	 */
-	public function get_all_post_ids_of_rooms( string $room_type = null ): array {
+	public function get_all_membership_limits( int $membership_level = null ): array {
 		global $wpdb;
 
-		$cache_key = $room_type;
-		if ( ! $room_type ) {
+		$cache_key = $membership_level;
+		if ( ! $membership_level ) {
 			$cache_key = '__ALL__';
 		}
 
 		$result = \wp_cache_get( $cache_key, __METHOD__ );
 
 		if ( false === $result ) {
-			if ( $room_type ) {
+			if ( $membership_level ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$rows = $wpdb->get_results(
 					$wpdb->prepare(
 						'
-							SELECT post_id
+							SELECT user_limit
 							FROM ' . /*phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared*/ $this->get_table_name() . '
-							WHERE room_type = %s
-							ORDER BY room_type ASC
+							WHERE membership_level = %d
+							ORDER BY membership_level ASC
 						',
-						$room_type
+						$membership_level
 					)
 				);
 			} else {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$rows = $wpdb->get_results(
 					'
-                        SELECT post_id
+                        SELECT user_limit
                         FROM ' . /*phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared*/ $this->get_table_name() . '
-                        ORDER BY room_type ASC
+                        ORDER BY membership_level ASC
                     '
 				);
 			}
 
 			$result = array_map(
 				function ( $row ) {
-					return (int) $row->post_id;
+					return (int) $row->user_limit;
 				},
 				$rows
 			);

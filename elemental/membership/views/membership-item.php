@@ -60,7 +60,7 @@ return function (
 		</td>
 		<td class="plugin-title column-primary">
 		<label for="number_child">
-			<input type="number" min="0" max="10000" name="number_child" value="" placeholder="" data-level = "<?php echo esc_textarea( $memberships['level'] ); ?>" id="number_child_<?php echo esc_textarea( $memberships['level'] ); ?>" class="elemental-membership-control" />
+			<input type="number" min="0" max="10000" name="number_child" value="<?php echo esc_textarea( $memberships['limit'] ); ?>" placeholder="" data-level = "<?php echo esc_textarea( $memberships['level'] ); ?>" id="number_child_<?php echo esc_textarea( $memberships['level'] ); ?>" class="elemental-membership-control" />
 		</label>
 		<div id="confirmation_<?php echo esc_textarea( $memberships['level'] ); ?>" class = "elemental-membership-displayconf"></div>
 		</td>

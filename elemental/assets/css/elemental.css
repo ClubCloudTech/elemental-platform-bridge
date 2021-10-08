@@ -1,3 +1,51 @@
 .elemental-membership-displayconf {
 	display: inline;
 }
+
+.elemental-align-left {
+	text-align: start ;
+}
+.elemental-email-status{
+	float: right;
+	width: 25%;
+	border: 1px solid #ddd;
+	padding-top: 7px;
+	padding-bottom: 6px;
+	border-radius: 0px 3px 3px 0px;
+}
+.elemental-email-wrapper{
+	float: left;
+	width: 75%;
+	border-right: none;
+}
+.elemental-clear{
+	clear: both;
+}
+.elemental-invalid{
+	background: rgb(235, 133, 65);
+	color: white;
+}
+.elemental-checking{
+	background: rgb(197, 228, 163);
+	color: white;
+}
+.elemental-email-taken{
+	background: rgb(228, 43, 43);
+	color: white;
+}
+.elemental-email-available{
+	background: rgb(33, 94, 20);
+	color: white;
+}
+form input[type="email"] {
+	border-right: none !important;
+}
+.elemental-accounts-remaining {
+	background: rgb(255, 255, 255);
+	border: 1px solid #e91414;
+	border-radius: 4px;
+	color: #e91414;
+	display: initial;
+	padding: 6px;
+	font-size: 12px;
+}

@@ -1,33 +1,27 @@
 <?php
 /**
- * Ajax for Site Video Room.
+ * Ajax for Membership Sponsored Accounts.
  *
- * @package MyVideoRoomPlugin\Modules\SiteVideo
+ * @package ElementalPlugin\Membership\Library\MembershipAjax.php
  */
 
 namespace ElementalPlugin\Membership\Library;
 
-use MyVideoRoomPlugin\DAO\RoomSyncDAO;
-use MyVideoRoomPlugin\DAO\UserVideoPreference;
 use ElementalPlugin\Factory;
-
-use MyVideoRoomPlugin\Library\RoomAdmin;
-use MyVideoRoomPlugin\Module\SiteVideo\MVRSiteVideo;
-
+use ElementalPlugin\Membership\DAO\MembershipDAO;
 
 /**
- * Class MVRSiteVideo - Renders the Video Plugin for SiteWide Video Room.
+ * Class MembershipAjax - Provides the Membership Ajax Control.
  */
 class MembershipAjax {
 
 
-	/** File Upload Ajax Support.
-	 * Handles Uploads from Welcome Area, sends them to storage and updates the database.
+	/** Elemental Ajax Support.
+	 * Handles membership function related calls and Ajax.
 	 *
 	 * @return mixed
 	 */
 	public function membership_ajax_handler() {
-		$temp_name           = null;
 		$response            = array();
 		$response['message'] = 'No Change';
 
@@ -43,6 +37,9 @@ class MembershipAjax {
 		if ( isset( $_POST['value'] ) ) {
 			$set_value = sanitize_text_field( wp_unslash( $_POST['value'] ) );
 		}
+		if ( isset( $_POST['email'] ) ) {
+			$email = \sanitize_email( wp_unslash( $_POST['email'] ) );
+		}
 
 		/*
 		* Update Display Name section.
@@ -50,8 +47,9 @@ class MembershipAjax {
 		*/
 		if ( 'update_db' === $action_taken ) {
 
+			$update = Factory::get_instance( MembershipDAO::class )->update_membership_limit( \intval( $set_value ), \intval( $membership_level ) );
 
-			if ( true === $display_updated ) {
+			if ( $update ) {
 				$response['feedback'] = \esc_html__( 'Display Name Update Updated', 'myvideoroom' );
 			} else {
 				$response['feedback'] = \esc_html__( 'Display Name Update Failed', 'myvideoroom' ) . $membership_level . '->' . $set_value;
@@ -69,6 +67,22 @@ class MembershipAjax {
 				$response['login'] = true;
 			} else {
 				$response['login'] = false;
+			}
+			return \wp_send_json( $response );
+		}
+
+		/*
+		* Check Email is Available.
+		*
+		*/
+		if ( 'check_email' === $action_taken ) {
+
+			$email_exists = get_user_by( 'email', $email );
+
+			if ( $email_exists ) {
+				$response['available'] = false;
+			} else {
+				$response['available'] = true;
 			}
 			return \wp_send_json( $response );
 		}

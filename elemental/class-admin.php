@@ -12,6 +12,7 @@ namespace ElementalPlugin;
 use \MyVideoRoomPlugin\Module\Security\Security;
 use \MyVideoRoomPlugin\Module\SiteVideo\MVRSiteVideo;
 use ElementalPlugin\DAO\ModuleConfig;
+use ElementalPlugin\Membership\Library\MembershipShortCode;
 use \MyVideoRoomPlugin\SiteDefaults;
 
 
@@ -75,7 +76,8 @@ class Admin {
 	 * @return null
 	 */
 	public function proxy_test_function() {
-		Factory::get_instance( Security::class )->activate_module();
+		// Factory::get_instance( Security::class )->activate_module();
+		Factory::get_instance( MembershipShortCode::class )->render_membership_shortcode();
 		return null;
 	}
 }

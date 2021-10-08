@@ -37,7 +37,7 @@ class Plugin {
 			'elemental',
 			plugins_url( 'assets/css/elemental.css', __FILE__ ),
 			false,
-			$plugin_version . \wp_rand( 1,20000 )
+			$plugin_version . \wp_rand( 1, 20000 )
 		);
 		\wp_enqueue_style( 'elemental' );
 	}

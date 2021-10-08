@@ -8,15 +8,20 @@
 
 namespace ElementalPlugin\Membership;
 
+use ElementalPlugin\Admin;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\Version;
+use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\Library\MembershipAjax;
+use ElementalPlugin\Membership\Library\MembershipShortCode;
 
 /**
  * Class Membership
  */
 class Membership {
 	const TABLE_NAME_MEMBERSHIPS = 'elemental_memberships';
+	const TABLE_NAME_MEMBERSYNC  = 'elemental_membersync';
+	const SHORTCODE_TAG          = Admin::SHORTCODE_TAG . 'membership';
 
 	/**
 	 * Runtime Shortcodes and Setup
@@ -45,6 +50,9 @@ class Membership {
 			'elemental_membershipadmin_ajax',
 			$script_data_array
 		);
+
+		add_shortcode( self::SHORTCODE_TAG, array( Factory::get_instance( MembershipShortCode::class ), 'render_membership_shortcode' ) );
+
 	}
 
 	/**
@@ -74,6 +82,7 @@ class Membership {
 			$record_array['label']      = $ihc_data[ $value ]['label'];
 			$record_array['badge_url']  = $ihc_data[ $value ]['badge_image_url'];
 			$record_array['price_text'] = $ihc_data[ $value ]['price_text'];
+			$record_array['limit']      = Factory::get_instance( MembershipDAO::class )->get_limit_by_membership( intval( $value ) );
 
 			\array_push( $return_array, $record_array );
 		}
