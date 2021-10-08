@@ -51,12 +51,16 @@ class MemberSyncDAO {
 	public function register_child_account( int $child_id, int $parent_id ) {
 		global $wpdb;
 
+		//phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+		$timestamp = current_time( 'timestamp' );
+
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->insert(
 			$this->get_table_name(),
 			array(
 				'parent_id' => $parent_id,
 				'user_id'   => $child_id,
+				'timestamp' => $timestamp,
 			)
 		);
 
@@ -233,9 +237,9 @@ class MemberSyncDAO {
 	 *
 	 * @param int $parent_id The Parent ID to query.
 	 *
-	 * @return ?\stdClass
+	 * @return ?int
 	 */
-	public function get_child_count( int $parent_id ): ?\stdClass {
+	public function get_child_count( int $parent_id ): ?int {
 		global $wpdb;
 
 		$result = \wp_cache_get( $parent_id, __METHOD__ );
@@ -254,7 +258,11 @@ class MemberSyncDAO {
 			);
 			$rowcount = $wpdb->num_rows;
 			\wp_cache_set( $parent_id, $rowcount, __METHOD__ );
-			return $rowcount;
+			if ( $rowcount ) {
+				return $rowcount;
+			} else {
+				return 0;
+			}
 		} else {
 			return $result;
 		}

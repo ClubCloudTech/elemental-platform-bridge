@@ -49,6 +49,11 @@ class MembershipShortCode {
 		return null;
 	}
 
+	/** Enqueue Styles and Scripts
+	 * Handles the Styles and Scripts needed for Membership Form front end to look like WCFM.
+	 *
+	 * @return void
+	 */
 	private function enqueue_style_scripts() {
 		global $WCFM, $WCFMgs;
 		$css_lib_url       = $WCFM->plugin_url . 'assets/css/';

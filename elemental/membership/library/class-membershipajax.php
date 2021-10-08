@@ -40,6 +40,12 @@ class MembershipAjax {
 		if ( isset( $_POST['email'] ) ) {
 			$email = \sanitize_email( wp_unslash( $_POST['email'] ) );
 		}
+		if ( isset( $_POST['first_name'] ) ) {
+			$first_name = sanitize_text_field( wp_unslash( $_POST['first_name'] ) );
+		}
+		if ( isset( $_POST['last_name'] ) ) {
+			$last_name = sanitize_text_field( wp_unslash( $_POST['last_name'] ) );
+		}
 
 		/*
 		* Update Display Name section.
@@ -83,6 +89,22 @@ class MembershipAjax {
 				$response['available'] = false;
 			} else {
 				$response['available'] = true;
+			}
+			return \wp_send_json( $response );
+		}
+
+		/*
+		* Create User.
+		*
+		*/
+		if ( 'create_user' === $action_taken ) {
+
+			$success = Factory::get_instance( MembershipUser::class )->create_wordpress_user( $first_name, $last_name, $email );
+
+			if ( $success ) {
+				$response['feedback'] = true;
+			} else {
+				$response['feedback'] = false;
 			}
 			return \wp_send_json( $response );
 		}

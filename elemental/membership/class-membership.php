@@ -12,16 +12,20 @@ use ElementalPlugin\Admin;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
+use ElementalPlugin\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Membership\Library\MembershipAjax;
 use ElementalPlugin\Membership\Library\MembershipShortCode;
+use ElementalPlugin\Membership\Library\MembershipUMP;
 
 /**
  * Class Membership
  */
 class Membership {
-	const TABLE_NAME_MEMBERSHIPS = 'elemental_memberships';
-	const TABLE_NAME_MEMBERSYNC  = 'elemental_membersync';
-	const SHORTCODE_TAG          = Admin::SHORTCODE_TAG . 'membership';
+	const TABLE_NAME_MEMBERSHIPS      = 'elemental_memberships';
+	const TABLE_NAME_MEMBERSYNC       = 'elemental_membersync';
+	const SHORTCODE_TAG               = Admin::SHORTCODE_TAG . 'membership';
+	const MEMBERSHIP_ROLE_NAME        = 'Sponsored';
+	const MEMBERSHIP_ROLE_DESCRIPTION = 'Sponsored Account';
 
 	/**
 	 * Runtime Shortcodes and Setup
@@ -54,39 +58,32 @@ class Membership {
 		add_shortcode( self::SHORTCODE_TAG, array( Factory::get_instance( MembershipShortCode::class ), 'render_membership_shortcode' ) );
 
 	}
+	/**
+	 * Activate Functions for Membership.
+	 */
+	public function activate() {
 
+		Factory::get_instance( MembershipDAO::class )->install_membership_mapping_table();
+		Factory::get_instance( MemberSyncDAO::class )->install_membership_sync_table();
+		$this->create_membership_role();
+	}
 	/**
 	 * Render Membership Config Page
 	 * Renders configuration of Membership Management Plugin
 	 */
 	public function render_membership_config_page(): string {
-		// Returns all rooms with null roomtype, or a specific room with Room Type.
 		\wp_enqueue_script( 'elemental-membership-js' );
-		$membership_levels = $this->get_ump_memberships();
+		$membership_levels = Factory::get_instance( MembershipUMP::class )->get_ump_memberships();
 		return ( require __DIR__ . '/views/table-output.php' )( $membership_levels );
 	}
 
 	/**
-	 * Get the list of Subscription Levels
-	 *
-	 * @return array
+	 * Create Membership Role for Sponsored Account
 	 */
-	public function get_ump_memberships() :array {
-		$ihc_data          = get_option( 'ihc_levels' );
-		$membership_levels = array_keys( $ihc_data );
-		$return_array      = array();
-
-		foreach ( $membership_levels as $level => $value ) {
-			$record_array               = array();
-			$record_array['level']      = $value;
-			$record_array['label']      = $ihc_data[ $value ]['label'];
-			$record_array['badge_url']  = $ihc_data[ $value ]['badge_image_url'];
-			$record_array['price_text'] = $ihc_data[ $value ]['price_text'];
-			$record_array['limit']      = Factory::get_instance( MembershipDAO::class )->get_limit_by_membership( intval( $value ) );
-
-			\array_push( $return_array, $record_array );
-		}
-		return $return_array;
+	public function create_membership_role(): void {
+		global $wp_roles;
+		$edr = $wp_roles->get_role( 'Subscriber' );
+		add_role( self::MEMBERSHIP_ROLE_NAME, self::MEMBERSHIP_ROLE_DESCRIPTION, $edr->capabilities );
 	}
 
 }

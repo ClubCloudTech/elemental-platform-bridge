@@ -1,8 +1,8 @@
 <?php
 /**
- * Outputs the configuration settings for the video plugin
+ * Handles the Add New User Procedure for Membership Management.
  *
- * @package MyVideoRoomPlugin\Module\SiteVideo\Views\add-new-user.php
+ * @package ElementalPlugin\Membership\Views\add-new-user.php
  */
 
 use ElementalPlugin\Factory;
@@ -22,7 +22,7 @@ return function (): string {
 	<div class="mvr-nav-settingstabs-outer-wrap myvideoroom-welcome-page elemental-align-left">
 
 	<form method="" action="<?php echo \esc_url_raw( $post_url ); ?>">
-		
+
 		<div class="elemental-email-wrapper">
 		<label class="elemental-align-left" for="<?php echo esc_attr( $html_library->get_id( 'title' ) ); ?>">
 			<?php esc_html_e( 'Email Address ', 'myvideoroom' ); ?>
@@ -37,7 +37,7 @@ return function (): string {
 			<?php esc_html_e( 'Status ', 'myvideoroom' ); ?>
 		</label>
 		<div id="elemental-email-status" data-valid ="" class="elemental-email-status elemental-membership-displayconf"><?php esc_html_e( 'Blank ', 'myvideoroom' ); ?> </div>
-		
+
 		<p class="elemental-clear" id="elemental-email-status-box">
 			<?php
 			esc_html_e(
@@ -53,8 +53,7 @@ return function (): string {
 			<?php esc_html_e( 'First Name ', 'myvideoroom' ); ?>
 			<i id="first-name-icon" class="card dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
 		</label>
-		
-		
+
 		<input type="text"
 			id="first_name"
 			name="<?php echo esc_attr( $html_library->get_field_name( 'slug' ) ); ?>"
