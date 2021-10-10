@@ -9,19 +9,18 @@
  * @version   1.0.0
  *
  * @param string $add_account_form - add an account form
+ * @param string $accounts_remaining - the data on how much account quota is remaining
+ * @param string $child_account_table - the Child Accounts Table.
+ * * @param string $login_form - Login Form if Present.
  */
-
-use ElementalPlugin\Factory;
-use ElementalPlugin\Membership\Library\MembershipUMP;
 
 return function (
 	string $add_account_form,
-	string $accounts_remaining
+	string $accounts_remaining = null,
+	string $child_account_table,
+	string $login_form = null
 ): string {
 	ob_start();
-
-	global $WCFM;
-
 	$wcfm_is_allow_manage_staff = apply_filters( 'wcfm_is_allow_manage_staff', true );
 	if ( ! $wcfm_is_allow_manage_staff ) {
 		wcfm_restriction_message_show( 'Staffs' );
@@ -36,9 +35,13 @@ return function (
 		<span class="wcfm-page-heading-text"><?php esc_html_e( 'Sponsored Accounts', 'myvideoroom' ); ?></span>
 		<?php do_action( 'wcfm_page_heading' ); ?>
 	</div>
+
 	<div class="wcfm-collapse-content">
 		<div id="wcfm_page_load "></div>
+		<?php
 
+		if ( is_user_logged_in() ) {
+			?>
 		<div class="wcfm-container wcfm-top-element-container">
 			<h2><?php esc_html_e( 'Manage Sponsored Accounts', 'myvideoroom' ); ?></h2>
 
@@ -57,11 +60,8 @@ return function (
 			?>
 
 			<?php
-			if ( current_user_can( 'editor' ) || current_user_can( 'administrator' ) ) {
-				echo '<div class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have Unlimited Accounts Remaining ', 'myvideoroom' ) . '</div>';
-			} elseif ( $accounts_remaining > 0 ) {
-				echo '<div class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have ', 'myvideoroom' ) . esc_textarea( $accounts_remaining ) . esc_html__( ' accounts remaining', 'myvideoroom' ) . '</div>';
-			}
+				// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
+				echo $accounts_remaining;
 			?>
 
 			<div class="wcfm-clearfix"></div>
@@ -69,6 +69,7 @@ return function (
 		<div id="elemental-adduser-frame" class="wcfm-container wcfm-top-element-container" style="display:none;">
 			<h3 class="elemental-align-left"><?php esc_html_e( 'Add a Sponsored Account', 'myvideoroom' ); ?></h3>
 			<?php
+				// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
 				echo $add_account_form;
 			?>
 
@@ -77,32 +78,21 @@ return function (
 		<div class="wcfm-clearfix"></div><br />
 
 		<div id="elemental-membership-table">
-			<div class="wcfm-container">
-				<div id="wwcfm_shop_staffsesc_html_expander" class="wcfm-content">
-					<table id="wcfm-shop-staffs" class="display" cellspacing="0" width="100%">
-						<thead>
-							<tr>
-								<th><?php esc_html_e( 'Account', 'myvideoroom' ); ?></th>
-								<th><?php esc_html_e( 'Created', 'myvideoroom' ); ?></th>
-								<th><?php esc_html_e( 'Name', 'myvideoroom' ); ?></th>
-								<th><?php esc_html_e( 'Actions', 'myvideoroom' ); ?></th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<th><?php esc_html_e( 'Account', 'myvideoroom' ); ?></th>
-								<th><?php esc_html_e( 'Created', 'myvideoroom' ); ?></th>
-								<th><?php esc_html_e( 'Name', 'myvideoroom' ); ?></th>
-								<th><?php esc_html_e( 'Actions', 'myvideoroom' ); ?></th>
-							</tr>
-						</tfoot>
-					</table>
-					<div class="wcfm-clearfix"></div>
-				</div>
-			</div>
+			<?php
+			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
+			echo $child_account_table;
+			?>
 		</div>
-			</div>
-</div>
+			<?php
+		} else {
+			//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - Already Escaped inside own view.
+			echo $login_form;
+		}
+		?>
+			
+	</div>
+	</div>
+
 	<?php
 	return ob_get_clean();
 

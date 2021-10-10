@@ -25,6 +25,7 @@ return function (
 ): string {
 
 	$render = include __DIR__ . '/header.php';
+	//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo $render( $active_tab, $tabs, $messages );
 
 	ob_start();

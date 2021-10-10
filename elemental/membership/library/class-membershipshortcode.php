@@ -8,6 +8,7 @@
 namespace ElementalPlugin\Membership\Library;
 
 use ElementalPlugin\Factory;
+use \MyVideoRoomPlugin\Module\SiteVideo\Library\MVRSiteVideoViews;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -42,11 +43,33 @@ class MembershipShortCode {
 
 		$this->enqueue_style_scripts();
 		$user_id             = get_current_user_id();
-		$accounts_remaining  = Factory::get_instance( MembershipUMP::class )->child_account_available_number( $user_id );
+		$accounts_remaining  = $this->render_remaining_account_count( $user_id );
+		$child_account_table = $this->generate_child_account_table();
+		if ( ! \is_user_logged_in() ) {
+			$login_form = Factory::get_instance( MVRSiteVideoViews::class )->render_login_page();
+		}
 		$render              = ( require __DIR__ . '/../views/manage-child.php' );
 		$manage_account_form = ( require __DIR__ . '/../views/add-new-user.php' );
-		echo $render( $manage_account_form(), $accounts_remaining );
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+		echo $render( $manage_account_form(), $accounts_remaining, $child_account_table, $login_form );
 		return null;
+	}
+
+	/** Child Account User Table
+	 * Handles the rendering of the User tables for Child Accounts.
+	 *
+	 * @param int $user_id The WP User ID.
+	 * @return ?string
+	 */
+	public function generate_child_account_table( int $user_id = null ): ?string {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
+		$render             = ( require __DIR__ . '/../views/table-sponsored-accounts.php' );
+
+		return $render( $sponsored_accounts );
+
 	}
 
 	/** Enqueue Styles and Scripts
@@ -59,6 +82,7 @@ class MembershipShortCode {
 		$css_lib_url       = $WCFM->plugin_url . 'assets/css/';
 		$upload_dir        = wp_upload_dir();
 		$wcfm_style_custom = get_option( 'wcfm_style_custom' );
+		\wp_enqueue_script( 'myvideoroom-iframe-handler' );
 		wp_enqueue_style( 'wcfm_capability_css', $WCFM->library->css_lib_url . 'capability/wcfm-style-capability.css', false, 1 );
 		wp_enqueue_style( 'collapsible_css', $WCFM->library->css_lib_url . 'wcfm-style-collapsible.css', false, $WCFMgs->version );
 		wp_enqueue_style( 'wcfmgs_staffs_manage_css', $WCFMgs->plugin_url . 'assets/css/wcfmgs-style-staffs-manage.css', false, $WCFMgs->version );
@@ -92,5 +116,105 @@ class MembershipShortCode {
 	}
 
 
+		/** Enqueue Styles and Scripts
+		 * Handles the Styles and Scripts needed for Membership Form front end to look like WCFM.
+		 *
+		 * @param int $user_id The WP User ID.
+		 * @return string
+		 */
+	public function render_remaining_account_count( int $user_id = null ): ?string {
+		if ( ! $user_id ) {
+			$user_id = \get_current_user_id();
+		}
 
+		$accounts_remaining = Factory::get_instance( MembershipUMP::class )->child_account_available_number( $user_id );
+
+		if ( current_user_can( 'editor' ) || current_user_can( 'administrator' ) ) {
+			return '<div id="div-holder-temp" class="elemental-initial"> <div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have Unlimited Accounts Remaining ', 'myvideoroom' ) . '</div></div>';
+		} elseif ( $accounts_remaining > 0 ) {
+			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have ', 'myvideoroom' ) . esc_textarea( $accounts_remaining ) . esc_html__( ' accounts remaining', 'myvideoroom' ) . '</div></div>';
+		}
+		return null;
+	}
+
+	/**
+	 * Render Confirmation Pages
+	 *
+	 * @param string $message - Message to Display.
+	 * @param string $confirmation_button_approved - Button to Display for Approved.
+	 * @return string
+	 */
+	public function membership_confirmation( string $message, string $confirmation_button_approved ):string {
+
+		$cancel_button = $this->cancel_nav_bar_button( 'cancel', esc_html__( 'Cancel', 'my-video-room' ), null, 'mvr-main-button-cancel' );
+
+		// Render Confirmation Page View.
+		$render = require __DIR__ . '/../views/confirmation-page.php';
+		return $render( $message, $confirmation_button_approved, $cancel_button );
+
+	}
+	/**
+	 * Render the Basket Nav Bar Button
+	 *
+	 * @param  string $button_type - Feedback for Ajax Post.
+	 * @param  string $button_label - Label for Button.
+	 * @param  string $style - Add a class for the button (optional).
+	 * @param  string $target_id - Adds a class to the button to javascript take an action on.
+	 * @param  string $target_window - adds a target window element used to switch destination windows.
+	 *
+	 * @return string
+	 */
+	public function cancel_nav_bar_button( string $button_type, string $button_label, string $style = null, string $target_id = null, string $target_window = null ): string {
+
+		$id_text = null;
+
+		if ( $target_window ) {
+			$id_text = ' data-target="' . $target_window . '" ';
+		}
+
+		$style .= ' ' . $target_id;
+
+		return '
+		<button id="' . $target_id . '" class="' . $style . '" data-target="' . $target_window . '">
+		<a data-input-type="' . $button_type . '" ' . $id_text . ' class=" ' . $style . ' ">' . $button_label . '</a>
+		</button>
+		';
+	}
+
+	/**
+	 * Render the Basket Nav Bar Button
+	 *
+	 * @param  string $button_type - Feedback for Ajax Post.
+	 * @param  string $button_label - Label for Button.
+	 * @param string $room_name -  Name of Room.
+	 * @param  string $nonce - Nonce for operation (if confirmation used).
+	 * @param  string $product_or_id - Adds additional Data to Nonce for more security (optional).
+	 * @param  string $style - Add a class for the button (optional).
+	 * @param  string $target_id - Adds a class to the button to javascript take an action on.
+	 * @param  string $href_class - Adds a class to the button to javascript take an action on.
+	 * @param  string $target_window - adds a target window element used to switch destination windows.
+	 *
+	 * @return string
+	 */
+	public function basket_nav_bar_button( string $button_type, string $button_label, string $room_name = null, string $nonce = null, string $product_or_id = null, string $style = null, string $target_id = null, string $href_class = null, string $target_window = null ): string {
+
+		$id_text = null;
+		if ( $product_or_id ) {
+			$id_text .= ' data-record-id="' . $product_or_id . '" ';
+		}
+
+		if ( $target_window ) {
+			$id_text .= ' data-target="' . $target_window . '" ';
+		}
+
+		if ( ! $style ) {
+			$style = 'mvr-main-button-enabled';
+		}
+
+		return '
+		<button  class="' . $style . ' myvideoroom-woocommerce-basket-ajax" data-target="' . $target_id . '">
+		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' class="' . $style . ' myvideoroom-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
+		</button>
+		';
+	}
 }

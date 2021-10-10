@@ -21,21 +21,28 @@
 .elemental-clear{
 	clear: both;
 }
+.elemental-initial {
+	display: initial;
+}
 .elemental-invalid{
 	background: rgb(235, 133, 65);
 	color: white;
+	padding: 5px;
 }
 .elemental-checking{
 	background: rgb(197, 228, 163);
 	color: white;
+	padding: 5px;
 }
 .elemental-email-taken{
 	background: rgb(228, 43, 43);
 	color: white;
+	padding: 5px;
 }
 .elemental-email-available{
 	background: rgb(33, 94, 20);
 	color: white;
+	padding: 5px;
 }
 form input[type="email"] {
 	border-right: none !important;

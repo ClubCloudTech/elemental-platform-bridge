@@ -66,6 +66,7 @@ class MemberSyncDAO {
 
 		\wp_cache_delete( $child_id, __CLASS__ . '::get_parent_by_child' );
 		\wp_cache_delete( $parent_id, __CLASS__ . '::get_all_child_accounts' );
+		\wp_cache_delete( $parent_id, __CLASS__ . '::get_child_count' );
 		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_child_accounts' );
 
 		if ( $result ) {
@@ -124,6 +125,37 @@ class MemberSyncDAO {
 
 		\wp_cache_delete( $child_id, __CLASS__ . '::get_parent_by_child' );
 		\wp_cache_delete( $parent_id, __CLASS__ . '::get_child_account_info' );
+
+		return $success;
+	}
+
+	/**
+	 * Update Room Post ID in Database
+	 * This plugin will update the room name in the database with the parameter
+	 *
+	 * @param int $child_id   The user limit.
+	 *
+	 * @return bool|null
+	 */
+	public function delete_child_account( int $child_id ): ?bool {
+		global $wpdb;
+		$parent_id = $this->get_parent_by_child( $child_id );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$success = $wpdb->query(
+			$wpdb->prepare(
+				'
+					DELETE FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
+				    WHERE user_id = %d
+			    ',
+				$child_id,
+			)
+		);
+
+		\wp_cache_delete( $child_id, __CLASS__ . '::get_parent_by_child' );
+		\wp_cache_delete( $parent_id, __CLASS__ . '::get_child_count' );
+		\wp_cache_delete( $child_id, __CLASS__ . '::get_all_child_accounts' );
+		\wp_cache_delete( $child_id, __CLASS__ . '::get_child_account_info' );
+		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_child_accounts' );
 
 		return $success;
 	}
@@ -243,7 +275,7 @@ class MemberSyncDAO {
 		global $wpdb;
 
 		$result = \wp_cache_get( $parent_id, __METHOD__ );
-
+		// $result = false;
 		if ( false === $result ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->get_results(
@@ -312,11 +344,10 @@ class MemberSyncDAO {
 
 			$result = array_map(
 				function ( $row ) {
-					$item = new stdClass(
-						(int) $row->user_id,
-						(int) $row->timestamp,
-						(int) $row->parent_id,
-					);
+					$item              = array();
+					$item['user_id']   = (int) $row->user_id;
+					$item['timestamp'] = (int) $row->timestamp;
+					$item['parent_id'] = (int) $row->parent_id;
 					return $item;
 				},
 				$rows

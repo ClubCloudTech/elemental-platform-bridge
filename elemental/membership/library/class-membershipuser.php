@@ -61,4 +61,56 @@ class MembershipUser {
 		// wp_mail( $email_address, 'Welcome!', 'Your Password: ' . $password );
 	}
 
+	/**
+	 * Get the list of User Sponsored Accounts
+	 *
+	 * @param int $parent_id - The user ID of the parent - uses currently logged in user if blank.
+	 * @return array
+	 */
+	public function get_sponsored_users( int $parent_id = null ) :array {
+		if ( ! $parent_id ) {
+			$parent_id = \get_current_user_id();
+		}
+
+		$sponsored_objects = Factory::get_instance( MemberSyncDAO::class )->get_all_child_accounts( $parent_id );
+
+		$return_array = array();
+
+		foreach ( $sponsored_objects as $account ) {
+			$user = \get_user_by( 'ID', $account['user_id'] );
+
+			$record_array                 = array();
+			$record_array['user_id']      = $account['user_id'];
+			$record_array['created']      = date_i18n( get_option( 'date_format' ), $account['timestamp'] );
+			$record_array['parent_id']    = $account['parent_id'];
+			$record_array['display_name'] = $user->display_name;
+			$record_array['email']        = $user->user_email;
+
+			\array_push( $return_array, $record_array );
+		}
+		return $return_array;
+	}
+	/**
+	 * Delete WordPress user from Membership form Ajax call.
+	 *
+	 * @param int $user_id - The User_ID to be deleted.
+	 *
+	 * @return bool
+	 */
+	public function delete_wordpress_user( int $user_id ): bool {
+
+		$user_info          = get_userdata( $user_id );
+		$current_user_roles = $user_info->roles;
+		require_once ABSPATH . 'wp-admin/includes/user.php';
+
+		if ( in_array( 'administrator', $current_user_roles ) ) {
+			return false;
+		} else {
+			if ( wp_delete_user( $user_id ) ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 }

@@ -9,6 +9,8 @@ namespace ElementalPlugin\Membership\Library;
 
 use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
+use ElementalPlugin\Membership\DAO\MemberSyncDAO;
+use ElementalPlugin\Membership\Membership;
 
 /**
  * Class MembershipAjax - Provides the Membership Ajax Control.
@@ -45,6 +47,12 @@ class MembershipAjax {
 		}
 		if ( isset( $_POST['last_name'] ) ) {
 			$last_name = sanitize_text_field( wp_unslash( $_POST['last_name'] ) );
+		}
+		if ( isset( $_POST['userid'] ) ) {
+			$user_id = sanitize_text_field( wp_unslash( $_POST['userid'] ) );
+		}
+		if ( isset( $_POST['nonce'] ) ) {
+			$nonce = sanitize_text_field( wp_unslash( $_POST['nonce'] ) );
 		}
 
 		/*
@@ -103,9 +111,55 @@ class MembershipAjax {
 
 			if ( $success ) {
 				$response['feedback'] = true;
+				$response['table']    = Factory::get_instance( MembershipShortCode::class )->generate_child_account_table();
+				$response['counter']  = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
 			} else {
 				$response['feedback'] = false;
 			}
+			return \wp_send_json( $response );
+		}
+
+		/*
+		* Delete User.
+		*
+		*/
+		if ( 'delete_user' === $action_taken ) {
+			$verify = \wp_verify_nonce( $nonce, Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $user_id ) );
+			if ( ! $verify ) {
+				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'myvideoroom' );
+				return \wp_send_json( $response );
+			}
+			$my_user_id  = \get_current_user_id();
+			$user_parent = Factory::get_instance( MemberSyncDAO::class )->get_parent_by_child( $user_id );
+			if ( $user_parent !== $my_user_id ) {
+				$response['feedback'] = \esc_html__( 'You are not the parent of this account, you can not delete it.', 'myvideoroom' );
+				return \wp_send_json( $response );
+			}
+			$message                  = \esc_html__( 'delete this user ? This operation can not be undone', 'myvideoroom' );
+			$approved_nonce           = wp_create_nonce( $user_id . 'approved' );
+			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( Membership::MEMBERSHIP_NONCE_PREFIX_DU, esc_html__( 'Delete User', 'my-video-room' ), null, $approved_nonce, $user_id );
+			$response['confirmation'] = Factory::get_instance( MembershipShortCode::class )->membership_confirmation( $message, $button_approved );
+
+			return \wp_send_json( $response );
+		}
+
+		if ( 'delete_final' === $action_taken ) {
+			$verify = \wp_verify_nonce( $nonce, $user_id . 'approved' );
+			if ( ! $verify ) {
+				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'myvideoroom' );
+				return \wp_send_json( $response );
+			}
+			$delete_user = Factory::get_instance( MembershipUser::class )->delete_wordpress_user( $user_id );
+			$delete_db   = Factory::get_instance( MemberSyncDAO::class )->delete_child_account( $user_id );
+
+			if ( true === $delete_user ) {
+				$response['feedback'] = \esc_html__( 'User Deleted Successfully', 'myvideoroom' );
+				$response['table']    = Factory::get_instance( MembershipShortCode::class )->generate_child_account_table();
+				$response['counter']  = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
+			} else {
+				$response['feedback'] = \esc_html__( 'Error Deleting User', 'myvideoroom' );
+			}
+
 			return \wp_send_json( $response );
 		}
 		die();

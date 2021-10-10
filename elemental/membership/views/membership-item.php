@@ -1,12 +1,12 @@
 <?php
 /**
- * BACKEND/ADMIN Shows a single row in the conference center rooms table (shows shortcodes)
+ * Shows Membership Room Items
  *
- * @package MyVideoRoomPlugin\Views\Public\Admin
+ * @package ElementalPlugin\Membership\Views\membership-item.php
  */
 
 /**
- * Render the admin page
+ * Render the Membership Items.
  *
  * @param \stdClass $memberships The room
  * @param ?string $memberships_type  Category of Room to Filter.

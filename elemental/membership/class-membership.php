@@ -26,6 +26,7 @@ class Membership {
 	const SHORTCODE_TAG               = Admin::SHORTCODE_TAG . 'membership';
 	const MEMBERSHIP_ROLE_NAME        = 'Sponsored';
 	const MEMBERSHIP_ROLE_DESCRIPTION = 'Sponsored Account';
+	const MEMBERSHIP_NONCE_PREFIX_DU  = 'delete_user_';
 
 	/**
 	 * Runtime Shortcodes and Setup
