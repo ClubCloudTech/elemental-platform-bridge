@@ -24,13 +24,17 @@ class MembershipUMP {
 	 * @return ?string
 	 */
 	public function highest_user_membership_quota( int $user_id = null ): ?int {
+		$quota = 0;
+		if ( ! class_exists( 'IHC_db' ) ) {
+			return $quota;
+		}
+
 		if ( ! $user_id ) {
 			$user_id = \get_current_user_id();
 		}
 
 		// Get all levels valid.
 		$levels_object = \IHC_db::get_user_levels( $user_id, true );
-		$quota         = 0;
 
 		// Check each Level Quota.
 		foreach ( $levels_object as $level ) {

@@ -164,5 +164,4 @@ class MembershipAjax {
 		}
 		die();
 	}
-
 }

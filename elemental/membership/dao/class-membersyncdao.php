@@ -275,7 +275,7 @@ class MemberSyncDAO {
 		global $wpdb;
 
 		$result = \wp_cache_get( $parent_id, __METHOD__ );
-		// $result = false;
+
 		if ( false === $result ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->get_results(

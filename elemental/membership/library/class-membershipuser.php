@@ -36,6 +36,8 @@ class MembershipUser {
 		if ( ! $user_id ) {
 			return false;
 		}
+		// Notify User of Password.
+		$notify_user_status = $this->notify_new_child_user( $password, $email, $first_name );
 		// Update Additional User Parameters.
 		wp_update_user(
 			array(
@@ -51,14 +53,29 @@ class MembershipUser {
 		$parent_id = \get_current_user_id();
 		Factory::get_instance( MemberSyncDAO::class )->register_child_account( $user_id, $parent_id );
 
-		// Notify User of Password.
-		$this->notify_new_child_user();
-
 		return true;
 	}
+	/**
+	 * Send WordPress Notification Mail to New User.
+	 *
+	 * @param string $password - the generated password.
+	 * @param string $email_address - the User Email Address.
+	 * @param string $first_name - the User First Name.
+	 *
+	 * @return bool
+	 */
+	public function notify_new_child_user( string $password, string $email_address, string $first_name ) {
 
-	public function notify_new_child_user() {
-		// wp_mail( $email_address, 'Welcome!', 'Your Password: ' . $password );
+		$template = require __DIR__ . '/../views/email-template.php';
+		$headers  = array( 'Content-Type: text/html; charset=UTF-8' );
+
+		$status = wp_mail(
+			$email_address,
+			\esc_html__( ' Welcome to ', 'myvideoroom' ) . get_bloginfo( 'name' ),
+			$template( $password, $email_address, $first_name ),
+			$headers
+		);
+		return $status;
 	}
 
 	/**
