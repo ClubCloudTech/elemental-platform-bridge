@@ -51,8 +51,7 @@ class MembershipShortCode {
 		$render              = ( require __DIR__ . '/../views/manage-child.php' );
 		$manage_account_form = ( require __DIR__ . '/../views/add-new-user.php' );
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
-		echo $render( $manage_account_form(), $accounts_remaining, $child_account_table, $login_form );
-		return null;
+		return $render( $manage_account_form(), $accounts_remaining, $child_account_table, $login_form );
 	}
 
 	/** Child Account User Table

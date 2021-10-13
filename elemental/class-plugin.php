@@ -11,6 +11,7 @@ namespace ElementalPlugin;
 
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\Membership;
+use ElementalPlugin\ShortCode\ShortCodeTab;
 
 /**
  * Class Plugin
@@ -26,6 +27,7 @@ class Plugin {
 	public function __construct() {
 		Factory::get_instance( Admin::class )->init();
 		Factory::get_instance( Membership::class )->init();
+		Factory::get_instance( ShortCodeTab::class )->init();
 		$this->styles();
 	}
 	/**
