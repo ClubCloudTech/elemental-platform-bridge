@@ -70,7 +70,7 @@ class ShortCodeTab {
 		$menutab = array();
 		foreach ( $output_tabs as $tab ) {
 			$short_code_build = '[' . $tab['shortcode'] . ']';
-			$menu = new MenuTabDisplay(
+			$menu             = new MenuTabDisplay(
 				$tab['displaytab'],
 				preg_replace( '/\s+/', '', $tab['displaytab'] ),
 				fn() => \do_shortcode( $short_code_build )

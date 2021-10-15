@@ -31,7 +31,7 @@ return function (
 		$edit_actions[] = array(
 			__( 'Save' ),
 			$delete_url,
-			'dashicons dashicons-database-add myvideoroom-sitevideo-delete',
+			'myvideoroom-dashicons dashicons-database-add myvideoroom-sitevideo-delete',
 			array( 'data-nonce' => $save_nonce ),
 		);
 

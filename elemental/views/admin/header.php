@@ -30,7 +30,7 @@ return function (
 				echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
 			}
 			?>
-		
+
 		</div>
 
 		<img src="<?php echo \esc_url( \plugins_url( '/img/screen-1.png', \realpath( __DIR__ . '/../' ) ) ); ?>"

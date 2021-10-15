@@ -50,7 +50,8 @@ return function (
 				?>
 			<a target="_blank" class="wcfm_wp_admin_view text_tip"
 				href="<?php echo admin_url( 'users.php?role=shop_staff' ); ?>"
-				data-tip="<?php esc_html_e( 'WP Admin View', 'myvideoroom' ); ?>"><span class="fab fa-wordpress"></span></a>
+				data-tip="<?php esc_html_e( 'WP Admin View', 'myvideoroom' ); ?>"><span
+					class="fab fa-wordpress"></span></a>
 				<?php
 			}
 
@@ -89,9 +90,8 @@ return function (
 			echo $login_form;
 		}
 		?>
-			
 	</div>
-	</div>
+</div>
 
 	<?php
 	return ob_get_clean();

@@ -51,7 +51,7 @@ return function (): string {
 <div class="mvr-left">
 		<label for="first_name">
 			<?php esc_html_e( 'First Name ', 'myvideoroom' ); ?>
-			<i id="first-name-icon" class="card dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
+			<i id="first-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
 		</label>
 
 		<input type="text"
@@ -66,7 +66,7 @@ return function (): string {
 		<div class="mvr-right">
 		<label for="last_name">
 			<?php esc_html_e( 'Last Name ', 'myvideoroom' ); ?>
-			<i id="last-name-icon" class="card dashicons mvr-icons dashicons-saved" title="Last Name Ready to Go" style="display:none"></i>
+			<i id="last-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved" title="Last Name Ready to Go" style="display:none"></i>
 		</label>
 		<input type="text"
 			id="last_name"
