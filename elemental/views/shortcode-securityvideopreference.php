@@ -46,7 +46,7 @@ return function (
 
 				if ( ! $site_override ) {
 
-					if ( Factory::get_instance( \ElementalPlugin\Core\SiteDefaults::class )->is_buddypress_active() ) {
+					if ( Factory::get_instance( \ElementalPlugin\Core\SiteDefaults::class )->is_buddypress_available() ) {
 						$restrict_group_to_members_enabled = Factory::get_instance( SecurityVideoPreferenceDAO::class )->read_security_settings( $user_id, $room_name, 'restrict_group_to_members_enabled' );
 						if ( $restrict_group_to_members_enabled ) {
 							echo '<a class="button button-primary" style="background-color:blue">Restricted to Members</a>';

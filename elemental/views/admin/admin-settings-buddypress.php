@@ -48,7 +48,7 @@ return function (
 	?>
 
 	<?php
-	if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_active() ) {
+	if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_available() ) {
 		?>
 
 

@@ -155,7 +155,7 @@ class WCFMHelpers extends Shortcode {
 				$store_gravatar = $store_user->get_avatar();
 				$url            = $store_gravatar;
 			} else {
-				if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_active() ) {
+				if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_available() ) {
 					$url = \bp_core_fetch_avatar(
 						array(
 							'item_id' => get_current_user_id(),

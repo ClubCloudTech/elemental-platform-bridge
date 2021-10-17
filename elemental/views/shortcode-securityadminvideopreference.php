@@ -38,7 +38,7 @@ return function (
 				->read_security_settings( $user_id, $room_name, 'anonymous_enabled' );
 				$allow_role_control_enabled = Factory::get_instance( SecurityVideoPreferenceDao::class )->read_security_settings( $user_id, $room_name, 'allow_role_control_enabled' );
 
-				if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_active()
+				if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_available()
 				) {
 					$restrict_group_to_members_enabled = Factory::get_instance( SecurityVideoPreferenceDao::class )->read_security_settings( $user_id, $room_name, 'restrict_group_to_members_enabled' );
 					if ( $restrict_group_to_members_enabled && $site_override ) {

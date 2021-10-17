@@ -182,7 +182,7 @@ class SiteDefaults extends Shortcode {
 
 	// This function checks if BuddyPress is Active in Site
 
-	public function is_buddypress_active() {
+	public function is_buddypress_available() {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 		if ( is_plugin_active( 'buddypress/bp-loader.php' ) ) {

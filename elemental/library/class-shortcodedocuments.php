@@ -42,7 +42,7 @@ class ShortcodeDocuments {
 		$this->render_general_shortcode_docs();
 		$this->render_sitevideoroom_shortcode_docs();
 		$this->render_personalmeeting_shortcode_docs();
-		if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_active() ) {
+		if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_available() ) {
 			$this->render_buddypress_shortcode_docs();
 		}
 		if ( Factory::get_instance( SiteDefaults::class )->is_wcfm_active() ) {
