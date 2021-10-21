@@ -40,7 +40,7 @@ class SecurityButtons {
 		// Format Plugin Base Link to Security Center.
 		$plugin_foldername = plugin_basename( __DIR__ );
 		$plugin_path       = strstr( $plugin_foldername, '/', true );
-		$admin_page        = Security ::MODULE_SECURITY_NAME; 
+		$admin_page        = Security::MODULE_SECURITY_NAME;
 
 		// get Site Override Status.
 

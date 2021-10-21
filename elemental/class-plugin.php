@@ -12,6 +12,7 @@ namespace ElementalPlugin;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\Membership;
 use ElementalPlugin\ShortCode\ShortCodeTab;
+use ElementalPlugin\WCFM\WCFMSearch;
 
 /**
  * Class Plugin
@@ -28,6 +29,8 @@ class Plugin {
 		Factory::get_instance( Admin::class )->init();
 		Factory::get_instance( Membership::class )->init();
 		Factory::get_instance( ShortCodeTab::class )->init();
+		Factory::get_instance( WCFMSearch::class )->init();
+
 		$this->styles();
 	}
 	/**
@@ -50,7 +53,7 @@ class Plugin {
 	 * @return object
 	 */
 	public static function init() {
-		require plugin_dir_path( __FILE__ ) . 'elementor/class-elementor-elemental.php';
+
 		return Factory::get_instance( self::class );
 	}
 }
