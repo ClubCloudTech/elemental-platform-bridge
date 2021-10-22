@@ -262,4 +262,26 @@ class WCFMHelpers extends Shortcode {
 
 	}
 
+	/**
+	 * OK from Here.
+	 * For Clean
+	 */
+
+	/** Child Account User Table
+	 * Handles the rendering of the User tables for Child Accounts.
+	 *
+	 * @param int $user_id The WP User ID.
+	 * @return ?string
+	 */
+	public function generate_membership_settings_table( int $user_id = null ): ?string {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
+		$render             = ( require __DIR__ . '/../views/table-sponsored-accounts.php' );
+
+		return $render( $sponsored_accounts );
+
+	}
+
 }

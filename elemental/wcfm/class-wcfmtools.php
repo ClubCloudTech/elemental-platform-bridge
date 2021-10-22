@@ -12,6 +12,7 @@ namespace ElementalPlugin\WCFM;
  */
 class WCFMTools {
 
+	const PREMIUM_LIST = 16306;
 	/**
 	 * Get WCFM Membership Levels.
 	 *
@@ -94,7 +95,7 @@ class WCFMTools {
 	 * Get Store Memberships.
 	 *
 	 * @param int $store_id the StoreID to Check.
-	 * @return ?bool
+	 * @return ?array
 	 */
 	public function elemental_get_store_memberships( int $store_id ): ?array {
 		$memberships       = $this->elemental_get_wcfm_memberships( true );
@@ -107,6 +108,25 @@ class WCFMTools {
 		}
 		if ( $membership_output ) {
 			return $membership_output;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Get Store Memberships.
+	 *
+	 * @param int $store_id the StoreID to Check.
+	 * @return bool
+	 */
+	public function elemental_am_i_premium( int $store_id ): bool {
+		$store_memberships = $this->elemental_get_store_memberships( $store_id );
+		if ( ! $store_memberships ) {
+			return false;
+		}
+		$premium_stores = self::PREMIUM_LIST;
+		if ( in_array( $premium_stores, $store_memberships, true ) ) {
+			return true;
 		} else {
 			return false;
 		}

@@ -39,12 +39,20 @@ return function (
 
 	</div>
 	<div id="mvr-notification-master" class="mvr-nav-shortcode-outer-wrap-clean mvr-notification-master">
-		<?php
-			$output = \apply_filters( 'myvideoroom_notification_master', '', $room_name );
-			// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.
-			echo $output;
-		?>
-		<div id="mvr-postbutton-notification" class="mvr-notification-align"></div>
+	
+	
+		
+		<div id="mvr-postbutton-notification" class="mvr-notification-align">
+		<div id="notification" class="mvr-table-row ">
+		<input id="elemental-search" type="text" placeholder="Search....."  class="myvideoroom-input-restrict-alphanumeric-space mvr-input-box myvideoroom-center">
+			<button class="mvr-main-button-enabled myvideoroom-woocommerce-basket-ajax" data-target="mvr-shopping-basket">
+			<a data-input-type="woocommerce-refresh-basket" data-auth-nonce="" data-room-name="" class="mvr-main-button-enabled myvideoroom-woocommerce-basket-ajax myvideoroom-button-link"><span title="Search" class="myvideoroom-dashicons dashicons-search"></span></a>
+			</button>
+<div id="mvr-postbutton-notification" class="mvr-notification-align"></div>
+</div>
+		
+
+		</div>
 	</div>
 
 	<nav class="myvideoroom-nav-tab-wrapper nav-tab-wrapper elemental-side-tab">

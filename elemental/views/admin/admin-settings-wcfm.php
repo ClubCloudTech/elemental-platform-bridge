@@ -33,28 +33,53 @@ return function (
 
 	?>
 
-<div class="wrap">
+<div class="mvr-nav-shortcode-outer-wrap mvr-nav-shortcode-outer-border">
+	<!-- Module Header -->
+	<div class="myvideoroom-menu-settings <?php echo esc_attr( $target ); ?>">
+		<div class="myvideoroom-header-table-left-reduced">
+			<h1><i
+					class="myvideoroom-header-dashicons dashicons-plugins-checked"></i><?php esc_html_e( 'WooCommerce Frontend Manager (WCFM) Integration', 'myvideoroom' ); ?>
+			</h1>
+		</div>
+		<div class="myvideoroom-header-table-right-wide">
+		<h3 class="myvideoroom-settings-offset"><?php esc_html_e( 'Settings:', 'myvideoroom' ); ?><i data-target="<?php echo esc_attr( $target ); ?>" class="myvideoroom-header-dashicons dashicons-admin-settings mvideoroom-information-menu-toggle-selector" title="<?php esc_html_e( 'Go to Settings - Personal Meeting Rooms', 'myvideoroom' ); ?>"></i>
+			</h3>
+		</div>
+	</div>
 
-
-	<h1 style="display: inline">WooCommerce Frontend Manager (WCFM) Integration</h1>
-	<?php echo Factory::get_instance( SecurityButtons::class )->site_wide_enabled(); ?>
-	<p>This area controls WCFM multi-store site integration to provide video rooms for each merchant store, as well as
-		handle merchant bookings via video </p>
-</div>
-
-<?php
-	// Activation/module
-	echo Factory::get_instance( ModuleConfig::class )->module_activation_button( SiteDefaults::MODULE_WCFM_ID );
-		
-	?>
-
-<?php
-	if ( ! Factory::get_instance( SiteDefaults::class )->is_wcfm_active() ) {
-		echo '<h2>WCFM is not Installed - Settings Disabled</h2>';
-	} else {
-		?>
-
-<h2><?php esc_html_e( 'WCFM Merchant Video Room Default Settings', 'myvideoroom' ); ?> </h2>
+	<!-- Dependencies and Requirements Marker -->
+	<div id="video-host-wrap" class="mvr-nav-settingstabs-outer-wrap">
+		<div class="myvideoroom-feature-outer-table">
+			<div id="feature-state<?php echo esc_attr( $index++ ); ?>" class="myvideoroom-feature-table-small">
+				<h2><?php esc_html_e( 'About:', 'myvideoroom' ); ?></h2>
+						<?php
+			// Activation/module
+			echo Factory::get_instance( ModuleConfig::class )->module_activation_button( SiteDefaults::MODULE_WCFM_ID );
+				
+			?>
+			</div>
+			<div class="myvideoroom-feature-table-large">
+				
+				<div id="childmodule<?php echo esc_attr( $index++ ); ?>">
+					
+		<p><?php esc_html_e( 'This area controls WCFM multi-store site integration to provide video rooms for each merchant store, as well as
+		handle merchant bookings via video', 'myvideoroom' ); ?>
+					</p>
+				</div>
+				<p><?php esc_html_e( 'Dependency Check - There are No Dependencies for this Module', 'myvideoroom' ); ?>
+					</p>
+				</div>
+			</div>
+		</div>
+		<!-- Dependencies and Requirements Marker -->
+	<div id="video-host-wrap" class="mvr-nav-settingstabs-outer-wrap">
+		<div class="myvideoroom-feature-outer-table">
+			<div id="feature-state<?php echo esc_attr( $index++ ); ?>" class="myvideoroom-feature-table-small">
+				<h2><?php esc_html_e( 'Requirements:', 'myvideoroom' ); ?></h2>
+			</div>
+			<div class="myvideoroom-feature-table-large">
+			<p>
+				<h2><?php esc_html_e( 'WCFM Merchant Video Room Default Settings', 'myvideoroom' ); ?> </h2>
 		<?php
 				esc_html_e(
 					'This room will allow any store owner or staff member of the store as a Host, and everyone else will be a guest. For private meetings, please use your own Personal Video Room 
@@ -64,20 +89,45 @@ return function (
 					'myvideoroom'
 				);
 		?>
+				</p>
+				<div id="childmodule<?php echo esc_attr( $index++ ); ?>">
+				</div>
+			</div>
+		</div>
+		<!-- Dependencies and Requirements Marker -->
+		<div id="video-host-wrap" class="mvr-nav-settingstabs-outer-wrap">
+		<div class="myvideoroom-feature-outer-table">
+			<div id="feature-state<?php echo esc_attr( $index++ ); ?>" class="myvideoroom-feature-table-small">
+				<h2><?php esc_html_e( 'Premium Accounts', 'myvideoroom' ); ?></h2>
+			</div>
+			<div class="myvideoroom-feature-table-large">
 
-<hr>
-<h3>Video Room Defaults</h3>
-<?php
+				<div id="childmodule<?php echo esc_attr( $index++ ); ?>">
+
+				</div>
+			</div>
+		</div>
+		<!-- Screenshot Marker -->
+	<div id="video-host-wrap" class="mvr-nav-settingstabs-outer-wrap">
+		<div class="myvideoroom-feature-outer-table">
+			<div id="feature-state<?php echo esc_attr( $index++ ); ?>" class="myvideoroom-feature-table-small">
+				<h2><?php esc_html_e( 'Video Room Defaults', 'myvideoroom' ); ?></h2>
+			</div>
+			<div class="myvideoroom-feature-table-large">
+			<?php
 		$layout_setting = Factory::get_instance( UserVideoPreference::class )->choose_settings(
 			1,
 			SiteDefaults::STORE_NAME_WCFM_VIDEO_SITE_DEFAULT,
 		);
 				echo $layout_setting;
-	}
+	
 	?>
-<hr>
+			
+			</div>
+		</div>
 
 
+</div>
 
 <?php
 
