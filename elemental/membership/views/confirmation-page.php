@@ -1,6 +1,6 @@
 <?php
 /**
- * Outputs a Basket Operation Confirmation
+ * Outputs a Membership Confirmation
  *
  * @package ElementalPlugin\Membership\Views\confirmation-page.php
  */
@@ -8,13 +8,9 @@
 /**
  * Renders a Membership Screen operation confirmation
  *
- * @param $operation_type - operation being performed.
- * @param string $room_name -  Name of Room.
- * @param string $auth_nonce - Nonce of operation.
  * @param string $message - Message to Display.
  * @param string $confirmation_button_approved - Button to Display for Approved.
- * @param string $data_for_nonce - Extra parameter like record id, product id etc for strengthening nonce.
- * @param string $cancel_type - The type of Operation to confirm in cancel button (used to redirect cancel through handlers to non basket window).
+ * @param string $confirmation_button_cancel - Button to Display for rejected.
  */
 return function (
 	string $message = null,

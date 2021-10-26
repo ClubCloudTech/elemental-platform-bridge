@@ -156,7 +156,7 @@ class WCFMHelpers extends Shortcode {
 				$store_gravatar = $store_user->get_avatar();
 				$url            = $store_gravatar;
 			} else {
-				if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_active() ) {
+				if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_available() ) {
 					$url = \bp_core_fetch_avatar(
 						array(
 							'item_id' => get_current_user_id(),
@@ -263,4 +263,26 @@ class WCFMHelpers extends Shortcode {
 
 	}
 
-} // End Class.
+	/**
+	 * OK from Here.
+	 * For Clean
+	 */
+
+	/** Child Account User Table
+	 * Handles the rendering of the User tables for Child Accounts.
+	 *
+	 * @param int $user_id The WP User ID.
+	 * @return ?string
+	 */
+	public function generate_membership_settings_table( int $user_id = null ): ?string {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
+		$render             = ( require __DIR__ . '/../views/table-sponsored-accounts.php' );
+
+		return $render( $sponsored_accounts );
+
+	}
+
+}

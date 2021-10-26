@@ -8,6 +8,7 @@
 
 namespace ElementalPlugin\Library\Templates;
 
+use ElementalPlugin\Core\Security;
 use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Factory;
 use ElementalPlugin\DAO\SecurityVideoPreference as SecurityVideoPreferenceDAO;
@@ -40,7 +41,7 @@ class SecurityButtons {
 		// Format Plugin Base Link to Security Center.
 		$plugin_foldername = plugin_basename( __DIR__ );
 		$plugin_path       = strstr( $plugin_foldername, '/', true );
-		$admin_page        = SiteDefaults::MODULE_SECURITY_ADMIN_PAGE;
+		$admin_page        = Security::MODULE_SECURITY_NAME;
 
 		// get Site Override Status.
 

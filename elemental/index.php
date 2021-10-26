@@ -73,7 +73,7 @@ if ( ! class_exists( Plugin::class ) ) {
 	}
 
 	spl_autoload_register( 'ElementalPlugin\autoloader' );
-
+	require_once __DIR__ . '/globals.php';
 	add_action( 'plugins_loaded', array( Plugin::class, 'init' ) );
 	register_activation_hook( __FILE__, array( Activation::class, 'activate' ) );
 	register_uninstall_hook( __FILE__, array( Activation::class, 'uninstall' ) );

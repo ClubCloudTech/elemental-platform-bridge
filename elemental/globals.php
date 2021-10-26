@@ -8,20 +8,15 @@
 
 declare(strict_types=1);
 
-use ElementalPlugin\BuddyPress\BuddyPress;
-use ElementalPlugin\Core\FiltersUtilities;
-use ElementalPlugin\Core\MenuHelpers;
-use ElementalPlugin\Core\SiteDefaults;
-use ElementalPlugin\Core\URLSwitch;
-use ElementalPlugin\WCFM\WCFMHelpers;
-use ElementalPlugin\Setup\RoomAdmin;
+use ElementalPlugin\WCFM\WCFMTools;
 
-if ( ! function_exists( 'cc_defaults' ) ) {
+if ( ! function_exists( 'elemental_get_wcfm_memberships' ) ) {
 	/**
-	 * Wrapper for legacy global cc_defaults function
+	 * Wrapper for Elemental Get WCFM Memberships Function
 	 *
 	 * @return array|false|int|mixed|string|void|null
 	 */
+<<<<<<< HEAD
 	function cc_defaults() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
             // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
@@ -30,14 +25,17 @@ if ( ! function_exists( 'cc_defaults' ) ) {
 
 		$site_defaults = new SiteDefaults();
 		return $site_defaults->defaults( ...func_get_args() );
+=======
+	function elemental_get_wcfm_memberships() {
+		$function_to_call = new WCFMTools();
+		return $function_to_call->elemental_get_wcfm_memberships( ...func_get_args() );
+>>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 	}
-}
 
-
-if ( ! function_exists( 'cc_staff_to_parent' ) ) {
 	/**
-	 * Wrapper for legacy global cc_staff_to_parent function
+	 * Wrapper for Elemental Get Store Memberships Function.
 	 *
+<<<<<<< HEAD
 	 * @return int|mixed|null
 	 */
 	function cc_staff_to_parent() {
@@ -218,13 +216,21 @@ if ( ! function_exists( 'cc_menuname_reverse' ) ) {
 
 		$menu_helpers = new MenuHelpers();
 		return $menu_helpers->menu_name_reversed( ...func_get_args() );
-	}
-}
-
-if ( ! function_exists( 'cc_picturelink_view' ) ) {
-	/**
-	 * Wrapper for legacy global cc_picturelink_view function
+=======
+	 * @return array|false|int|mixed|string|void|null
 	 */
+	function elemental_get_store_memberships() {
+		$function_to_call = new WCFMTools();
+		return $function_to_call->elemental_get_store_memberships( ...func_get_args() );
+>>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
+	}
+
+	/**
+	 * Wrapper for Elemental Am I Premium Function.
+	 *
+	 * @return array|false|int|mixed|string|void|null
+	 */
+<<<<<<< HEAD
 	function cc_picturelink_view() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
             // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
@@ -233,8 +239,10 @@ if ( ! function_exists( 'cc_picturelink_view' ) ) {
 
 		$menu_helpers = new MenuHelpers();
 		return $menu_helpers->picture_link_view( ...func_get_args() );
+=======
+	function elemental_am_i_premium() {
+		$function_to_call = new WCFMTools();
+		return $function_to_call->elemental_am_i_premium( ...func_get_args() );
+>>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 	}
 }
-
-
-

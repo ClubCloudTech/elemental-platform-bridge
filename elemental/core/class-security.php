@@ -50,7 +50,7 @@ class Security {
 		}
 
 		// Case BuddyPress Groups = need to pass room name, and host IDs as their creator and group name.
-		if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_active() ) {
+		if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_available() ) {
 			global $bp;
 			if ( SiteDefaults::ROOM_NAME_BUDDYPRESS_GROUPS === $room_name ) {
 				$host_id   = $bp->groups->current_group->creator_id;
@@ -97,7 +97,7 @@ class Security {
 		}
 
 		// Check BuddyPress Group Membership - and other related if module enabled.
-		if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_active() ) { // Apply to Groups Only.
+		if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_available() ) { // Apply to Groups Only.
 			if ( \bp_is_groups_component() ) {
 				// Check Group Filter.
 				$bp_group_block = Factory::get_instance( PageFilters::class )->block_bp_non_group_member_video_render( $host_id, $room_name, $host_status, $room_type );

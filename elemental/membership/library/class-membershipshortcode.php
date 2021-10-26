@@ -50,11 +50,18 @@ class MembershipShortCode {
 		if ( ! \is_user_logged_in() ) {
 			$login_form = Factory::get_instance( MVRSiteVideoViews::class )->render_login_page();
 		}
+<<<<<<< HEAD
 		$render              = ( include __DIR__ . '/../views/manage-child.php' );
 		$manage_account_form = ( include __DIR__ . '/../views/add-new-user.php' );
      // phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
      echo $render( $manage_account_form(), $accounts_remaining, $child_account_table, $login_form );
 		return null;
+=======
+		$render              = ( require __DIR__ . '/../views/manage-child.php' );
+		$manage_account_form = ( require __DIR__ . '/../views/add-new-user.php' );
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+		return $render( $manage_account_form(), $accounts_remaining, $child_account_table, $login_form );
+>>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 	}
 
 	/**

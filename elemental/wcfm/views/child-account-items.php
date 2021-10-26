@@ -20,15 +20,6 @@ return function (
 ): string {
 	ob_start();
 
-<<<<<<< HEAD
-	$save_nonce     = wp_create_nonce( Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $child_account_object['user_id'] ) );
-	$edit_actions[] = array(
-		__( 'Delete User' ),
-		null,
-		'dashicons dashicons-dismiss elemental-delete-user-account',
-		array( 'data-nonce' => $save_nonce ),
-	);
-=======
 		$save_nonce     = wp_create_nonce( Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $child_account_object['user_id'] ) );
 		$edit_actions[] = array(
 			__( 'Delete User' ),
@@ -36,45 +27,44 @@ return function (
 			'myvideoroom-dashicons dashicons-dismiss elemental-delete-user-account',
 			array( 'data-nonce' => $save_nonce ),
 		);
->>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 
-	?>
+		?>
 	<tr class="active mvr-table-mobile" data-room-id="<?php echo esc_attr( $child_account_object['level'] ); ?>">
 		<td class="plugin-title column-primary myvideoroom-mobile-table-row-adjust">
-	<?php
+		<?php
 
-	echo esc_textarea( $child_account_object['email'] );
+			echo esc_textarea( $child_account_object['email'] );
 
-	?>
+		?>
 		</td>
 		<td class="column-description myvideoroom-mobile-table-row-adjust">
-	<?php
+			<?php
 				echo esc_textarea( $child_account_object['created'] );
-	?>
+			?>
 		</td>
 		<td>
-	<?php
+		<?php
 				echo esc_textarea( $child_account_object['display_name'] );
-	?>
+		?>
 		</td>
 		<td>
-	<?php
-	foreach ( $edit_actions as $action ) {
-		?>
+			<?php
+			foreach ( $edit_actions as $action ) {
+				?>
 				<a href=""
 					class="mvr-icons <?php echo esc_attr( $action[2] ); ?>"
 					data-userid="<?php echo esc_attr( $child_account_object['user_id'] ); ?>"
 					data-nonce="<?php echo esc_attr( $save_nonce ); ?>"
 					title="<?php echo esc_attr( $action[0] ); ?>"
-		<?php
-		foreach ( $actions[3] ?? array() as $key => $value ) {
-			echo esc_attr( $key ) . '="' . esc_attr( $value ) . '" ';
-		}
-		?>
+					<?php
+					foreach ( $actions[3] ?? array() as $key => $value ) {
+						echo esc_attr( $key ) . '="' . esc_attr( $value ) . '" ';
+					}
+					?>
 				></a>
-		<?php
-	}
-	?>
+				<?php
+			}
+			?>
 		</td>
 	</tr>
 

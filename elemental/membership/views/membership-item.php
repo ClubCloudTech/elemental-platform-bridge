@@ -18,6 +18,7 @@ return function (
 ): string {
 	ob_start();
 
+<<<<<<< HEAD
 	$save_nonce     = wp_create_nonce( 'delete_room_' . $memberships['level'] );
 	$delete_url     = \add_query_arg(
 		array(
@@ -34,6 +35,24 @@ return function (
 		'dashicons dashicons-database-add myvideoroom-sitevideo-delete',
 		array( 'data-nonce' => $save_nonce ),
 	);
+=======
+		$save_nonce     = wp_create_nonce( 'delete_room_' . $memberships['level'] );
+		$delete_url     = \add_query_arg(
+			array(
+				'room_id'  => $memberships['id'],
+				'confirm'  => null,
+				'action'   => 'delete',
+				'_wpnonce' => $save_nonce,
+			),
+			\esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) )
+		);
+		$edit_actions[] = array(
+			__( 'Save' ),
+			$delete_url,
+			'myvideoroom-dashicons dashicons-database-add myvideoroom-sitevideo-delete',
+			array( 'data-nonce' => $save_nonce ),
+		);
+>>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 
 	// ---
 

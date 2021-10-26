@@ -50,9 +50,16 @@ return function (
 			?>
 			<a target="_blank" class="wcfm_wp_admin_view text_tip"
 				href="<?php echo admin_url( 'users.php?role=shop_staff' ); ?>"
+<<<<<<< HEAD
 				data-tip="<?php esc_html_e( 'WP Admin View', 'myvideoroom' ); ?>"><span class="fab fa-wordpress"></span></a>
 			<?php
 		}
+=======
+				data-tip="<?php esc_html_e( 'WP Admin View', 'myvideoroom' ); ?>"><span
+					class="fab fa-wordpress"></span></a>
+				<?php
+			}
+>>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 
 		if ( $has_new = apply_filters( 'wcfm_add_new_staff_sub_menu', true ) ) {
 			echo '<a id="add-new-button" class="add_new_wcfmesc_html_ele_dashboard text_tip" href="' . get_wcfm_shop_staffs_manage_url() . '" data-tip="' . __( 'Add New Account', 'myvideoroom' ) . '"><span class="wcfmfa fa-user-plus"></span><span class="text">' . __( 'Add New', 'wc-frontend-manager' ) . '</span></a>';
@@ -82,6 +89,7 @@ return function (
      // phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
      echo $child_account_table;
 		?>
+<<<<<<< HEAD
 		</div>
 		<?php
 	} else {
@@ -91,7 +99,10 @@ return function (
 	?>
 			
 	</div>
+=======
+>>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 	</div>
+</div>
 
 	<?php
 	return ob_get_clean();
