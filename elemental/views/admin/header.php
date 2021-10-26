@@ -14,7 +14,7 @@ return function (
 	?>
 		<header>
 		<h1 class="myvideoroom-header-config-title">
-	<?php \esc_html_e( 'Elemental Bridge Settings and Configuration', 'myvideoroom' ); ?>
+	<?php \esc_html_e( 'Elemental Settings and Configuration', 'myvideoroom' ); ?>
 		</h1>
 
 		<div class="overview">
@@ -25,19 +25,11 @@ return function (
 			<em>
 				<?php \esc_html_e( 'MyVideoRoom by ClubCloud.' ); ?>
 			</em>
-<<<<<<< HEAD
-	<?php
-	foreach ( $messages as $message ) {
-		echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
-	}
-	?>
-=======
 			<?php
 			foreach ( $messages as $message ) {
 				echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
 			}
 			?>
->>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 
 		</div>
 

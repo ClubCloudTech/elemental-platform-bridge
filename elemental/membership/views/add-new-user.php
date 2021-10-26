@@ -50,13 +50,8 @@ return function (): string {
 		<hr />
 <div class="mvr-left">
 		<label for="first_name">
-<<<<<<< HEAD
-	<?php esc_html_e( 'First Name ', 'myvideoroom' ); ?>
-			<i id="first-name-icon" class="card dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
-=======
 			<?php esc_html_e( 'First Name ', 'myvideoroom' ); ?>
 			<i id="first-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
->>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 		</label>
 
 		<input type="text"
@@ -70,13 +65,8 @@ return function (): string {
 		</div>
 		<div class="mvr-right">
 		<label for="last_name">
-<<<<<<< HEAD
-	<?php esc_html_e( 'Last Name ', 'myvideoroom' ); ?>
-			<i id="last-name-icon" class="card dashicons mvr-icons dashicons-saved" title="Last Name Ready to Go" style="display:none"></i>
-=======
 			<?php esc_html_e( 'Last Name ', 'myvideoroom' ); ?>
 			<i id="last-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved" title="Last Name Ready to Go" style="display:none"></i>
->>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 		</label>
 		<input type="text"
 			id="last_name"

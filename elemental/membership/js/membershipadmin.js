@@ -183,21 +183,12 @@ window.addEventListener(
 										checkShow();
 									}
 
-<<<<<<< HEAD
-								},
-								error: function ( response ) {
-									console.log( 'Error Uploading' );
-								}
-							}
-						);
-=======
 							},
 							error: function ( response ){
 								console.log( 'Error Uploading' );
 							}
 						}
 					);
->>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 				}
 
 				/**

@@ -37,40 +37,6 @@ return function (
 	?>
 	</h1>
 
-<<<<<<< HEAD
-	<?php
-	// room permissions info.
-	$site_override              = Factory::get_instance( SecurityVideoPreferenceDao::class )->read_security_settings( SiteDefaults::USER_ID_SITE_DEFAULTS, SiteDefaults::ROOM_NAME_SITE_DEFAULT, 'site_override_enabled' );
-	$room_disabled              = Factory::get_instance( SecurityVideoPreferenceDAO::class )->read_security_settings( $user_id, $room_name, 'room_disabled' );
-	$anonymous_enabled          = Factory::get_instance( SecurityVideoPreferenceDAO::class )->read_security_settings( $user_id, $room_name, 'anonymous_enabled' );
-	$allow_role_control_enabled = Factory::get_instance( SecurityVideoPreferenceDAO::class )->read_security_settings( $user_id, $room_name, 'allow_role_control_enabled' );
-
-	if ( ! $site_override ) {
-
-		if ( Factory::get_instance( \ElementalPlugin\Core\SiteDefaults::class )->is_buddypress_active() ) {
-			$restrict_group_to_members_enabled = Factory::get_instance( SecurityVideoPreferenceDAO::class )->read_security_settings( $user_id, $room_name, 'restrict_group_to_members_enabled' );
-			if ( $restrict_group_to_members_enabled ) {
-				echo '<a class="button button-primary" style="background-color:blue">Restricted to Members</a>';
-			}
-		}
-
-		if ( ! $room_disabled ) {
-			echo '<a class="button button-primary" style="background-color:green">Room Enabled</a>';
-		} else {
-			echo '<a class="button button-primary" style="background-color:red">Room Disabled</a>';
-		}
-		if ( $allow_role_control_enabled ) {
-			echo '<a class="button button-primary" style="background-color:blue">Restricted to Roles</a>';
-		}
-
-		if ( $anonymous_enabled || $allow_role_control_enabled ) {
-			echo '<a class="button button-primary" style="background-color:blue">Anonymous Disabled</a>';
-		}
-	} else {
-		echo esc_attr( Factory::get_instance( SecurityButtons::class )->site_wide_enabled( 'nourl' ) );
-		echo '<p>An Administrator is overriding local settings with ones applied centrally. Certains Settings stored here may not apply</p>';
-	}
-=======
 				<?php
 				// room permissions info.
 				$site_override              = Factory::get_instance( SecurityVideoPreferenceDao::class )->read_security_settings( SiteDefaults::USER_ID_SITE_DEFAULTS, SiteDefaults::ROOM_NAME_SITE_DEFAULT, 'site_override_enabled' );
@@ -103,7 +69,6 @@ return function (
 					echo esc_attr( Factory::get_instance( SecurityButtons::class )->site_wide_enabled( 'nourl' ) );
 					echo '<p>An Administrator is overriding local settings with ones applied centrally. Certains Settings stored here may not apply</p>';
 				}
->>>>>>> a6fd707ad028a28273f93e9e7f27caddb908fd31
 
 	?>
 		<form method="post" action="">
