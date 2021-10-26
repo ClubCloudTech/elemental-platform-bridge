@@ -16,6 +16,7 @@ use ElementalPlugin\Shortcode as Shortcode;
 class ViewConnections extends Shortcode {
 
 
+
 	/**
 	 * Install the shortcode
 	 */

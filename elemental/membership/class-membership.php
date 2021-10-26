@@ -21,6 +21,7 @@ use ElementalPlugin\Membership\Library\MembershipUMP;
  * Class Membership
  */
 class Membership {
+
 	const TABLE_NAME_MEMBERSHIPS      = 'elemental_memberships';
 	const TABLE_NAME_MEMBERSYNC       = 'elemental_membersync';
 	const SHORTCODE_TAG               = Admin::SHORTCODE_TAG . 'membership';
@@ -75,7 +76,7 @@ class Membership {
 	public function render_membership_config_page(): string {
 		\wp_enqueue_script( 'elemental-membership-js' );
 		$membership_levels = Factory::get_instance( MembershipUMP::class )->get_ump_memberships();
-		return ( require __DIR__ . '/views/table-output.php' )( $membership_levels );
+		return ( include __DIR__ . '/views/table-output.php' )( $membership_levels );
 	}
 
 	/**

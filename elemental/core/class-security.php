@@ -17,6 +17,7 @@ use ElementalPlugin\Library\Templates\SecurityTemplates;
 class Security {
 
 
+
 	/**
 	 * This function is called by all video switches to determine if they can return the video room, or if a setting has blocked their rendering
 	 * It is a constructor only with other functions doing the filtering

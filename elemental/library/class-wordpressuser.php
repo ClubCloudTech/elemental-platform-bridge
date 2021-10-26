@@ -13,6 +13,7 @@ namespace ElementalPlugin\Library;
 class WordPressUser {
 
 
+
 	public function get_logged_in_wordpress_user(): ?\WP_User {
 		return \wp_get_current_user();
 	}

@@ -20,6 +20,7 @@ use \MyVideoRoomPlugin\SiteDefaults;
  * Class Admin
  */
 class Admin {
+
 	const SHORTCODE_TAG = 'elemental_';
 	/**
 	 * Initialise menu items.
@@ -49,7 +50,7 @@ class Admin {
 	 * Create the extra admin page contents.
 	 */
 	public function create_extras_admin_page(): void {
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Not required
+     // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Not required
 		$active_tab = $_GET['tab'] ?? null;
 
 		$tabs = array(
@@ -63,7 +64,7 @@ class Admin {
 		}
 
 		$messages = array();
-		$render   = require __DIR__ . '/views/admin/' . $active_tab . '.php';
+		$render   = include __DIR__ . '/views/admin/' . $active_tab . '.php';
 
 		echo $render( $active_tab, $tabs, $messages );
 	}

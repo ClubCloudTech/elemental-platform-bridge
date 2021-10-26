@@ -22,6 +22,7 @@ class  Connect extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */
@@ -192,7 +193,7 @@ OUTPUT;
 
 				// Merchant Display Booking Logic.
 				if ( $multi_booking_call['validcount'] >= 1 || $multi_booking_call['futurecount'] >= 1 ) {
-						  $display_default = false;
+					   $display_default = false;
 					if ( $multi_booking_call['validcount'] >= 1 ) {
 						$display_default = false;
 					}

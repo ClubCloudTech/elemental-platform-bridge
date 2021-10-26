@@ -182,7 +182,7 @@ return function (
 											SiteDefaults::ROOM_NAME_PERSONAL_BOARDROOM_SITE_DEFAULT,
 											array( 'basic', 'premium' )
 										);
-											echo $layout_setting;
+										echo $layout_setting;
 										?>
 						</div>
 

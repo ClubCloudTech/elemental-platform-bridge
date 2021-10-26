@@ -33,13 +33,13 @@ return function (
 				</tr>
 			</thead>
 			<tbody>
-				<?php
-				$child_account_table_render = require __DIR__ . '/child-account-items.php';
-				foreach ( $user_accounts as $level ) {
-					//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
-					echo $child_account_table_render( $level );
-				}
-				?>
+		<?php
+		$child_account_table_render = include __DIR__ . '/child-account-items.php';
+		foreach ( $user_accounts as $level ) {
+       //phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
+       echo $child_account_table_render( $level );
+		}
+		?>
 			</tbody>
 			<tfoot>
 				<tr>
@@ -59,7 +59,7 @@ return function (
 <div class="elemental-align-left wcfm-container wcfm-top-element-container">
 <p>
 		<?php
-			esc_html_e( 'You don\'t currently have any Sponsored Accounts.', 'myvideoroom' );
+		esc_html_e( 'You don\'t currently have any Sponsored Accounts.', 'myvideoroom' );
 		?>
 </p>
 </div>

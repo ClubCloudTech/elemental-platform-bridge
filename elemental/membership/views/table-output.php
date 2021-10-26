@@ -26,34 +26,34 @@ return function (
 		<thead>
 			<tr>
 				<th scope="col" class="manage-column column-name column-primary">
-					<?php esc_html_e( 'Badge', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Badge', 'my-video-room' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-					<?php esc_html_e( 'Level', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Level', 'my-video-room' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-					<?php esc_html_e( 'Price', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Price', 'my-video-room' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-					<?php esc_html_e( 'Allowed Accounts', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Allowed Accounts', 'my-video-room' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-					<?php esc_html_e( 'Actions', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Actions', 'my-video-room' ); ?>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php
-			$membership_item_render = require __DIR__ . '/membership-item.php';
-			foreach ( $membership_levels as $level ) {
-				//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo $membership_item_render( $level );
-			}
-			?>
+		<?php
+		$membership_item_render = include __DIR__ . '/membership-item.php';
+		foreach ( $membership_levels as $level ) {
+        //phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo $membership_item_render( $level );
+		}
+		?>
 		</tbody>
 	</table>
 		<?php
@@ -61,7 +61,7 @@ return function (
 		?>
 	<p>
 		<?php
-			esc_html_e( 'You don\'t current have any membership levels.', 'myvideoroom' );
+		esc_html_e( 'You don\'t current have any membership levels.', 'myvideoroom' );
 		?>
 	</p>
 		<?php

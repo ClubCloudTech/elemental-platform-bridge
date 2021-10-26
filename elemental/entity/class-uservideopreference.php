@@ -13,6 +13,7 @@ namespace ElementalPlugin\Entity;
 class UserVideoPreference {
 
 
+
 	private int $user_id;
 	private string $room_name;
 	private ?string $layout_id;

@@ -18,6 +18,7 @@ use ElementalPlugin\Membership\Membership;
 class Plugin {
 
 
+
 	const SHORTCODE_PREFIXS = array( 'mvr_', 'cc' );
 
 	/**
@@ -48,7 +49,7 @@ class Plugin {
 	 * @return object
 	 */
 	public static function init() {
-		require plugin_dir_path( __FILE__ ) . 'elementor/class-elementor-elemental.php';
+		include plugin_dir_path( __FILE__ ) . 'elementor/class-elementor-elemental.php';
 		return Factory::get_instance( self::class );
 	}
 }

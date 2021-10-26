@@ -13,6 +13,7 @@ namespace ElementalPlugin\Library;
  * Version
  */
 class Version {
+
 	/**
 	 * Get the current version of the installed plugin
 	 * Used for cache-busting.

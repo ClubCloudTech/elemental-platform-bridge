@@ -16,6 +16,7 @@ class Template extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */

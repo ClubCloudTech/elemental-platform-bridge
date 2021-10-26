@@ -20,6 +20,7 @@ class SubTabs extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */

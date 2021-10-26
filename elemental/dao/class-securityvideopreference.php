@@ -15,6 +15,7 @@ use ElementalPlugin\Entity\SecurityVideoPreference as SecurityVideoPreferenceEnt
 class SecurityVideoPreference {
 
 
+
 	const TABLE_NAME = \ElementalPlugin\Core\SiteDefaults::TABLE_NAME_SECURITY_CONFIG;
 
 
@@ -37,7 +38,7 @@ class SecurityVideoPreference {
 
 		*/
 
-     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->insert(
 			$wpdb->prefix . self::TABLE_NAME,
 			array(
@@ -89,7 +90,7 @@ class SecurityVideoPreference {
 			';
 
 		$prepared_query = $wpdb->prepare(
-      // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+         // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$raw_sql,
 			array(
 				$user_id,
@@ -97,7 +98,7 @@ class SecurityVideoPreference {
 			)
 		);
 
-     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 		$row = $wpdb->get_row( $prepared_query );
 
 		$result = null;
@@ -139,7 +140,7 @@ class SecurityVideoPreference {
 		$user_video_preference->get_room_name()
 		);*/
 
-     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->update(
 			$wpdb->prefix . self::TABLE_NAME,
 			array(
@@ -249,7 +250,7 @@ class SecurityVideoPreference {
 		$user_video_preference->get_room_name()
 		);*/
 
-     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->delete(
 			$wpdb->prefix . self::TABLE_NAME,
 			array(
@@ -310,7 +311,7 @@ class SecurityVideoPreference {
 			)
 		);
 
-     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 		$row = $wpdb->get_row( $prepared_query );
 
 		if ( $row ) {

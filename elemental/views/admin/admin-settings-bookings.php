@@ -86,45 +86,45 @@ return function (
 					</tr>
 					<tr>
 						<td style="width:25%; text-align: left;">
-		 <?php
-			$title = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'bookings-center', 'title' );
-			if ( $title ) {
-				echo $title;
-			}
-			?>
+		<?php
+		$title = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'bookings-center', 'title' );
+		if ( $title ) {
+			echo $title;
+		}
+		?>
 						</td>
 						<td style="width:25%; text-align: left;">
-		 <?php
-			$url = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'bookings-center', 'url' );
-			if ( $url ) {
-				echo '<a href="' . $url . '" target="_blank " >' . $url . '</a>';
-			}
-			?>
+		<?php
+		$url = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'bookings-center', 'url' );
+		if ( $url ) {
+			echo '<a href="' . $url . '" target="_blank " >' . $url . '</a>';
+		}
+		?>
 						</td>
 						<td style="width:25%; text-align: left;">
-		 <?php
-			$post_id_return = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'bookings-center', 'post_id' );
-			if ( $post_id_return ) {
-				echo $post_id_return;
-			}
-			?>
+		<?php
+		$post_id_return = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'bookings-center', 'post_id' );
+		if ( $post_id_return ) {
+			echo $post_id_return;
+		}
+		?>
 						</td>
 						<td style="width:25%; text-align: left;">
-		 <?php
-			if ( Factory::get_instance( SiteDefaults::class )->is_elementor_active() ) {
-				if ( $post_id ) {
-					echo '<a href="' . get_site_url() . '/wp-admin/post.php?post=' . $post_id . '&action=elementor" class="button button-primary" target="_blank">Edit in Elementor</a>';
-					echo ' - ';
-				}
-			}
+		<?php
+		if ( Factory::get_instance( SiteDefaults::class )->is_elementor_active() ) {
 			if ( $post_id ) {
-				echo '<a href="' . get_site_url() . '/wp-admin/post.php?post=' . $post_id . '&action=edit" class="button button-primary" target="_blank">Edit in WordPress</a>';
-			} else {
-				$url_base = add_query_arg( $wp->query_vars, home_url( $wp->request ) );
-				echo '<a href="' . $url_base . '&regenerate=personalmeeting" class="button button-primary">Page Deleted - Click Here to Regenerate</a>';
-
+				   echo '<a href="' . get_site_url() . '/wp-admin/post.php?post=' . $post_id . '&action=elementor" class="button button-primary" target="_blank">Edit in Elementor</a>';
+				   echo ' - ';
 			}
-			?>
+		}
+		if ( $post_id ) {
+			echo '<a href="' . get_site_url() . '/wp-admin/post.php?post=' . $post_id . '&action=edit" class="button button-primary" target="_blank">Edit in WordPress</a>';
+		} else {
+			$url_base = add_query_arg( $wp->query_vars, home_url( $wp->request ) );
+			echo '<a href="' . $url_base . '&regenerate=personalmeeting" class="button button-primary">Page Deleted - Click Here to Regenerate</a>';
+
+		}
+		?>
 					</td>
 				</tr>
 				
@@ -157,7 +157,7 @@ return function (
 		
 				<div>
 		<?php
-		 Factory::get_instance( ShortcodeDocuments::class )->render_wcbookings_shortcode_docs();
+		Factory::get_instance( ShortcodeDocuments::class )->render_wcbookings_shortcode_docs();
 		?>
 				</div>
 	

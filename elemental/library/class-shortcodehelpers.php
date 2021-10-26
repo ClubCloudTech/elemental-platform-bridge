@@ -20,6 +20,7 @@ use ElementalPlugin\Shortcode as Shortcode;
 class ShortcodeHelpers extends Shortcode {
 
 
+
 	/**
 	 * Install the shortcodes
 	 */

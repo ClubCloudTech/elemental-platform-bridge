@@ -14,6 +14,7 @@ class AdminTemplates {
 
 
 
+
 	public function display_room_template_browser() {
 
 		?>

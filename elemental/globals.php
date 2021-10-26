@@ -24,7 +24,7 @@ if ( ! function_exists( 'cc_defaults' ) ) {
 	 */
 	function cc_defaults() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_defaults called', E_USER_DEPRECATED );
 		}
 
@@ -42,7 +42,7 @@ if ( ! function_exists( 'cc_staff_to_parent' ) ) {
 	 */
 	function cc_staff_to_parent() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_defaults called', E_USER_DEPRECATED );
 		}
 
@@ -59,7 +59,7 @@ if ( ! function_exists( 'cc_setup_group_nav' ) ) {
 	 */
 	function cc_setup_group_nav() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_setup_group_nav called', E_USER_DEPRECATED );
 		}
 
@@ -88,7 +88,7 @@ if ( ! function_exists( 'cc_orphaned_page_notice' ) ) {
 	 */
 	function cc_orphaned_page_notice() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_setup_group_nav called', E_USER_DEPRECATED );
 		}
 
@@ -105,7 +105,7 @@ if ( ! function_exists( 'cc_add_menu_endpoint' ) ) {
 	 */
 	function cc_add_menu_endpoint() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_add_menu_endpoint called', E_USER_DEPRECATED );
 		}
 
@@ -120,7 +120,7 @@ if ( ! function_exists( 'cc_ismerchant_check' ) ) {
 	 */
 	function cc_ismerchant_check() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_ismerchant_check called', E_USER_DEPRECATED );
 		}
 
@@ -135,7 +135,7 @@ if ( ! function_exists( 'cc_headerlink' ) ) {
 	 */
 	function cc_headerlink() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_headerlink called', E_USER_DEPRECATED );
 		}
 
@@ -150,7 +150,7 @@ if ( ! function_exists( 'cc_headerlink_view' ) ) {
 	 */
 	function cc_headerlink_view() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_headerlink_view called', E_USER_DEPRECATED );
 		}
 
@@ -166,7 +166,7 @@ if ( ! function_exists( 'cc_picturelink' ) ) {
 	 */
 	function cc_picturelink() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_picturelink called', E_USER_DEPRECATED );
 		}
 
@@ -182,7 +182,7 @@ if ( ! function_exists( 'cc_getnameurl_worker' ) ) {
 	 */
 	function cc_getnameurl_worker() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_getnameurl_worker called', E_USER_DEPRECATED );
 		}
 
@@ -197,7 +197,7 @@ if ( ! function_exists( 'cc_menuname' ) ) {
 	 */
 	function cc_menuname() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_menuname called', E_USER_DEPRECATED );
 		}
 
@@ -212,7 +212,7 @@ if ( ! function_exists( 'cc_menuname_reverse' ) ) {
 	 */
 	function cc_menuname_reverse() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_menuname_reverse called', E_USER_DEPRECATED );
 		}
 
@@ -227,7 +227,7 @@ if ( ! function_exists( 'cc_picturelink_view' ) ) {
 	 */
 	function cc_picturelink_view() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			trigger_error( 'Legacy cc_picturelink_view called', E_USER_DEPRECATED );
 		}
 

@@ -5,17 +5,18 @@
  */
 window.addEventListener(
 	"load",
-	function(){
+	function () {
 		jQuery(
-			function($) {
+			function ($) {
 
 				/**
 				 * Initialise Functions on Load
 				 */
-				function init(){
+				function init()
+				{
 					$( '#mvr-login-form' ).show();
 					$( '#add-new-button' ).click(
-						function(e){
+						function (e) {
 							e.stopPropagation();
 							e.stopImmediatePropagation();
 							e.preventDefault();
@@ -31,64 +32,64 @@ window.addEventListener(
 					$( '#last_name' ).on( 'keyup', checkShow );
 
 					$( '#submit' ).click(
-						function(e){
-							e.stopPropagation();
-							e.preventDefault();
-							createUser( e );
-							$( this ).prop( 'value', 'Creating Account' );
+						function (e) {
+							 e.stopPropagation();
+							 e.preventDefault();
+							 createUser( e );
+							 $( this ).prop( 'value', 'Creating Account' );
 						}
 					);
 
 					$( '#elemental-inbound-email' ).click(
-						function(e){
-							e.stopPropagation();
-							e.preventDefault();
-							$( '#submit' ).prop( 'value', 'Add User' );
+						function (e) {
+							 e.stopPropagation();
+							 e.preventDefault();
+							 $( '#submit' ).prop( 'value', 'Add User' );
 						}
 					);
 
 					$( '#first_name' ).click(
-						function(e){
-							e.stopPropagation();
-							e.preventDefault();
-							$( '#submit' ).prop( 'value', 'Add User' );
+						function (e) {
+							 e.stopPropagation();
+							 e.preventDefault();
+							 $( '#submit' ).prop( 'value', 'Add User' );
 						}
 					);
 
 					$( '#last_name' ).click(
-						function(e){
-							e.stopPropagation();
-							e.preventDefault();
-							$( '#submit' ).prop( 'value', 'Add User' );
+						function (e) {
+							 e.stopPropagation();
+							 e.preventDefault();
+							 $( '#submit' ).prop( 'value', 'Add User' );
 						}
 					);
 
 					$( '.elemental-delete-user-account' ).click(
-						function(e){
-							e.stopPropagation();
-							e.preventDefault();
-							var user_id = $( this ).attr( 'data-userid' ),
-							nonce       = $( this ).attr( 'data-nonce' );
-							deleteUser( e, user_id, nonce );
+						function (e) {
+							 e.stopPropagation();
+							 e.preventDefault();
+							 var user_id = $( this ).attr( 'data-userid' ),
+							 nonce       = $( this ).attr( 'data-nonce' );
+							 deleteUser( e, user_id, nonce );
 						}
 					);
 
 					$( '#mvr-main-button-cancel' ).click(
-						function(e){
-							e.stopPropagation();
-							e.preventDefault();
-							$( '#elemental-membership-table' ).show();
-							$( '#elemental-notification-frame' ).empty();
+						function (e) {
+							 e.stopPropagation();
+							 e.preventDefault();
+							 $( '#elemental-membership-table' ).show();
+							 $( '#elemental-notification-frame' ).empty();
 						}
 					);
 
 					$( '.mvr-main-button-enabled' ).click(
-						function(e){
-							e.stopPropagation();
-							e.preventDefault();
-							user_id = $( this ).attr( 'data-record-id' );
-							nonce   = $( this ).attr( 'data-auth-nonce' );
-							deleteUser( e, user_id, nonce, true );
+						function (e) {
+							 e.stopPropagation();
+							 e.preventDefault();
+							 user_id = $( this ).attr( 'data-record-id' );
+							 nonce   = $( this ).attr( 'data-auth-nonce' );
+							 deleteUser( e, user_id, nonce, true );
 						}
 					);
 				}
@@ -96,7 +97,7 @@ window.addEventListener(
 				/**
 				 * Update Account Limits on Database by Subscription Level (used in backend admin page)
 				 */
-				var dbUpload = function (event){
+				var dbUpload = function (event) {
 					event.stopPropagation();
 					var file  = event.target.files,
 					level     = event.target.dataset.level,
@@ -117,13 +118,13 @@ window.addEventListener(
 							processData: false,
 							data: form_data,
 							success: function (response) {
-								var state_response = JSON.parse( response );
-								console.log( state_response.feedback );
-								$( '#confirmation_' + level ).html( 'Saved' );
+								  var state_response = JSON.parse( response );
+								  console.log( state_response.feedback );
+								  $( '#confirmation_' + level ).html( 'Saved' );
 
 							},
-							error: function ( response ){
-								console.log( 'Error Uploading' );
+							error: function ( response ) {
+								 console.log( 'Error Uploading' );
 							}
 						}
 					);
@@ -132,7 +133,7 @@ window.addEventListener(
 				/**
 				 * Check email exists (used in main add new user form)
 				 */
-				var chkEmail = function (event){
+				var chkEmail = function (event) {
 					event.stopPropagation();
 
 					$( '#elemental-email-status' ).removeClass( 'elemental-checking' );
@@ -152,48 +153,48 @@ window.addEventListener(
 						$( '#elemental-email-status' ).addClass( 'elemental-checking' );
 						$( '#elemental-email-status' ).html( 'Checking is Free' );
 					}
-					var form_data = new FormData();
-					form_data.append( 'action','elemental_membershipadmin_ajax' );
-					form_data.append( 'action_taken', 'check_email' );
-					form_data.append( 'email', email );
-					form_data.append( 'security', elemental_membershipadmin_ajax.security );
-					$.ajax(
-						{
-							type: 'post',
-							dataType: 'html',
-							url: elemental_membershipadmin_ajax.ajax_url,
-							contentType: false,
-							processData: false,
-							data: form_data,
-							success: function (response) {
-								var state_response = JSON.parse( response );
-								console.log( state_response.available );
-								if (state_response.available === false ) {
-									$( '#elemental-email-status' ).removeClass( 'elemental-checking' );
-									$( '#elemental-email-status' ).removeClass( 'elemental-invalid' );
-									$( '#elemental-email-status' ).addClass( 'elemental-email-taken' );
-									$( '#elemental-email-status' ).html( 'Email Taken' );
-								} else {
-									$( '#elemental-email-status' ).removeClass( 'elemental-checking' );
-									$( '#elemental-email-status' ).removeClass( 'elemental-invalid' );
-									$( '#elemental-email-status' ).addClass( 'elemental-email-available' );
-									$( '#elemental-email-status' ).html( 'Email Available' );
-									$( '#elemental-email-status' ).attr( 'data-status','checked' );
-									checkShow();
-								}
+						var form_data = new FormData();
+						form_data.append( 'action','elemental_membershipadmin_ajax' );
+						form_data.append( 'action_taken', 'check_email' );
+						form_data.append( 'email', email );
+						form_data.append( 'security', elemental_membershipadmin_ajax.security );
+						$.ajax(
+							{
+								type: 'post',
+								dataType: 'html',
+								url: elemental_membershipadmin_ajax.ajax_url,
+								contentType: false,
+								processData: false,
+								data: form_data,
+								success: function (response) {
+									var state_response = JSON.parse( response );
+									console.log( state_response.available );
+									if (state_response.available === false ) {
+										$( '#elemental-email-status' ).removeClass( 'elemental-checking' );
+										$( '#elemental-email-status' ).removeClass( 'elemental-invalid' );
+										$( '#elemental-email-status' ).addClass( 'elemental-email-taken' );
+										$( '#elemental-email-status' ).html( 'Email Taken' );
+									} else {
+										$( '#elemental-email-status' ).removeClass( 'elemental-checking' );
+										$( '#elemental-email-status' ).removeClass( 'elemental-invalid' );
+										$( '#elemental-email-status' ).addClass( 'elemental-email-available' );
+										$( '#elemental-email-status' ).html( 'Email Available' );
+										$( '#elemental-email-status' ).attr( 'data-status','checked' );
+										checkShow();
+									}
 
-							},
-							error: function ( response ){
-								console.log( 'Error Uploading' );
+								},
+								error: function ( response ) {
+									console.log( 'Error Uploading' );
+								}
 							}
-							}
-					);
+						);
 				}
 
 				/**
 				 * Create New User post checks (used in main add new user form)
 				 */
-				var createUser = function (event){
+				var createUser = function (event) {
 					event.stopPropagation();
 					$( '#elemental-email-status' ).removeClass( 'elemental-checking' );
 					$( '#elemental-email-status' ).removeClass( 'elemental-invalid' );
@@ -225,11 +226,11 @@ window.addEventListener(
 							success: function (response) {
 								var state_response = JSON.parse( response );
 								console.log( state_response.feedback );
-								if ( state_response.feedback == true ) {
-									if ( state_response.table ) {
-										account_window.html( state_response.table );
+								if (state_response.feedback == true ) {
+									if (state_response.table ) {
+										 account_window.html( state_response.table );
 									}
-									if ( state_response.counter ) {
+									if (state_response.counter ) {
 										mainvideo_parent = counter_window.parent().attr( 'id' );
 										parent_element   = $( '#' + mainvideo_parent );
 										counter_window.remove();
@@ -252,17 +253,17 @@ window.addEventListener(
 									$( '#last-name-icon' ).hide();
 								}
 							},
-							error: function ( response ){
+							error: function ( response ) {
 								console.log( 'Error Uploading' );
 							}
-							}
+						}
 					);
 				}
 
 				/**
 				 * Delete User (used in main form)
 				 */
-				var deleteUser = function (event, user_id, nonce, final ){
+				var deleteUser = function (event, user_id, nonce, final ) {
 					event.stopPropagation();
 					counter_window = $( '#elemental-remaining-counter' );
 					var form_data  = new FormData(),
@@ -271,59 +272,60 @@ window.addEventListener(
 					counter_window = $( '#elemental-remaining-counter' );
 
 					form_data.append( 'action','elemental_membershipadmin_ajax' );
-					if ( final ) {
+					if (final ) {
 						form_data.append( 'action_taken', 'delete_final' );
 					} else {
 						form_data.append( 'action_taken', 'delete_user' );
 					}
-					form_data.append( 'userid', user_id );
-					form_data.append( 'nonce', nonce );
-					form_data.append( 'security', elemental_membershipadmin_ajax.security );
-					$.ajax(
-						{
-							type: 'post',
-							dataType: 'html',
-							url: elemental_membershipadmin_ajax.ajax_url,
-							contentType: false,
-							processData: false,
-							data: form_data,
-							success: function (response) {
-								var state_response = JSON.parse( response );
+						form_data.append( 'userid', user_id );
+						form_data.append( 'nonce', nonce );
+						form_data.append( 'security', elemental_membershipadmin_ajax.security );
+						$.ajax(
+							{
+								type: 'post',
+								dataType: 'html',
+								url: elemental_membershipadmin_ajax.ajax_url,
+								contentType: false,
+								processData: false,
+								data: form_data,
+								success: function (response) {
+									var state_response = JSON.parse( response );
 
-								if ( state_response.confirmation ) {
-									notification.html( state_response.confirmation );
-									$( '#elemental-membership-table' ).hide();
-									init();
-								}
-								if ( state_response.feedback ) {
-									console.log( state_response.feedback );
-								}
+									if (state_response.confirmation ) {
+										notification.html( state_response.confirmation );
+										$( '#elemental-membership-table' ).hide();
+										init();
+									}
+									if (state_response.feedback ) {
+										console.log( state_response.feedback );
+									}
 
-								if ( state_response.table ) {
-									account_window.html( state_response.table );
-								}
-								if ( state_response.counter ) {
-									mainvideo_parent = counter_window.parent().attr( 'id' );
-									parent_element   = $( '#' + mainvideo_parent );
-									counter_window.remove();
-									counter_window.parent().empty();
-									parent_element.html( state_response.counter );
-									$( '#mvr-main-button-cancel' ).click();
-									init();
-								}
+									if (state_response.table ) {
+										account_window.html( state_response.table );
+									}
+									if (state_response.counter ) {
+										mainvideo_parent = counter_window.parent().attr( 'id' );
+										parent_element   = $( '#' + mainvideo_parent );
+										counter_window.remove();
+										counter_window.parent().empty();
+										parent_element.html( state_response.counter );
+										$( '#mvr-main-button-cancel' ).click();
+										init();
+									}
 
-							},
-							error: function ( response ){
-								console.log( 'Error Uploading' );
+								},
+								error: function ( response ) {
+									console.log( 'Error Uploading' );
+								}
 							}
-						}
-					);
+						);
 				}
 
 				/**
 				 * Check if Name and Email conditions are met in main form
 				 */
-				function checkShow( status ){
+				function checkShow( status )
+				{
 					var first_name = $( '#first_name' ).val().length,
 					last_name      = $( '#last_name' ).val().length,
 					status         = $( '#elemental-email-status' ).data( 'status' );
@@ -339,7 +341,7 @@ window.addEventListener(
 						$( '#last-name-icon' ).hide();
 					}
 
-					if ( status === 'checked' && first_name >= 3 && last_name >= 3 ) {
+					if (status === 'checked' && first_name >= 3 && last_name >= 3 ) {
 						$( '#submit' ).show();
 						$( '#submit' ).prop( 'disabled', false );
 					} else {
@@ -350,7 +352,8 @@ window.addEventListener(
 				/**
 				 * Validate email format JS (pre check)
 				 */
-				function validateEmail(email) {
+				function validateEmail(email)
+				{
 					var re = /\S+@\S+\.\S+/;
 					return re.test( email );
 				}

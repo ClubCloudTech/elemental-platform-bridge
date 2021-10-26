@@ -21,6 +21,7 @@ class URLSwitch extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */

@@ -20,6 +20,7 @@ class MenuHelpers extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */

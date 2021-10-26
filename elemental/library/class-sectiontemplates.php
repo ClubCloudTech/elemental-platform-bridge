@@ -22,6 +22,7 @@ use ElementalPlugin\Shortcode as Shortcode;
 class SectionTemplates extends Shortcode {
 
 
+
 	/**
 	 * Render form when no booking is found
 	 *
@@ -855,9 +856,9 @@ class SectionTemplates extends Shortcode {
 				<tr>
 					<th style="width:50%">
 		<?php
-		 // Get ClubCloud Logo from Plugin folder for Form, or use Site Logo if loaded in theme.
-		 $custom_logo_id = get_theme_mod( 'custom_logo' );
-		 $image          = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+		// Get ClubCloud Logo from Plugin folder for Form, or use Site Logo if loaded in theme.
+		$custom_logo_id = get_theme_mod( 'custom_logo' );
+		$image          = wp_get_attachment_image_src( $custom_logo_id, 'full' );
 		if ( ! $image ) {
 			$image_src = plugins_url( '/mvr-imagelogo.png', __DIR__ );
 		} else {

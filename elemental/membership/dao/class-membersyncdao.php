@@ -15,6 +15,7 @@ use stdClass;
  * Registers Child/Parent account Database Objects and manages Parent/Child Account Table.
  */
 class MemberSyncDAO {
+
 	const TABLE_NAME = Membership::TABLE_NAME_MEMBERSYNC;
 
 
@@ -24,7 +25,7 @@ class MemberSyncDAO {
 	 * @return bool
 	 */
 	public function install_membership_sync_table(): bool {
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		global $wpdb;
 
 		$table_name = $this->get_table_name();
@@ -43,18 +44,18 @@ class MemberSyncDAO {
 	/**
 	 * Register a given room in the Database, and ensure it does not already exist
 	 *
-	 * @param int $child_id    The User ID of the child account to store.
-	 * @param int $parent_id  The Parent ID.
+	 * @param int $child_id  The User ID of the child account to store.
+	 * @param int $parent_id The Parent ID.
 	 *
 	 * @return string|int|false
 	 */
 	public function register_child_account( int $child_id, int $parent_id ) {
 		global $wpdb;
 
-		//phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+     //phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 		$timestamp = current_time( 'timestamp' );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->insert(
 			$this->get_table_name(),
 			array(
@@ -91,7 +92,7 @@ class MemberSyncDAO {
 	 * Update Room Post ID in Database
 	 * This plugin will update the room name in the database with the parameter
 	 *
-	 * @param int $child_id   The user limit.
+	 * @param int $child_id  The user limit.
 	 * @param int $parent_id Membership level to update.
 	 *
 	 * @return bool|null
@@ -110,7 +111,7 @@ class MemberSyncDAO {
 			}
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$success = $wpdb->query(
 			$wpdb->prepare(
 				'
@@ -133,14 +134,14 @@ class MemberSyncDAO {
 	 * Update Room Post ID in Database
 	 * This plugin will update the room name in the database with the parameter
 	 *
-	 * @param int $child_id   The user limit.
+	 * @param int $child_id The user limit.
 	 *
 	 * @return bool|null
 	 */
 	public function delete_child_account( int $child_id ): ?bool {
 		global $wpdb;
 		$parent_id = $this->get_parent_by_child( $child_id );
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$success = $wpdb->query(
 			$wpdb->prepare(
 				'
@@ -171,7 +172,7 @@ class MemberSyncDAO {
 	public function delete_parent_account_mappings( int $parent_id ): bool {
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$wpdb->query(
 			$wpdb->prepare(
 				'
@@ -203,7 +204,7 @@ class MemberSyncDAO {
 		$result = \wp_cache_get( $child_id, __METHOD__ );
 
 		if ( false === $result ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$row = $wpdb->get_row(
 				$wpdb->prepare(
 					'
@@ -216,7 +217,7 @@ class MemberSyncDAO {
 			);
 
 			if ( $row ) {
-				$result = (int) $row->parent_id;
+				   $result = (int) $row->parent_id;
 			}
 
 			\wp_cache_set( $child_id, $result, __METHOD__ );
@@ -238,7 +239,7 @@ class MemberSyncDAO {
 		$result = \wp_cache_get( $child_id, __METHOD__ );
 
 		if ( false === $result ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$return = $wpdb->get_row(
 				$wpdb->prepare(
 					'
@@ -277,7 +278,7 @@ class MemberSyncDAO {
 		$result = \wp_cache_get( $parent_id, __METHOD__ );
 
 		if ( false === $result ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->get_results(
 				$wpdb->prepare(
 					'
@@ -291,7 +292,7 @@ class MemberSyncDAO {
 			$rowcount = $wpdb->num_rows;
 			\wp_cache_set( $parent_id, $rowcount, __METHOD__ );
 			if ( $rowcount ) {
-				return $rowcount;
+				   return $rowcount;
 			} else {
 				return 0;
 			}
@@ -319,7 +320,7 @@ class MemberSyncDAO {
 
 		if ( false === $result ) {
 			if ( $parent_id ) {
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$rows = $wpdb->get_results(
 					$wpdb->prepare(
 						'
@@ -332,7 +333,7 @@ class MemberSyncDAO {
 					)
 				);
 			} else {
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$rows = $wpdb->get_results(
 					'
                         SELECT user_id, timestamp, parent_id

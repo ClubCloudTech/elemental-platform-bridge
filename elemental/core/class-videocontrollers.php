@@ -27,6 +27,7 @@ class VideoControllers extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */

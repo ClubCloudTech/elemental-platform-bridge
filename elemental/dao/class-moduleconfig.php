@@ -18,6 +18,7 @@ use ElementalPlugin\Dao\RoomMap;
 class ModuleConfig {
 
 
+
 	const TABLE_NAME = SiteDefaults::TABLE_NAME_MODULE_CONFIG;
 
 
@@ -37,14 +38,14 @@ class ModuleConfig {
 				WHERE room_name = %s
 			';
 		$prepared_query = $wpdb->prepare(
-    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+       // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$raw_sql,
 			array(
 				$room_name,
 			)
 		);
 
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+       // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 		$row = $wpdb->get_row( $prepared_query );
 		if ( $row ) {
 			$result = $row->post_id;
@@ -98,7 +99,7 @@ class ModuleConfig {
 				WHERE module_id = %d
 			';
 		$prepared_query = $wpdb->prepare(
-    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+       // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$raw_sql,
 			array(
 				$module_enabled,
@@ -131,7 +132,7 @@ class ModuleConfig {
 				WHERE module_id = %s
 			';
 		$prepared_query = $wpdb->prepare(
-    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+       // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$raw_sql,
 			array(
 				$module_id,
@@ -177,7 +178,7 @@ class ModuleConfig {
 				WHERE room_name = %s
 			';
 		$prepared_query = $wpdb->prepare(
-    // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+       // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$raw_sql,
 			array(
 				$room_name,

@@ -20,6 +20,7 @@ use ElementalPlugin\WCFM\WCFMHelpers;
 class WCHelpers extends Shortcode {
 
 
+
 	/**
 	 * Install the shortcode
 	 */

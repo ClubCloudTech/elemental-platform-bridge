@@ -12,12 +12,13 @@ namespace ElementalPlugin\Elementor;
  */
 class ShortCodeWidget extends \Elementor\Widget_Base {
 
+
 	/**
 	 * Get widget name.
 	 *
 	 * Retrieve oEmbed widget name.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
 	 * @access public
 	 *
 	 * @return string Widget name.
@@ -31,7 +32,7 @@ class ShortCodeWidget extends \Elementor\Widget_Base {
 	 *
 	 * Retrieve oEmbed widget title.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
 	 * @access public
 	 *
 	 * @return string Widget title.
@@ -45,7 +46,7 @@ class ShortCodeWidget extends \Elementor\Widget_Base {
 	 *
 	 * Retrieve oEmbed widget icon.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
 	 * @access public
 	 *
 	 * @return string Widget icon.
@@ -59,7 +60,7 @@ class ShortCodeWidget extends \Elementor\Widget_Base {
 	 *
 	 * Retrieve the list of categories the oEmbed widget belongs to.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
 	 * @access public
 	 *
 	 * @return array Widget categories.
@@ -73,7 +74,7 @@ class ShortCodeWidget extends \Elementor\Widget_Base {
 	 *
 	 * Adds different input fields to allow the user to change and customize the widget settings.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
 	 * @access protected
 	 */
 	protected function _register_controls() {
@@ -105,7 +106,7 @@ class ShortCodeWidget extends \Elementor\Widget_Base {
 	 *
 	 * Written in PHP and used to generate the final HTML.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
 	 * @access protected
 	 */
 	protected function render() {

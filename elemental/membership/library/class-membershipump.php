@@ -16,6 +16,7 @@ use ElementalPlugin\Membership\DAO\MemberSyncDAO;
  */
 class MembershipUMP {
 
+
 	/**
 	 * Render shortcode to allow user to update their settings
 	 *

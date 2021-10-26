@@ -12,6 +12,7 @@ namespace ElementalPlugin\DAO;
  */
 class RoomMap {
 
+
 	const TABLE_NAME = \ElementalPlugin\Core\SiteDefaults::TABLE_NAME_ROOM_MAP;
 
 
@@ -30,14 +31,14 @@ class RoomMap {
 				WHERE room_name = %s
 			';
 		$prepared_query = $wpdb->prepare(
-       // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+          // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$raw_sql,
 			array(
 				$room_name,
 			)
 		);
 
-      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 		$row = $wpdb->get_row( $prepared_query );
 		if ( $row ) {
 			return $row->post_id;

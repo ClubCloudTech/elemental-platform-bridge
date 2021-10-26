@@ -21,6 +21,7 @@ class ShortCodeConstructor extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */

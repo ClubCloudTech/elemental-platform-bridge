@@ -29,6 +29,7 @@ class PageFilters extends Shortcode {
 
 
 
+
 	/**
 	 * Filters
 	 */

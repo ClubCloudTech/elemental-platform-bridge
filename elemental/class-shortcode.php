@@ -16,6 +16,7 @@ abstract class Shortcode {
 
 
 
+
 	/**
 	 * Registers a shortcode in WordPress
 	 *

@@ -19,6 +19,7 @@ use ElementalPlugin\WoocommerceBookings\WCHelpers;
 class HeaderSwitches extends Shortcode {
 
 
+
 	/**
 	 * Install the shortcode
 	 */

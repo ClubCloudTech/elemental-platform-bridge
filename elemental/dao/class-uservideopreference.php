@@ -15,6 +15,7 @@ use ElementalPlugin\Entity\UserVideoPreference as UserVideoPreferenceEntity;
 class UserVideoPreference {
 
 
+
 	const TABLE_NAME = \ElementalPlugin\Core\SiteDefaults::TABLE_NAME_USER_VIDEO_PREFERENCE;
 
 
@@ -291,7 +292,7 @@ class UserVideoPreference {
 			)
 		);
 
-     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 		$row = $wpdb->get_row( $prepared_query );
 
 		return $row->$return_type;

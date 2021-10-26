@@ -18,6 +18,7 @@ use ElementalPlugin\Factory;
  */
 class ShortcodeVisualiser extends Shortcode {
 
+
 	/**
 	 * A increment in case the same element is placed on the page twice
 	 *
@@ -107,7 +108,7 @@ class ShortcodeVisualiser extends Shortcode {
 		$available_receptions = Factory::get_instance( UserVideoPreference::class )->get_available_receptions( array( 'basic', 'premium' ) );
 
 		$render = include __DIR__ . '/../views/shortcode-visualiser.php';
-     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All upstream variables have already been sanitised in their function.
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All upstream variables have already been sanitised in their function.
 		echo $render( $available_layouts, $available_receptions, $current_user_setting, $room_name, self::$id_index++, $user_id, $video_reception_url );
 
 		/*
@@ -166,14 +167,14 @@ class ShortcodeVisualiser extends Shortcode {
 			<tr>
 				<td>
 			<?php
-          // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Shortcode function already sanitised by its constructor function.
+             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Shortcode function already sanitised by its constructor function.
 			echo $shortcode_host;
 			?>
 				</td>myvideoroom-extras-plugin/views/shortcode-visualiser.php
 
 				<td>
 			<?php
-          // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Shortcode function already sanitised by its constructor function.
+             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Shortcode function already sanitised by its constructor function.
 			echo $shortcode_guest;
 			?>
 				</td>

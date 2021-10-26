@@ -15,6 +15,7 @@ namespace ElementalPlugin\Shortcode;
 abstract class Shortcode {
 
 
+
 	/**
 	 * Render and return a shortcode
 	 *

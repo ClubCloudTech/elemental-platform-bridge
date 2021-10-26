@@ -13,6 +13,7 @@ namespace ElementalPlugin\Entity;
 class SecurityVideoPreference {
 
 
+
 	private int $user_id;
 	private string $room_name;
 	private ?string $allowed_roles;

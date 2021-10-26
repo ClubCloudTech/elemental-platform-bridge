@@ -15,6 +15,7 @@ use \MyVideoRoomPlugin\Module\SiteVideo\Library\MVRSiteVideoViews;
  */
 class MembershipShortCode {
 
+
 	/**
 	 * Render shortcode to allow user to update their settings
 	 *
@@ -33,10 +34,11 @@ class MembershipShortCode {
 	}
 
 
-	/** Membership Shortcode Worker Function
+	/**
+	 * Membership Shortcode Worker Function
 	 * Handles the rendering of the shortcode for membership management.
 	 *
-	 * @param int $user_id The WP User ID.
+	 * @param  int $user_id The WP User ID.
 	 * @return ?string
 	 */
 	public function membership_shortcode_worker( int $user_id = null ): ?string {
@@ -48,17 +50,18 @@ class MembershipShortCode {
 		if ( ! \is_user_logged_in() ) {
 			$login_form = Factory::get_instance( MVRSiteVideoViews::class )->render_login_page();
 		}
-		$render              = ( require __DIR__ . '/../views/manage-child.php' );
-		$manage_account_form = ( require __DIR__ . '/../views/add-new-user.php' );
-		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
-		echo $render( $manage_account_form(), $accounts_remaining, $child_account_table, $login_form );
+		$render              = ( include __DIR__ . '/../views/manage-child.php' );
+		$manage_account_form = ( include __DIR__ . '/../views/add-new-user.php' );
+     // phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+     echo $render( $manage_account_form(), $accounts_remaining, $child_account_table, $login_form );
 		return null;
 	}
 
-	/** Child Account User Table
+	/**
+	 * Child Account User Table
 	 * Handles the rendering of the User tables for Child Accounts.
 	 *
-	 * @param int $user_id The WP User ID.
+	 * @param  int $user_id The WP User ID.
 	 * @return ?string
 	 */
 	public function generate_child_account_table( int $user_id = null ): ?string {
@@ -66,13 +69,14 @@ class MembershipShortCode {
 			$user_id = get_current_user_id();
 		}
 		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
-		$render             = ( require __DIR__ . '/../views/table-sponsored-accounts.php' );
+		$render             = ( include __DIR__ . '/../views/table-sponsored-accounts.php' );
 
 		return $render( $sponsored_accounts );
 
 	}
 
-	/** Enqueue Styles and Scripts
+	/**
+	 * Enqueue Styles and Scripts
 	 * Handles the Styles and Scripts needed for Membership Form front end to look like WCFM.
 	 *
 	 * @return void
@@ -116,12 +120,13 @@ class MembershipShortCode {
 	}
 
 
-		/** Enqueue Styles and Scripts
-		 * Handles the Styles and Scripts needed for Membership Form front end to look like WCFM.
-		 *
-		 * @param int $user_id The WP User ID.
-		 * @return string
-		 */
+	/**
+	 * Enqueue Styles and Scripts
+	 * Handles the Styles and Scripts needed for Membership Form front end to look like WCFM.
+	 *
+	 * @param  int $user_id The WP User ID.
+	 * @return string
+	 */
 	public function render_remaining_account_count( int $user_id = null ): ?string {
 		if ( ! $user_id ) {
 			$user_id = \get_current_user_id();
@@ -140,8 +145,8 @@ class MembershipShortCode {
 	/**
 	 * Render Confirmation Pages
 	 *
-	 * @param string $message - Message to Display.
-	 * @param string $confirmation_button_approved - Button to Display for Approved.
+	 * @param  string $message                      - Message to Display.
+	 * @param  string $confirmation_button_approved - Button to Display for Approved.
 	 * @return string
 	 */
 	public function membership_confirmation( string $message, string $confirmation_button_approved ):string {
@@ -149,18 +154,18 @@ class MembershipShortCode {
 		$cancel_button = $this->cancel_nav_bar_button( 'cancel', esc_html__( 'Cancel', 'my-video-room' ), null, 'mvr-main-button-cancel' );
 
 		// Render Confirmation Page View.
-		$render = require __DIR__ . '/../views/confirmation-page.php';
+		$render = include __DIR__ . '/../views/confirmation-page.php';
 		return $render( $message, $confirmation_button_approved, $cancel_button );
 
 	}
 	/**
 	 * Render the Basket Nav Bar Button
 	 *
-	 * @param  string $button_type - Feedback for Ajax Post.
-	 * @param  string $button_label - Label for Button.
-	 * @param  string $style - Add a class for the button (optional).
-	 * @param  string $target_id - Adds a class to the button to javascript take an action on.
-	 * @param  string $target_window - adds a target window element used to switch destination windows.
+	 * @param string $button_type   - Feedback for Ajax Post.
+	 * @param string $button_label  - Label for Button.
+	 * @param string $style         - Add a class for the button (optional).
+	 * @param string $target_id     - Adds a class to the button to javascript take an action on.
+	 * @param string $target_window - adds a target window element used to switch destination windows.
 	 *
 	 * @return string
 	 */
@@ -184,15 +189,15 @@ class MembershipShortCode {
 	/**
 	 * Render the Basket Nav Bar Button
 	 *
-	 * @param  string $button_type - Feedback for Ajax Post.
-	 * @param  string $button_label - Label for Button.
-	 * @param string $room_name -  Name of Room.
-	 * @param  string $nonce - Nonce for operation (if confirmation used).
-	 * @param  string $product_or_id - Adds additional Data to Nonce for more security (optional).
-	 * @param  string $style - Add a class for the button (optional).
-	 * @param  string $target_id - Adds a class to the button to javascript take an action on.
-	 * @param  string $href_class - Adds a class to the button to javascript take an action on.
-	 * @param  string $target_window - adds a target window element used to switch destination windows.
+	 * @param string $button_type   - Feedback for Ajax Post.
+	 * @param string $button_label  - Label for Button.
+	 * @param string $room_name     -  Name of Room.
+	 * @param string $nonce         - Nonce for operation (if confirmation used).
+	 * @param string $product_or_id - Adds additional Data to Nonce for more security (optional).
+	 * @param string $style         - Add a class for the button (optional).
+	 * @param string $target_id     - Adds a class to the button to javascript take an action on.
+	 * @param string $href_class    - Adds a class to the button to javascript take an action on.
+	 * @param string $target_window - adds a target window element used to switch destination windows.
 	 *
 	 * @return string
 	 */

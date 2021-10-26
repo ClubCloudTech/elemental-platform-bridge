@@ -17,6 +17,7 @@ use ElementalPlugin\Shortcode as Shortcode;
  */
 class SecurityVideoPreference extends Shortcode {
 
+
 	/**
 	 * A increment in case the same element is placed on the page twice
 	 *

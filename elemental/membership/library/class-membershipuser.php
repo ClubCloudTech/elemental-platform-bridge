@@ -16,12 +16,13 @@ use ElementalPlugin\Membership\Membership;
  */
 class MembershipUser {
 
+
 	/**
 	 * Create WordPress user from Membership form Ajax call.
 	 *
 	 * @param string $first_name - User First Name.
-	 * @param string $last_name - User Last Name.
-	 * @param string $email - User Email.
+	 * @param string $last_name  - User Last Name.
+	 * @param string $email      - User Email.
 	 *
 	 * @return bool
 	 */
@@ -58,15 +59,15 @@ class MembershipUser {
 	/**
 	 * Send WordPress Notification Mail to New User.
 	 *
-	 * @param string $password - the generated password.
+	 * @param string $password      - the generated password.
 	 * @param string $email_address - the User Email Address.
-	 * @param string $first_name - the User First Name.
+	 * @param string $first_name    - the User First Name.
 	 *
 	 * @return bool
 	 */
 	public function notify_new_child_user( string $password, string $email_address, string $first_name ) {
 
-		$template = require __DIR__ . '/../views/email-template.php';
+		$template = include __DIR__ . '/../views/email-template.php';
 		$headers  = array( 'Content-Type: text/html; charset=UTF-8' );
 
 		$status = wp_mail(
@@ -81,7 +82,7 @@ class MembershipUser {
 	/**
 	 * Get the list of User Sponsored Accounts
 	 *
-	 * @param int $parent_id - The user ID of the parent - uses currently logged in user if blank.
+	 * @param  int $parent_id - The user ID of the parent - uses currently logged in user if blank.
 	 * @return array
 	 */
 	public function get_sponsored_users( int $parent_id = null ) :array {
@@ -118,7 +119,7 @@ class MembershipUser {
 
 		$user_info          = get_userdata( $user_id );
 		$current_user_roles = $user_info->roles;
-		require_once ABSPATH . 'wp-admin/includes/user.php';
+		include_once ABSPATH . 'wp-admin/includes/user.php';
 
 		if ( in_array( 'administrator', $current_user_roles ) ) {
 			return false;

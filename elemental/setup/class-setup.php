@@ -18,6 +18,7 @@ use ElementalPlugin\Factory;
 class Setup {
 
 
+
 	const TABLE_NAME = 'myvideoroom_extras_room_post_mapping';
 
 

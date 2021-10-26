@@ -1,6 +1,6 @@
 <?php
 /**
- * Outputs the header for admin pages
+ * Outputs the header for admin pages.
  *
  * @package ElementalPlugin\Views\Admin
  */
@@ -14,7 +14,7 @@ return function (
 	?>
 		<header>
 		<h1 class="myvideoroom-header-config-title">
-			<?php \esc_html_e( 'Elemental Bridge Settings and Configuration', 'myvideoroom' ); ?>
+	<?php \esc_html_e( 'Elemental Bridge Settings and Configuration', 'myvideoroom' ); ?>
 		</h1>
 
 		<div class="overview">
@@ -23,14 +23,14 @@ return function (
 			</strong>
 
 			<em>
-				<?php \esc_html_e( 'MyVideoRoom by ClubCloud, video with themed rooms, made simple.' ); ?>
+				<?php \esc_html_e( 'MyVideoRoom by ClubCloud.' ); ?>
 			</em>
-			<?php
-			foreach ( $messages as $message ) {
-				echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
-			}
-			?>
-		
+	<?php
+	foreach ( $messages as $message ) {
+		echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
+	}
+	?>
+
 		</div>
 
 		<img src="<?php echo \esc_url( \plugins_url( '/img/screen-1.png', \realpath( __DIR__ . '/../' ) ) ); ?>"

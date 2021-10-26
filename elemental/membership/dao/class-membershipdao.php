@@ -14,6 +14,7 @@ use ElementalPlugin\Membership\Membership;
  * Registers Membership Status Database Objects and manages Parent/Child Account Table.
  */
 class MembershipDAO {
+
 	const TABLE_NAME = Membership::TABLE_NAME_MEMBERSHIPS;
 
 
@@ -23,7 +24,7 @@ class MembershipDAO {
 	 * @return bool
 	 */
 	public function install_membership_mapping_table(): bool {
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		global $wpdb;
 
 		$table_name = $this->get_table_name();
@@ -42,15 +43,15 @@ class MembershipDAO {
 	/**
 	 * Register a given room in the Database, and ensure it does not already exist
 	 *
-	 * @param int $user_limit    The User Limit to store.
-	 * @param int $membership_level    The Membership Level.
+	 * @param int $user_limit       The User Limit to store.
+	 * @param int $membership_level The Membership Level.
 	 *
 	 * @return string|int|false
 	 */
 	public function register_account_limit( int $user_limit, int $membership_level ) {
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$result = $wpdb->insert(
 			$this->get_table_name(),
 			array(
@@ -85,7 +86,7 @@ class MembershipDAO {
 	 * Update Room Post ID in Database
 	 * This plugin will update the room name in the database with the parameter
 	 *
-	 * @param int $user_limit   The user limit.
+	 * @param int $user_limit       The user limit.
 	 * @param int $membership_level Membership level to update.
 	 *
 	 * @return bool|null
@@ -104,7 +105,7 @@ class MembershipDAO {
 			}
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$success = $wpdb->query(
 			$wpdb->prepare(
 				'
@@ -146,7 +147,7 @@ class MembershipDAO {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$wpdb->query(
 			$wpdb->prepare(
 				'
@@ -178,7 +179,7 @@ class MembershipDAO {
 		$result = \wp_cache_get( $membership_level, __METHOD__ );
 
 		if ( false === $result ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$row = $wpdb->get_row(
 				$wpdb->prepare(
 					'
@@ -191,7 +192,7 @@ class MembershipDAO {
 			);
 
 			if ( $row ) {
-				$result = (int) $row->user_limit;
+				   $result = (int) $row->user_limit;
 			}
 
 			\wp_cache_set( $membership_level, $result, __METHOD__ );
@@ -213,7 +214,7 @@ class MembershipDAO {
 		$result = \wp_cache_get( $membership_level, __METHOD__ );
 
 		if ( false === $result ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$result = $wpdb->get_row(
 				$wpdb->prepare(
 					'
@@ -258,7 +259,7 @@ class MembershipDAO {
 
 		if ( false === $result ) {
 			if ( $membership_level ) {
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$rows = $wpdb->get_results(
 					$wpdb->prepare(
 						'
@@ -271,7 +272,7 @@ class MembershipDAO {
 					)
 				);
 			} else {
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$rows = $wpdb->get_results(
 					'
                         SELECT user_limit

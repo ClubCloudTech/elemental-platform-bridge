@@ -12,6 +12,7 @@ namespace ElementalPlugin\UltimateMembershipPro;
  */
 class MembershipLevel {
 
+
 	const PREMIUM      = 8;
 	const BASIC        = 13;
 	const BUSINESS     = 15;

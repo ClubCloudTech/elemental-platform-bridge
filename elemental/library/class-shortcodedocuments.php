@@ -18,6 +18,7 @@ use ElementalPlugin\Factory;
 class ShortcodeDocuments {
 
 
+
 	// ---
 	// Shortcode Documents Section.
 

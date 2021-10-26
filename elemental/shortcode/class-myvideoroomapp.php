@@ -13,6 +13,7 @@ namespace ElementalPlugin\Shortcode;
 class MyVideoRoomApp extends Shortcode {
 
 
+
 	public const MYVIDEOROOM_APP_SHORTCODE = 'myvideoroom';
 
 	/**
@@ -217,19 +218,19 @@ class MyVideoRoomApp extends Shortcode {
 		} elseif ( false === $this->admin ) {
 			$shortcode_array['admin'] = false;
 		}
-			// Reception Setting. Note it can be modified by other parameters like Floorplan which require Reception to be on.
+		// Reception Setting. Note it can be modified by other parameters like Floorplan which require Reception to be on.
 		if ( $this->reception ) {
 			$shortcode_array['reception']    = true;
 			$shortcode_array['reception-id'] = $this->reception_id;
 		}
-			// Floorplan setting.
+		// Floorplan setting.
 		if ( true === $this->floorplan ) {
 			$shortcode_array['floorplan'] = true;
 			$shortcode_array['reception'] = true;
 		} elseif ( false === $this->floorplan ) {
 			$shortcode_array['floorplan'] = false;
 		}
-			// Lobby setting.
+		// Lobby setting.
 		if ( $this->lobby ) {
 			$shortcode_array['lobby'] = true;
 		}
@@ -237,7 +238,7 @@ class MyVideoRoomApp extends Shortcode {
 		if ( $this->reception_video_url ?? false ) {
 			$shortcode_array['reception-video'] = $this->reception_video_url;
 		}
-			return $this->render_shortcode( self::MYVIDEOROOM_APP_SHORTCODE, $shortcode_array, $text_safe );
+		return $this->render_shortcode( self::MYVIDEOROOM_APP_SHORTCODE, $shortcode_array, $text_safe );
 	}
 
 } //end class.

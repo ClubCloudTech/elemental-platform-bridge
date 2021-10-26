@@ -24,6 +24,7 @@ class SecurityTemplates extends Shortcode {
 
 
 
+
 	/**
 	 * Security Templates
 	 * Render Main Dashboard Template for user's own account control panel

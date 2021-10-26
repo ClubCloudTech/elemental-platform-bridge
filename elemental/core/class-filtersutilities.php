@@ -21,6 +21,7 @@ class FiltersUtilities extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */
@@ -289,8 +290,8 @@ class FiltersUtilities extends Shortcode {
 
 	public function my_account_change_filter( $menu_links ) {
 		$menu_links = array_slice( $menu_links, 0, 1, true )
-		  + array( 'cc_mysubs' => 'My Subscriptions' )
-		  + array_slice( $menu_links, 1, null, true );
+		+ array( 'cc_mysubs' => 'My Subscriptions' )
+		+ array_slice( $menu_links, 1, null, true );
 
 		return $menu_links;
 	}

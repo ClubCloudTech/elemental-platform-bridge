@@ -25,6 +25,7 @@ class VideoHelpers extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcodes and auto run functions
 	 */

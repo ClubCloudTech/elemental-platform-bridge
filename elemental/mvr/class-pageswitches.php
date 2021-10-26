@@ -28,6 +28,7 @@ class PageSwitches extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */

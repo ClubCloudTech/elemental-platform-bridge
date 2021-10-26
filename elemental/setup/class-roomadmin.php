@@ -19,6 +19,7 @@ use ElementalPlugin\Factory;
 class RoomAdmin extends Shortcode {
 
 
+
 	const TABLE_NAME = SiteDefaults::TABLE_NAME_ROOM_MAP;
 
 	/**

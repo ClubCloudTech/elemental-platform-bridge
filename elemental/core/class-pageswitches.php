@@ -28,6 +28,7 @@ ob_start();
 class PageSwitches extends Shortcode {
 
 
+
 	const TABLE_NAME = 'myvideoroom_extras_room_post_mapping';
 
 	/**

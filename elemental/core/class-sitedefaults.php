@@ -24,6 +24,7 @@ use ElementalPlugin\Dao\RoomMap;
 class SiteDefaults extends Shortcode {
 
 
+
 	// For Personal Video Module.
 	const ROOM_NAME_PERSONAL_BOARDROOM              = 'personal-video-room';
 	const ROOM_NAME_PERSONAL_BOARDROOM_SITE_DEFAULT = 'site-default-personal-boardroom';

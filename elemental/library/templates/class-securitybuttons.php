@@ -20,6 +20,7 @@ class SecurityButtons {
 
 
 
+
 	/**
 	 * Security Buttons
 	 * Render Main Dashboard Template for user's own account control panel

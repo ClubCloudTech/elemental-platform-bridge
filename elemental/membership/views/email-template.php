@@ -28,9 +28,9 @@ return function (
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width">
 	<title>
-		<?php
-			\esc_html__( ' Welcome to ', 'myvideoroom' ) . get_bloginfo( 'name' );
-		?>
+	<?php
+	\esc_html__( ' Welcome to ', 'myvideoroom' ) . get_bloginfo( 'name' );
+	?>
 	</title>
 	<style type="text/css">
 	@media only screen and (max-width: 599px) {
@@ -98,8 +98,8 @@ return function (
 								<p class="text-large"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0; font-size: 16px;">
 									<?php
-											echo esc_html__( 'To begin, you can access your account ', 'myvideoroom' ) .
-											'<a href="' . esc_url( \get_site_url() ) . '">' . \esc_html__( ' Here ', 'myvideoroom' ) . '<a>';
+									echo esc_html__( 'To begin, you can access your account ', 'myvideoroom' ) .
+									'<a href="' . esc_url( \get_site_url() ) . '">' . \esc_html__( ' Here ', 'myvideoroom' ) . '<a>';
 									?>
 								</p>
 								<p class="signature"

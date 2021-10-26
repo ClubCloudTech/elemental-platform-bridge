@@ -13,6 +13,7 @@ namespace ElementalPlugin\Library;
 class MeetingIdGenerator {
 
 
+
 	/**
 	 * Get 11 digit integer based on WordPress Nonce Salt
 	 *
@@ -59,11 +60,11 @@ class MeetingIdGenerator {
 	 * @return mixed
 	 */
 	private static function seeded_shuffle( array $items, int $seed ): array {
-     // phpcs:ignore WordPress.WP.AlternativeFunctions.rand_seeding_mt_srand
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.rand_seeding_mt_srand
 		mt_srand( $seed );
 
 		for ( $i = count( $items ) - 1; $i > 0; $i -- ) {
-         // phpcs:ignore WordPress.WP.AlternativeFunctions.rand_mt_rand
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.rand_mt_rand
 			$j = mt_rand( 0, $i );
 
 			list( $items[ $i ], $items[ $j ] ) = array( $items[ $j ], $items[ $i ] );
@@ -101,13 +102,13 @@ class MeetingIdGenerator {
 	 * @return array
 	 */
 	private static function seeded_unshuffle( array $items, int $seed ): array {
-     // phpcs:ignore WordPress.WP.AlternativeFunctions.rand_seeding_mt_srand
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.rand_seeding_mt_srand
 		mt_srand( $seed );
 
 		$indices = array();
 		for ( $i = count( $items ) - 1; $i > 0; $i -- ) {
 
-         // phpcs:ignore WordPress.WP.AlternativeFunctions.rand_mt_rand
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.rand_mt_rand
 			$indices[ $i ] = mt_rand( 0, $i );
 		}
 

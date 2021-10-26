@@ -19,6 +19,7 @@ use ElementalPlugin\Factory;
  */
 class RoomInit {
 
+
 	const TABLE_NAME = \ElementalPlugin\Core\SiteDefaults::TABLE_NAME_ROOM_MAP;
 
 

@@ -17,6 +17,7 @@ use ElementalPlugin\Factory;
 class ModuleDefinition extends SiteDefaults {
 
 
+
 	/**
 	 * Site Default Module Definition
 	 */

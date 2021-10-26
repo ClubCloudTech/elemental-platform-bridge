@@ -17,6 +17,7 @@ class Factory {
 
 
 
+
 	/**
 	 * The list of cached objects
 	 *

@@ -18,6 +18,7 @@ use ElementalPlugin\Shortcode as Shortcode;
  */
 class UserVideoPreference extends Shortcode {
 
+
 	/**
 	 * A increment in case the same element is placed on the page twice
 	 *
@@ -65,7 +66,7 @@ class UserVideoPreference extends Shortcode {
 	 */
 	public function choose_settings( int $user_id, string $room_name, array $allowed_tags = array() ): string {
 		// Trap BuddyPress Environment and send Group ID as the User ID for storage in DB.
-     // phpcs:ignore ElementalPlugin\Shortcode\bp_is_groups_component() is a Buddypress function.
+        // phpcs:ignore ElementalPlugin\Shortcode\bp_is_groups_component() is a Buddypress function.
 		if ( function_exists( 'bp_is_groups_component' ) && bp_is_groups_component() ) {
 			global $bp;
 			$user_id = $bp->groups->current_group->creator_id;
@@ -86,7 +87,7 @@ class UserVideoPreference extends Shortcode {
 			$reception_id            = sanitize_text_field( wp_unslash( $_POST['myvideoroom_extras_user_reception_id_preference'] ?? null ) );
 			$reception_enabled       = sanitize_text_field( wp_unslash( $_POST['myvideoroom_extras_user_reception_enabled_preference'] ?? '' ) ) === 'on';
 			$reception_video_enabled = sanitize_text_field( wp_unslash( $_POST['myvideoroom_extras_user_reception_video_enabled_preference'] ?? '' ) ) === 'on';
-         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, - esc_url raw does the appropriate sanitisation.
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, - esc_url raw does the appropriate sanitisation.
 			$reception_video_url = esc_url_raw( $_POST['myvideoroom_extras_user_reception_waiting_video_url'] );
 			$show_floorplan      = sanitize_text_field( wp_unslash( $_POST['myvideoroom_extras_user_show_floorplan_preference'] ?? '' ) ) === 'on';
 

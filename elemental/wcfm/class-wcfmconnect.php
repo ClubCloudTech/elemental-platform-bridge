@@ -25,6 +25,7 @@ class WCFMConnect extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */
@@ -41,9 +42,9 @@ class WCFMConnect extends Shortcode {
 	 * Function used to render both Merchant and Staff Member Aware Store Video  It requires WCFM
 	 */
 	public function wcfmvideo( $params = array() ) {
-     // phpcs:ignore as wp_filter no html is more restrictive than unslash.etc so its sanitised propertly with just that. 
+        // phpcs:ignore as wp_filter no html is more restrictive than unslash.etc so its sanitised propertly with just that. 
 		$host = $params['host'] ?? wp_filter_nohtml_kses( $_GET['host'] ?? '' );
-     // phpcs:ignore as wp_filter no html is more restrictive than unslash.etc so its sanitised propertly with just that. 
+        // phpcs:ignore as wp_filter no html is more restrictive than unslash.etc so its sanitised propertly with just that. 
 		$invite = $params['invite'] ?? wp_filter_nohtml_kses( $_GET['invite'] ?? '' );
 
 		$user_id    = get_current_user_id();
@@ -130,7 +131,7 @@ class WCFMConnect extends Shortcode {
 				);
 
 				if ( $reception_setting ) {
-					   $myvideoroom_app->enable_reception()->set_reception_id( $reception_template );
+						  $myvideoroom_app->enable_reception()->set_reception_id( $reception_template );
 
 					if ( $video_reception_state ) {
 						echo 'reception';

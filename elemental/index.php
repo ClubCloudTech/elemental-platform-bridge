@@ -56,7 +56,7 @@ if ( ! class_exists( Plugin::class ) ) {
 			if ( ! file_exists( $location ) ) {
 
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                 // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
+                       // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 					trigger_error(
 						esc_html( 'Failed to include "' . $src_location . $path['dirname'] . '/class-' . $path['basename'] . '"' ),
 						E_USER_ERROR

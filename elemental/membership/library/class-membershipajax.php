@@ -18,7 +18,9 @@ use ElementalPlugin\Membership\Membership;
 class MembershipAjax {
 
 
-	/** Elemental Ajax Support.
+
+	/**
+	 * Elemental Ajax Support.
 	 * Handles membership function related calls and Ajax.
 	 *
 	 * @return mixed

@@ -24,6 +24,7 @@ class MVRBuddyPress extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */

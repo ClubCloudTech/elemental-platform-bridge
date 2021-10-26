@@ -21,6 +21,7 @@ class WCFMHelpers extends Shortcode {
 
 
 
+
 	/**
 	 * Install the shortcode
 	 */

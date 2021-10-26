@@ -13,6 +13,7 @@ namespace ElementalPlugin\Shortcode;
 class MyVideoRoomMonitor extends Shortcode {
 
 
+
 	public const MYVIDEOROOM_MONITOR_SHORTCODE = 'myvideoroom_monitor';
 
 	/**

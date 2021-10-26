@@ -13,6 +13,7 @@ namespace ElementalPlugin\Library;
 class UserRoles {
 
 
+
 	/**
 	 * The target user
 	 *
