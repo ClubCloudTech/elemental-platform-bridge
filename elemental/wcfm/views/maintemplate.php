@@ -90,9 +90,7 @@ return function (
 	<?php
 	$roles = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( true );
 
-	//echo var_dump( Factory::get_instance( WCFMTools::class )->elemental_get_store_memberships( 134 ) );
-
-
+	// echo var_dump( Factory::get_instance( WCFMTools::class )->elemental_get_store_memberships( 134 ) );
 
 			$count = 0;
 	foreach ( $tabs as $article_output ) {
@@ -127,8 +125,7 @@ return function (
 	?>
 </div>
 	
-<?php
-	
+	<?php
 
 			return \ob_get_clean();
 };

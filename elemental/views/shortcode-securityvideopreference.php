@@ -70,7 +70,7 @@ return function (
 					echo '<p>An Administrator is overriding local settings with ones applied centrally. Certains Settings stored here may not apply</p>';
 				}
 
-	?>
+				?>
 		<form method="post" action="">
 			<input name="myvideoroom_extras_security_room_name" type="hidden" value="<?php echo esc_attr( $room_name ); ?>" />
 			<input name="myvideoroom_extras_security_user_id" type="hidden" value="

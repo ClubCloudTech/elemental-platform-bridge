@@ -2,7 +2,7 @@
 /**
  * Ajax for Membership Sponsored Accounts.
  *
- * @package ElementalPlugin\Membership\Library\MembershipAjax.php
+ * @package elemental/membership/library/class-onboardajax.php
  */
 
 namespace ElementalPlugin\Membership\Library;
@@ -13,9 +13,9 @@ use ElementalPlugin\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Membership\Membership;
 
 /**
- * Class MembershipAjax - Provides the Membership Ajax Control.
+ * Class OnboardAjax - Provides the Onboard Ajax Control.
  */
-class MembershipAjax {
+class OnboardAjax {
 
 	/**
 	 * Elemental Ajax Support.
@@ -23,12 +23,12 @@ class MembershipAjax {
 	 *
 	 * @return mixed
 	 */
-	public function membership_ajax_handler() {
+	public function onboard_ajax_handler() {
 		$response            = array();
 		$response['message'] = 'No Change';
 
 		// Security Checks.
-		check_ajax_referer( 'elemental_membership', 'security', false );
+		check_ajax_referer( 'elemental_onboard', 'security', false );
 
 		if ( isset( $_POST['action_taken'] ) ) {
 			$action_taken = sanitize_text_field( wp_unslash( $_POST['action_taken'] ) );
@@ -107,12 +107,11 @@ class MembershipAjax {
 		*/
 		if ( 'create_user' === $action_taken ) {
 
-			$success = Factory::get_instance( MembershipUser::class )->create_wordpress_user( $first_name, $last_name, $email );
+			$success = Factory::get_instance( MembershipUser::class )->create_organisation_wordpress_user( $first_name, $email );
 
 			if ( $success ) {
 				$response['feedback'] = true;
-				$response['table']    = Factory::get_instance( MembershipShortCode::class )->generate_child_account_table();
-				$response['counter']  = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
+				$response['table']    = Factory::get_instance( OnboardShortcode::class )->render_wcfm_step( $success );
 			} else {
 				$response['feedback'] = false;
 			}

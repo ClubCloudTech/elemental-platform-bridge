@@ -28,7 +28,7 @@ return function (
 			array( 'data-nonce' => $save_nonce ),
 		);
 
-	?>
+		?>
 	<tr class="active mvr-table-mobile" data-room-id="<?php echo esc_attr( $child_account_object['level'] ); ?>">
 		<td class="plugin-title column-primary myvideoroom-mobile-table-row-adjust">
 	<?php

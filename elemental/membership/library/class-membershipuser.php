@@ -56,6 +56,38 @@ class MembershipUser {
 
 		return true;
 	}
+
+	/**
+	 * Create WordPress user from Organisation Add form Ajax call.
+	 *
+	 * @param string $first_name - User First Name.
+	 * @param string $email      - User Email.
+	 *
+	 * @return bool
+	 */
+	public function create_organisation_wordpress_user( string $first_name, string $email ): bool {
+		if ( strlen( $first_name ) < 5 || ! \sanitize_email( $email ) || \username_exists( $email ) ) {
+			return false;
+		}
+
+		$password = wp_generate_password( 12, false );
+		$user_id  = wp_create_user( $email, $password, $email );
+		if ( ! $user_id ) {
+			return false;
+		}
+		// Notify User of Password.
+		$notify_user_status = $this->notify_new_child_user( $password, $email, $first_name );
+		// Update Additional User Parameters.
+		wp_update_user(
+			array(
+				'ID'           => $user_id,
+				'nickname'     => $first_name,
+				'display_name' => $first_name,
+				'first_name'   => $first_name,
+			)
+		);
+		return true;
+	}
 	/**
 	 * Send WordPress Notification Mail to New User.
 	 *

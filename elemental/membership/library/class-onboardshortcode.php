@@ -1,20 +1,19 @@
 <?php
 /**
- * Ajax for Site Video Room.
+ * Onboarding Shortcode for Site.
  *
- * @package MyVideoRoomPlugin\Modules\SiteVideo
+ * @package elemental/membership/library/class-onboardshortcode.php
  */
 
 namespace ElementalPlugin\Membership\Library;
 
 use ElementalPlugin\Factory;
-use \MyVideoRoomPlugin\Module\SiteVideo\Library\MVRSiteVideoViews;
+use \MyVideoRoomPlugin\Library\HttpGet;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
  */
-class MembershipShortCode {
-
+class OnboardShortcode {
 
 	/**
 	 * Render shortcode to allow user to update their settings
@@ -23,14 +22,25 @@ class MembershipShortCode {
 	 *
 	 * @return ?string
 	 */
-	public function render_membership_shortcode( $attributes = array() ): ?string {
-		$user_id = $attributes['user'] ?? null;
+	public function render_onboarding_shortcode( $attributes = array() ): ?string {
+		$http_get_library = Factory::get_instance( HttpGet::class );
+		$membership_id    = $http_get_library->get_string_parameter( 'level' );
 
-		if ( ! $user_id ) {
-			$user_id = \get_current_user_id();
+		if ( ! $membership_id ) {
+			$membership_id = $attributes['level'] ?? null;
 		}
 
-		return $this->membership_shortcode_worker( $user_id );
+		return $this->onboarding_shortcode_worker( $membership_id );
+	}
+
+	/**
+	 * Render WCFM Step to allow Level 2 Registration.
+	 *
+	 * @return ?string
+	 */
+	public function render_wcfm_step( int $user_id ): ?string {
+		$render = ( require __DIR__ . '/../views/wcfm/manage-wcfm.php' );
+		return $render( $user_id );
 	}
 
 
@@ -38,22 +48,16 @@ class MembershipShortCode {
 	 * Membership Shortcode Worker Function
 	 * Handles the rendering of the shortcode for membership management.
 	 *
-	 * @param  int $user_id The WP User ID.
+	 * @param  int $membership_id The Membership ID.
 	 * @return ?string
 	 */
-	public function membership_shortcode_worker( int $user_id = null ): ?string {
+	public function onboarding_shortcode_worker( int $membership_id = null ): ?string {
 
 		$this->enqueue_style_scripts();
-		$user_id             = get_current_user_id();
-		$accounts_remaining  = $this->render_remaining_account_count( $user_id );
-		$child_account_table = $this->generate_child_account_table();
-		if ( ! \is_user_logged_in() ) {
-			$login_form = Factory::get_instance( MVRSiteVideoViews::class )->render_login_page();
-		}
-		$render              = ( require __DIR__ . '/../views/membership/manage-child.php' );
-		$manage_account_form = ( require __DIR__ . '/../views/membership/add-new-user.php' );
+		$render              = ( require __DIR__ . '/../views/onboarding/manage-onboarding.php' );
+		$manage_account_form = ( require __DIR__ . '/../views/onboarding/add-new-organisation.php' );
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
-		return $render( $manage_account_form(), $accounts_remaining, $child_account_table, $login_form );
+		return $render( $manage_account_form( $membership_id) );
 	}
 
 	/**
@@ -68,7 +72,7 @@ class MembershipShortCode {
 			$user_id = get_current_user_id();
 		}
 		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
-		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
+		$render             = ( include __DIR__ . '/../views/onboard/table-sponsored-accounts.php' );
 
 		return $render( $sponsored_accounts );
 
@@ -103,17 +107,16 @@ class MembershipShortCode {
 		wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
 		wp_enqueue_style( 'myvideoroom-menutab-header' );
 
-		\wp_enqueue_script( 'elemental-membership-js' );
+		\wp_enqueue_script( 'elemental-onboard-js' );
 		// Localize script Ajax Upload.
 		$script_data_array = array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'security' => wp_create_nonce( 'elemental_membership' ),
-
+			'security' => wp_create_nonce( 'elemental_onboard' ),
 		);
 
 		wp_localize_script(
-			'elemental-membership-js',
-			'elemental_membershipadmin_ajax',
+			'elemental-onboard-js',
+			'elemental_onboardadmin_ajax',
 			$script_data_array
 		);
 	}

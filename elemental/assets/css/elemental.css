@@ -1,129 +1,129 @@
 .elemental-membership-displayconf {
-    display: inline;
+	display: inline;
 }
 
 .elemental-align-left {
-    text-align: start;
+	text-align: start;
 }
 
 .elemental-email-status {
-    float: right;
-    width: 25%;
-    border: 1px solid #ddd;
-    padding-top: 7px;
-    padding-bottom: 6px;
-    border-radius: 0px 3px 3px 0px;
+	float: right;
+	width: 25%;
+	border: 1px solid #ddd;
+	padding-top: 7px;
+	padding-bottom: 6px;
+	border-radius: 0px 3px 3px 0px;
 }
 
 .elemental-email-wrapper {
-    float: left;
-    width: 75%;
-    border-right: none;
+	float: left;
+	width: 75%;
+	border-right: none;
 }
 
 .elemental-clear {
-    clear: both;
+	clear: both;
 }
 
 .elemental-initial {
-    display: initial;
+	display: initial;
 }
 
 .elemental-invalid {
-    background: rgb(235, 133, 65);
-    color: white;
-    padding: 5px;
+	background: rgb(235, 133, 65);
+	color: white;
+	padding: 5px;
 }
 
 .elemental-checking {
-    background: rgb(197, 228, 163);
-    color: white;
-    padding: 5px;
+	background: rgb(197, 228, 163);
+	color: white;
+	padding: 5px;
 }
 
 .elemental-email-taken {
-    background: rgb(228, 43, 43);
-    color: white;
-    padding: 5px;
+	background: rgb(228, 43, 43);
+	color: white;
+	padding: 5px;
 }
 
 .elemental-email-available {
-    background: rgb(33, 94, 20);
-    color: white;
-    padding: 5px;
+	background: rgb(33, 94, 20);
+	color: white;
+	padding: 5px;
 }
 
 form input[type="email"] {
-    border-right: none !important;
+	border-right: none !important;
 }
 
 .elemental-accounts-remaining {
-    background: rgb(255, 255, 255);
-    border: 1px solid #e91414;
-    border-radius: 4px;
-    color: #e91414;
-    display: initial;
-    padding: 6px;
-    font-size: 12px;
+	background: rgb(255, 255, 255);
+	border: 1px solid #e91414;
+	border-radius: 4px;
+	color: #e91414;
+	display: initial;
+	padding: 6px;
+	font-size: 12px;
 }
 
 .myvideoroom-logo-image {
-    width: 74px;
+	width: 74px;
 }
 
 .elemental-side-tab {
-    float: left;
-    width: 20%;
-    min-width: 7%;
+	float: left;
+	width: 20%;
+	min-width: 7%;
 }
 
 .elemental-content-tab {
-    float: right;
-    width: 80%;
+	float: right;
+	width: 80%;
 }
 
 .store-data p {
-    font-size: 12px!important;
+	font-size: 12px!important;
 }
 
 #wcfmmp-stores-wrap ul.wcfmmp-store-wrap li .store-footer .store-avatar {
-    padding: 6px;
-    background: #fff;
-    margin-top: 10px;
-    position: absolute;
-    top: -75px;
-    width: 116px;
-    height: 116px;
-    border-radius: 0!important;
-    border: 1px solid #969696!important;
+	padding: 6px;
+	background: #fff;
+	margin-top: 10px;
+	position: absolute;
+	top: -75px;
+	width: 116px;
+	height: 116px;
+	border-radius: 0!important;
+	border: 1px solid #969696!important;
 }
 
 element.style {}
 
 #wcfmmp-stores-wrap ul.wcfmmp-store-wrap li .store-footer .store-avatar img {
-    width: 100%;
-    height: 100%;
-    border-radius: 0!important;
+	width: 100%;
+	height: 100%;
+	border-radius: 0!important;
 }
 
 .elemental-store-content {
-    border: solid #c6c0ad 3px;
+	border: solid #c6c0ad 3px;
 }
 
 .elemental-store-content {
-    max-width: 100%;
-    border-bottom: solid #c6c0ad 5px;
+	max-width: 100%;
+	border-bottom: solid #c6c0ad 5px;
 }
 
 #wcfmmp-stores-wrap ul.wcfmmp-store-wrap li .store-content {
-    max-width: 100%;
-    border-bottom: 4px solid #c6c0ad!important;
+	max-width: 100%;
+	border-bottom: 4px solid #c6c0ad!important;
 }
 
 .elemental-ribbon {
-    background: #c6c0ad;
-    color: white;
-    border: solid black 2px;
-    padding: 3px;
-    font-size: 14px;
+	background: #c6c0ad;
+	color: white;
+	border: solid black 2px;
+	padding: 3px;
+	font-size: 14px;
 }

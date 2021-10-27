@@ -53,17 +53,23 @@ return function (
 			<div id="feature-state<?php echo esc_attr( $index++ ); ?>" class="myvideoroom-feature-table-small">
 				<h2><?php esc_html_e( 'About:', 'myvideoroom' ); ?></h2>
 						<?php
-			// Activation/module
-			echo Factory::get_instance( ModuleConfig::class )->module_activation_button( SiteDefaults::MODULE_WCFM_ID );
-				
-			?>
+						// Activation/module
+						echo Factory::get_instance( ModuleConfig::class )->module_activation_button( SiteDefaults::MODULE_WCFM_ID );
+
+						?>
 			</div>
 			<div class="myvideoroom-feature-table-large">
 				
 				<div id="childmodule<?php echo esc_attr( $index++ ); ?>">
 					
-		<p><?php esc_html_e( 'This area controls WCFM multi-store site integration to provide video rooms for each merchant store, as well as
-		handle merchant bookings via video', 'myvideoroom' ); ?>
+		<p>
+		<?php
+		esc_html_e(
+			'This area controls WCFM multi-store site integration to provide video rooms for each merchant store, as well as
+		handle merchant bookings via video',
+			'myvideoroom'
+		);
+		?>
 					</p>
 				</div>
 				<p><?php esc_html_e( 'Dependency Check - There are No Dependencies for this Module', 'myvideoroom' ); ?>
@@ -115,13 +121,13 @@ return function (
 			</div>
 			<div class="myvideoroom-feature-table-large">
 			<?php
-		$layout_setting = Factory::get_instance( UserVideoPreference::class )->choose_settings(
-			1,
-			SiteDefaults::STORE_NAME_WCFM_VIDEO_SITE_DEFAULT,
-		);
+			$layout_setting = Factory::get_instance( UserVideoPreference::class )->choose_settings(
+				1,
+				SiteDefaults::STORE_NAME_WCFM_VIDEO_SITE_DEFAULT,
+			);
 				echo $layout_setting;
-	
-	?>
+
+			?>
 			
 			</div>
 		</div>
@@ -129,7 +135,7 @@ return function (
 
 </div>
 
-<?php
+	<?php
 
 	return ob_get_clean();
 };

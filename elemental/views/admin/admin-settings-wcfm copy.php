@@ -81,12 +81,12 @@ return function (
 			SiteDefaults::STORE_NAME_WCFM_VIDEO_SITE_DEFAULT,
 		);
 				echo $layout_setting;
-	
+
 	?>
 
 
 
-<?php
+	<?php
 
 	return ob_get_clean();
 };

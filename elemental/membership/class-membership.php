@@ -10,6 +10,7 @@ namespace ElementalPlugin\Membership;
 
 use ElementalPlugin\Admin;
 use ElementalPlugin\Factory;
+use ElementalPlugin\Membership\Onboard;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
@@ -34,6 +35,7 @@ class Membership {
 	 * Required for Normal Runtime.
 	 */
 	public function init() {
+		// $this->flush_opcache_reset();
 		\add_action( 'wp_ajax_elemental_membershipadmin_ajax', array( Factory::get_instance( MembershipAjax::class ), 'membership_ajax_handler' ), 10, 2 );
 
 		// Enqueue Script Ajax Handling.
@@ -58,7 +60,7 @@ class Membership {
 		);
 
 		add_shortcode( self::SHORTCODE_TAG, array( Factory::get_instance( MembershipShortCode::class ), 'render_membership_shortcode' ) );
-
+		Factory::get_instance( Onboard::class )->init();
 	}
 	/**
 	 * Activate Functions for Membership.
@@ -76,7 +78,7 @@ class Membership {
 	public function render_membership_config_page(): string {
 		\wp_enqueue_script( 'elemental-membership-js' );
 		$membership_levels = Factory::get_instance( MembershipUMP::class )->get_ump_memberships();
-		return ( include __DIR__ . '/views/table-output.php' )( $membership_levels );
+		return ( include __DIR__ . '/views/membership/table-output.php' )( $membership_levels );
 	}
 
 	/**
@@ -87,7 +89,35 @@ class Membership {
 		$edr = $wp_roles->get_role( 'Subscriber' );
 		add_role( self::MEMBERSHIP_ROLE_NAME, self::MEMBERSHIP_ROLE_DESCRIPTION, $edr->capabilities );
 	}
+	/**
+	 * Where OPcache is actually flushed
+	 */
+	public function flush_opcache_reset() {
 
+		require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+
+		$opcache_scripts = array();
+		if ( function_exists( 'opcache_get_status' ) ) {
+			try {
+				$raw = opcache_get_status( true );
+				if ( array_key_exists( 'scripts', $raw ) ) {
+					foreach ( $raw['scripts'] as $script ) {
+						// Remove files outside of WP.
+						if ( false === strpos( $script['full_path'], \get_home_path() ) ) {
+							continue;
+						}
+						array_push( $opcache_scripts, $script['full_path'] );
+					}
+				}
+			} catch ( \Throwable $e ) {
+				error_log( sprintf( 'Unable to query OPcache status: %s.', $e->getMessage() ), $e->getCode() ); // phpcs:ignore
+			}
+		}
+		foreach ( $opcache_scripts as $file ) {
+			\wp_opcache_invalidate( $file, true );
+		}
+	}
 }
 
 

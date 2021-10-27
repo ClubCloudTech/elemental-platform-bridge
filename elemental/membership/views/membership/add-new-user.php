@@ -21,7 +21,7 @@ return function (): string {
 	?>
 	<div class="mvr-nav-settingstabs-outer-wrap myvideoroom-welcome-page elemental-align-left">
 
-	<form method="" action="<?php echo \esc_url_raw( $post_url ); ?>">
+	<form method="" action="#">
 
 		<div class="elemental-email-wrapper">
 		<label class="elemental-align-left" for="<?php echo esc_attr( $html_library->get_id( 'title' ) ); ?>">

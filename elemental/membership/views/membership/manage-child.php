@@ -5,13 +5,13 @@
  * WCFM Child Account View
  *
  * @author  Club Cloud based on template from WC Lovers
- * @package wcfmgs/view
+ * @package elemental/membership/views/manage-child.php
  * @version 1.0.0
  *
  * @param string $add_account_form - add an account form
  * @param string $accounts_remaining - the data on how much account quota is remaining
  * @param string $child_account_table - the Child Accounts Table.
- * * @param string $login_form - Login Form if Present.
+ * @param string $login_form - Login Form if Present.
  */
 
 return function (
@@ -46,14 +46,6 @@ return function (
 			<h2><?php esc_html_e( 'Manage Sponsored Accounts', 'myvideoroom' ); ?></h2>
 
 		<?php
-		if ( $allow_wp_admin_view = apply_filters( 'wcfm_allow_wp_admin_view', true ) ) {
-			?>
-			<a target="_blank" class="wcfm_wp_admin_view text_tip"
-				href="<?php echo admin_url( 'users.php?role=shop_staff' ); ?>"
-				data-tip="<?php esc_html_e( 'WP Admin View', 'myvideoroom' ); ?>"><span
-					class="fab fa-wordpress"></span></a>
-				<?php
-			}
 
 		if ( $has_new = apply_filters( 'wcfm_add_new_staff_sub_menu', true ) ) {
 			echo '<a id="add-new-button" class="add_new_wcfmesc_html_ele_dashboard text_tip" href="' . get_wcfm_shop_staffs_manage_url() . '" data-tip="' . __( 'Add New Account', 'myvideoroom' ) . '"><span class="wcfmfa fa-user-plus"></span><span class="text">' . __( 'Add New', 'wc-frontend-manager' ) . '</span></a>';
@@ -86,7 +78,8 @@ return function (
 	</div>
 </div>
 
-	<?php
+		<?php
+	}
 	return ob_get_clean();
 
 };

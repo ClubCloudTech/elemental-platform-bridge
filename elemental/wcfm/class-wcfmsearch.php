@@ -47,7 +47,7 @@ class WCFMSearch {
 		$html_library = Factory::get_instance( HTML::class, array( 'view-management' ) );
 		$tabs         = array();
 		$tabs         = apply_filters( 'elemental_search_template_render', $tabs );
-		wp_enqueue_style( 'wcfmmp_store_list_css',  $WCFMmp->library->css_lib_url_min . 'store-lists/wcfmmp-style-stores-list.css', array(), $WCFMmp->version );
+		wp_enqueue_style( 'wcfmmp_store_list_css', $WCFMmp->library->css_lib_url_min . 'store-lists/wcfmmp-style-stores-list.css', array(), $WCFMmp->version );
 		$render = include __DIR__ . '/views/maintemplate.php';
 		return $render( $header, $html_library, $tabs );
 
