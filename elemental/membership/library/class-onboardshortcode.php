@@ -8,6 +8,7 @@
 namespace ElementalPlugin\Membership\Library;
 
 use ElementalPlugin\Factory;
+use ElementalPlugin\WCFM\WCFMTools;
 use \MyVideoRoomPlugin\Library\HttpGet;
 
 /**
@@ -24,10 +25,10 @@ class OnboardShortcode {
 	 */
 	public function render_onboarding_shortcode( $attributes = array() ): ?string {
 		$http_get_library = Factory::get_instance( HttpGet::class );
-		$membership_id    = $http_get_library->get_string_parameter( 'level' );
+		$membership_id    = intval( $http_get_library->get_string_parameter( 'membership' ) );
 
 		if ( ! $membership_id ) {
-			$membership_id = $attributes['level'] ?? null;
+			$membership_id = $attributes['membership'] ?? null;
 		}
 
 		return $this->onboarding_shortcode_worker( $membership_id );
@@ -39,8 +40,9 @@ class OnboardShortcode {
 	 * @return ?string
 	 */
 	public function render_wcfm_step( int $user_id ): ?string {
-		$render = ( require __DIR__ . '/../views/wcfm/manage-wcfm.php' );
-		return $render( $user_id );
+		$render       = ( require __DIR__ . '/../views/wcfm/manage-wcfm.php' );
+		$registration = ( require __DIR__ . '/../views/wcfm/vendor-registration.php' );
+		return $render( $user_id, $registration );
 	}
 
 
@@ -52,12 +54,25 @@ class OnboardShortcode {
 	 * @return ?string
 	 */
 	public function onboarding_shortcode_worker( int $membership_id = null ): ?string {
+		if ( ! $membership_id ) {
+			$http_get_library = Factory::get_instance( HttpGet::class );
+			$membership_id    = intval( $http_get_library->get_string_parameter( 'membership' ) );
+		}
+		$this->enqueue_style_scripts( true );
+		// Membership Validity Check.
+		$valid_memberships = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( true );
+		$valid             = \in_array( $membership_id, $valid_memberships, true );
+		if ( $valid ) {
+			$membership_data     = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( null, $membership_id );
+			$render              = ( require __DIR__ . '/../views/onboarding/manage-onboarding.php' );
+			$manage_account_form = ( require __DIR__ . '/../views/onboarding/add-new-organisation.php' );
+			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+			return $render( $manage_account_form( $membership_id), $membership_id, $membership_data );
+		} else {
+			$render = ( require __DIR__ . '/../views/onboarding/reject-onboarding.php' );
+			return $render();
+		}
 
-		$this->enqueue_style_scripts();
-		$render              = ( require __DIR__ . '/../views/onboarding/manage-onboarding.php' );
-		$manage_account_form = ( require __DIR__ . '/../views/onboarding/add-new-organisation.php' );
-		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
-		return $render( $manage_account_form( $membership_id) );
 	}
 
 	/**
@@ -84,29 +99,47 @@ class OnboardShortcode {
 	 *
 	 * @return void
 	 */
-	private function enqueue_style_scripts() {
-		global $WCFM, $WCFMgs;
+	private function enqueue_style_scripts( bool $register_only = null ) {
+		global $WCFM, $WCFMgs, $WCFMvm;
 		$css_lib_url       = $WCFM->plugin_url . 'assets/css/';
 		$upload_dir        = wp_upload_dir();
 		$wcfm_style_custom = get_option( 'wcfm_style_custom' );
-		\wp_enqueue_script( 'myvideoroom-iframe-handler' );
-		wp_enqueue_style( 'wcfm_capability_css', $WCFM->library->css_lib_url . 'capability/wcfm-style-capability.css', false, 1 );
-		wp_enqueue_style( 'collapsible_css', $WCFM->library->css_lib_url . 'wcfm-style-collapsible.css', false, $WCFMgs->version );
-		wp_enqueue_style( 'wcfmgs_staffs_manage_css', $WCFMgs->plugin_url . 'assets/css/wcfmgs-style-staffs-manage.css', false, $WCFMgs->version );
-		wp_enqueue_style( 'wcfm_menu_css', $WCFM->library->css_lib_url_min . 'menu/wcfm-style-menu.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_settings_css', $css_lib_url . 'settings/wcfm-style-settings.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_messages_css', $css_lib_url . 'messages/wcfm-style-messages.css', array(), $WCFM->version );
-		wp_enqueue_style( 'collapsible_css', $css_lib_url . 'wcfm-style-collapsible.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_notice_view_css', $css_lib_url . 'notice/wcfm-style-notice-view.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_dashboard_css', $css_lib_url . 'dashboard/wcfm-style-dashboard.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_dashboard_welcomebox_css', $css_lib_url . 'dashboard/wcfm-style-dashboard-welcomebox.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_template_css', $WCFM->plugin_url . 'templates/classic/template-style.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_no_menu_css', $css_lib_url . 'menu/wcfm-style-no-menu.css', array( 'wcfm_menu_css' ), $WCFM->version );
-		wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'min/menu/wcfm-style-menu.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_products_manage_css', $css_lib_url . 'products-manager/wcfm-style-products-manage.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
-		wp_enqueue_style( 'myvideoroom-menutab-header' );
 
+		if ( true === $register_only ) {
+			wp_enqueue_style( 'wcfm_membership_steps_css', $WCFMvm->library->css_lib_url_min . 'wcfmvm-style-membership-steps.css', array(), $WCFMvm->version );
+			wp_enqueue_style( 'wcfm_menu_css', $WCFM->library->css_lib_url_min . 'menu/wcfm-style-menu.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_settings_css', $css_lib_url . 'settings/wcfm-style-settings.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_template_css', $WCFM->plugin_url . 'templates/classic/template-style.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_dashboard_css', $css_lib_url . 'dashboard/wcfm-style-dashboard.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
+
+		} else {
+			\wp_enqueue_script( 'myvideoroom-iframe-handler' );
+			wp_enqueue_style( 'wcfm_capability_css', $WCFM->library->css_lib_url . 'capability/wcfm-style-capability.css', false, 1 );
+			wp_enqueue_style( 'collapsible_css', $WCFM->library->css_lib_url . 'wcfm-style-collapsible.css', false, $WCFMgs->version );
+			wp_enqueue_style( 'wcfmgs_staffs_manage_css', $WCFMgs->plugin_url . 'assets/css/wcfmgs-style-staffs-manage.css', false, $WCFMgs->version );
+			wp_enqueue_style( 'wcfm_menu_css', $WCFM->library->css_lib_url_min . 'menu/wcfm-style-menu.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_settings_css', $css_lib_url . 'settings/wcfm-style-settings.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_messages_css', $css_lib_url . 'messages/wcfm-style-messages.css', array(), $WCFM->version );
+			wp_enqueue_style( 'collapsible_css', $css_lib_url . 'wcfm-style-collapsible.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_notice_view_css', $css_lib_url . 'notice/wcfm-style-notice-view.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_dashboard_css', $css_lib_url . 'dashboard/wcfm-style-dashboard.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_dashboard_welcomebox_css', $css_lib_url . 'dashboard/wcfm-style-dashboard-welcomebox.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_template_css', $WCFM->plugin_url . 'templates/classic/template-style.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_no_menu_css', $css_lib_url . 'menu/wcfm-style-no-menu.css', array( 'wcfm_menu_css' ), $WCFM->version );
+			wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'min/menu/wcfm-style-menu.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_products_manage_css', $css_lib_url . 'products-manager/wcfm-style-products-manage.css', array(), $WCFM->version );
+			wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
+			wp_enqueue_style( 'myvideoroom-menutab-header' );
+		}
+		// Render Partner AJax.
+		add_action( 'wp_ajax_wcfmvm_store_slug_verification', array( $this, 'wcfmvm_store_slug_verification' ) );
+		add_action( 'wp_ajax_nopriv_wcfmvm_store_slug_verification', array( $this, 'wcfmvm_store_slug_verification' ) );
+		wp_enqueue_style( 'wcfm_membership_steps_css', $WCFMvm->library->css_lib_url_min . 'wcfmvm-style-membership-steps.css', array(), $WCFMvm->version );
+		wp_enqueue_style( 'wcfm_membership_registration_css', $WCFMvm->library->css_lib_url_min . 'wcfmvm-style-membership-registration.css', array(), $WCFMvm->version );
+		wp_enqueue_script( 'wcfm_membership_registration_js' );
+
+		// Render Core Control Ajax
 		\wp_enqueue_script( 'elemental-onboard-js' );
 		// Localize script Ajax Upload.
 		$script_data_array = array(
@@ -223,5 +256,43 @@ class OnboardShortcode {
 		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' class="' . $style . ' myvideoroom-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
 		</button>
 		';
+	}
+
+	/**
+	 * Store Name Validation
+	 */
+	public function wcfmvm_store_slug_verification() {
+
+		$store_name = wc_clean( $_POST['store_name'] );
+
+		if ( $store_name ) {
+			$store_slug = sanitize_title( wc_clean( $store_name ) );
+			$store_slug = apply_filters( 'wcfm_generated_store_slug', $store_slug );
+
+			if ( ! is_user_logged_in() && ( username_exists( $store_slug ) || get_user_by( 'slug', $store_slug ) || ! apply_filters( 'wcfm_validate_store_slug', true, $store_slug ) ) ) {
+				echo '{"status": false, "message": "' . __( 'Organisation Name not available.', 'wc-multivendor-membership' ) . '"}';
+			} elseif ( is_user_logged_in() ) {
+				$member_id           = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
+				$the_user            = get_user_by( 'id', $member_id );
+				$user_login          = sanitize_title( $the_user->user_login );
+				$previous_store_slug = $the_user->user_nicename;
+				if ( ( ( $previous_store_slug != $store_slug ) && ( $user_login != $store_slug ) && username_exists( $store_slug ) ) || ! apply_filters( 'wcfm_validate_store_slug', true, $store_slug ) ) {
+					echo '{"status": false, "message": "' . __( 'Shop Name not available.', 'wc-multivendor-membership' ) . '"}';
+				} else {
+					$store_slug_user = get_user_by( 'slug', $store_slug );
+					if ( ! $store_slug_user || ( $store_slug_user && ( $store_slug_user->ID == $member_id ) ) ) {
+						echo '{"status": true, "store_slug": "' . $store_slug . '"}';
+					} else {
+						echo '{"status": false, "message": "' . __( 'Shop Name not available.', 'wc-multivendor-membership' ) . '"}';
+					}
+				}
+			} else {
+				echo '{"status": true, "store_slug": "' . $store_slug . '"}';
+			}
+		} else {
+			echo '{"status": false, "message": "' . __( 'Shop Name not available.', 'wc-multivendor-membership' ) . '"}';
+		}
+
+		die;
 	}
 }

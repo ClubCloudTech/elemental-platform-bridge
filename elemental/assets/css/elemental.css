@@ -127,3 +127,17 @@ element.style {}
 	padding: 3px;
 	font-size: 14px;
 }
+
+.elemental-background-item {
+	background: white!important;
+}
+
+#wcfm_membership_container p.wcfm_title,
+#wcfm_membership_container span.wcfm_title {
+	font-size: 15px;
+	margin-bottom: 10 px !important;
+	font-style: normal;
+	width: 39%;
+	display: -webkit-box!important;
+	vertical-align: top;
+}

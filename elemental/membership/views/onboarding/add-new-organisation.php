@@ -14,14 +14,16 @@ use \MyVideoRoomPlugin\Library\HttpPost;
  *
  * @return string
  */
-return function (): string {
+return function (
+	int $membership_id = null
+): string {
 	ob_start();
 
 	$html_library = Factory::get_instance( HTML::class, array( 'site-conference-center-new-room' ) );
 
 	?>
 	<div class="mvr-nav-settingstabs-outer-wrap myvideoroom-welcome-page elemental-align-left">
-
+<div id="pageinfo" data-membership="<?php echo esc_attr( $membership_id ); ?>"></div>
 	<form method="" action="#">
 
 		<div class="elemental-email-wrapper">
@@ -37,7 +39,7 @@ return function (): string {
 		<label class="elemental-align-right" for="elemental-email-status-box">
 	<?php esc_html_e( 'Status ', 'myvideoroom' ); ?>
 		</label>
-		<div id="elemental-email-status" data-valid ="" class="elemental-email-status elemental-membership-displayconf"><?php esc_html_e( 'Waiting to Check ', 'myvideoroom' ); ?> </div>
+		<div id="elemental-email-status" data-valid ="" class="elemental-email-status elemental-membership-displayconf"><?php esc_html_e( '.', 'myvideoroom' ); ?> </div>
 
 		<p class="elemental-clear" id="elemental-email-status-box">
 	<?php
@@ -71,7 +73,7 @@ return function (): string {
 		<p>
 	<?php
 	esc_html_e(
-		'Once your Sponsored account is created the user will receive an email with their reset password procedure',
+		'Once your Organisation account is created you will receive an email with the password. You can also reset it from any login screen.',
 		'myvideoroom'
 	);
 	?>

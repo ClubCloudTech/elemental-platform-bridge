@@ -8,9 +8,6 @@
 namespace ElementalPlugin\Membership\Library;
 
 use ElementalPlugin\Factory;
-use ElementalPlugin\Membership\DAO\MembershipDAO;
-use ElementalPlugin\Membership\DAO\MemberSyncDAO;
-use ElementalPlugin\Membership\Membership;
 
 /**
  * Class OnboardAjax - Provides the Onboard Ajax Control.
@@ -56,22 +53,6 @@ class OnboardAjax {
 		}
 
 		/*
-		* Update Display Name section.
-		*
-		*/
-		if ( 'update_db' === $action_taken ) {
-
-			$update = Factory::get_instance( MembershipDAO::class )->update_membership_limit( \intval( $set_value ), \intval( $membership_level ) );
-
-			if ( $update ) {
-				$response['feedback'] = \esc_html__( 'Display Name Update Updated', 'myvideoroom' );
-			} else {
-				$response['feedback'] = \esc_html__( 'Display Name Update Failed', 'myvideoroom' ) . $membership_level . '->' . $set_value;
-			}
-			return \wp_send_json( $response );
-		}
-
-		/*
 		* Check Login.
 		*
 		*/
@@ -106,12 +87,23 @@ class OnboardAjax {
 		*
 		*/
 		if ( 'create_user' === $action_taken ) {
+			if ( isset( $_POST['membership'] ) ) {
+				$membership = sanitize_text_field( wp_unslash( $_POST['membership'] ) );
+			}
+			$user_id = Factory::get_instance( MembershipUser::class )->create_organisation_wordpress_user( $first_name, $email );
+			if ( $user_id ) {
+				if ( ! is_user_logged_in() ) {
+					$user_obj = \get_user_by( 'id', $user_id );
+					wp_set_current_user( $user_id );
+					wp_set_auth_cookie( $user_id );
+					do_action( 'wp_login', $email, $user_obj );
+				}
+				$response['feedback']   = true;
+				$response['membership'] = $membership . 'dbma';
 
-			$success = Factory::get_instance( MembershipUser::class )->create_organisation_wordpress_user( $first_name, $email );
+				$this->wcfm_choose_membership( intval( $membership ) );
+				$response['table'] = Factory::get_instance( OnboardShortcode::class )->render_wcfm_step( $user_id );
 
-			if ( $success ) {
-				$response['feedback'] = true;
-				$response['table']    = Factory::get_instance( OnboardShortcode::class )->render_wcfm_step( $success );
 			} else {
 				$response['feedback'] = false;
 			}
@@ -119,48 +111,85 @@ class OnboardAjax {
 		}
 
 		/*
-		* Delete User.
+		* Get Checkout.
 		*
 		*/
-		if ( 'delete_user' === $action_taken ) {
-			$verify = \wp_verify_nonce( $nonce, Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $user_id ) );
-			if ( ! $verify ) {
-				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'myvideoroom' );
-				return \wp_send_json( $response );
-			}
-			$my_user_id  = \get_current_user_id();
-			$user_parent = Factory::get_instance( MemberSyncDAO::class )->get_parent_by_child( $user_id );
-			if ( $user_parent !== $my_user_id ) {
-				$response['feedback'] = \esc_html__( 'You are not the parent of this account, you can not delete it.', 'myvideoroom' );
-				return \wp_send_json( $response );
-			}
-			$message                  = \esc_html__( 'delete this user ? This operation can not be undone', 'myvideoroom' );
-			$approved_nonce           = wp_create_nonce( $user_id . 'approved' );
-			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( Membership::MEMBERSHIP_NONCE_PREFIX_DU, esc_html__( 'Delete User', 'my-video-room' ), null, $approved_nonce, $user_id );
-			$response['confirmation'] = Factory::get_instance( MembershipShortCode::class )->membership_confirmation( $message, $button_approved );
-
+		if ( 'get_checkout' === $action_taken ) {
+			$response['status'] = 'Basket';
+			$response['table']  = \do_shortcode( '[woocommerce_checkout]' );
 			return \wp_send_json( $response );
 		}
 
-		if ( 'delete_final' === $action_taken ) {
-			$verify = \wp_verify_nonce( $nonce, $user_id . 'approved' );
-			if ( ! $verify ) {
-				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'myvideoroom' );
-				return \wp_send_json( $response );
-			}
-			$delete_user = Factory::get_instance( MembershipUser::class )->delete_wordpress_user( $user_id );
-			$delete_db   = Factory::get_instance( MemberSyncDAO::class )->delete_child_account( $user_id );
-
-			if ( true === $delete_user ) {
-				$response['feedback'] = \esc_html__( 'User Deleted Successfully', 'myvideoroom' );
-				$response['table']    = Factory::get_instance( MembershipShortCode::class )->generate_child_account_table();
-				$response['counter']  = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
-			} else {
-				$response['feedback'] = \esc_html__( 'Error Deleting User', 'myvideoroom' );
-			}
-
-			return \wp_send_json( $response );
-		}
 		die();
 	}
+
+	/**
+	 * WCFM Choose Membership Plan
+	 * Sets WCFM Parameters to Ready Basket
+	 */
+	public function wcfm_choose_membership( int $membership ) {
+		global $WCFM, $WCFMvm, $_SESSION;
+		// error_log( 'inside main function' );
+			// Session store
+		if ( WC()->session ) {
+			do_action( 'woocommerce_set_cart_cookies', true );
+			WC()->session->set( 'wcfm_membership', $membership );
+
+			if ( is_user_logged_in() && wcfm_has_membership() ) {
+				WC()->session->set( 'wcfm_membership_mode', 'upgrade' );
+			} else {
+				WC()->session->set( 'wcfm_membership_mode', 'new' );
+			}
+
+			if ( WC()->session->get( 'wcfm_membership_free_registration' ) ) {
+				WC()->session->__unset( 'wcfm_membership_free_registration' );
+			}
+		}
+
+			$method = 'by_url';
+			do_action( 'wcfmvm_after_choosing_membership', $membership );
+
+		if ( $membership ) {
+			$wcfm_membership_registration_messages = get_wcfmvm_membership_registration_messages();
+			$has_error                             = false;
+			$subscription_pay_mode                 = 'by_wc';
+			$wcfm_membership                       = absint( $membership );
+			if ( is_user_logged_in() ) {
+				$member_id = get_current_user_id();
+				update_user_meta( $member_id, 'temp_wcfm_membership', $wcfm_membership );
+			}
+
+			$subscription          = (array) get_post_meta( $wcfm_membership, 'subscription', true );
+			$subscription_pay_mode = isset( $subscription['subscription_pay_mode'] ) ? $subscription['subscription_pay_mode'] : 'by_wcfm';
+			$subscription_product  = isset( $subscription['subscription_product'] ) ? $subscription['subscription_product'] : '';
+			if ( ( $subscription_pay_mode === 'by_wc' ) && $subscription_product ) {
+				WC()->cart->empty_cart();
+				WC()->cart->add_to_cart( $subscription_product );
+			}
+		}
+
+				/*
+				if ( $subscription_pay_mode == 'by_wc' ) {
+					if ( $method == 'by_url' ) {
+						wp_safe_redirect( wc_get_checkout_url() );
+					} else {
+						echo '{"status": true, "message": "' . $wcfm_membership_registration_messages['registration_success'] . '", "redirect": "' . wc_get_checkout_url() . '"}';
+					}
+				} else {
+					if ( $method == 'by_url' ) {
+						wp_safe_redirect( add_query_arg( 'vmstep', 'registration', get_wcfm_membership_url() ) );
+					} else {
+						echo '{"status": true, "message": "' . $wcfm_membership_registration_messages['registration_success'] . '", "redirect": "' . add_query_arg( 'vmstep', 'payment', get_wcfm_membership_url() ) . '"}';
+					}
+				} */
+			// }
+
+		/*
+		if ( $method == 'by_url' ) {
+			wp_safe_redirect( add_query_arg( 'vmstep', 'registration', get_wcfm_membership_url() ) );
+		} else {
+			echo '{"status": true, "redirect": "' . add_query_arg( 'vmstep', 'registration', get_wcfm_membership_url() ) . '"}';
+		}*/
+	}
+
 }
