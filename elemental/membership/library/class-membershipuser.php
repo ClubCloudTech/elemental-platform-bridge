@@ -63,9 +63,9 @@ class MembershipUser {
 	 * @param string $first_name - User First Name.
 	 * @param string $email      - User Email.
 	 *
-	 * @return bool
+	 * @return ?int
 	 */
-	public function create_organisation_wordpress_user( string $first_name, string $email ): bool {
+	public function create_organisation_wordpress_user( string $first_name, string $email ): ?int {
 		if ( strlen( $first_name ) < 5 || ! \sanitize_email( $email ) || \username_exists( $email ) ) {
 			return false;
 		}
@@ -78,7 +78,7 @@ class MembershipUser {
 		// Notify User of Password.
 		$notify_user_status = $this->notify_new_child_user( $password, $email, $first_name );
 		// Update Additional User Parameters.
-		wp_update_user(
+		$user_id = wp_update_user(
 			array(
 				'ID'           => $user_id,
 				'nickname'     => $first_name,
@@ -86,7 +86,7 @@ class MembershipUser {
 				'first_name'   => $first_name,
 			)
 		);
-		return true;
+		return $user_id;
 	}
 	/**
 	 * Send WordPress Notification Mail to New User.

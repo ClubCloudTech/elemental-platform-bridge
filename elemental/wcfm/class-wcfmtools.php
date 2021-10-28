@@ -2,7 +2,7 @@
 /**
  * Utilities for WCFM
  *
- * @package ElementalPlugin\WoocommerceBookings
+ * @package wcfm/class-wcfmtools.php
  */
 
 namespace ElementalPlugin\WCFM;
@@ -17,27 +17,49 @@ class WCFMTools {
 	 * Get WCFM Membership Levels.
 	 *
 	 * @param bool $id_only Flag on returning only ID not entire object.
+	 * @param int  $post_id -  Post ID of a Single Membership level to retrieve (optional).
 	 * @return ?array
 	 */
-	public function elemental_get_wcfm_memberships( bool $id_only = null ): ?array {
+	public function elemental_get_wcfm_memberships( bool $id_only = null, int $post_id = null ): ?array {
 
-		$args              = array(
-			'posts_per_page'   => -1,
-			'offset'           => 0,
-			'category'         => '',
-			'category_name'    => '',
-			'orderby'          => 'date',
-			'order'            => 'DESC',
-			'include'          => '',
-			'exclude'          => '',
-			'meta_key'         => '',
-			'meta_value'       => '',
-			'post_type'        => 'wcfm_memberships',
-			'post_mime_type'   => '',
-			'post_parent'      => '',
-			'post_status'      => array( 'draft', 'pending', 'publish' ),
-			'suppress_filters' => true,
-		);
+		if ( ! $post_id ) {
+			$args = array(
+				'posts_per_page'   => -1,
+				'offset'           => 0,
+				'category'         => '',
+				'category_name'    => '',
+				'orderby'          => 'date',
+				'order'            => 'DESC',
+				'include'          => '',
+				'exclude'          => '',
+				'meta_key'         => '',
+				'meta_value'       => '',
+				'post_type'        => 'wcfm_memberships',
+				'post_mime_type'   => '',
+				'post_parent'      => '',
+				'post_status'      => array( 'draft', 'pending', 'publish' ),
+				'suppress_filters' => true,
+			);
+		} else {
+			$args = array(
+				'posts_per_page'   => -1,
+				'offset'           => 0,
+				'category'         => '',
+				'category_name'    => '',
+				'orderby'          => 'date',
+				'order'            => 'DESC',
+				'include'          => array( $post_id ),
+				'exclude'          => '',
+				'meta_key'         => '',
+				'meta_value'       => '',
+				'post_type'        => 'wcfm_memberships',
+				'post_mime_type'   => '',
+				'post_parent'      => '',
+				'post_status'      => array( 'draft', 'pending', 'publish' ),
+				'suppress_filters' => true,
+			);
+		}
+
 		$wcfm_groups_array = get_posts( $args );
 
 		if ( $id_only && $wcfm_groups_array ) {
