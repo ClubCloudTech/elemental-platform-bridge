@@ -150,7 +150,8 @@ class OnboardShortcode {
 			wp_enqueue_style( 'myvideoroom-menutab-header' );
 		}
 		// Render WCFM Partner AJax.
-		$WCFM->library->load_select2_lib();
+		wp_enqueue_script( 'select2_js', $WCFM->plugin_url . 'includes/libs/select2/select2.js', array('jquery'), $WCFM->version, true );
+		wp_enqueue_style( 'select2_css',  $WCFM->plugin_url . 'includes/libs/select2/select2.css', array(), $WCFM->version );
 		wp_enqueue_script( 'wc-country-select' );
 		add_action( 'wp_ajax_wcfmvm_store_slug_verification', array( $this, 'wcfmvm_store_slug_verification' ) );
 		add_action( 'wp_ajax_nopriv_wcfmvm_store_slug_verification', array( $this, 'wcfmvm_store_slug_verification' ) );
