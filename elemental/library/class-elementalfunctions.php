@@ -41,7 +41,7 @@ class ElementalFunctions {
 		$roles = (array) $user->roles;
 
 		// Handling Admin Roles - sending them to Admin Lounge.
-		if ( $user->roles[0] == 'administrator' ) {
+		if ( 'administrator' === $user->roles[0] ) {
 			return do_shortcode( '[elementor-template id="20006"]' );        }
 
 			// If user is non-admin Then get membership level and Re-create Array from WordPress text input.
