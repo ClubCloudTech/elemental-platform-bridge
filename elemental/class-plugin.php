@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace ElementalPlugin;
 
+use ElementalPlugin\Library\ElementalFunctions;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\Membership;
 use ElementalPlugin\ShortCode\ShortCodeTab;
@@ -31,6 +32,7 @@ class Plugin {
 		Factory::get_instance( Membership::class )->init();
 		Factory::get_instance( ShortCodeTab::class )->init();
 		Factory::get_instance( WCFMSearch::class )->init();
+		Factory::get_instance( ElementalFunctions::class )->init();
 
 		$this->styles();
 	}
