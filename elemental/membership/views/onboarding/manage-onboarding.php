@@ -14,8 +14,7 @@
 
 return function (
 	string $add_account_form,
-	int $membership_id,
-	array $membership_data
+	array $membership_data = null
 ): string {
 	ob_start();
 	?>
@@ -31,7 +30,7 @@ return function (
 		<div id="wcfm_page_load "></div>
 	<?php
 
-	if ( $membership_id ) {
+	
 		?>
 		<div class="wcfm-container wcfm-top-element-container">
 		<h2>
@@ -39,7 +38,7 @@ return function (
 				echo \sprintf(
 					/* translators: %s is the text "Modules" and links to the Module Section */
 					\esc_html__(
-						'Create a New %s Level Organisation Account.',
+						'Create a New %s Organisation Account.',
 						'myvideoroom'
 					),
 					esc_textarea( $membership_data[0]->post_title ),
@@ -55,7 +54,10 @@ return function (
 			echo $add_account_form;
 		?>
 		</div>
-		<div class="wcfm-container wcfm-top-element-container">
+		<?php
+if ( $membership_data ) {
+		?>
+	<div class="wcfm-container wcfm-top-element-container">
 		<div id="elemental-extra" class="wcfm-container wcfm-top-element-container elemental-background-item" >
 			<h3 class="elemental-align-left"><?php esc_html_e( 'Plan Details', 'myvideoroom' ); ?></h3>
 			<?php
@@ -65,19 +67,17 @@ return function (
 
 		</div>
 		<div>
-		<div id="elemental-notification-frame"></div>
-		<div class="wcfm-clearfix"></div><br />
-</div>
-
-</div>
-
-
-		<?php
-	} else {
-		?>
-			<h3 class="elemental-align-left"><?php esc_html_e( 'You Must provide a Membership ID to use this page.', 'myvideoroom' ); ?></h3>
-		<?php
+			<div id="elemental-notification-frame"></div>
+			<div class="wcfm-clearfix"></div><br />
+		</div>
+	</div>
+	<?php
 	}
+	?>
+</div>
+
+
+		<?php
 	return ob_get_clean();
 
 };

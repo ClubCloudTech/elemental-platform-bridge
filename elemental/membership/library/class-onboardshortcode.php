@@ -59,6 +59,23 @@ class OnboardShortcode {
 			$membership_id    = intval( $http_get_library->get_string_parameter( 'membership' ) );
 		}
 		$this->enqueue_style_scripts( true );
+		// Valid User Check.
+		if ( is_user_logged_in() ) {
+
+			$user_id = \get_current_user_id();
+			$is_merchant_check = Factory::get_instance( WCFMTools::class )->am_i_merchant( $user_id );
+				$user = get_user_meta( $user_id );
+				//echo \var_dump( $user );
+			if ( $is_merchant_check ) {
+				$membership_data = Factory::get_instance( WCFMTools::class )->elemental_get_membership_data( $user_id );
+				$render = ( require __DIR__ . '/../views/onboarding/merchant-already.php' );
+				return $render( $membership_data );
+			} elseif ( Factory::get_instance( MembershipUser::class )->is_user_onboarding( $user_id ) ){
+				$render = ( require __DIR__ . '/../views/onboarding/manage-onboarding.php' );
+				$info_form = $this->render_wcfm_step( $user_id );
+				return $render( $info_form );
+			}
+		}
 		// Membership Validity Check.
 		$valid_memberships = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( true );
 		$valid             = \in_array( $membership_id, $valid_memberships, true );
@@ -67,7 +84,7 @@ class OnboardShortcode {
 			$render              = ( require __DIR__ . '/../views/onboarding/manage-onboarding.php' );
 			$manage_account_form = ( require __DIR__ . '/../views/onboarding/add-new-organisation.php' );
 			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
-			return $render( $manage_account_form( $membership_id), $membership_id, $membership_data );
+			return $render( $manage_account_form( $membership_id), $membership_data );
 		} else {
 			$render = ( require __DIR__ . '/../views/onboarding/reject-onboarding.php' );
 			return $render();
@@ -132,7 +149,9 @@ class OnboardShortcode {
 			wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
 			wp_enqueue_style( 'myvideoroom-menutab-header' );
 		}
-		// Render Partner AJax.
+		// Render WCFM Partner AJax.
+		$WCFM->library->load_select2_lib();
+		wp_enqueue_script( 'wc-country-select' );
 		add_action( 'wp_ajax_wcfmvm_store_slug_verification', array( $this, 'wcfmvm_store_slug_verification' ) );
 		add_action( 'wp_ajax_nopriv_wcfmvm_store_slug_verification', array( $this, 'wcfmvm_store_slug_verification' ) );
 		wp_enqueue_style( 'wcfm_membership_steps_css', $WCFMvm->library->css_lib_url_min . 'wcfmvm-style-membership-steps.css', array(), $WCFMvm->version );

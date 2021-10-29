@@ -54,49 +54,7 @@ class WCFMHelpers extends Shortcode {
 		return \do_shortcode( '[products store="' . $store_id . '" paginate="true"]' );
 	}
 
-	/**
-	 * This function checks if a user is a Merchant
-	 */
 
-
-	public function ismerchant_check( $user_id = '' ) {
-		if ( ! $user_id ) {
-			$user_id = \get_current_user_id();
-		}
-
-		$user       = $this->get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $user_id );
-		$user_roles = $this->get_instance( UserRoles::class, array( $user ) );
-
-		return ( $user_roles->is_wcfm_shop_staff() || $user_roles->is_wcfm_vendor() );
-	}
-
-	/**
-	 * This function Returns the Parent ID of the Merchant of a store
-	 * Used to always return the store parent ID, and filter out Staff/Child Accounts
-	 */
-	public function staff_to_parent( $id ) {
-		if ( ! $id ) {
-			return null;
-		}
-
-		$staff      = $this->get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $id );
-		$user_roles = $this->get_instance( UserRoles::class, array( $staff ) );
-
-		if ( $user_roles->is_wcfm_vendor() ) {
-			return $id;
-		}
-
-		$parent_id = $staff->_wcfm_vendor;
-
-		$parent     = $this->get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $parent_id );
-		$user_roles = $this->get_instance( UserRoles::class, array( $parent ) );
-
-		if ( $parent && $user_roles->is_wcfm_vendor() ) {
-			return $parent_id;
-		}
-
-		return null;
-	}
 
 	/**
 	 * Format Store Display Name or Slug

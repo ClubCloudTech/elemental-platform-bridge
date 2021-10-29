@@ -10,7 +10,6 @@ namespace ElementalPlugin\Membership\Library;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
-use ElementalPlugin\Entity\MenuTabDisplay;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.

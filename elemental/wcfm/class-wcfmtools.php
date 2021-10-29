@@ -7,6 +7,10 @@
 
 namespace ElementalPlugin\WCFM;
 
+use ElementalPlugin\Factory;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Library\WordPressUser;
+
 /**
  * Class WCFM Search
  */
@@ -75,15 +79,36 @@ class WCFMTools {
 			return null;
 		}
 	}
+	/**
+	 * Get the Membership Program Information for all Memberships a user has
+	 *
+	 * @param ?int $user_id - User ID that you want to check. (must be a merchant).
+	 * @return ?array with the information of group (including name, URL, etc).
+	 */
+	public function elemental_get_membership_data( int $user_id ): ?array {
+		if ( ! $user_id ) {
+			$user_id = \get_current_user_id();
+			if ( $user_id ) {
+				return null;
+			}
+		}
+		$memberships  = $this->elemental_get_store_memberships( $user_id );
+		$return_array = array();
+		foreach ( $memberships as $membership ) {
+			array_push( $return_array, $this->elemental_get_wcfm_memberships( null, $membership ) );
+		}
+		return $return_array;
+	}
+
 
 	/**
 	 * Get User Members of a Group ID
 	 *
-	 * @param ?int $membership_id ID Of members.
+	 * @param ?int $group_id ID.
 	 * @return ?array
 	 */
-	public function elemental_show_user_members( int $membership_id ): ?array {
-		$membership_users = (array) get_post_meta( $membership_id, 'membership_users', true );
+	public function elemental_show_user_members( int $group_id ): ?array {
+		$membership_users = (array) get_post_meta( $group_id, 'membership_users', true );
 		if ( $membership_users ) {
 			return $membership_users;
 		} else {
@@ -114,9 +139,91 @@ class WCFMTools {
 	}
 
 	/**
-	 * Get Store Memberships.
+	 * Check if user is a Store Owner or Staff.
 	 *
-	 * @param int $store_id the StoreID to Check.
+	 * @param ?int $user_id of user to check. (can be left blank for current logged in user ).
+	 * @return ?bool
+	 */
+	public function am_i_merchant( $user_id = null ):bool {
+		if ( ! $user_id ) {
+			$user_id = \get_current_user_id();
+		}
+
+		$user       = Factory::get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $user_id );
+		$user_roles = Factory::get_instance( UserRoles::class, array( $user ) );
+
+		return ( $user_roles->is_wcfm_shop_staff() || $user_roles->is_wcfm_vendor() );
+	}
+
+	/**
+	 * Check if user is a Store Owner or Staff.
+	 *
+	 * @param ?int $user_id of user to check. (can be left blank for current logged in user ).
+	 * @return ?bool
+	 */
+	public function am_i_staff( $user_id = null ):bool {
+		if ( ! $user_id ) {
+			$user_id = \get_current_user_id();
+		}
+
+		$user       = Factory::get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $user_id );
+		$user_roles = Factory::get_instance( UserRoles::class, array( $user ) );
+
+		return ( $user_roles->is_wcfm_shop_staff() );
+	}
+
+	/**
+	 * Check if user is a Store Owner or Staff.
+	 *
+	 * @param ?int $user_id of user to check. (can be left blank for current logged in user ).
+	 * @return ?bool
+	 */
+	public function am_i_storeowner( $user_id = null ):bool {
+		if ( ! $user_id ) {
+			$user_id = \get_current_user_id();
+		}
+
+		$user       = Factory::get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $user_id );
+		$user_roles = Factory::get_instance( UserRoles::class, array( $user ) );
+
+		return ( $user_roles->is_wcfm_vendor() );
+	}
+
+	/** Get Parent ID of Store from a Child Account.
+	 * This function Returns the Parent ID of the Merchant of a store
+	 * Used to always return the store parent ID, and filter out Staff/Child Accounts
+	 *
+	 * @param ?int $id of user to check (either Staff or Store Owner ). (can be left blank for current logged in user ).
+	 * @return ?bool
+	 */
+	public function staff_to_parent( int $id ) {
+		if ( ! $id ) {
+			return null;
+		}
+
+		$staff      = Factory::get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $id );
+		$user_roles = Factory::get_instance( UserRoles::class, array( $staff ) );
+
+		if ( $user_roles->is_wcfm_vendor() ) {
+			return $id;
+		}
+
+		$parent_id = $staff->_wcfm_vendor;
+
+		$parent     = Factory::get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $parent_id );
+		$user_roles = Factory::get_instance( UserRoles::class, array( $parent ) );
+
+		if ( $parent && $user_roles->is_wcfm_vendor() ) {
+			return $parent_id;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get Store Memberships of a user
+	 *
+	 * @param int $store_id the User ID of the Store parent to Check.
 	 * @return ?array
 	 */
 	public function elemental_get_store_memberships( int $store_id ): ?array {
@@ -136,7 +243,7 @@ class WCFMTools {
 	}
 
 	/**
-	 * Get Store Memberships.
+	 * Am I a Premium Member.
 	 *
 	 * @param int $store_id the StoreID to Check.
 	 * @return bool

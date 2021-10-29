@@ -11,39 +11,63 @@
  * @param string $add_account_form - add an account form
  */
 
+use ElementalPlugin\Factory;
+use ElementalPlugin\Membership\Library\MembershipUser;
+
 return function (
 	string $user_id_inbound,
 	object $registration
 ): string {
-	global $WCFM, $WCFMvm, $wp, $WCFM_Query;
+	global $WCFM, $WCFMvm;
 
 	$WCFM->nocache();
 	ob_start();
-		echo '<div id="wcfm-main-contentainer"> <div id="wcfm-content"><div class="wcfm-membership-wrapper"> ';
+	?>
+<div id ="elemental-registration-info"
+data-
+></div>
+<div id="wcfm-main-contentainer">
+	<div id="wcfm-content">
+		<div class="wcfm-membership-wrapper">
+			<h2 class="wcfm_registration_form_heading elemental-content-tab">
+				<?php esc_html_e( 'Registration', 'myvideoroom' ); ?> </h2>
+			<div class="elemental-clear"></div>
 
-		echo "<h2 class='wcfm_registration_form_heading'>" . __( 'Registration', 'wc-multivendor-membership' ) . '</h2>';
+			<?php
+			$userid = get_current_user_id();
+			$user = get_user_by( 'id', $userid );
 
-		$current_step = wcfm_membership_registration_current_step();
+			echo var_dump( $user );
+			//echo Factory::get_instance( MembershipUser::class )->get_store_meta_info( get_current_user_id(), 'billing_company' ).'bc';
+			$current_step    = wcfm_membership_registration_current_step();
+			$user_onboarding = Factory::get_instance( MembershipUser::class )->is_user_onboarding( $user_id_inbound );
 
-	if ( ! wcfm_is_vendor() && ( wcfm_is_allowed_membership() || current_user_can( 'administrator' ) || current_user_can( 'shop_manager' ) ) ) {
-		$application_status = '';
+			if ( ! wcfm_is_vendor() && ( wcfm_is_allowed_membership() || current_user_can( 'administrator' ) || current_user_can( 'shop_manager' ) || $user_onboarding ) ) {
+				$application_status = '';
 
-			$member_id          = apply_filters( 'wcfm_current_vendor_id', $user_id_inbound );
-			$application_status = get_user_meta( $member_id, 'wcfm_membership_application_status', true );
+					$member_id          = apply_filters( 'wcfm_current_vendor_id', $user_id_inbound );
+					$application_status = get_user_meta( $member_id, 'wcfm_membership_application_status', true );
 
-		if ( $application_status && ( $application_status == 'pending' ) ) {
-			$WCFMvm->template->get_template( 'vendor_thankyou.php' );
-		} elseif ( isset( $_REQUEST['vmstep'] ) && $current_step && ( $current_step == 'thankyou' ) ) {
-			$WCFMvm->template->get_template( 'vendor_thankyou.php' );
-		} else {
-			echo $registration( $user_id_inbound );
-		}
-	} elseif ( isset( $_REQUEST['vmstep'] ) && $current_step && ( $current_step == 'thankyou' ) ) {
-			$WCFMvm->template->get_template( 'vendor_thankyou.php' );
-	} else {
-		$WCFMvm->template->get_template( 'vendor_membership_block.php' );
-	}
+				if ( $application_status && ( 'pending' === $application_status ) ) {
+					$WCFMvm->template->get_template( 'vendor_thankyou.php' );
 
-		echo '</div></div></div>';
+				} elseif ( isset( $_REQUEST['vmstep'] ) && $current_step && ( 'thankyou' === $current_step ) ) {
+					$WCFMvm->template->get_template( 'vendor_thankyou.php' );
+
+				} else {
+					echo $registration( $user_id_inbound );
+				}
+			} elseif ( isset( $_REQUEST['vmstep'] ) && $current_step && ( 'thankyou' === $current_step ) ) {
+
+				$WCFMvm->template->get_template( 'vendor_thankyou.php' );
+			} else {
+
+				$WCFMvm->template->get_template( 'vendor_membership_block.php' );
+			}
+			?>
+		</div>
+	</div>
+</div>
+	<?php
 	return ob_get_clean();
 };

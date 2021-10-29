@@ -217,7 +217,7 @@ class MemberSyncDAO {
 			);
 
 			if ( $row ) {
-				   $result = (int) $row->parent_id;
+				$result = (int) $row->parent_id;
 			}
 
 			\wp_cache_set( $child_id, $result, __METHOD__ );

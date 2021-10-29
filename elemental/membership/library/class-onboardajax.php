@@ -150,8 +150,6 @@ class OnboardAjax {
 			do_action( 'wcfmvm_after_choosing_membership', $membership );
 
 		if ( $membership ) {
-			$wcfm_membership_registration_messages = get_wcfmvm_membership_registration_messages();
-			$has_error                             = false;
 			$subscription_pay_mode                 = 'by_wc';
 			$wcfm_membership                       = absint( $membership );
 			if ( is_user_logged_in() ) {
@@ -162,34 +160,34 @@ class OnboardAjax {
 			$subscription          = (array) get_post_meta( $wcfm_membership, 'subscription', true );
 			$subscription_pay_mode = isset( $subscription['subscription_pay_mode'] ) ? $subscription['subscription_pay_mode'] : 'by_wcfm';
 			$subscription_product  = isset( $subscription['subscription_product'] ) ? $subscription['subscription_product'] : '';
-			if ( ( $subscription_pay_mode === 'by_wc' ) && $subscription_product ) {
+			if ( ( 'by_wc' === $subscription_pay_mode ) && $subscription_product ) {
 				WC()->cart->empty_cart();
 				WC()->cart->add_to_cart( $subscription_product );
 			}
 		}
-
-				/*
-				if ( $subscription_pay_mode == 'by_wc' ) {
-					if ( $method == 'by_url' ) {
-						wp_safe_redirect( wc_get_checkout_url() );
-					} else {
-						echo '{"status": true, "message": "' . $wcfm_membership_registration_messages['registration_success'] . '", "redirect": "' . wc_get_checkout_url() . '"}';
-					}
-				} else {
-					if ( $method == 'by_url' ) {
-						wp_safe_redirect( add_query_arg( 'vmstep', 'registration', get_wcfm_membership_url() ) );
-					} else {
-						echo '{"status": true, "message": "' . $wcfm_membership_registration_messages['registration_success'] . '", "redirect": "' . add_query_arg( 'vmstep', 'payment', get_wcfm_membership_url() ) . '"}';
-					}
-				} */
-			// }
-
-		/*
-		if ( $method == 'by_url' ) {
-			wp_safe_redirect( add_query_arg( 'vmstep', 'registration', get_wcfm_membership_url() ) );
-		} else {
-			echo '{"status": true, "redirect": "' . add_query_arg( 'vmstep', 'registration', get_wcfm_membership_url() ) . '"}';
-		}*/
 	}
 
+	/**
+	 * Elemental Ajax Support.
+	 * Handles membership function related calls and Ajax.
+	 *
+	 *  @param  int   $user_id The WP User ID.
+	 *  @param  array $update_array - the array containing update information.
+	 *  @return void
+	 */
+	private function update_woocommerce_meta( int $user_id, array $update_array ) {
+		$response            = array();
+		$response['message'] = 'No Change';
+
+		$data = array(
+			'billing_city'          => $city_value,
+			'billing_postcode'      => $postcode_value,
+			'billing_email'         => $email_value,
+			'billing_phone'         => $phone_value,
+		);
+		foreach ($data as $meta_key => $meta_value ) {
+			update_user_meta( $user_id, $meta_key, $meta_value );
+		}
+
+	}
 }

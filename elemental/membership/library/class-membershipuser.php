@@ -10,12 +10,15 @@ namespace ElementalPlugin\Membership\Library;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Membership\Membership;
+use ElementalPlugin\WCFM\WCFMTools;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
  */
 class MembershipUser {
 
+	const USER_META_KEY_PENDING   = 'elemental_user_pending';
+	const USER_META_VALUE_PENDING = 'elemental_onboard_pending';
 
 	/**
 	 * Create WordPress user from Membership form Ajax call.
@@ -76,9 +79,9 @@ class MembershipUser {
 			return false;
 		}
 		// Notify User of Password.
-		$notify_user_status = $this->notify_new_child_user( $password, $email, $first_name );
+		$this->notify_new_child_user( $password, $email, $first_name );
 		// Update Additional User Parameters.
-		$user_id = wp_update_user(
+		wp_update_user(
 			array(
 				'ID'           => $user_id,
 				'nickname'     => $first_name,
@@ -86,6 +89,14 @@ class MembershipUser {
 				'first_name'   => $first_name,
 			)
 		);
+		$meta_key   = self::USER_META_KEY_PENDING;
+		$meta_value = self::USER_META_VALUE_PENDING;
+		add_user_meta(
+			$user_id,
+			$meta_key,
+			$meta_value
+		);
+
 		return $user_id;
 	}
 	/**
@@ -153,7 +164,7 @@ class MembershipUser {
 		$current_user_roles = $user_info->roles;
 		include_once ABSPATH . 'wp-admin/includes/user.php';
 
-		if ( in_array( 'administrator', $current_user_roles ) ) {
+		if ( in_array( 'administrator', $current_user_roles, true ) ) {
 			return false;
 		} else {
 			if ( wp_delete_user( $user_id ) ) {
@@ -161,6 +172,75 @@ class MembershipUser {
 			} else {
 				return false;
 			}
+		}
+	}
+
+	/**
+	 * Checks if a user is an onboarding pending user.
+	 *
+	 * @param int $user_id - The User_ID to be verified.
+	 *
+	 * @return bool
+	 */
+	public function is_user_onboarding( int $user_id ): bool {
+		$meta_key = get_user_meta( $user_id, self::USER_META_KEY_PENDING );
+		if ( self::USER_META_VALUE_PENDING === $meta_key[0] ) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+	}
+
+	/**
+	 * Get Parent Account Meta
+	 *
+	 * @param int    $user_id - The User_ID to be verified.
+	 * @param string $meta_key - The key of the Information you want returned.
+	 *
+	 * @return ?string
+	 */
+	public function get_store_meta_info( int $user_id, string $meta_key ): ?string {
+
+		if ( $this->is_sponsored_account( $user_id ) ) {
+			$parent_info = Factory::get_instance( MemberSyncDAO::class )->get_parent_by_child( $user_id );
+
+		} elseif ( Factory::get_instance( WCFMTools::class )->am_i_staff( $user_id ) ) {
+			$parent_info = Factory::get_instance( WCFMHelpers::class )->staff_to_parent( $user_id );
+
+		} elseif ( Factory::get_instance( WCFMTools::class )->am_i_storeowner( $user_id ) ) {
+			$parent_info = $user_id;
+		}
+		if ( ! $parent_info ) {
+			return null;
+		} else {
+			$meta_value = get_user_meta( $parent_info, $meta_key );
+			return $meta_value;
+		}
+	}
+
+	/**
+	 * Is User a Sponsored Account ?
+	 *
+	 * @param int $user_id - The User_ID to be verified.
+	 *
+	 * @return bool
+	 */
+	public function is_sponsored_account( int $user_id ): bool {
+		$user_info = get_userdata( $user_id );
+		if ( ! $user_info ) {
+			return false;
+		}
+		$current_user_roles = $user_info->roles;
+		include_once ABSPATH . 'wp-admin/includes/user.php';
+
+		if ( in_array( 'Sponsored', $current_user_roles, true ) ) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

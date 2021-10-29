@@ -109,6 +109,7 @@ class Membership {
 		$edr = $wp_roles->get_role( 'Subscriber' );
 		add_role( self::MEMBERSHIP_ROLE_NAME, self::MEMBERSHIP_ROLE_DESCRIPTION, $edr->capabilities );
 	}
+
 	/**
 	 * Where OPcache is actually flushed
 	 */
