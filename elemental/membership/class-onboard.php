@@ -56,6 +56,8 @@ class Onboard {
 				\add_action( 'wp_ajax_elemental_onboardadmin_ajax', array( Factory::get_instance( OnboardAjax::class ), 'onboard_ajax_handler' ), 10, 2 );
 				\add_action( 'wp_ajax_nopriv_elemental_onboardadmin_ajax', array( Factory::get_instance( OnboardAjax::class ), 'onboard_ajax_handler' ), 10, 2 );
 
+				//add_action( 'woocommerce_order_status_processing', array( Factory::get_instance( ), 'wcfmvm_registration_process_on_order_completed' ), 10, 1 );
+
 	}
 	/**
 	 * Activate Functions for Membership.

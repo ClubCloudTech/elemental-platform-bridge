@@ -36,8 +36,8 @@ data-
 			<?php
 			$userid = get_current_user_id();
 			$user = get_user_by( 'id', $userid );
-
-			echo var_dump( $user );
+			
+			echo var_dump( $string );
 			//echo Factory::get_instance( MembershipUser::class )->get_store_meta_info( get_current_user_id(), 'billing_company' ).'bc';
 			$current_step    = wcfm_membership_registration_current_step();
 			$user_onboarding = Factory::get_instance( MembershipUser::class )->is_user_onboarding( $user_id_inbound );

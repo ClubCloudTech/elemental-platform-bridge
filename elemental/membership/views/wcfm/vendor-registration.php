@@ -295,19 +295,6 @@ return function ( $user_id_inbound ): string {
 				$field_value['country'] = isset( $vendor_data['address']['country'] ) ? $vendor_data['address']['country'] : get_user_meta( $user_id, 'billing_country', true );
 				$field_value['state']   = isset( $vendor_data['address']['state'] ) ? $vendor_data['address']['state'] : get_user_meta( $user_id, 'billing_state', true );
 
-				/*
-				$billing_address_fields = array(
-																		'billing_address_1'  => 'addr_1',
-																		'billing_address_2'  => 'addr_2',
-																		'billing_country'    => 'country',
-																		'billing_city'       => 'city',
-																		'billing_state'      => 'state',
-																		'billing_postcode'   => 'zip',
-																	);
-
-				foreach( $billing_address_fields as $billing_address_field_key => $billing_address_field ) {
-					$field_value[$billing_address_field] = get_user_meta( $user_id, $billing_address_field_key, true );
-				}*/
 			}
 
 			switch ( $wcfmvm_registration_static_field ) {
@@ -368,7 +355,7 @@ return function ( $user_id_inbound ): string {
 													'value' => isset( $field_value['city'] ) ? $field_value['city'] : '',
 												),
 												'state'   => array(
-													'label' => __( 'State/County', 'wc-frontend-manager' ),
+													'label' => __( 'State/County/Province', 'wc-frontend-manager' ),
 													'type' => 'select',
 													'name' => $field_name . '[state]',
 													'class' => 'wcfm-select wcfm_ele wcfmvm_state_to_select',
@@ -461,7 +448,7 @@ return function ( $user_id_inbound ): string {
 				}
 			}
 
-			// Is Required
+			// Is Required.
 			$custom_attributes = array();
 			if ( isset( $wcfmvm_registration_custom_field['required'] ) && $wcfmvm_registration_custom_field['required'] ) {
 				$custom_attributes = array( 'required' => 1 );
@@ -679,7 +666,6 @@ return function ( $user_id_inbound ): string {
 			}
 		}
 	}
-
 						do_action( 'wcfm_membership_registration_form_after_dynamic_custom_fields' );
 
 	if ( ! $user_id ) {
@@ -717,7 +703,7 @@ return function ( $user_id_inbound ): string {
 
 						do_action( 'end_wcfm_membership_registration_form' );
 
-						// Terms & Conditions support add - 1.1.9
+						// Terms & Conditions support add - 1.1.9.
 	if ( $terms == 'active' ) {
 		?>
 							<input type="checkbox" id="terms" name="wcfmvm_static_infos[terms]" class="wcfm-checkbox" value="<?php _e( 'Agree', 'wc-multivendor-membership' ); ?>" data-required="1" data-required_message="<?php _e( 'Terms & Conditions', 'wc-multivendor-membership' ); ?>: <?php _e( 'This field is required.', 'wc-frontend-manager' ); ?>">
@@ -743,7 +729,7 @@ return function ( $user_id_inbound ): string {
 				</div>
 				<div class="wcfm-clearfix"></div>
 			</div>
-			
+
 			<?php if ( apply_filters( 'wcfm_is_allow_registration_recaptcha', true ) ) { ?>
 				<?php if ( function_exists( 'gglcptch_init' ) ) { ?>
 					<div class="wcfm_clearfix"></div>
@@ -754,7 +740,7 @@ return function ( $user_id_inbound ): string {
 					<div class="wcfm_clearfix"></div>
 					<div class="wcfm_gglcptch_wrapper" style="float:right;">
 						<div class="anr_captcha_field"><div id="anr_captcha_field_99"></div></div>
-						
+
 						<?php
 						$language = trim( anr_get_option( 'language' ) );
 						$lang     = '';

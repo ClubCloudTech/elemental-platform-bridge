@@ -128,9 +128,7 @@ class OnboardAjax {
 	 * Sets WCFM Parameters to Ready Basket
 	 */
 	public function wcfm_choose_membership( int $membership ) {
-		global $WCFM, $WCFMvm, $_SESSION;
-		// error_log( 'inside main function' );
-			// Session store
+
 		if ( WC()->session ) {
 			do_action( 'woocommerce_set_cart_cookies', true );
 			WC()->session->set( 'wcfm_membership', $membership );
@@ -145,13 +143,11 @@ class OnboardAjax {
 				WC()->session->__unset( 'wcfm_membership_free_registration' );
 			}
 		}
-
-			$method = 'by_url';
 			do_action( 'wcfmvm_after_choosing_membership', $membership );
 
 		if ( $membership ) {
-			$subscription_pay_mode                 = 'by_wc';
-			$wcfm_membership                       = absint( $membership );
+			$subscription_pay_mode = 'by_wc';
+			$wcfm_membership       = absint( $membership );
 			if ( is_user_logged_in() ) {
 				$member_id = get_current_user_id();
 				update_user_meta( $member_id, 'temp_wcfm_membership', $wcfm_membership );
@@ -165,29 +161,5 @@ class OnboardAjax {
 				WC()->cart->add_to_cart( $subscription_product );
 			}
 		}
-	}
-
-	/**
-	 * Elemental Ajax Support.
-	 * Handles membership function related calls and Ajax.
-	 *
-	 *  @param  int   $user_id The WP User ID.
-	 *  @param  array $update_array - the array containing update information.
-	 *  @return void
-	 */
-	private function update_woocommerce_meta( int $user_id, array $update_array ) {
-		$response            = array();
-		$response['message'] = 'No Change';
-
-		$data = array(
-			'billing_city'          => $city_value,
-			'billing_postcode'      => $postcode_value,
-			'billing_email'         => $email_value,
-			'billing_phone'         => $phone_value,
-		);
-		foreach ($data as $meta_key => $meta_value ) {
-			update_user_meta( $user_id, $meta_key, $meta_value );
-		}
-
 	}
 }
