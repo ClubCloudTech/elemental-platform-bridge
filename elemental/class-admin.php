@@ -9,9 +9,7 @@ declare(strict_types=1);
 
 namespace ElementalPlugin;
 
-use \MyVideoRoomPlugin\Module\Security\Security;
-use \MyVideoRoomPlugin\Module\SiteVideo\MVRSiteVideo;
-use ElementalPlugin\DAO\ModuleConfig;
+use \MyVideoRoomPlugin\Admin as MVRAdmin;
 use ElementalPlugin\Membership\Library\MembershipShortCode;
 use \MyVideoRoomPlugin\SiteDefaults;
 
@@ -52,11 +50,13 @@ class Admin {
 	public function create_extras_admin_page(): void {
      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Not required
 		$active_tab = $_GET['tab'] ?? null;
-
+		\wp_enqueue_script( 'mvr-admin-ajax-js' );
+		Factory::get_instance( MVRAdmin::class )->init();
 		$tabs = array(
-			'admin-settings-sitedefault' => 'Membership Settings',
-			'admin-settings-bookings'    => 'WooComm Bookings Integration',
-			'admin-settings-wcfm'        => 'WCFM Store Integration',
+			'admin-settings-plugin'     => 'Plugin Settings',
+			'admin-settings-membership' => 'Membership Settings',
+			'admin-settings-bookings'   => 'WooComm Bookings Integration',
+			'admin-settings-wcfm'       => 'WCFM Store Integration',
 		);
 
 		if ( ! $active_tab || ! isset( $tabs[ $active_tab ] ) ) {

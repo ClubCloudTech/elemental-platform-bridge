@@ -756,7 +756,7 @@ return function ( $user_id_inbound ): string {
 			<?php } ?>
 			<div class="wcfm-clearfix"></div>
 			<div class="wcfm-message" tabindex="-1"></div>
-				
+
 			<div id="wcfm_membership_registration_submit" class="wcfm_form_simple_submit_wrapper">
 			<?php if ( wcfm_is_allowed_membership() ) { ?>
 				<input type="submit" name="save-data" value="
@@ -771,7 +771,7 @@ return function ( $user_id_inbound ): string {
 				<a href="<?php echo apply_filters( 'wcfm_change_membership_url', get_wcfm_membership_url() ); ?>" class="wcfm_submit_button"><<&nbsp;<?php _e( 'Plans', 'wc-multivendor-membership' ); ?></a>
 				<?php } ?>
 				<?php } else { ?>
-					<?php _e( 'Your user role not allowed to subscription!', 'wc-multivendor-membership' ); ?>
+					<?php _e( 'Your user role not allowed to subscribe!', 'wc-multivendor-membership' ); ?>
 				<?php } ?>
 			</div>
 			<div class="wcfm-clearfix"></div>

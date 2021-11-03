@@ -2,7 +2,7 @@
 /**
  * Handles the Add New User Procedure for Membership Management.
  *
- * @package elemental/membership/views/onboarding/add-new-organisation.php
+ * @package elemental/membership/views/onboarding/organisation/add-new-organisation.php
  */
 
 use ElementalPlugin\Factory;
@@ -23,23 +23,22 @@ return function (
 
 	?>
 	<div class="mvr-nav-settingstabs-outer-wrap myvideoroom-welcome-page elemental-align-left">
-<div id="pageinfo" data-membership="<?php echo esc_attr( $membership_id ); ?>"></div>
+	<div id="pageinfo" 
+	data-membership="<?php echo esc_attr( $membership_id ); ?>"
+	data-formtype = "org">
+	</div>
 	<form method="" action="#">
-
-		<div class="elemental-email-wrapper">
+	<div class="elemental-email-wrapper">
 		<label class="elemental-align-left" for="<?php echo esc_attr( $html_library->get_id( 'title' ) ); ?>">
-	<?php echo esc_html__( 'Contact Email Address:  ', 'myvideoroom' ) . '<strong>' . esc_html__( '(Please use generic organisation email and not an individual)', 'myvideoroom' ) . '</strong>'; ?>
+		<?php echo esc_html__( 'Contact Email Address:  ', 'myvideoroom' ) . '<strong>' . esc_html__( '(Please use generic organisation email and not an individual)', 'myvideoroom' ) . '</strong>'; ?>
 		</label>
 		<input type="email"
 			id="elemental-inbound-email"
 			name="elemental-inbound-email"
-			class="elemental-membership-displayconf"
-
-		></div>
-		<label class="elemental-align-right" for="elemental-email-status-box">
-	<?php esc_html_e( 'Status ', 'myvideoroom' ); ?>
-		</label>
-		<div id="elemental-email-status" data-valid ="" class="elemental-email-status elemental-membership-displayconf"><?php esc_html_e( '.', 'myvideoroom' ); ?> </div>
+			class="elemental-membership-displayconf">
+	</div>
+	<div id="elemental-email-status" data-valid ="" class="elemental-email-status elemental-membership-displayconf"><?php esc_html_e( '.', 'myvideoroom' ); ?>
+	</div>
 
 		<p class="elemental-clear" id="elemental-email-status-box">
 	<?php

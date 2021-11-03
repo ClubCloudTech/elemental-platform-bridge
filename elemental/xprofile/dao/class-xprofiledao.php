@@ -2,10 +2,10 @@
 /**
  * Data Access Object for user video preferences default room setup
  *
- * @package ElementalPlugin\DAO
+ * @package elemental/xprofile/dao/class-xprofiledao.php
  */
 
-namespace ElementalPlugin\DAO;
+namespace ElementalPlugin\Xprofile\DAO;
 
 use ElementalPlugin\DAO\UserVideoPreference as UserVideoPreferenceDao;
 use ElementalPlugin\Entity\UserVideoPreference as UserVideoPreferenceEntity;
@@ -15,12 +15,9 @@ use ElementalPlugin\Factory;
 /**
  * Class UserVideoPreference
  */
-class RoomInit {
+class XProfileDAO {
 
-
-	const TABLE_NAME = \ElementalPlugin\Core\SiteDefaults::TABLE_NAME_ROOM_MAP;
-
-
+const XPROFILE_COUNTRY_FIELD = ;
 
 	/**
 	 * Room Default Settings Install.

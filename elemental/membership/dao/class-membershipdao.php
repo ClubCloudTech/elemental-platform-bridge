@@ -192,7 +192,7 @@ class MembershipDAO {
 			);
 
 			if ( $row ) {
-				   $result = (int) $row->user_limit;
+				$result = (int) $row->user_limit;
 			}
 
 			\wp_cache_set( $membership_level, $result, __METHOD__ );

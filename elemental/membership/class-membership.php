@@ -14,9 +14,10 @@ use ElementalPlugin\Membership\Onboard;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
+use ElementalPlugin\Membership\Library\LoginHandler;
 use ElementalPlugin\Membership\Library\MembershipAjax;
 use ElementalPlugin\Membership\Library\MembershipShortCode;
-use ElementalPlugin\Membership\Library\MembershipUMP;
+use ElementalPlugin\UltimateMembershipPro\Library\UMPMemberships;
 
 /**
  * Class Membership
@@ -35,6 +36,7 @@ class Membership {
 	 * Required for Normal Runtime.
 	 */
 	public function init() {
+		Factory::get_instance( LoginHandler::class )->init();
 		// $this->flush_opcache_reset();
 		\add_action( 'wp_ajax_elemental_membershipadmin_ajax', array( Factory::get_instance( MembershipAjax::class ), 'membership_ajax_handler' ), 10, 2 );
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
@@ -97,7 +99,7 @@ class Membership {
 	 */
 	public function render_membership_config_page(): string {
 		\wp_enqueue_script( 'elemental-membership-js' );
-		$membership_levels = Factory::get_instance( MembershipUMP::class )->get_ump_memberships();
+		$membership_levels = Factory::get_instance( UMPMemberships::class )->get_ump_memberships();
 		return ( include __DIR__ . '/views/membership/table-output.php' )( $membership_levels );
 	}
 

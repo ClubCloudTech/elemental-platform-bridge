@@ -5,16 +5,18 @@
  * Manage Onboarding.
  *
  * @author  Club Cloud based on template from WC Lovers
- * @package membership/views/onboarding/manage-onboarding.php
+ * @package elemental/membership/views/onboarding/individual/manage-individual-paid.php
  * @version 1.0.0
  *
  * @param string $add_account_form - add an account form
  * @param int    $membership_id - membership ID requested to Join.
  */
 
+use ElementalPlugin\Factory;
+use ElementalPlugin\UltimateMembershipPro\Library\ShortCodesUMP;
+
 return function (
-	string $add_account_form,
-	array $membership_data = null
+	string $paid_user_form
 ): string {
 	ob_start();
 	?>
@@ -27,10 +29,10 @@ return function (
 				echo \sprintf(
 					/* translators: %s is the text "Modules" and links to the Module Section */
 					\esc_html__(
-						'Create a New %s Organisation Account.',
+						'Create a New %s Account.',
 						'myvideoroom'
 					),
-					esc_textarea( $membership_data[0]->post_title ),
+					esc_textarea( Factory::get_instance( ShortCodesUMP::class )->render_level_name() ),
 				);
 				?>
 			</h2>
@@ -40,30 +42,10 @@ return function (
 			<div id="elemental-adduser-target" class="wcfm-container wcfm-top-element-container">
 				<?php
 			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
-			echo $add_account_form;
+			echo $paid_user_form;
 				?>
 			</div>
-			<?php
-			if ( $membership_data ) {
-				?>
 
-				<div id="elemental-extra" class="elemental-container elemental-background-item">
-					<h3 class="elemental-align-left"><?php esc_html_e( 'Plan Details', 'myvideoroom' ); ?></h3>
-					<div class="elemental-plan-details mvr-nav-settingstabs-outer-wrap">
-					<?php
-						// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
-						echo $membership_data[0]->post_excerpt;
-					?>
-					</div>
-				</div>
-				<div>
-					<div id="elemental-notification-frame"></div>
-					<div class="wcfm-clearfix"></div><br />
-				</div>
-
-				<?php
-			}
-			?>
 		</div>
 
 

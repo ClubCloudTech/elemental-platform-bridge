@@ -13,7 +13,9 @@ use ElementalPlugin\Library\ElementalFunctions;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\Membership;
 use ElementalPlugin\ShortCode\ShortCodeTab;
+use ElementalPlugin\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\WCFM\WCFMSearch;
+use ElementalPlugin\XProfile\XProfile;
 
 /**
  * Class Plugin
@@ -33,6 +35,8 @@ class Plugin {
 		Factory::get_instance( ShortCodeTab::class )->init();
 		Factory::get_instance( WCFMSearch::class )->init();
 		Factory::get_instance( ElementalFunctions::class )->init();
+		Factory::get_instance( ElementalUMP::class )->init();
+		Factory::get_instance( XProfile::class )->init();
 
 		$this->styles();
 	}

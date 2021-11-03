@@ -68,17 +68,6 @@ class Onboard {
 		Factory::get_instance( MemberSyncDAO::class )->install_membership_sync_table();
 		$this->create_membership_role();
 	}
-
-
-	/**
-	 * Create Membership Role for Sponsored Account
-	 */
-	public function create_membership_role(): void {
-		global $wp_roles;
-		$edr = $wp_roles->get_role( 'Subscriber' );
-		add_role( self::MEMBERSHIP_ROLE_NAME, self::MEMBERSHIP_ROLE_DESCRIPTION, $edr->capabilities );
-	}
-
 }
 
 

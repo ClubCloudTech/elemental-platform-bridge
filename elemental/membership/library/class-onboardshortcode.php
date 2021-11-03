@@ -9,6 +9,7 @@ namespace ElementalPlugin\Membership\Library;
 
 use ElementalPlugin\Factory;
 use ElementalPlugin\WCFM\WCFMTools;
+use ElementalPlugin\WooCommerceSubscriptions\Library\SubscriptionHelpers;
 use \MyVideoRoomPlugin\Library\HttpGet;
 
 /**
@@ -54,24 +55,45 @@ class OnboardShortcode {
 	 * @return ?string
 	 */
 	public function onboarding_shortcode_worker( int $membership_id = null ): ?string {
+		$http_get_library = Factory::get_instance( HttpGet::class );
 		if ( ! $membership_id ) {
-			$http_get_library = Factory::get_instance( HttpGet::class );
-			$membership_id    = intval( $http_get_library->get_string_parameter( 'membership' ) );
+			$membership_id = intval( $http_get_library->get_string_parameter( 'membership' ) );
 		}
+
+		$thank_you_status  = $http_get_library->get_string_parameter( 'vmstep' );
+		$individual_status = $http_get_library->get_string_parameter( 'membership' );
 		$this->enqueue_style_scripts( true );
+
+		if ( 'individual' === $individual_status ) {
+			$render = ( require __DIR__ . '/../views/onboarding/individual/manage-individual-free.php' );
+			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+			return $render();
+
+		} elseif ( $individual_status && Factory::get_instance( SubscriptionHelpers::class )->is_woocommerce_subscription( $individual_status ) ) {
+			$manage_user_form = ( require __DIR__ . '/../views/onboarding/individual/add-new-paidindividual.php' );
+			$render           = ( require __DIR__ . '/../views/onboarding/individual/manage-individual-paid.php' );
+			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+			return $render( $manage_user_form( $membership_id) );
+		}
+
 		// Valid User Check.
 		if ( is_user_logged_in() ) {
-
 			$user_id = \get_current_user_id();
+
+			if ( 'thankyou' === $thank_you_status ) {
+				$membership_data = Factory::get_instance( WCFMTools::class )->elemental_get_membership_data( $user_id );
+				$render          = ( require __DIR__ . '/../views/onboarding/organisation/merchant-thankyou.php' );
+				return $render( $membership_data );
+			}
 			$is_merchant_check = Factory::get_instance( WCFMTools::class )->am_i_merchant( $user_id );
-				$user = get_user_meta( $user_id );
-				//echo \var_dump( $user );
+
 			if ( $is_merchant_check ) {
 				$membership_data = Factory::get_instance( WCFMTools::class )->elemental_get_membership_data( $user_id );
-				$render = ( require __DIR__ . '/../views/onboarding/merchant-already.php' );
+				$render          = ( require __DIR__ . '/../views/onboarding/organisation/merchant-already.php' );
 				return $render( $membership_data );
+
 			} elseif ( Factory::get_instance( MembershipUser::class )->is_user_onboarding( $user_id ) ){
-				$render = ( require __DIR__ . '/../views/onboarding/manage-onboarding.php' );
+				$render    = ( require __DIR__ . '/../views/onboarding/manage-onboarding.php' );
 				$info_form = $this->render_wcfm_step( $user_id );
 				return $render( $info_form );
 			}
@@ -79,14 +101,16 @@ class OnboardShortcode {
 		// Membership Validity Check.
 		$valid_memberships = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( true );
 		$valid             = \in_array( $membership_id, $valid_memberships, true );
+
 		if ( $valid ) {
 			$membership_data     = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( null, $membership_id );
 			$render              = ( require __DIR__ . '/../views/onboarding/manage-onboarding.php' );
-			$manage_account_form = ( require __DIR__ . '/../views/onboarding/add-new-organisation.php' );
+			$manage_account_form = ( require __DIR__ . '/../views/onboarding/organisation/add-new-organisation.php' );
 			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 			return $render( $manage_account_form( $membership_id), $membership_data );
+
 		} else {
-			$render = ( require __DIR__ . '/../views/onboarding/reject-onboarding.php' );
+			$render = ( require __DIR__ . '/../views/onboarding/error/reject-onboarding.php' );
 			return $render();
 		}
 
