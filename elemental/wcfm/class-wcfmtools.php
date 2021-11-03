@@ -260,6 +260,67 @@ class WCFMTools {
 			return false;
 		}
 	}
+	/**
+	 * Get Correct Page Owner
+	 *
+	 * @return ?int
+	 */
+	public function get_wcfm_page_owner(): ?int {
 
+			// phpcs:ignore --WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase - variable not set in this function can't change it here.
+			global $WCFM, $post;
+			$post_id = $post->ID;
+			// phpcs:ignore --WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase - variable not set in this function can't change it here.
+			$owner_id = $WCFM->wcfm_vendor_support->wcfm_get_vendor_id_from_product( $post_id );
+
+		return $owner_id;
+	}
+
+	/**
+	 * Display parent product owners outside of WCFM
+	 *
+	 * @param string $id - the store ID (leave blank if using this from inside Vendor's Store page).
+	 *
+	 * @return ?string
+	 */
+	public function display_products( $id = null ): ?string {
+		if ( $id ) {
+			$store_id = $id;
+		} else {
+			$store_id = $this->get_wcfm_page_owner();
+		}
+		$store_user = \wcfmmp_get_store( $store_id );
+		return \do_shortcode( '[products store="' . $store_id . '" paginate="true"]' );
+	}
+
+	/**
+	 * Display Store Display Information Name or Slug
+	 *
+	 * @param  array $attributes - the attributes.
+	 * @return ?string
+	 */
+	public function wcfm_store_display( array $attributes ): ?string {
+		$input_type = $attributes['item'];
+		$store_id   = $attributes['id'];
+
+		if ( ! $store_id ) {
+			$store_id = $this->get_wcfm_page_owner();
+		}
+
+		$store_user = \wcfmmp_get_store( $store_id );
+		$store_info = $store_user->get_shop_info();
+
+		switch ( $input_type ) {
+			case 'slug':
+				return $store_info['store_slug'];
+			case 'name':
+				return $store_info['store_name'];
+			case 'description':
+				return $store_info['shop_description'];
+			default:
+				return $store_info['store_name'];
+		}
+
+	}
 
 }

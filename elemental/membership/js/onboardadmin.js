@@ -12,16 +12,17 @@ window.addEventListener(
                  * Initialise Functions on Load
                  */
                 function init() {
+                    $('#submit').hide();
                     form_type = $('#pageinfo').attr('data-formtype');
+                    /* Separating Org and Individual Case */
                     if (form_type === 'org') {
 
                         $('#mvr-login-form').show();
-
-                        $('#submit').hide();
                         $('#submit').prop('disabled', true);
                         $('.elemental-membership-control').on('change', dbUpload);
                         $('#elemental-inbound-email').on('keyup', chkEmail);
-                        $('#first_name').on('keyup', checkShow);
+                        $('#elemental-inbound-email').on('focusout', chkEmail);
+                        $('#first_name').on('keyup', checkShowOrg);
 
                         $('#submit').click(
                             function(e) {
@@ -77,7 +78,40 @@ window.addEventListener(
                             }
                         );
                     }
-
+                    if (form_type === 'individual') {
+                        $('#submit').prop('disabled', true);
+                        //Email.
+                        $('#elemental-inbound-email').on('keyup', chkEmail);
+                        $('#elemental-inbound-email').on('focusout', chkEmail);
+                        //First Name.
+                        $('#first_name').keyup(function(e) {
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
+                            checkShowindv();
+                        });
+                        $('#first_name').focusout(function(e) {
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
+                            checkShowindv();
+                        });
+                        //Last Name.
+                        $('#last_name').keyup(function(e) {
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
+                            checkShowindv();
+                        });
+                        $('#last_name').focusout(function(e) {
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
+                            checkShowindv();
+                        });
+                        //Country Change.
+                        $('#select2-country-container').change(function(e) {
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
+                            checkShowindv();
+                        });
+                    }
                 }
 
                 /**
@@ -163,7 +197,7 @@ window.addEventListener(
                                 $('#elemental-email-status').addClass('elemental-email-available');
                                 $('#elemental-email-status').html('Email Available');
                                 $('#elemental-email-status').attr('data-status', 'checked');
-                                checkShow();
+                                checkShowOrg();
                             }
 
                         },
@@ -241,65 +275,107 @@ window.addEventListener(
                  * Delete User (used in main form)
                  */
                 var deleteUser = function(event, user_id, nonce, final) {
-                    event.stopPropagation();
-                    step_window = $('#elemental-remaining-counter');
-                    var form_data = new FormData(),
-                        notification = $('#elemental-notification-frame'),
-                        account_window = $('#elemental-membership-table'),
+                        event.stopPropagation();
                         step_window = $('#elemental-remaining-counter');
+                        var form_data = new FormData(),
+                            notification = $('#elemental-notification-frame'),
+                            account_window = $('#elemental-membership-table'),
+                            step_window = $('#elemental-remaining-counter');
 
-                    form_data.append('action', 'elemental_onboardadmin_ajax');
-                    if (final) {
-                        form_data.append('action_taken', 'delete_final');
-                    } else {
-                        form_data.append('action_taken', 'delete_user');
-                    }
-                    form_data.append('userid', user_id);
-                    form_data.append('nonce', nonce);
-                    form_data.append('security', elemental_onboardadmin_ajax.security);
-                    $.ajax({
-                        type: 'post',
-                        dataType: 'html',
-                        url: elemental_onboardadmin_ajax.ajax_url,
-                        contentType: false,
-                        processData: false,
-                        data: form_data,
-                        success: function(response) {
-                            var state_response = JSON.parse(response);
-
-                            if (state_response.confirmation) {
-                                notification.html(state_response.confirmation);
-                                $('#elemental-membership-table').hide();
-                                init();
-                            }
-                            if (state_response.feedback) {
-                                console.log(state_response.feedback);
-                            }
-
-                            if (state_response.table) {
-                                account_window.html(state_response.table);
-                            }
-                            if (state_response.counter) {
-                                mainvideo_parent = step_window.parent().attr('id');
-                                parent_element = $('#' + mainvideo_parent);
-                                step_window.remove();
-                                step_window.parent().empty();
-                                parent_element.html(state_response.counter);
-                                $('#mvr-main-button-cancel').click();
-                                init();
-                            }
-
-                        },
-                        error: function(response) {
-                            console.log('Error Uploading');
+                        form_data.append('action', 'elemental_onboardadmin_ajax');
+                        if (final) {
+                            form_data.append('action_taken', 'delete_final');
+                        } else {
+                            form_data.append('action_taken', 'delete_user');
                         }
-                    });
-                }
+                        form_data.append('userid', user_id);
+                        form_data.append('nonce', nonce);
+                        form_data.append('security', elemental_onboardadmin_ajax.security);
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'html',
+                            url: elemental_onboardadmin_ajax.ajax_url,
+                            contentType: false,
+                            processData: false,
+                            data: form_data,
+                            success: function(response) {
+                                var state_response = JSON.parse(response);
 
+                                if (state_response.confirmation) {
+                                    notification.html(state_response.confirmation);
+                                    $('#elemental-membership-table').hide();
+                                    init();
+                                }
+                                if (state_response.feedback) {
+                                    console.log(state_response.feedback);
+                                }
+
+                                if (state_response.table) {
+                                    account_window.html(state_response.table);
+                                }
+                                if (state_response.counter) {
+                                    mainvideo_parent = step_window.parent().attr('id');
+                                    parent_element = $('#' + mainvideo_parent);
+                                    step_window.remove();
+                                    step_window.parent().empty();
+                                    parent_element.html(state_response.counter);
+                                    $('#mvr-main-button-cancel').click();
+                                    init();
+                                }
+
+                            },
+                            error: function(response) {
+                                console.log('Error Uploading');
+                            }
+                        });
+                    }
+                    /**
+                     * Check if Name and Email conditions are met in main form
+                     */
+                function checkShowindv(status) {
+                    var first_name = $('#first_name').val().length,
+                        last_name = $('#last_name').val().length,
+                        status = $('#elemental-email-status').data('status'),
+                        country = $('#select2-country-container').attr('title'),
+                        first_name_approved = false,
+                        last_name_approved = false,
+                        country_check = false;
+                    // First Name Checks.
+                    if (first_name >= 3) {
+                        $('#first-name-icon').fadeIn(1000);
+                        first_name_approved = true;
+                    } else {
+                        $('#first-name-icon').fadeOut(1000);
+                        first_name_approved = false;
+                    }
+                    // Last Name Checks.
+                    if (last_name >= 3) {
+                        $('#last-name-icon').fadeIn(1000);
+                        last_name_approved = true;
+                    } else {
+                        $('#last-name-icon').fadeOut(1000);
+                        last_name_approved = false;
+                    }
+                    //Country Check.
+                    if (country === '-Select a location-') {
+                        country_check = false;
+                    } else {
+                        country_check = true;
+                    }
+
+                    if (status === 'checked' && first_name_approved === true && last_name_approved === true && country_check === true) {
+                        $('#submit').fadeIn(1500);
+                        $('#submit').prop('disabled', false);
+                    } else {
+                        $('#submit').fadeOut(1000);
+                        $('#submit').prop('disabled', true);
+                        return false;
+                    }
+                }
                 /**
                  * Check if Name and Email conditions are met in main form
                  */
-                function checkShow(status) {
+                function checkShowOrg(status) {
                     var first_name = $('#first_name').val().length,
                         status = $('#elemental-email-status').data('status');
 

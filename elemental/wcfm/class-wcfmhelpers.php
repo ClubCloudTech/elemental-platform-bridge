@@ -26,7 +26,7 @@ class WCFMHelpers extends Shortcode {
 	 * Install the shortcode
 	 */
 	public function install() {
-		$this->add_shortcode( 'dp', array( $this, 'display_products_shortcode' ) );
+
 		$this->add_shortcode( 'storelink', array( $this, 'store_link_shortcode' ) );
 	}
 
@@ -37,43 +37,7 @@ class WCFMHelpers extends Shortcode {
 		return $this->display_products( $id );
 	}
 
-	/**
-	 * This function displays parent product owners outside of WCFM
-	 *
-	 * @param string $id
-	 *
-	 * @return string
-	 */
-	public function display_products( $id = null ) {
-		if ( $id ) {
-			$store_id = $id;
-		} else {
-			$store_id = $this->get_instance( SiteDefaults::class )->page_owner();
-		}
 
-		return \do_shortcode( '[products store="' . $store_id . '" paginate="true"]' );
-	}
-
-
-
-	/**
-	 * Format Store Display Name or Slug
-	 *
-	 * @param  mixed $store_id
-	 * @return void
-	 */
-	public function store_displayname( int $store_id, string $input_type = null ) {
-
-		$store_user = \wcfmmp_get_store( $store_id );
-		$store_info = $store_user->get_shop_info();
-
-		if ( 'slug' === $input_type ) {
-			return $store_info['store_slug'];
-		} else {
-			return $store_info['store_name'];
-		}
-
-	}
 
 
 	/**
