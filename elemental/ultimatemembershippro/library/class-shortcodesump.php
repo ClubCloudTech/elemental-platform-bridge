@@ -28,8 +28,14 @@ class ShortCodesUMP {
 		// Get Membership ID from URL if not passed into SC.
 		if ( ! $membership_id ) {
 			$http_get_library = Factory::get_instance( HttpGet::class );
-			$membership_id    = intval( $http_get_library->get_string_parameter( 'membership' ) );
+			$membership_id    = $http_get_library->get_string_parameter( 'membership' );
+			if ( 'individual' === $membership_id ) {
+				return \esc_html__( 'Individual Account', 'myvideoroom' );
+			} else {
+				$membership_id = intval( $http_get_library->get_string_parameter( 'membership' ) );
+			}
 		}
+
 		// Check UMP for Level First.
 		$level_info_array = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( null, $membership_id );
 		if ( ! $level_info_array ) {
