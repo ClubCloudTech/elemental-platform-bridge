@@ -7,7 +7,6 @@
 
 namespace ElementalPlugin\WCFM;
 
-
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;

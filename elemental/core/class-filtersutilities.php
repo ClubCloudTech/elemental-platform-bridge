@@ -3,15 +3,9 @@
 namespace ElementalPlugin\Core;
 
 use ElementalPlugin\Library\UserRoles;
-use ElementalPlugin\Factory;
 use ElementalPlugin\Shortcode as Shortcode;
-use ElementalPlugin\Core\PageFilters;
 use ElementalPlugin\Core\SiteDefaults;
-use ElementalPlugin\DAO\ModuleConfig;
-use ElementalPlugin\MVR\PageSwitches;
-use ElementalPlugin\DAO\SecurityVideoPreference;
-use ElementalPlugin\Library\Templates\SecurityTemplates;
-
+use ElementalPlugin\Factory;
 
 /**
  * Class FiltersUtilities
@@ -19,13 +13,10 @@ use ElementalPlugin\Library\Templates\SecurityTemplates;
 class FiltersUtilities extends Shortcode {
 
 
-
-
-
 	/**
 	 * Install the shortcode
 	 */
-	public function install() {
+	public function init() {
 
 		/**
 		*Customise My Account Page.
@@ -48,142 +39,142 @@ class FiltersUtilities extends Shortcode {
 
 		\add_filter( 'woocommerce_my_account_my_orders_actions', array( $this, 'add_my_account_order_actions_filter' ), 10, 2 );
 
-		$this->add_shortcode( 'menu', array( $this, 'menu' ) );
+		add_shortcode( 'menu', array( $this, 'menu' ) );
 
 		// Action Filters to Implement a Video Hub system in WCFM Elementor to deploy a video consult room
 		// WCFM Template to Implement Video Hub Tabbed menu
 		\add_action(
 			'wcfmmp_rewrite_rules_loaded',
 			function ( $wcfm_store_url ) {
-				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . $this->get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . $this->get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '=true', 'top' );
-				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . $this->get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . $this->get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '=true', 'top' );
+				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '=true', 'top' );
+				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '=true', 'top' );
+
+				\add_filter(
+					'query_vars',
+					function ( $vars ) {
+						$vars[] = Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
+
+						return $vars;
+					},
+					50
+				);
+
+				\add_filter(
+					'wcfmmp_store_tabs',
+					function ( $store_tabs ) {
+						$store_tabs[ Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) ] = Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront' );
+
+						return $store_tabs;
+					},
+					50,
+					2
+				);
+
+				\add_filter(
+					'wcfmp_store_tabs_url',
+					function ( $store_tab_url, $tab ) {
+						if ( Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) === $tab ) {
+							$store_tab_url .= Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
+						}
+
+						return $store_tab_url;
+					},
+					50,
+					2
+				);
+
+				\add_filter(
+					'wcfmp_store_default_query_vars',
+					function ( $query_var ) {
+						if ( get_query_var( Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) ) ) {
+							$query_var = Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
+						}
+
+						return $query_var;
+					},
+					50
+				);
+
+					// Action Filters to Implement a Child Account connection system in WCFM Elementor
+				// WCFM Template to Implement New Connections Hub Tabbed menu.
+				\add_action(
+					'wcfmmp_rewrite_rules_loaded',
+					function ( $wcfm_store_url ) {
+						add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '=true', 'top' );
+						add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '=true', 'top' );
+					},
+					50
+				);
+
+				\add_filter(
+					'query_vars',
+					function ( $vars ) {
+						$vars[] = Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' );
+
+						return $vars;
+					},
+					50
+				);
+
+				\add_filter(
+					'wcfmmp_store_tabs',
+					function ( $store_tabs ) {
+						$store_tabs[ Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) ] = Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront' );
+
+						return $store_tabs;
+					},
+					50,
+					2
+				);
+
+				\add_filter(
+					'wcfmp_store_tabs_url',
+					function ( $store_tab_url, $tab ) {
+						if ( Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) === $tab ) {
+							$store_tab_url .= Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' );
+						}
+
+						return $store_tab_url;
+					},
+					50,
+					2
+				);
+
+				\add_filter(
+					'wcfmp_store_default_query_vars',
+					function ( $query_var ) {
+						if ( get_query_var( Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) ) ) {
+							$query_var = Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' );
+						}
+
+						return $query_var;
+					},
+					50
+				);
+
+				\add_filter(
+					'wcfmmp_store_default_template',
+					function ( $template, $tab ) {
+						if ( Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) === $tab ) {
+							$template = 'store/connections.php';
+						}
+
+						return $template;
+					},
+					50,
+					2
+				);
+
 			},
 			50
-		);
-
-		\add_filter(
-			'query_vars',
-			function ( $vars ) {
-				$vars[] = $this->get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
-
-				return $vars;
-			},
-			50
-		);
-
-		\add_filter(
-			'wcfmmp_store_tabs',
-			function ( $store_tabs ) {
-				$store_tabs[ $this->get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) ] = $this->get_instance( SiteDefaults::class )->defaults( 'video_storefront' );
-
-				return $store_tabs;
-			},
-			50,
-			2
-		);
-
-		\add_filter(
-			'wcfmp_store_tabs_url',
-			function ( $store_tab_url, $tab ) {
-				if ( $this->get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) === $tab ) {
-					$store_tab_url .= $this->get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
-				}
-
-				return $store_tab_url;
-			},
-			50,
-			2
-		);
-
-		\add_filter(
-			'wcfmp_store_default_query_vars',
-			function ( $query_var ) {
-				if ( get_query_var( $this->get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) ) ) {
-					$query_var = $this->get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
-				}
-
-				return $query_var;
-			},
-			50
-		);
-
-		// Action Filters to Implement a Child Account connection system in WCFM Elementor
-		// WCFM Template to Implement New Connections Hub Tabbed menu
-		\add_action(
-			'wcfmmp_rewrite_rules_loaded',
-			function ( $wcfm_store_url ) {
-				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '=true', 'top' );
-				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '=true', 'top' );
-			},
-			50
-		);
-
-		\add_filter(
-			'query_vars',
-			function ( $vars ) {
-				$vars[] = $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' );
-
-				return $vars;
-			},
-			50
-		);
-
-		\add_filter(
-			'wcfmmp_store_tabs',
-			function ( $store_tabs ) {
-				$store_tabs[ $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) ] = $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront' );
-
-				return $store_tabs;
-			},
-			50,
-			2
-		);
-
-		\add_filter(
-			'wcfmp_store_tabs_url',
-			function ( $store_tab_url, $tab ) {
-				if ( $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) === $tab ) {
-					$store_tab_url .= $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' );
-				}
-
-				return $store_tab_url;
-			},
-			50,
-			2
-		);
-
-		\add_filter(
-			'wcfmp_store_default_query_vars',
-			function ( $query_var ) {
-				if ( get_query_var( $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) ) ) {
-					$query_var = $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' );
-				}
-
-				return $query_var;
-			},
-			50
-		);
-
-		\add_filter(
-			'wcfmmp_store_default_template',
-			function ( $template, $tab ) {
-				if ( $this->get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) === $tab ) {
-					$template = 'store/connections.php';
-				}
-
-				return $template;
-			},
-			50,
-			2
 		);
 
 		// add_action( 'init', array( $this, 'allow_vendors_media_uploads' ) );
-		\add_action( 'admin_init', array( $this, 'redirect_non_admin_users' ) );
 
 		\add_filter( 'big_image_size_threshold', '__return_false' );
 
-		$this->add_shortcode( 'debughook', array( $this, 'debug_hook' ) );
-		$this->add_shortcode( 'logout', array( $this, 'logout' ) );
+		add_shortcode( 'debughook', array( $this, 'debug_hook' ) );
+		add_shortcode( 'logout', array( $this, 'logout' ) );
 	}
 
 	/**
@@ -216,7 +207,7 @@ class FiltersUtilities extends Shortcode {
 	 */
 	public function menu() {
 		$user       = \wp_get_current_user();
-		$user_roles = $this->get_instance( UserRoles::class );
+		$user_roles = Factory::get_instance( UserRoles::class );
 
 		if ( $user_roles->is_wcfm_vendor() ) {
 			$store_user = \wcfmmp_get_store( $user->ID );
@@ -230,19 +221,6 @@ class FiltersUtilities extends Shortcode {
 		return $user->user_login;
 	}
 
-	/**
-	 * Redirect non-admin users to home page if they are logged in
-	 *
-	 * This function is attached to the 'admin_init' action hook.
-	 */
-	public function redirect_non_admin_users() {
-		if ( ! \current_user_can( 'manage_options' )
-			&& ! ( defined( 'DOING_AJAX' ) && DOING_AJAX )
-		) {
-			\wp_redirect( \home_url() );
-			exit;
-		}
-	}
 
 	public function allow_vendors_media_uploads() {
 		$vendor_role = \get_role( 'seller' );
@@ -316,7 +294,4 @@ class FiltersUtilities extends Shortcode {
 
 		return $actions;
 	}
-
-
-
-}//end class
+}

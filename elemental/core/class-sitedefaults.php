@@ -325,7 +325,6 @@ class SiteDefaults extends Shortcode {
 				}
 
 				return $xprofile_setting;
-				break;
 
 			case 'store_xprofile':
 				$fieldnum         = $this->defaults( 'xprofile_storefront_field', $input_id );
@@ -345,8 +344,6 @@ class SiteDefaults extends Shortcode {
 				}
 
 				return $xprofile_setting;
-				break;
-
 			case 'store_reception_template':
 				$fieldnum         = $this->defaults( 'store_reception_template' );
 				$xprofile_setting = \xprofile_get_field_data( $fieldnum, $input_id );
@@ -355,7 +352,6 @@ class SiteDefaults extends Shortcode {
 				}
 
 				return $xprofile_setting;
-				break;
 
 			case 'store_privacy':
 				// To be deleted when Tested @TODO Fred- replaced with direct calls
@@ -372,20 +368,17 @@ class SiteDefaults extends Shortcode {
 				}
 
 				return $xprofile_setting;
-				break;
-
 			case 'bookings':
 				$store_slug = $this->get_instance( WCHelpers::class )->orderinfo_by_booking( $input_id, 'store_slug', 0 );
 
 				return 'Booking-' . $store_slug . '-' . $input_id;
-				break;
+				
 
 			case 'group':
 				$group     = groups_get_group( array( 'group_id' => $input_id ) );  // get group by ID
 				$groupname = $group->slug;
 
 				return 'Group-' . $groupname . '-Space';
-				break;
 
 			case 'mvr':
 				$user       = $this->get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $input_id );
@@ -428,146 +421,103 @@ class SiteDefaults extends Shortcode {
 				} else {
 					return 2735;
 				}
-				break;
-			case 'xprofile_storefront_reception': // for selecting whether or not reception is used at all
+
+			case 'xprofile_storefront_reception': 
 				if ( $this->is_premium_check( $input ) == true ) {
 					return 2751;
 				} else {
 					return 2748;
 				}
-				break;
-				// @TODO Fred - plumb into a new function below that creates a new room storage setting for Site Defaults
-			case 'xprofile_storefront_reception_sitedefault': // for selecting whether or not reception is used at all - fallback
-				return \xprofile_get_field_data( 2997, 1 );
-				break;
-				// @TODO Fred - plumb into a new function below that creates a new room storage setting for Site Defaults
-			case 'reception_template_sitedefault': // for selecting the template reception will use
-				return \xprofile_get_field_data( 3109, 1 );
-				break;
 
-				// Account Security Setting
+			case 'xprofile_storefront_reception_sitedefault':
+				return \xprofile_get_field_data( 2997, 1 );
+
+			case 'reception_template_sitedefault': 
+				return \xprofile_get_field_data( 3109, 1 );
+
 			case 'parent_security':
 				return 3078;
-				break;
 
-				// Store Template Setting - Only affects Premium Customers
+				// Store Template Setting - Only affects Premium Customers.
 			case 'store_template':
-				return 2073;  // Field in Group 5
-				break;
+				return 2073;
 			case 'xprofilesitestoredefault':
-				return \xprofile_get_field_data( 2815, 1 ); // get site details from user1's backup site field
-				break;
+				return \xprofile_get_field_data( 2815, 1 );
 			case 'store_reception_template':
 				return 3113;
-				break;
-
-				// Breakout Rooms ( Meeting Room )
+			// Breakout Rooms ( Meeting Room ).
 			case 'xprofilebreakout':
 				if ( $this->is_premium_check( $input ) == true ) {
 					return 801;
 				} else {
 					return 2922;
 				}
-				break;
 			case 'xprofilebreakoutsitedefault':
-				return 2544;  // Side Default ( fallback )  for Video Selection for Personal Boardroom ( Premium )
-				break;
+				return 2544;  // Side Default ( fallback )  for Video Selection for Personal Boardroom ( Premium ).
 			case 'xprofilebreakoutprivacy':
-				if ( $this->is_premium_check( $input ) == true ) {
+				if ( $this->is_premium_check( $input ) === true ) {
 					return 2775;
 				} else {
 					return 2871;
 				}
-				break;
-			case 'xprofilebreakoutprivacysitedefault': // Sets the default on or off site wide privacy setting in fallback case
-				return 2941;  // 2941 is the Setting in xprofile for the Site default privacy setting of User 1
-				break;
-			case 'pbr_reception_template': // Sets the default Appearance of Reception
+			case 'xprofilebreakoutprivacysitedefault': // Sets the default on or off site wide privacy setting in fallback case.
+				return 2941;  // 2941 is the Setting in xprofile for the Site default privacy setting of User 1.
+			case 'pbr_reception_template': // Sets the default Appearance of Reception.
 				return 3120;
-				break;
 
 				// Taxonomies
 			case 'video_storefront': // The Friendly Name Video Storefront Displays
 				return 'Video Space';
-				break;
 			case 'video_storefront_slug': // The Slug that Video Storefront uses to render
 				return 'videospace';
-				break;
 			case 'staff_storefront': // The Friendly Name Connections Page Displays
 				return 'Connections';
-				break;
 			case 'staff_storefront_slug': // The Slug that Connections Page uses to render
 				return 'connections';
-				break;
 			case 'marketplace_name': // Friendly Written name ( not slug ) that we use for storefront marketplaces
 				return get_option( 'wcfm_store_url' );
-				break;
 			case 'go': // The field setting for Storefront
 				$post_slug = get_post_field( 'post_name', 23335 );
-
 				return $post_slug;
-				break;
 			case 'manage_ctr_name': // The Name of the Manage Centre that is used.
 				$post_slug = get_post_field( 'post_name', 29701 );
-
 				return $post_slug;
-				break;
 			case 'staff_name': // How We Refer to Staff
 				return 'Members';
-				break;
 			case 'store_taxonomy': // How we Refer to Store Settings
 				return 'Family Space ';
-				break;
 			case 'account_type': // How we Refer to Store Settings
 				return 'Family';
-				break;
 			case 'overview_slug': // How we Refer to Tab 'Overview' used in Youzer BP tabs
 				return 'overview';
-				break;
 			case 'overview_name': // How we Refer to Tab 'Overview' used in Youzer BP tabs
 				return 'Overview';
-				break;
 
 				// URLs
 			case 'marketplace_url': // URL of the Marketplace for the stores that have WCFM listings
 				return get_site_url() . '/' . get_option( 'wcfm_store_url' ) . '/';
-				break;
 			case 'profile_url': // Returns the name and location of the profile in buddypress
 				return bp_core_get_user_domain( get_current_user_id() );
-				break;
 			case 'profile_staff_url': // Returns the name and location of the profile in buddypress
 				return bp_core_get_user_domain( $input );
-				break;
 			case 'widget_setting': // Returns the name and location of the profile in buddypress
 				return bp_core_get_user_domain( $input ) . 'widgets';
-				break;
-
 			case 'portfolio': // Returns the name and location of the profile in buddypress
 				return bp_core_get_user_domain( $input ) . $this->defaults( 'overview_slug' );
-				break;
 			case 'portfolio_render': // Returns the name and location of the profile in buddypress
 				return get_site_url() . '/' . 'tf20/?id=' . $input;
-				break;
 			case 'marketplace_landing_url': // Returns the name and location of the profile in buddypress
 				$post_slug = get_post_field( 'post_name', 26523 );
-
 				return get_site_url() . '/' . $post_slug;
-				break;
 			case 'videospacebasicurl': // Returns URL of a private video space - NOTE this must be set manually in User under the video space tab ( as you can't store programmatically with them )
 				$base = bp_core_get_user_domain( bp_displayed_user_id() );
-
 				return $base . 'videospace';
-				break;
 			case 'videospacestaffurl': // Returns URL of a private video space - NOTE this must be set manually in User under the video space tab ( as you can't store programmatically with them )
 				$base = $this->get_instance( WCHelpers::class )->get_my_store( 'url' );
-
 				return $base . 'videospace';
-				break;
 			case 'product_iframe': // Returns URL of a private video space - NOTE this must be set manually in User under the video space tab ( as you can't store programmatically with them )
 				$url = get_site_url() . '/tf19/?id=' . $input;
-
 				return $url;
-				break;
 			case 'currentstoremenu': // Returns URL of a store
 				$base = $this->get_instance( WCHelpers::class )->get_my_store();
 				if ( $base == '' ) {
@@ -577,14 +527,11 @@ class SiteDefaults extends Shortcode {
 				} else {
 					return $this->get_instance( WCHelpers::class )->get_my_store( 'url' );
 				}
-
-				break;
 			case 'bpstore': // Returns URL of a store.
 				$base   = $this->defaults( 'marketplace_url' );
 				$family = $this->get_instance( WCHelpers::class )->orderinfo_by_booking( 0, 'store_slug', $this->get_instance( WCFMHelpers::class )->staff_to_parent( $input ) );
 
 				return $base . $family;
-				break;
 			case 'currentstore':
 				if ( $base == '' ) {
 					$base = $this->get_instance( WCHelpers::class )->get_my_store( 'visitor' );
@@ -593,16 +540,12 @@ class SiteDefaults extends Shortcode {
 				} else {
 					return $this->get_instance( WCHelpers::class )->get_my_store( 'url' );
 				}
-
-				break;
 			case 'siteurl': // Returns URL of a private video space - NOTE this must be set manually in User under the video space tab ( as you can't store programmatically with them )
 				return get_site_url();
-				break;
 			case 'gourl': // The field setting for Storefront
 				$post_slug = get_post_field( 'post_name', 23335 );
 
 				return get_site_url() . '/' . $post_slug;
-				break;
 		}
 	}
 

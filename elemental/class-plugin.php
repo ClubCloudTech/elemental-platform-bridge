@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace ElementalPlugin;
 
+use ElementalPlugin\Core\FiltersUtilities;
 use ElementalPlugin\Library\ElementalFunctions;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\Membership;
@@ -38,6 +39,7 @@ class Plugin {
 		Factory::get_instance( ElementalUMP::class )->init();
 		Factory::get_instance( XProfile::class )->init();
 		Factory::get_instance( WCFM::class )->init();
+		Factory::get_instance( FiltersUtilities::class )->init();
 
 		$this->styles();
 	}
