@@ -16,9 +16,14 @@ use ElementalPlugin\Factory;
 use ElementalPlugin\UltimateMembershipPro\Library\ShortCodesUMP;
 
 return function (
-	string $paid_user_form
+	string $paid_user_form = null,
+	string $redirect_url = null
 ): string {
 	ob_start();
+	if ( $redirect_url ) {
+			echo '<script type="text/javascript"> window.location = "' . esc_url( $redirect_url ) . '"; </script>';
+			echo '<h1>' . esc_html_e( 'Thank you for Your Purchase ', 'myvideoroom' ) . '</h1>';
+	}
 	?>
 
 <div class="elemental-container" id="wcfm_shop_listing">

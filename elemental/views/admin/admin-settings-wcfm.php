@@ -19,16 +19,8 @@ use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Factory;
 use \MyVideoRoomPlugin\Shortcode\UserVideoPreference;
 use \MyVideoRoomPlugin\DAO\ModuleConfig;
-use \MyVideoRoomPlugin\Module\Security\Templates\SecurityButtons;
 
-return function (
-	string $active_tab,
-	array $tabs,
-	array $messages = array()
-): string {
-
-	$render = include __DIR__ . '/header.php';
-	echo $render( $active_tab, $tabs, $messages );
+return function (): string {
 	ob_start();
 
 	?>

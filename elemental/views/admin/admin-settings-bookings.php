@@ -22,14 +22,7 @@ use ElementalPlugin\DAO\ModuleConfig;
 use ElementalPlugin\Library\ShortcodeDocuments;
 use ElementalPlugin\Shortcode\UserVideoPreference;
 
-return function (
-	string $active_tab,
-	array $tabs,
-	array $messages = array()
-): string {
-
-	$render = include __DIR__ . '/header.php';
-	echo $render( $active_tab, $tabs, $messages );
+return function (): string {
 	ob_start();
 
 	$post_id = Factory::get_instance( RoomAdmin::class )->get_videoroom_info( 'bookings-center', 'post_id' );

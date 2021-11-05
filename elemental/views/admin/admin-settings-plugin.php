@@ -19,7 +19,7 @@ return function (): string {
 
 	?>
 	<!-- Module Header -->
-	<div class="myvideoroom-menu-settings">
+	<div class="myvideoroom-menu-settings elemental-top-margin">
 		<div class="myvideoroom-header-table-left">
 			<h1><i
 					class="myvideoroom-header-dashicons dashicons-database-view"></i><?php esc_html_e( 'Plugin Parameter Configuration', 'myvideoroom' ); ?>
@@ -59,20 +59,20 @@ return function (): string {
 		<tbody>
 
 		<?php
-			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped - functions are escaped upstream.
-			echo apply_filters( 'elemental_page_option', '' );
-		?>
-	<tr class="active mvr-table-mobile">
-		<td>
-		<span><?php esc_html_e( 'Xprofile Field Countries', 'myvideoroom' ); ?></span>
-		</td>
-		<td>
-		<input type="number" class="mvr-main-button-enabled myvideoroom-maintenance-setting"
-			id="<?php echo esc_attr( Xprofile::SETTING_XPROFILE_COUNTRY ); ?>" value="<?php echo get_option( XProfile::SETTING_XPROFILE_COUNTRY ); ?>">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="<?php \esc_html_e( 'Field Name for XProfile Countries', 'myvideoroom' ); ?>"></i>
-		</td>
+			$tab_initial = array();
+			$tabs        = apply_filters( 'elemental_page_option', $tab_initial );
 
-	</tr>
+		foreach ( $tabs as $tab ) {
+			?>
+		<tr class="active mvr-table-mobile">
+			<?php
+				// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped - functions are escaped upstream.			
+				echo $tab;
+			?>
+		</tr>
+				<?php
+		}
+		?>
 		</tbody>
 		<tfoot>
 			<tr>

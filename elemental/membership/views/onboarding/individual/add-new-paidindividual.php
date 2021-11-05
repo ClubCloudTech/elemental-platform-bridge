@@ -5,6 +5,8 @@
  * @package elemental/membership/views/onboarding/individual/add-new-paidindividual.php
  */
 
+// phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
+
 use ElementalPlugin\Factory;
 use \MyVideoRoomPlugin\Library\HTML;
 use \MyVideoRoomPlugin\Library\HttpPost;
@@ -53,7 +55,7 @@ return function (
 		<p class="city wcfm_title wcfm_ele"><strong><?php esc_html_e( 'Last Name ', 'myvideoroom' ); ?></strong></p>
 		<label for="last_name" class="screen-reader-text">
 			<?php esc_html_e( 'Last Name ', 'myvideoroom' ); ?>
-			<i id="first-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved" title="Last Name Ready to Go" style="display:none"></i>
+			<i id="last-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved" title="Last Name Ready to Go" style="display:none"></i>
 		</label>
 
 		<input type="text"
@@ -65,25 +67,39 @@ return function (
 			maxlength="64"
 			value=""
 		>
+		<p class="city wcfm_title wcfm_ele"><strong><?php esc_html_e( 'Company (optional) ', 'myvideoroom' ); ?></strong></p>
+		<label for="company" class="screen-reader-text">
+			<?php esc_html_e( 'Company (optional) ', 'myvideoroom' ); ?>
+			<i id="company-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved" title="Company Ready" style="display:none"></i>
+		</label>
+
+		<input type="text"
+			id="company"
+			class="wcfm-text wcfm_ele"
+			name="<?php echo esc_attr( $html_library->get_field_name( 'company' ) ); ?>"
+			aria-describedby="<?php echo \esc_attr( $html_library->get_description_id( 'company' ) ); ?>"
+			maxlength="64"
+			value=""
+		>
 	<?php
 		$WCFM->wcfm_fields->wcfm_generate_form_field(
 			apply_filters(
 				'wcfm_membership_registration_fields_address',
 				array(
 					'country' => array(
-						'label' => __( 'Country', 'wc-frontend-manager' ),
-						'type' => 'country',
-						'name' => $field_name . '[country]',
+						'label'             => __( 'Country', 'wc-frontend-manager' ),
+						'type'              => 'country',
+						'name'              => '[country]',
 						'custom_attributes' => array( 'required' => 1 ),
-						'class' => 'wcfm-select wcfm_ele wcfmvm_country_to_select',
-						'label_class' => 'wcfm_title wcfm_ele',
-						'attributes' => array( 'style' => 'width: 60%;' ),
-						'value' => isset( $field_value['country'] ) ? $field_value['country'] : '',
+						'class'             => 'wcfm-select wcfm_ele wcfmvm_country_to_select',
+						'label_class'       => 'wcfm_title wcfm_ele',
+						'attributes'        => array( 'style' => 'width: 60%;' ),
+						'value'             => isset( $field_value['country'] ) ? $field_value['country'] : '',
 					),
 					'city'    => array(
-						'label'        => __( 'City/Town', 'wc-frontend-manager' ),
+						'label'       => __( 'City/Town (optional)', 'myvideoroom' ),
 						'type'        => 'text',
-						'name'        => $field_name . '[city]',
+						'name'        => '[city]',
 						'class'       => 'wcfm-text wcfm_ele',
 						'label_class' => 'wcfm_title wcfm_ele',
 						'value'       => isset( $field_value['city'] ) ? $field_value['city'] : '',

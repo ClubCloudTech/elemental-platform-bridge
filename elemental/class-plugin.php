@@ -25,6 +25,7 @@ class Plugin {
 
 
 	const SHORTCODE_PREFIXS = array( 'mvr_', 'cc' );
+	const ELEMENTAL_SLUG    = 'elemental';
 
 	/**
 	 * Plugin constructor.

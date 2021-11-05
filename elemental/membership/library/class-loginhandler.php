@@ -28,7 +28,7 @@ class LoginHandler {
 	 *
 	 * @param array|string $attributes List of shortcode params.
 	 *
-	 * @return ?string
+	 * @return void
 	 */
 	public function render_logout_shortcode( $attributes = array() ) {
 		$http_get_library = Factory::get_instance( HttpGet::class );

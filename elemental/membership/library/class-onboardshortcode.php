@@ -5,6 +5,7 @@
  * @package elemental/membership/library/class-onboardshortcode.php
  */
 
+// phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
 namespace ElementalPlugin\Membership\Library;
 
 use ElementalPlugin\Factory;
@@ -38,6 +39,7 @@ class OnboardShortcode {
 	/**
 	 * Render WCFM Step to allow Level 2 Registration.
 	 *
+	 * @param int $user_id - the User ID.
 	 * @return ?string
 	 */
 	public function render_wcfm_step( int $user_id ): ?string {
@@ -55,31 +57,49 @@ class OnboardShortcode {
 	 * @return ?string
 	 */
 	public function onboarding_shortcode_worker( int $membership_id = null ): ?string {
+		// Setup.
 		$http_get_library = Factory::get_instance( HttpGet::class );
+		$user_logged_in   = is_user_logged_in();
+		if ( $user_logged_in ) {
+			$user_id = \get_current_user_id();
+		}
 		if ( ! $membership_id ) {
 			$membership_id = intval( $http_get_library->get_string_parameter( 'membership' ) );
 		}
-
+		$order_num         = $http_get_library->get_string_parameter( 'order' );
 		$thank_you_status  = $http_get_library->get_string_parameter( 'vmstep' );
 		$individual_status = $http_get_library->get_string_parameter( 'membership' );
 		$this->enqueue_style_scripts( true );
 
+		// Case Thank you Subscription Order.
+		if ( $order_num ) {
+			Factory::get_instance( WooCommerceHelpers::class )->process_order_num( $order_num );
+			$redirect_slug = get_option( WooCommerceHelpers::SETTING_ONBOARD_POST_SUB_SLUG );
+			$redirect_url  = \get_site_url() . '/' . $redirect_slug;
+			$render        = ( require __DIR__ . '/../views/onboarding/individual/manage-individual-paid.php' );
+			return $render( null, $redirect_url );
+		}
+		// Case Free Individual.
 		if ( 'individual' === $individual_status ) {
 			$render = ( require __DIR__ . '/../views/onboarding/individual/manage-individual-free.php' );
 			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 			return $render();
 
+			// Case Individual Membership Classes.
 		} elseif ( $individual_status && Factory::get_instance( SubscriptionHelpers::class )->is_woocommerce_subscription( $individual_status ) ) {
+			// Is user onboard pending.
+			if ( $user_logged_in && Factory::get_instance( MembershipUser::class )->is_user_subscription_onboarding( $user_id ) ) {
+				$redirect_url = wc_get_checkout_url();
+			}
+			// New User.
 			$manage_user_form = ( require __DIR__ . '/../views/onboarding/individual/add-new-paidindividual.php' );
 			$render           = ( require __DIR__ . '/../views/onboarding/individual/manage-individual-paid.php' );
 			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
-			return $render( $manage_user_form( $membership_id) );
+			return $render( $manage_user_form( $membership_id ), $redirect_url );
 		}
 
 		// Valid User Check.
-		if ( is_user_logged_in() ) {
-			$user_id = \get_current_user_id();
-
+		if ( $user_logged_in ) {
 			if ( 'thankyou' === $thank_you_status ) {
 				$membership_data = Factory::get_instance( WCFMTools::class )->elemental_get_membership_data( $user_id );
 				$render          = ( require __DIR__ . '/../views/onboarding/organisation/merchant-thankyou.php' );
@@ -92,7 +112,7 @@ class OnboardShortcode {
 				$render          = ( require __DIR__ . '/../views/onboarding/organisation/merchant-already.php' );
 				return $render( $membership_data );
 
-			} elseif ( Factory::get_instance( MembershipUser::class )->is_user_onboarding( $user_id ) ){
+			} elseif ( Factory::get_instance( MembershipUser::class )->is_user_onboarding( $user_id ) ) {
 				$render    = ( require __DIR__ . '/../views/onboarding/manage-onboarding.php' );
 				$info_form = $this->render_wcfm_step( $user_id );
 				return $render( $info_form );
@@ -138,6 +158,7 @@ class OnboardShortcode {
 	 * Enqueue Styles and Scripts
 	 * Handles the Styles and Scripts needed for Membership Form front end to look like WCFM.
 	 *
+	 * @param bool $register_only - flag to register only the user.
 	 * @return void
 	 */
 	private function enqueue_style_scripts( bool $register_only = null ) {
@@ -174,8 +195,8 @@ class OnboardShortcode {
 			wp_enqueue_style( 'myvideoroom-menutab-header' );
 		}
 		// Render WCFM Partner AJax.
-		wp_enqueue_script( 'select2_js', $WCFM->plugin_url . 'includes/libs/select2/select2.js', array('jquery'), $WCFM->version, true );
-		wp_enqueue_style( 'select2_css',  $WCFM->plugin_url . 'includes/libs/select2/select2.css', array(), $WCFM->version );
+		wp_enqueue_script( 'select2_js', $WCFM->plugin_url . 'includes/libs/select2/select2.js', array( 'jquery' ), $WCFM->version, true );
+		wp_enqueue_style( 'select2_css', $WCFM->plugin_url . 'includes/libs/select2/select2.css', array(), $WCFM->version );
 		wp_enqueue_script( 'wc-country-select' );
 		add_action( 'wp_ajax_wcfmvm_store_slug_verification', array( $this, 'wcfmvm_store_slug_verification' ) );
 		add_action( 'wp_ajax_nopriv_wcfmvm_store_slug_verification', array( $this, 'wcfmvm_store_slug_verification' ) );
@@ -183,7 +204,7 @@ class OnboardShortcode {
 		wp_enqueue_style( 'wcfm_membership_registration_css', $WCFMvm->library->css_lib_url_min . 'wcfmvm-style-membership-registration.css', array(), $WCFMvm->version );
 		wp_enqueue_script( 'wcfm_membership_registration_js' );
 
-		// Render Core Control Ajax
+		// Render Core Control Ajax.
 		\wp_enqueue_script( 'elemental-onboard-js' );
 		// Localize script Ajax Upload.
 		$script_data_array = array(
@@ -306,7 +327,7 @@ class OnboardShortcode {
 	 * Store Name Validation
 	 */
 	public function wcfmvm_store_slug_verification() {
-
+	//phpcs:ignore --WordPress.Security.NonceVerification.Missing - already done in parent form.
 		$store_name = wc_clean( $_POST['store_name'] );
 
 		if ( $store_name ) {
@@ -314,27 +335,27 @@ class OnboardShortcode {
 			$store_slug = apply_filters( 'wcfm_generated_store_slug', $store_slug );
 
 			if ( ! is_user_logged_in() && ( username_exists( $store_slug ) || get_user_by( 'slug', $store_slug ) || ! apply_filters( 'wcfm_validate_store_slug', true, $store_slug ) ) ) {
-				echo '{"status": false, "message": "' . __( 'Organisation Name not available.', 'wc-multivendor-membership' ) . '"}';
+				echo '{"status": false, "message": "' . esc_html__( 'Organisation Name not available.', 'wc-multivendor-membership' ) . '"}';
 			} elseif ( is_user_logged_in() ) {
 				$member_id           = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 				$the_user            = get_user_by( 'id', $member_id );
 				$user_login          = sanitize_title( $the_user->user_login );
 				$previous_store_slug = $the_user->user_nicename;
-				if ( ( ( $previous_store_slug != $store_slug ) && ( $user_login != $store_slug ) && username_exists( $store_slug ) ) || ! apply_filters( 'wcfm_validate_store_slug', true, $store_slug ) ) {
-					echo '{"status": false, "message": "' . __( 'Shop Name not available.', 'wc-multivendor-membership' ) . '"}';
+				if ( ( ( $previous_store_slug !== $store_slug ) && ( $user_login !== $store_slug ) && username_exists( $store_slug ) ) || ! apply_filters( 'wcfm_validate_store_slug', true, $store_slug ) ) {
+					echo '{"status": false, "message": "' . esc_html__( 'Organisation Name not available.', 'wc-multivendor-membership' ) . '"}';
 				} else {
 					$store_slug_user = get_user_by( 'slug', $store_slug );
-					if ( ! $store_slug_user || ( $store_slug_user && ( $store_slug_user->ID == $member_id ) ) ) {
-						echo '{"status": true, "store_slug": "' . $store_slug . '"}';
+					if ( ! $store_slug_user || ( $store_slug_user && ( $store_slug_user->ID === $member_id ) ) ) {
+						echo '{"status": true, "store_slug": "' . esc_textarea( $store_slug ) . '"}';
 					} else {
-						echo '{"status": false, "message": "' . __( 'Shop Name not available.', 'wc-multivendor-membership' ) . '"}';
+						echo '{"status": false, "message": "' . esc_html__( 'Organisation Name not available.', 'wc-multivendor-membership' ) . '"}';
 					}
 				}
 			} else {
-				echo '{"status": true, "store_slug": "' . $store_slug . '"}';
+				echo '{"status": true, "store_slug": "' . esc_textarea( $store_slug ) . '"}';
 			}
 		} else {
-			echo '{"status": false, "message": "' . __( 'Shop Name not available.', 'wc-multivendor-membership' ) . '"}';
+			echo '{"status": false, "message": "' . esc_html__( 'Organisation Name not available.', 'wc-multivendor-membership' ) . '"}';
 		}
 
 		die;

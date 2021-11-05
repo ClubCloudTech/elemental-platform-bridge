@@ -15,6 +15,7 @@ use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Membership\Library\OnboardAjax;
 use ElementalPlugin\Membership\Library\OnboardShortcode;
+use ElementalPlugin\Membership\Library\WooCommerceHelpers;
 
 /**
  * Class Onboard
@@ -31,7 +32,7 @@ class Onboard {
 	 * Required for Normal Runtime.
 	 */
 	public function init() {
-
+		Factory::get_instance( WooCommerceHelpers::class )->init();
 		add_shortcode( self::SHORTCODE_TAG, array( Factory::get_instance( OnboardShortcode::class ), 'render_onboarding_shortcode' ) );
 
 				// Enqueue Script Ajax Handling.
@@ -55,9 +56,6 @@ class Onboard {
 				);
 				\add_action( 'wp_ajax_elemental_onboardadmin_ajax', array( Factory::get_instance( OnboardAjax::class ), 'onboard_ajax_handler' ), 10, 2 );
 				\add_action( 'wp_ajax_nopriv_elemental_onboardadmin_ajax', array( Factory::get_instance( OnboardAjax::class ), 'onboard_ajax_handler' ), 10, 2 );
-
-				//add_action( 'woocommerce_order_status_processing', array( Factory::get_instance( ), 'wcfmvm_registration_process_on_order_completed' ), 10, 1 );
-
 	}
 	/**
 	 * Activate Functions for Membership.
@@ -66,7 +64,6 @@ class Onboard {
 
 		Factory::get_instance( MembershipDAO::class )->install_membership_mapping_table();
 		Factory::get_instance( MemberSyncDAO::class )->install_membership_sync_table();
-		$this->create_membership_role();
 	}
 }
 

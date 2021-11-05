@@ -8,6 +8,8 @@
 namespace ElementalPlugin\Membership\Library;
 
 use ElementalPlugin\Factory;
+use ElementalPlugin\WooCommerceSubscriptions\Library\SubscriptionHelpers;
+use \MyVideoRoomPlugin\Library\Ajax;
 
 /**
  * Class OnboardAjax - Provides the Onboard Ajax Control.
@@ -83,10 +85,10 @@ class OnboardAjax {
 		}
 
 		/*
-		* Create User.
+		* Create Organisation.
 		*
 		*/
-		if ( 'create_user' === $action_taken ) {
+		if ( 'create_org' === $action_taken ) {
 			if ( isset( $_POST['membership'] ) ) {
 				$membership = sanitize_text_field( wp_unslash( $_POST['membership'] ) );
 			}
@@ -111,6 +113,32 @@ class OnboardAjax {
 		}
 
 		/*
+		* Create User.
+		*
+		*/
+		if ( 'create_user' === $action_taken ) {
+			$membership = Factory::get_instance( Ajax::class )->get_string_parameter( 'membership' );
+			$user_id    = Factory::get_instance( MembershipUser::class )->create_indvsubs_wordpress_user( $membership );
+			if ( $user_id ) {
+				if ( ! is_user_logged_in() ) {
+					$user_obj = \get_user_by( 'id', $user_id );
+					wp_set_current_user( $user_id );
+					wp_set_auth_cookie( $user_id );
+					do_action( 'wp_login', $email, $user_obj );
+				}
+				$response['feedback'] = true;
+
+				// Set WooCommerce Checkout and return Checkout.
+				$this->subscription_choose_membership( intval( $membership ) );
+				$response['redirect'] = wc_get_checkout_url();
+
+			} else {
+				$response['feedback'] = false;
+			}
+			return \wp_send_json( $response );
+		}
+
+		/*
 		* Get Checkout.
 		*
 		*/
@@ -126,6 +154,8 @@ class OnboardAjax {
 	/**
 	 * WCFM Choose Membership Plan
 	 * Sets WCFM Parameters to Ready Basket
+	 *
+	 * @param int $membership - the membership type.
 	 */
 	public function wcfm_choose_membership( int $membership ) {
 
@@ -161,5 +191,15 @@ class OnboardAjax {
 				WC()->cart->add_to_cart( $subscription_product );
 			}
 		}
+	}
+	/**
+	 * WCFM Choose Membership Plan
+	 * Sets WCFM Parameters to Ready Basket
+	 *
+	 * @param int $membership - the membership type.
+	 */
+	public function subscription_choose_membership( int $membership ) {
+		Factory::get_instance( SubscriptionHelpers::class )->add_product_to_cart( $membership );
+
 	}
 }

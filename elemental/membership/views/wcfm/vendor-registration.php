@@ -9,6 +9,8 @@
  * @version   1.0.0cc
  */
 
+// phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
+
 /**
  * Render the admin page
  *
@@ -32,7 +34,7 @@ return function ( $user_id_inbound ): string {
 
 		$user_id      = $user_id_inbound;
 		$current_user = get_userdata( $user_id );
-		// Fetching User Data
+		// Fetching User Data.
 	if ( $current_user && ! empty( $current_user ) ) {
 		$user_name           = $current_user->user_login;
 		$user_email          = $current_user->user_email;
@@ -72,7 +74,7 @@ return function ( $user_id_inbound ): string {
 					if ( $user_id ) {
 						$registratio_user_fields = array(
 							'user_name'  => array(
-								'label'             => __( 'Username', 'wc-multivendor-membership' ),
+								'label'             => esc_html__( 'Username', 'wc-multivendor-membership' ),
 								'type'              => 'text',
 								'custom_attributes' => array( 'required' => 1 ),
 								'attributes'        => array( 'readonly' => true ),
@@ -81,7 +83,7 @@ return function ( $user_id_inbound ): string {
 								'value'             => $user_name,
 							),
 							'user_email' => array(
-								'label'             => __( 'Email', 'wc-multivendor-membership' ),
+								'label'             => esc_html__( 'Email', 'wc-multivendor-membership' ),
 								'type'              => 'text',
 								'custom_attributes' => array( 'required' => 1 ),
 								'attributes'        => array( 'readonly' => true ),
@@ -97,7 +99,7 @@ return function ( $user_id_inbound ): string {
 					} else {
 						$registratio_user_fields = array(
 							'user_name'  => array(
-								'label'             => __( 'Username', 'wc-multivendor-membership' ),
+								'label'             => esc_html__( 'Username', 'wc-multivendor-membership' ),
 								'type'              => 'text',
 								'custom_attributes' => array( 'required' => 1 ),
 								'class'             => 'wcfm-text wcfm_ele ',
@@ -105,7 +107,7 @@ return function ( $user_id_inbound ): string {
 								'value'             => $user_name,
 							),
 							'user_email' => array(
-								'label'             => __( 'Email', 'wc-multivendor-membership' ),
+								'label'             => esc_html__( 'Email', 'wc-multivendor-membership' ),
 								'type'              => 'text',
 								'custom_attributes' => array( 'required' => 1 ),
 								'class'             => 'wcfm-text wcfm_ele ',
@@ -128,7 +130,7 @@ return function ( $user_id_inbound ): string {
 							if ( $user_id ) {
 								$email_verified          = get_user_meta( $user_id, '_wcfm_email_verified', true );
 								$wcfm_email_verified_for = get_user_meta( $user_id, '_wcfm_email_verified_for', true );
-								if ( $user_email != $wcfm_email_verified_for ) {
+								if ( $user_email !== $wcfm_email_verified_for ) {
 									$email_verified = false;
 								}
 							}
@@ -137,7 +139,7 @@ return function ( $user_id_inbound ): string {
 								?>
 									<div class="wcfm_email_verified">
 										<span class="wcfmfa fa-envelope wcfm_email_verified_icon">
-											<span class="wcfm_email_verified_text"><?php _e( 'Email already verified', 'wc-multivendor-membership' ); ?></span>
+											<span class="wcfm_email_verified_text"><?php esc_html_e( 'Email already verified', 'wc-multivendor-membership' ); ?></span>
 											<input type="hidden" name="email_verified" value="true" />
 										</span>
 									</div>
@@ -146,8 +148,8 @@ return function ( $user_id_inbound ): string {
 							} else {
 								?>
 									<div class="wcfm_email_verified">
-										<input type="text" name="wcfm_email_verified_input" data-required="1" data-required_message="<?php _e( 'Email Verification Code: ', 'wc-multivendor-membership' ) . _e( 'This field is required.', 'wc-frontend-manager' ); ?>" class="wcfm-text wcfm_email_verified_input" placeholder="<?php _e( 'Verification Code', 'wc-multivendor-membership' ); ?>" value="" />
-										<input type="button" name="wcfm_email_verified_button" class="wcfm-text wcfm_submit_button wcfm_email_verified_button" value="<?php _e( 'Re-send Code', 'wc-multivendor-membership' ); ?>" />
+										<input type="text" name="wcfm_email_verified_input" data-required="1" data-required_message="<?php esc_html_e( 'Email Verification Code: ', 'wc-multivendor-membership' ) . esc_html_e( 'This field is required.', 'wc-frontend-manager' ); ?>" class="wcfm-text wcfm_email_verified_input" placeholder="<?php esc_html_e( 'Verification Code', 'wc-multivendor-membership' ); ?>" value="" />
+										<input type="button" name="wcfm_email_verified_button" class="wcfm-text wcfm_submit_button wcfm_email_verified_button" value="<?php esc_html_e( 'Re-send Code', 'wc-multivendor-membership' ); ?>" />
 										<div class="wcfm_clearfix"></div>
 									</div>
 									<div class="wcfm-message email_verification_message" tabindex="-1"></div>
@@ -168,7 +170,7 @@ return function ( $user_id_inbound ): string {
 									$user_phone = get_user_meta( $user_id, 'billing_phone', true ); }
 								$sms_verified          = get_user_meta( $user_id, '_wcfm_sms_verified', true );
 								$wcfm_sms_verified_for = get_user_meta( $user_id, '_wcfm_sms_verified_for', true );
-								if ( $user_phone != $wcfm_sms_verified_for ) {
+								if ( $user_phone !== $wcfm_sms_verified_for ) {
 									$sms_verified = false;
 								}
 							}
@@ -178,7 +180,7 @@ return function ( $user_id_inbound ): string {
 									'wcfm_membership_registration_fields_phone',
 									array(
 										'user_phone' => array(
-											'label'       => __( 'Store Phone', 'wc-frontend-manager' ),
+											'label'       => esc_html__( 'Store Phone', 'wc-frontend-manager' ),
 											'type'        => 'text',
 											'name'        => 'wcfmvm_static_infos[phone]',
 											'custom_attributes' => array( 'required' => 1 ),
@@ -194,7 +196,7 @@ return function ( $user_id_inbound ): string {
 								?>
 									<div class="wcfm_sms_verified">
 										<span class="wcfmfa fa-phone wcfm_sms_verified_icon">
-											<span class="wcfm_sms_verified_text"><?php _e( 'Phone already verified', 'wc-multivendor-membership' ); ?></span>
+											<span class="wcfm_sms_verified_text"><?php esc_html_e( 'Phone already verified', 'wc-multivendor-membership' ); ?></span>
 											<input type="hidden" name="sms_verified" value="true" />
 										</span>
 									</div>
@@ -203,8 +205,8 @@ return function ( $user_id_inbound ): string {
 							} else {
 								?>
 									<div class="wcfm_sms_verified">
-										<input type="text" name="wcfm_sms_verified_input" data-required="1" data-required_message="<?php _e( 'Phone Verification Code: ', 'wc-multivendor-membership' ) . _e( 'This field is required.', 'wc-frontend-manager' ); ?>" class="wcfm-text wcfm_sms_verified_input" placeholder="<?php _e( 'OTP', 'wc-multivendor-membership' ); ?>" value="" />
-										<input type="button" name="wcfm_sms_verified_button" class="wcfm-text wcfm_submit_button wcfm_sms_verified_button" value="<?php _e( 'Re-send Code', 'wc-multivendor-membership' ); ?>" />
+										<input type="text" name="wcfm_sms_verified_input" data-required="1" data-required_message="<?php esc_html_e( 'Phone Verification Code: ', 'wc-multivendor-membership' ) . esc_html_e( 'This field is required.', 'wc-frontend-manager' ); ?>" class="wcfm-text wcfm_sms_verified_input" placeholder="<?php esc_html_e( 'OTP', 'wc-multivendor-membership' ); ?>" value="" />
+										<input type="button" name="wcfm_sms_verified_button" class="wcfm-text wcfm_submit_button wcfm_sms_verified_button" value="<?php esc_html_e( 'Re-send Code', 'wc-multivendor-membership' ); ?>" />
 										<div class="wcfm_clearfix"></div>
 									</div>
 									<div class="wcfm-message sms_verification_message" tabindex="-1"></div>
@@ -221,21 +223,21 @@ return function ( $user_id_inbound ): string {
 							'wcfm_membership_registration_fields',
 							array(
 								'first_name' => array(
-									'label'       => __( 'First Name', 'wc-multivendor-membership' ),
+									'label'       => esc_html__( 'First Name', 'wc-multivendor-membership' ),
 									'type'        => 'text',
 									'class'       => 'wcfm-text wcfm_ele ',
 									'label_class' => 'wcfm_ele wcfm_title',
 									'value'       => $first_name,
 								),
 								'last_name'  => array(
-									'label'       => __( 'Last Name', 'wc-multivendor-membership' ),
+									'label'       => esc_html__( 'Last Name', 'wc-multivendor-membership' ),
 									'type'        => 'text',
 									'class'       => 'wcfm-text wcfm_ele ',
 									'label_class' => 'wcfm_ele wcfm_title',
 									'value'       => $last_name,
 								),
 								'store_name' => array(
-									'label'             => __( 'Store Name', 'wc-multivendor-membership' ),
+									'label'             => esc_html__( 'Store Name', 'wc-multivendor-membership' ),
 									'type'              => 'text',
 									'custom_attributes' => array( 'required' => 1 ),
 									'class'             => 'wcfm-text wcfm_ele wcfm_name_input',
@@ -252,7 +254,7 @@ return function ( $user_id_inbound ): string {
 		unset( $registration_name_fields['last_name'] );
 	}
 
-	if ( $WCFM->is_marketplace && ( $WCFM->is_marketplace == 'wcfmmarketplace' ) ) {
+	if ( $WCFM->is_marketplace && ( 'wcfmmarketplace' === $WCFM->is_marketplace ) ) {
 		global $WCFMmp;
 		if ( ! apply_filters( 'wcfm_is_allow_store_name', true ) || ! $WCFMmp->wcfmmp_vendor->is_vendor_sold_by() || wcfm_is_vendor() ) {
 			unset( $registration_name_fields['store_name'] );
@@ -261,21 +263,21 @@ return function ( $user_id_inbound ): string {
 
 						$WCFM->wcfm_fields->wcfm_generate_form_field( $registration_name_fields );
 
-	if ( $WCFM->is_marketplace && ( $WCFM->is_marketplace == 'wcfmmarketplace' ) ) {
+	if ( $WCFM->is_marketplace && ( 'wcfmmarketplace' === $WCFM->is_marketplace ) ) {
 		global $WCFMmp;
 		if ( apply_filters( 'wcfm_is_allow_store_name', true ) && $WCFMmp->wcfmmp_vendor->is_vendor_sold_by() && ! wcfm_is_vendor() ) {
 			$wcfm_store_url = get_option( 'wcfm_store_url', 'store' );
-			$store_slug     = '[' . __( 'your_store', 'wc-multivendor-membership' ) . ']';
+			$store_slug     = '[' . esc_html__( 'your_store', 'wc-multivendor-membership' ) . ']';
 			if ( $store_name ) {
 				$store_slug = sanitize_title( $store_name );
 			}
-			echo '<p class="description wcfm_store_slug_verified wcfm_page_options_desc" data-avail="' . __( 'Available', 'wc-multivendor-membership' ) . '" data-unavail="' . __( 'Un-available', 'wc-multivendor-membership' ) . '">' . trailingslashit( get_site_url() ) . $wcfm_store_url . '/<span class="wcfm_store_slug">' . $store_slug . '</span></p>';
+			echo '<p class="description wcfm_store_slug_verified wcfm_page_options_desc" data-avail="' . esc_html__( 'Available', 'wc-multivendor-membership' ) . '" data-unavail="' . esc_html__( 'Un-available', 'wc-multivendor-membership' ) . '">' . esc_url( trailingslashit( get_site_url() ) ) . esc_url( $wcfm_store_url ) . '/<span class="wcfm_store_slug">' . esc_url( $store_slug ) . '</span></p>';
 		}
 	}
 
 						do_action( 'wcfm_membership_registration_form_before_static_custom_fields' );
 
-						// Registration Static Field Support - 1.0.6
+						// Registration Static Field Support - 1.0.6.
 						$terms      = '';
 						$terms_page = '';
 	if ( ! empty( $wcfmvm_registration_static_fields ) ) {
@@ -299,7 +301,7 @@ return function ( $user_id_inbound ): string {
 
 			switch ( $wcfmvm_registration_static_field ) {
 				case 'address':
-									// GEO Locate Support
+									// GEO Locate Support.
 					if ( is_user_logged_in() && ( ! isset( $field_value['country'] ) || ( isset( $field_value['country'] ) && empty( $field_value['country'] ) ) ) ) {
 							$user_location = get_user_meta( $user_id, 'wcfm_user_location', true );
 						if ( $user_location ) {
@@ -310,7 +312,7 @@ return function ( $user_id_inbound ): string {
 					}
 
 					if ( apply_filters( 'wcfm_is_allow_wc_geolocate', true ) && class_exists( 'WC_Geolocation' ) && ( ! isset( $field_value['country'] ) || ( isset( $field_value['country'] ) && empty( $field_value['country'] ) ) ) ) {
-						$user_location          = WC_Geolocation::geolocate_ip();
+						$user_location          = \WC_Geolocation::geolocate_ip();
 						$field_value['country'] = $user_location['country'];
 						$field_value['state']   = $user_location['state'];
 					}
@@ -320,7 +322,7 @@ return function ( $user_id_inbound ): string {
 											'wcfm_membership_registration_fields_address',
 											array(
 												'addr_1'  => array(
-													'label' => __( 'Address 1', 'wc-frontend-manager' ),
+													'label' => esc_html__( 'Address 1', 'wc-frontend-manager' ),
 													'type' => 'text',
 													'name' => $field_name . '[addr_1]',
 													'custom_attributes' => array( 'required' => 1 ),
@@ -329,7 +331,7 @@ return function ( $user_id_inbound ): string {
 													'value' => isset( $field_value['addr_1'] ) ? $field_value['addr_1'] : '',
 												),
 												'addr_2'  => array(
-													'label' => __( 'Address 2', 'wc-frontend-manager' ),
+													'label' => esc_html__( 'Address 2', 'wc-frontend-manager' ),
 													'type' => 'text',
 													'name' => $field_name . '[addr_2]',
 													'class' => 'wcfm-text wcfm_ele',
@@ -337,7 +339,7 @@ return function ( $user_id_inbound ): string {
 													'value' => isset( $field_value['addr_2'] ) ? $field_value['addr_2'] : '',
 												),
 												'country' => array(
-													'label' => __( 'Country', 'wc-frontend-manager' ),
+													'label' => esc_html__( 'Country', 'wc-frontend-manager' ),
 													'type' => 'country',
 													'name' => $field_name . '[country]',
 													'custom_attributes' => array( 'required' => 1 ),
@@ -347,7 +349,7 @@ return function ( $user_id_inbound ): string {
 													'value' => isset( $field_value['country'] ) ? $field_value['country'] : '',
 												),
 												'city'    => array(
-													'label' => __( 'City/Town', 'wc-frontend-manager' ),
+													'label' => esc_html__( 'City/Town', 'wc-frontend-manager' ),
 													'type' => 'text',
 													'name' => $field_name . '[city]',
 													'class' => 'wcfm-text wcfm_ele',
@@ -355,7 +357,7 @@ return function ( $user_id_inbound ): string {
 													'value' => isset( $field_value['city'] ) ? $field_value['city'] : '',
 												),
 												'state'   => array(
-													'label' => __( 'State/County/Province', 'wc-frontend-manager' ),
+													'label' => esc_html__( 'State/County/Province', 'wc-frontend-manager' ),
 													'type' => 'select',
 													'name' => $field_name . '[state]',
 													'class' => 'wcfm-select wcfm_ele wcfmvm_state_to_select',
@@ -364,7 +366,7 @@ return function ( $user_id_inbound ): string {
 													'value' => isset( $field_value['state'] ) ? $field_value['state'] : '',
 												),
 												'zip'     => array(
-													'label' => __( 'Postcode/Zip', 'wc-frontend-manager' ),
+													'label' => esc_html__( 'Postcode/Zip', 'wc-frontend-manager' ),
 													'type' => 'text',
 													'name' => $field_name . '[zip]',
 													'custom_attributes' => array( 'required' => 1 ),
@@ -390,7 +392,7 @@ return function ( $user_id_inbound ): string {
 								'wcfm_membership_registration_fields_phone',
 								array(
 									'phone' => array(
-										'label'       => __( 'Store Phone', 'wc-frontend-manager' ),
+										'label'       => esc_html__( 'Store Phone', 'wc-frontend-manager' ),
 										'type'        => 'text',
 										'name'        => $field_name,
 										'custom_attributes' => array( 'required' => 1 ),
@@ -423,7 +425,7 @@ return function ( $user_id_inbound ): string {
 
 						do_action( 'wcfm_membership_registration_form_before_dynamic_custom_fields' );
 
-						// Registration Custom Field Support - 1.0.5
+						// Registration Custom Field Support - 1.0.5.
 	if ( ! empty( $wcfmvm_registration_custom_fields ) && ! wcfm_is_vendor() ) {
 		foreach ( $wcfmvm_registration_custom_fields as $wcfmvm_registration_custom_field ) {
 			if ( ! isset( $wcfmvm_registration_custom_field['enable'] ) ) {
@@ -441,7 +443,7 @@ return function ( $user_id_inbound ): string {
 			$field_id                                 = md5( $field_name );
 
 			if ( ! empty( $wcfmvm_custom_infos ) ) {
-				if ( $wcfmvm_registration_custom_field['type'] == 'checkbox' ) {
+				if ( 'checkbox' === $wcfmvm_registration_custom_field['type'] ) {
 					$field_value = isset( $wcfmvm_custom_infos[ $wcfmvm_registration_custom_field['name'] ] ) ? $wcfmvm_custom_infos[ $wcfmvm_registration_custom_field['name'] ] : 'no';
 				} else {
 					$field_value = isset( $wcfmvm_custom_infos[ $wcfmvm_registration_custom_field['name'] ] ) ? $wcfmvm_custom_infos[ $wcfmvm_registration_custom_field['name'] ] : '';
@@ -455,7 +457,7 @@ return function ( $user_id_inbound ): string {
 			}
 
 			$attributes = array();
-			if ( $wcfmvm_registration_custom_field['type'] == 'mselect' ) {
+			if ( 'mselect' === $wcfmvm_registration_custom_field['type'] ) {
 				$field_class = 'wcfm_multi_select';
 				$attributes  = array(
 					'multiple' => 'multiple',
@@ -468,14 +470,14 @@ return function ( $user_id_inbound ): string {
 					$WCFM->wcfm_fields->wcfm_generate_form_field(
 						array(
 							$field_id => array(
-								'label'             => __( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
+								'label'             => esc_html__( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
 								'name'              => $field_name,
 								'custom_attributes' => $custom_attributes,
 								'type'              => 'text',
 								'class'             => 'wcfm-text',
 								'label_class'       => 'wcfm_title',
 								'value'             => $field_value,
-								'hints'             => __(
+								'hints'             => esc_html__(
 									$wcfmvm_registration_custom_field['help_text'],
 									'WCfM'
 								),
@@ -488,14 +490,14 @@ return function ( $user_id_inbound ): string {
 					$WCFM->wcfm_fields->wcfm_generate_form_field(
 						array(
 							$field_id => array(
-								'label'             => __( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
+								'label'             => esc_html__( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
 								'name'              => $field_name,
 								'custom_attributes' => $custom_attributes,
 								'type'              => 'number',
 								'class'             => 'wcfm-text',
 								'label_class'       => 'wcfm_title',
 								'value'             => $field_value,
-								'hints'             => __(
+								'hints'             => esc_html__(
 									$wcfmvm_registration_custom_field['help_text'],
 									'WCfM'
 								),
@@ -508,14 +510,14 @@ return function ( $user_id_inbound ): string {
 					$WCFM->wcfm_fields->wcfm_generate_form_field(
 						array(
 							$field_id => array(
-								'label'             => __( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
+								'label'             => esc_html__( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
 								'name'              => $field_name,
 								'custom_attributes' => $custom_attributes,
 								'type'              => 'textarea',
 								'class'             => 'wcfm-textarea',
 								'label_class'       => 'wcfm_title',
 								'value'             => $field_value,
-								'hints'             => __(
+								'hints'             => esc_html__(
 									$wcfmvm_registration_custom_field['help_text'],
 									'WCfM'
 								),
@@ -528,7 +530,7 @@ return function ( $user_id_inbound ): string {
 					$WCFM->wcfm_fields->wcfm_generate_form_field(
 						array(
 							$field_id => array(
-								'label'             => __( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
+								'label'             => esc_html__( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
 								'name'              => $field_name,
 								'custom_attributes' => $custom_attributes,
 								'type'              => 'text',
@@ -536,7 +538,7 @@ return function ( $user_id_inbound ): string {
 								'class'             => 'wcfm-text wcfm_datepicker',
 								'label_class'       => 'wcfm_title',
 								'value'             => $field_value,
-								'hints'             => __(
+								'hints'             => esc_html__(
 									$wcfmvm_registration_custom_field['help_text'],
 									'WCfM'
 								),
@@ -549,14 +551,14 @@ return function ( $user_id_inbound ): string {
 					$WCFM->wcfm_fields->wcfm_generate_form_field(
 						array(
 							$field_id => array(
-								'label'             => __( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
+								'label'             => esc_html__( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
 								'name'              => $field_name,
 								'custom_attributes' => $custom_attributes,
 								'type'              => 'time',
 								'class'             => 'wcfm-text',
 								'label_class'       => 'wcfm_title',
 								'value'             => $field_value,
-								'hints'             => __(
+								'hints'             => esc_html__(
 									$wcfmvm_registration_custom_field['help_text'],
 									'WCfM'
 								),
@@ -569,7 +571,7 @@ return function ( $user_id_inbound ): string {
 					$WCFM->wcfm_fields->wcfm_generate_form_field(
 						array(
 							$field_id => array(
-								'label'             => __( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
+								'label'             => esc_html__( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
 								'name'              => $field_name,
 								'custom_attributes' => $custom_attributes,
 								'type'              => 'checkbox',
@@ -577,7 +579,7 @@ return function ( $user_id_inbound ): string {
 								'label_class'       => 'wcfm_title checkbox-title',
 								'value'             => 'yes',
 								'dfvalue'           => $field_value,
-								'hints'             => __(
+								'hints'             => esc_html__(
 									$wcfmvm_registration_custom_field['help_text'],
 									'WCfM'
 								),
@@ -590,12 +592,12 @@ return function ( $user_id_inbound ): string {
 					$WCFM->wcfm_fields->wcfm_generate_form_field(
 						array(
 							$field_id => array(
-								'label'             => __( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
+								'label'             => esc_html__( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
 								'custom_attributes' => $custom_attributes,
 								'type'              => 'file',
 								'class'             => 'wcfm_ele',
 								'label_class'       => 'wcfm_title',
-								'hints'             => __(
+								'hints'             => esc_html__(
 									$wcfmvm_registration_custom_field['help_text'],
 									'WCfM'
 								),
@@ -613,11 +615,11 @@ return function ( $user_id_inbound ): string {
 					if ( ! empty( $select_options ) ) {
 						foreach ( $select_options as $select_option ) {
 							if ( $select_option ) {
-								$select_opt_label                  = __( ucfirst( str_replace( '-', ' ', $select_option ) ), 'wc-multivendor-membership' );
+								$select_opt_label                  = esc_html__( ucfirst( str_replace( '-', ' ', $select_option ) ), 'wc-multivendor-membership' );
 								$select_opt_label                  = apply_filters( 'wcfm_registration_custom_field_select_label', $select_opt_label, $select_option );
 								$select_opt_vals[ $select_option ] = $select_opt_label;
 							} elseif ( $is_first ) {
-								$select_opt_vals[''] = __( '-Select-', 'wc-frontend-manager' );
+								$select_opt_vals[''] = esc_html__( '-Select-', 'wc-frontend-manager' );
 							}
 							$is_first = false;
 						}
@@ -625,7 +627,7 @@ return function ( $user_id_inbound ): string {
 					$WCFM->wcfm_fields->wcfm_generate_form_field(
 						array(
 							$field_id => array(
-								'label'             => __( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
+								'label'             => esc_html__( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
 								'name'              => $field_name,
 								'custom_attributes' => $custom_attributes,
 								'attributes'        => $attributes,
@@ -634,7 +636,7 @@ return function ( $user_id_inbound ): string {
 								'label_class'       => 'wcfm_title',
 								'options'           => $select_opt_vals,
 								'value'             => $field_value,
-								'hints'             => __(
+								'hints'             => esc_html__(
 									$wcfmvm_registration_custom_field['help_text'],
 									'WCfM'
 								),
@@ -651,13 +653,13 @@ return function ( $user_id_inbound ): string {
 					$WCFM->wcfm_fields->wcfm_generate_form_field(
 						array(
 							$field_id => array(
-								'label'             => __( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
+								'label'             => esc_html__( $wcfmvm_registration_custom_field['label'], 'WCfM' ),
 								'custom_attributes' => $custom_attributes,
 								'attributes'        => array( 'style' => 'margin-bottom:25px;' ),
 								'type'              => 'html',
 								'class'             => 'wcfm_ele wcfm-html-content',
 								'label_class'       => 'wcfm_title wcfm_html_content_title',
-								'hints'             => __( $wcfmvm_registration_custom_field['help_text'], 'WCfM' ),
+								'hints'             => esc_html__( $wcfmvm_registration_custom_field['help_text'], 'WCfM' ),
 								'value'             => $content . '<div class="wcfm-clearfix"></div>',
 							),
 						)
@@ -674,11 +676,11 @@ return function ( $user_id_inbound ): string {
 				'wcfm_membership_registration_fields_password',
 				array(
 					'passoword'         => array(
-						'label'             => __( 'Password', 'wc-multivendor-membership' ),
+						'label'             => esc_html__( 'Password', 'wc-multivendor-membership' ),
 						'type'              => 'password',
 						'custom_attributes' => array(
 							'required'         => 1,
-							'mismatch_message' => __( 'Password and Confirm-password are not same.', 'wc-multivendor-membership' ),
+							'mismatch_message' => esc_html__( 'Password and Confirm-password are not same.', 'wc-multivendor-membership' ),
 						),
 						'class'             => 'wcfm-text wcfm_ele ',
 						'label_class'       => 'wcfm_ele wcfm_title',
@@ -689,7 +691,7 @@ return function ( $user_id_inbound ): string {
 						'value' => '<div id="password-strength-status"></div>',
 					),
 					'confirm_pwd'       => array(
-						'label'             => __( 'Confirm Password', 'wc-multivendor-membership' ),
+						'label'             => esc_html__( 'Confirm Password', 'wc-multivendor-membership' ),
 						'type'              => 'password',
 						'custom_attributes' => array( 'required' => 1 ),
 						'class'             => 'wcfm-text wcfm_ele ',
@@ -704,21 +706,21 @@ return function ( $user_id_inbound ): string {
 						do_action( 'end_wcfm_membership_registration_form' );
 
 						// Terms & Conditions support add - 1.1.9.
-	if ( $terms == 'active' ) {
+	if ( 'active' === $terms ) {
 		?>
-							<input type="checkbox" id="terms" name="wcfmvm_static_infos[terms]" class="wcfm-checkbox" value="<?php _e( 'Agree', 'wc-multivendor-membership' ); ?>" data-required="1" data-required_message="<?php _e( 'Terms & Conditions', 'wc-multivendor-membership' ); ?>: <?php _e( 'This field is required.', 'wc-frontend-manager' ); ?>">
+							<input type="checkbox" id="terms" name="wcfmvm_static_infos[terms]" class="wcfm-checkbox" value="<?php esc_html_e( 'Agree', 'wc-multivendor-membership' ); ?>" data-required="1" data-required_message="<?php esc_html_e( 'Terms & Conditions', 'wc-multivendor-membership' ); ?>: <?php esc_html_e( 'This field is required.', 'wc-frontend-manager' ); ?>">
 							<p class="terms_title wcfm_title">
 								<strong>
 									<span class="required">*</span>
 				<?php
-				_e( 'Agree', 'wc-multivendor-membership' );
+				esc_html_e( 'Agree', 'wc-multivendor-membership' );
 				echo '&nbsp;&nbsp;';
 				if ( $terms_page ) {
 					?>
-										<a target="_blank" href="<?php echo get_permalink( $terms_page ); ?>"><?php _e( 'Terms & Conditions', 'wc-multivendor-membership' ); ?></a>
+										<a target="_blank" href="<?php echo esc_url ( get_permalink( $terms_page ) ); ?>"><?php esc_html_e( 'Terms & Conditions', 'wc-multivendor-membership' ); ?></a>
 																			<?php
 				} else {
-					_e( 'Terms & Conditions', 'wc-multivendor-membership' );
+					esc_html_e( 'Terms & Conditions', 'wc-multivendor-membership' );
 				}
 				?>
 								</strong>
@@ -768,10 +770,10 @@ return function ( $user_id_inbound ): string {
 				?>
 				" id="wcfm_membership_register_button" class="wcfm_submit_button" />
 				<?php if ( ! apply_filters( 'wcfmvm_is_allow_registration_first', false ) && is_wcfm_membership_page() ) { ?>
-				<a href="<?php echo apply_filters( 'wcfm_change_membership_url', get_wcfm_membership_url() ); ?>" class="wcfm_submit_button"><<&nbsp;<?php _e( 'Plans', 'wc-multivendor-membership' ); ?></a>
+				<a href="<?php echo apply_filters( 'wcfm_change_membership_url', get_wcfm_membership_url() ); ?>" class="wcfm_submit_button"><<&nbsp;<?php esc_html_e( 'Plans', 'wc-multivendor-membership' ); ?></a>
 				<?php } ?>
 				<?php } else { ?>
-					<?php _e( 'Your user role not allowed to subscribe!', 'wc-multivendor-membership' ); ?>
+					<?php esc_html_e( 'Your user role is not allowed to subscribe', 'wc-multivendor-membership' ); ?>
 				<?php } ?>
 			</div>
 			<div class="wcfm-clearfix"></div>

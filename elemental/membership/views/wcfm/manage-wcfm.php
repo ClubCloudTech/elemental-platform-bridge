@@ -11,6 +11,8 @@
  * @param string $add_account_form - add an account form
  */
 
+// phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
+
 use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\Library\MembershipUser;
 
@@ -34,18 +36,12 @@ data-
 			<div class="elemental-clear"></div>
 
 			<?php
-			$userid = get_current_user_id();
-			$user = get_user_by( 'id', $userid );
-			
-			echo var_dump( $string );
-			//echo Factory::get_instance( MembershipUser::class )->get_store_meta_info( get_current_user_id(), 'billing_company' ).'bc';
 			$current_step    = wcfm_membership_registration_current_step();
 			$user_onboarding = Factory::get_instance( MembershipUser::class )->is_user_onboarding( $user_id_inbound );
 
 			if ( ! wcfm_is_vendor() && ( wcfm_is_allowed_membership() || current_user_can( 'administrator' ) || current_user_can( 'shop_manager' ) || $user_onboarding ) ) {
-				$application_status = '';
-
-					$member_id          = apply_filters( 'wcfm_current_vendor_id', $user_id_inbound );
+				$application_status     = '';
+				$member_id              = apply_filters( 'wcfm_current_vendor_id', $user_id_inbound );
 					$application_status = get_user_meta( $member_id, 'wcfm_membership_application_status', true );
 
 				if ( $application_status && ( 'pending' === $application_status ) ) {
@@ -55,6 +51,7 @@ data-
 					$WCFMvm->template->get_template( 'vendor_thankyou.php' );
 
 				} else {
+					//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - Registration form already escaped.
 					echo $registration( $user_id_inbound );
 				}
 			} elseif ( isset( $_REQUEST['vmstep'] ) && $current_step && ( 'thankyou' === $current_step ) ) {

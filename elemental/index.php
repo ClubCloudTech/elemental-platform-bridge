@@ -8,13 +8,13 @@
 declare(strict_types=1);
 
 /**
- * Plugin Name:         ClubCloud Elemental Platform Bridge
+ * Plugin Name:         Elemental Platform by ClubCloud
  * Plugin URI:          https://clubcloud.tech
  * Description:         Adds Premium Video Integration Features for BuddyPress, WooCommerce, WooCommerce Bookings, WooComm Front End Manager(WCFM), and adds personal, and site video rooms automatically. Extras also adds per user, room, store and group storage of video settings.
- * Version:             0.8
+ * Version:             0.9
  * Requires PHP:        7.4
  * Requires at least:   5.6
- * Author:              Fred Baumhardt, Alex Dale, Alec Sammon
+ * Author:              Fred Baumhardt, Alex Dale
  * Author URI:          https://clubcloud.tech/
  * License:             GPLv2 or later
  * License URI:         https://www.gnu.org/licenses/gpl-2.0.html

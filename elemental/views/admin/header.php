@@ -5,6 +5,8 @@
  * @package ElementalPlugin\Views\Admin
  */
 
+use ElementalPlugin\Plugin;
+
 return function (
 	string $active_tab,
 	array $tabs,
@@ -45,7 +47,7 @@ return function (
 			$active = ' nav-tab-active';
 		}
 
-		echo '<a class="nav-tab' . esc_attr( $active ) . '" href="?page=my-video-room-extras&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_name ) . '</a>';
+		echo '<a class="nav-tab' . esc_attr( $active ) . '" href="?page=' . esc_textarea( Plugin::ELEMENTAL_SLUG ) . '&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_name ) . '</a>';
 	}
 	?>
 	</h2>

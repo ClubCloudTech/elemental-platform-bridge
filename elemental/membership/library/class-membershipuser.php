@@ -11,6 +11,7 @@ use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Membership\Membership;
 use ElementalPlugin\WCFM\WCFMTools;
+use \MyVideoRoomPlugin\Library\Ajax;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -19,6 +20,12 @@ class MembershipUser {
 
 	const USER_META_KEY_PENDING   = 'elemental_user_pending';
 	const USER_META_VALUE_PENDING = 'elemental_onboard_pending';
+
+	const USERSUBS_META_KEY_PENDING                = 'elemental_usersubs_pending';
+	const USERSUBS_META_VALUE_PENDING              = 'elemental_onboardsubs_pending';
+	const USERSUBS_META_VALUE_ONBOARD_DATA_PENDING = 'elemental_onboardsubs_data_pending';
+
+	const USERSUBS_META_KEY_MEMBERSHIP_PRODUCT = 'elemental_membership_product';
 
 	/**
 	 * Create WordPress user from Membership form Ajax call.
@@ -96,6 +103,65 @@ class MembershipUser {
 			$meta_key,
 			$meta_value
 		);
+
+		return $user_id;
+	}
+
+	/**
+	 * Create WordPress user from Indivual Subscriber Add form Ajax call.
+	 *
+	 * @param int $membership - the membership ID if exists.
+	 * @return integer|null
+	 */
+	public function create_indvsubs_wordpress_user( int $membership = null ): ?int {
+		$first_name = Factory::get_instance( Ajax::class )->get_string_parameter( 'first_name' );
+		$last_name  = Factory::get_instance( Ajax::class )->get_string_parameter( 'last_name' );
+		$email      = Factory::get_instance( Ajax::class )->get_string_parameter( 'email' );
+
+		// Validations.
+		if (
+			strlen( $first_name ) < 3 ||
+			strlen( $last_name ) < 3 ||
+			! \sanitize_email( $email ) ||
+			\username_exists( $email )
+			) {
+			return false;
+		}
+
+		$password = wp_generate_password( 12, false );
+		$user_id  = wp_create_user( $email, $password, $email );
+		if ( ! $user_id ) {
+			return false;
+		}
+		// Notify User of Password.
+		$this->notify_new_child_user( $password, $email, $first_name );
+		// Update Additional User Parameters.
+		wp_update_user(
+			array(
+				'ID'           => $user_id,
+				'nickname'     => $first_name,
+				'display_name' => $first_name . ' ' . $last_name,
+				'first_name'   => $first_name,
+				'last_name'    => $last_name,
+			)
+		);
+		$meta_key   = self::USERSUBS_META_KEY_PENDING;
+		$meta_value = self::USERSUBS_META_VALUE_PENDING;
+		add_user_meta(
+			$user_id,
+			$meta_key,
+			$meta_value
+		);
+		if ( $membership ) {
+			$member_meta_key = self::USERSUBS_META_KEY_MEMBERSHIP_PRODUCT;
+			add_user_meta(
+				$user_id,
+				$member_meta_key,
+				$membership
+			);
+		}
+
+		do_action( 'update_individual_subs_registered_fields', $user_id );
 
 		return $user_id;
 	}
@@ -185,6 +251,26 @@ class MembershipUser {
 	public function is_user_onboarding( int $user_id ): bool {
 		$meta_key = get_user_meta( $user_id, self::USER_META_KEY_PENDING );
 		if ( self::USER_META_VALUE_PENDING === $meta_key[0] ) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+	}
+
+	/**
+	 * Checks if a user is an onboarding pending user.
+	 *
+	 * @param int $user_id - The User_ID to be verified.
+	 *
+	 * @return bool
+	 */
+	public function is_user_subscription_onboarding( int $user_id ): bool {
+		$meta_key = get_user_meta( $user_id, self::USERSUBS_META_KEY_PENDING );
+		if ( self::USERSUBS_META_VALUE_PENDING === $meta_key[0] ) {
 
 			return true;
 

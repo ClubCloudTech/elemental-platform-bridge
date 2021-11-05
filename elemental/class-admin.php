@@ -11,7 +11,7 @@ namespace ElementalPlugin;
 
 use \MyVideoRoomPlugin\Admin as MVRAdmin;
 use ElementalPlugin\Membership\Library\MembershipShortCode;
-use \MyVideoRoomPlugin\SiteDefaults;
+
 
 
 /**
@@ -39,22 +39,23 @@ class Admin {
 			'Elemental Configuration',
 			'Elemental',
 			'manage_options',
-			'my-video-room-extras',
-			array( $this, 'create_extras_admin_page' ),
+			'elemental',
+			array( $this, 'create_elemental_admin_page' ),
 			'dashicons-menu-alt3'
 		);
 	}
 	/**
 	 * Create the extra admin page contents.
 	 */
-	public function create_extras_admin_page(): void {
+	public function create_elemental_admin_page(): void {
      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Not required
 		$active_tab = $_GET['tab'] ?? null;
 		\wp_enqueue_script( 'mvr-admin-ajax-js' );
 		Factory::get_instance( MVRAdmin::class )->init();
+
 		$tabs = array(
-			'admin-settings-plugin'     => 'Plugin Settings',
 			'admin-settings-membership' => 'Membership Settings',
+			'admin-settings-plugin'     => 'Plugin Settings',
 			'admin-settings-bookings'   => 'WooComm Bookings Integration',
 			'admin-settings-wcfm'       => 'WCFM Store Integration',
 		);
@@ -63,10 +64,14 @@ class Admin {
 			$active_tab = array_key_first( $tabs );
 		}
 
-		$messages = array();
-		$render   = include __DIR__ . '/views/admin/' . $active_tab . '.php';
+		$messages      = array();
+		$header_render = include __DIR__ . '/views/admin/header.php';
+		//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $header_render( $active_tab, $tabs, $messages );
 
-		echo $render( $active_tab, $tabs, $messages );
+		$render = include __DIR__ . '/views/admin/' . $active_tab . '.php';
+		//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $render();
 	}
 
 	/**

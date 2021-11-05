@@ -46,10 +46,7 @@ return function (
 			<h2><?php esc_html_e( 'Manage Sponsored Accounts', 'myvideoroom' ); ?></h2>
 
 		<?php
-
-		if ( $has_new = apply_filters( 'wcfm_add_new_staff_sub_menu', true ) ) {
-			echo '<a id="add-new-button" class="add_new_wcfmesc_html_ele_dashboard text_tip" href="' . get_wcfm_shop_staffs_manage_url() . '" data-tip="' . __( 'Add New Account', 'myvideoroom' ) . '"><span class="wcfmfa fa-user-plus"></span><span class="text">' . __( 'Add New', 'wc-frontend-manager' ) . '</span></a>';
-		}
+			echo '<a id="add-new-button" class="add_new_wcfmesc_html_ele_dashboard text_tip" href="' . esc_url( get_wcfm_shop_staffs_manage_url() ) . '" data-tip="' . esc_html__( 'Add New Account', 'myvideoroom' ) . '"><span class="wcfmfa fa-user-plus"></span><span class="text">' . esc_html__( 'Add New', 'wc-frontend-manager' ) . '</span></a>';
 		?>
 
 		<?php
