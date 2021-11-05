@@ -717,7 +717,7 @@ return function ( $user_id_inbound ): string {
 				echo '&nbsp;&nbsp;';
 				if ( $terms_page ) {
 					?>
-										<a target="_blank" href="<?php echo esc_url ( get_permalink( $terms_page ) ); ?>"><?php esc_html_e( 'Terms & Conditions', 'wc-multivendor-membership' ); ?></a>
+										<a target="_blank" href="<?php echo esc_url( get_permalink( $terms_page ) ); ?>"><?php esc_html_e( 'Terms & Conditions', 'wc-multivendor-membership' ); ?></a>
 																			<?php
 				} else {
 					esc_html_e( 'Terms & Conditions', 'wc-multivendor-membership' );

@@ -8,6 +8,7 @@
 namespace ElementalPlugin\WCFM;
 
 use ElementalPlugin\Factory;
+use ElementalPlugin\WCFM\Library\WCFMShortcodes;
 
 /**
  * Class WCFM Connect
@@ -22,6 +23,7 @@ class WCFM {
 	 */
 	public function init() {
 		Factory::get_instance( WCFMSearch::class )->init();
+		Factory::get_instance( WCFMShortcodes::class )->init();
 		add_shortcode( self::SHORTCODE_DISPLAY_PRODUCT, array( Factory::get_instance( WCFMTools::class ), 'display_products' ) );
 		add_shortcode( self::SHORTCODE_STORE_FIELDS, array( Factory::get_instance( WCFMTools::class ), 'wcfm_store_display' ) );
 	}

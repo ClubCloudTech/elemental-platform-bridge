@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\WCFM;
 
-use BuddyPress;
+
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
