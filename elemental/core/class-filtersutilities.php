@@ -1,10 +1,14 @@
 <?php
+/**
+ * Handles Addin Filters and Tools for WCFM.
+ *
+ * @package elemental/membership/views/onboarding/organisation/add-new-organisation.php
+ */
 
 namespace ElementalPlugin\Core;
 
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Shortcode as Shortcode;
-use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Factory;
 
 /**
@@ -12,6 +16,13 @@ use ElementalPlugin\Factory;
  */
 class FiltersUtilities extends Shortcode {
 
+
+	const VIDEO_STOREFRONT_SLUG    = 'videospace';
+	const VIDEO_STOREFRONT_NAME    = 'Video Space';
+	const STAFF_STOREFRONT_SLUG    = 'connections';
+	const STAFF_STOREFRONT_NAME    = 'Connections';
+	const PRODUCTS_STOREFRONT_SLUG = 'products';
+	const PRODUCTS_STOREFRONT_NAME = 'Products';
 
 	/**
 	 * Install the shortcode
@@ -41,18 +52,33 @@ class FiltersUtilities extends Shortcode {
 
 		add_shortcode( 'menu', array( $this, 'menu' ) );
 
-		// Action Filters to Implement a Video Hub system in WCFM Elementor to deploy a video consult room
-		// WCFM Template to Implement Video Hub Tabbed menu
+		// WCFM Template to Implement Video Hub Tabbed menu.
 		\add_action(
 			'wcfmmp_rewrite_rules_loaded',
 			function ( $wcfm_store_url ) {
-				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '=true', 'top' );
-				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) . '=true', 'top' );
+				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::VIDEO_STOREFRONT_SLUG . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . self::VIDEO_STOREFRONT_SLUG . '=true', 'top' );
+				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::VIDEO_STOREFRONT_SLUG . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . self::VIDEO_STOREFRONT_SLUG . '=true', 'top' );
+
+				// Test for Products.
+				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::PRODUCTS_STOREFRONT_SLUG . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . self::PRODUCTS_STOREFRONT_SLUG . '=true', 'top' );
+				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::PRODUCTS_STOREFRONT_SLUG . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . self::PRODUCTS_STOREFRONT_SLUG . '=true', 'top' );
+				\add_filter(
+					'wcfmp_store_tabs_url',
+					function ( $store_tab_url, $tab ) {
+						if ( self::PRODUCTS_STOREFRONT_SLUG === $tab ) {
+							$store_tab_url .= self::VIDEO_STOREFRONT_SLUG;
+						}
+
+						return $store_tab_url;
+					},
+					50,
+					2
+				);
 
 				\add_filter(
 					'query_vars',
 					function ( $vars ) {
-						$vars[] = Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
+						$vars[] = self::VIDEO_STOREFRONT_SLUG;
 
 						return $vars;
 					},
@@ -62,7 +88,7 @@ class FiltersUtilities extends Shortcode {
 				\add_filter(
 					'wcfmmp_store_tabs',
 					function ( $store_tabs ) {
-						$store_tabs[ Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) ] = Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront' );
+						$store_tabs[ self::VIDEO_STOREFRONT_SLUG ] = self::VIDEO_STOREFRONT_NAME;
 
 						return $store_tabs;
 					},
@@ -73,8 +99,8 @@ class FiltersUtilities extends Shortcode {
 				\add_filter(
 					'wcfmp_store_tabs_url',
 					function ( $store_tab_url, $tab ) {
-						if ( Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) === $tab ) {
-							$store_tab_url .= Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
+						if ( self::VIDEO_STOREFRONT_SLUG === $tab ) {
+							$store_tab_url .= self::VIDEO_STOREFRONT_SLUG;
 						}
 
 						return $store_tab_url;
@@ -86,8 +112,8 @@ class FiltersUtilities extends Shortcode {
 				\add_filter(
 					'wcfmp_store_default_query_vars',
 					function ( $query_var ) {
-						if ( get_query_var( Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' ) ) ) {
-							$query_var = Factory::get_instance( SiteDefaults::class )->defaults( 'video_storefront_slug' );
+						if ( get_query_var( self::VIDEO_STOREFRONT_SLUG ) ) {
+							$query_var = self::VIDEO_STOREFRONT_SLUG;
 						}
 
 						return $query_var;
@@ -100,8 +126,8 @@ class FiltersUtilities extends Shortcode {
 				\add_action(
 					'wcfmmp_rewrite_rules_loaded',
 					function ( $wcfm_store_url ) {
-						add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '=true', 'top' );
-						add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) . '=true', 'top' );
+						add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::STAFF_STOREFRONT_SLUG . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . self::STAFF_STOREFRONT_SLUG . '=true', 'top' );
+						add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::STAFF_STOREFRONT_SLUG . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . self::STAFF_STOREFRONT_SLUG . '=true', 'top' );
 					},
 					50
 				);
@@ -109,7 +135,7 @@ class FiltersUtilities extends Shortcode {
 				\add_filter(
 					'query_vars',
 					function ( $vars ) {
-						$vars[] = Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' );
+						$vars[] = self::STAFF_STOREFRONT_SLUG;
 
 						return $vars;
 					},
@@ -119,7 +145,7 @@ class FiltersUtilities extends Shortcode {
 				\add_filter(
 					'wcfmmp_store_tabs',
 					function ( $store_tabs ) {
-						$store_tabs[ Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) ] = Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront' );
+						$store_tabs[ self::STAFF_STOREFRONT_SLUG ] = self::STAFF_STOREFRONT_NAME;
 
 						return $store_tabs;
 					},
@@ -130,8 +156,8 @@ class FiltersUtilities extends Shortcode {
 				\add_filter(
 					'wcfmp_store_tabs_url',
 					function ( $store_tab_url, $tab ) {
-						if ( Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) === $tab ) {
-							$store_tab_url .= Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' );
+						if ( self::STAFF_STOREFRONT_SLUG === $tab ) {
+							$store_tab_url .= self::STAFF_STOREFRONT_SLUG;
 						}
 
 						return $store_tab_url;
@@ -143,8 +169,8 @@ class FiltersUtilities extends Shortcode {
 				\add_filter(
 					'wcfmp_store_default_query_vars',
 					function ( $query_var ) {
-						if ( get_query_var( Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) ) ) {
-							$query_var = Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' );
+						if ( get_query_var( self::STAFF_STOREFRONT_SLUG ) ) {
+							$query_var = self::STAFF_STOREFRONT_SLUG;
 						}
 
 						return $query_var;
@@ -155,7 +181,7 @@ class FiltersUtilities extends Shortcode {
 				\add_filter(
 					'wcfmmp_store_default_template',
 					function ( $template, $tab ) {
-						if ( Factory::get_instance( SiteDefaults::class )->defaults( 'staff_storefront_slug' ) === $tab ) {
+						if ( self::STAFF_STOREFRONT_SLUG === $tab ) {
 							$template = 'store/connections.php';
 						}
 

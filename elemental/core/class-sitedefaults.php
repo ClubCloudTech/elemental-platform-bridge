@@ -466,10 +466,8 @@ class SiteDefaults extends Shortcode {
 				return 3120;
 
 				// Taxonomies
-			case 'video_storefront': // The Friendly Name Video Storefront Displays
-				return 'Video Space';
-			case 'video_storefront_slug': // The Slug that Video Storefront uses to render
-				return 'videospace';
+
+
 			case 'staff_storefront': // The Friendly Name Connections Page Displays
 				return 'Connections';
 			case 'staff_storefront_slug': // The Slug that Connections Page uses to render
