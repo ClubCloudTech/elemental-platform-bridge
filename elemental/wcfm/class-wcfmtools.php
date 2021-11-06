@@ -320,7 +320,5 @@ class WCFMTools {
 			default:
 				return $store_info['store_name'];
 		}
-
 	}
-
 }
