@@ -27,15 +27,29 @@ class WCFMShortcodes {
 	}
 
 	/**
-	 * Show WCFM Staff.
+	 * Show WCFM Staff Shortcode Handler (or Staff and Owner).
 	 *
+	 * @param array $attr - Shortcode Attributes.
 	 * @return string
 	 */
-	public function show_wcfm_staff(): string {
+	public function show_wcfm_staff( $attr ): string {
 		global $WCFM;
+		if ( isset( $attr['show_owner'] ) ) {
+			$show_owner = $attr['show_owner'];
+		}
+		return $this->show_wcfm_staff_worker( $show_owner );
+	}
 
-		$vendor_id = Factory::get_instance( WCFMTools::class )->get_wcfm_page_owner();
-			global $WCFM;
+	/**
+	 * Show WCFM Staff (and optionally Owner).
+	 *
+	 * @param bool $show_owner - Whether to Return the Owner as well as team.
+	 * @return string
+	 */
+	public function show_wcfm_staff_worker( bool $show_owner = null ): string {
+
+			$vendor_id = Factory::get_instance( WCFMTools::class )->get_wcfm_page_owner();
+
 			$staff_user_role = apply_filters( 'wcfm_staff_user_role', 'shop_staff' );
 			$args            = array(
 				'role__in'    => array( $staff_user_role ),
@@ -48,12 +62,19 @@ class WCFMShortcodes {
 				'count_total' => false,
 			);
 
-			$wcfm_staff      = get_users( $args );
-			$result_count    = count( $wcfm_staff );
-			$shop_staff_html = '';
+			$wcfm_staff   = get_users( $args );
+			$result_count = count( $wcfm_staff );
+
+			if ( $show_owner ) {
+				$shop_staff_html = $vendor_id;
+				$is_first        = false;
+			} else {
+				$shop_staff_html = '';
+				$is_first        = true;
+			}
 
 			if ( $result_count >= 1 ) {
-				$is_first = true;
+
 				foreach ( $wcfm_staff as $wcfm_staff_member ) {
 					if ( ! $is_first ) {
 						$shop_staff_html .= ', ';
@@ -61,7 +82,8 @@ class WCFMShortcodes {
 					$shop_staff_html .= $wcfm_staff_member->ID;
 					$is_first         = false;
 				}
-				return do_shortcode( '[youzify_members include="' . $shop_staff_html . '" ]' );
+
+				return do_shortcode( '[youzer_members type="alphabetical" include="' . $shop_staff_html . '" ]' );
 			}
 			return '<h1>' . esc_html__( 'This Organisation has no Member Accounts', 'myvideoroom' ) . '</h1>';
 	}

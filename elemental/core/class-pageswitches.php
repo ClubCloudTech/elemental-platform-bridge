@@ -14,7 +14,7 @@ use ElementalPlugin\Shortcode as Shortcode;
 use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Core\Security;
-use ElementalPlugin\DAO\ModuleConfig;
+
 use ElementalPlugin\Setup\Setup;
 
 
@@ -35,7 +35,7 @@ class PageSwitches extends Shortcode {
 	 * Install the shortcode
 	 */
 	public function install() {
-		$this->add_shortcode( 'productpage', array( $this, 'call_product_page_shortcode' ) );
+
 		$this->add_shortcode( 'loginswitch', array( $this, 'login_switch_shortcode' ) );
 		$this->add_shortcode( 'registerswitch', array( $this, 'register_switch_shortcode' ) );
 		$this->add_shortcode( 'chgpwdswitch', array( $this, 'change_password_switch_shortcode' ) );
@@ -139,16 +139,6 @@ class PageSwitches extends Shortcode {
 		} else {
 			return $this->get_instance( \ElementalPlugin\Core\VideoControllers::class )->site_videoroom_guest_shortcode();
 		}
-	}
-
-	/**
-	 * Product Archive Main Page Switchshortcode
-	 * This shortcode is used to switch the product archives to different templates
-	 *
-	 * @return string
-	 */
-	public function call_product_page_shortcode() {
-		return do_shortcode( '[elementor-template id="26439"]' );
 	}
 
 

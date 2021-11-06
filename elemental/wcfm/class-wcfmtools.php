@@ -277,6 +277,27 @@ class WCFMTools {
 	}
 
 	/**
+	 * Detects whether Page is a WCFM Store.
+	 *
+	 * @return bool
+	 */
+	public function is_wcfm_store(): bool {
+
+		if ( ! \function_exists( 'is_shop' ) || ! \function_exists( 'is_product_category' ) ) {
+			return false;
+		}
+
+		$is_shop    = is_shop();
+		$is_archive = is_product_category();
+
+		if ( $is_shop && ! $is_archive ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Display parent product owners outside of WCFM
 	 *
 	 * @param string $id - the store ID (leave blank if using this from inside Vendor's Store page).

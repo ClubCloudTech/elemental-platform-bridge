@@ -12,21 +12,23 @@ use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Shortcode as Shortcode;
 use \ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Membership\Library\WooCommerceHelpers;
 
 /**
  * Class WCFMHelpers
  */
-class WCFMHelpers extends Shortcode {
+class WCFMHelpers {
 
-
-
+	const SHORTCODE_ARCHIVE_TEMPLATE_REDIRECT = 'elemental_wcfm_archive_switch';
+	const SHORTCODE_STORELINK                 = 'elemental_storelink';
 
 	/**
 	 * Install the shortcode
 	 */
-	public function install() {
+	public function init() {
 
-		$this->add_shortcode( 'storelink', array( $this, 'store_link_shortcode' ) );
+		add_shortcode( self::SHORTCODE_STORELINK, array( $this, 'store_link_shortcode' ) );
+		add_shortcode( self::SHORTCODE_ARCHIVE_TEMPLATE_REDIRECT, array( $this, 'switch_product_archive' ) );
 	}
 
 
@@ -203,6 +205,16 @@ class WCFMHelpers extends Shortcode {
 		$render             = ( require __DIR__ . '/../views/table-sponsored-accounts.php' );
 
 		return $render( $sponsored_accounts );
+
+	}
+
+	public function switch_product_archive() {
+		$is_wcfm_shop = Factory::get_instance( WCFMTools::class )->is_wcfm_store();
+		if ( $is_wcfm_shop ) {
+			return \do_shortcode( '[elementor-template id="' . \get_option( WooCommerceHelpers::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '"]' );
+		} else {
+			return \do_shortcode( '[elementor-template id="' . \get_option( WooCommerceHelpers::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID ) . '"]' );
+		}
 
 	}
 

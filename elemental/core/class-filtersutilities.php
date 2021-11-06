@@ -59,20 +59,30 @@ class FiltersUtilities extends Shortcode {
 				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::VIDEO_STOREFRONT_SLUG . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . self::VIDEO_STOREFRONT_SLUG . '=true', 'top' );
 				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::VIDEO_STOREFRONT_SLUG . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . self::VIDEO_STOREFRONT_SLUG . '=true', 'top' );
 
-				// Test for Products.
-				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::PRODUCTS_STOREFRONT_SLUG . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . self::PRODUCTS_STOREFRONT_SLUG . '=true', 'top' );
-				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::PRODUCTS_STOREFRONT_SLUG . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . self::PRODUCTS_STOREFRONT_SLUG . '=true', 'top' );
+				// Fix for Elementor 404 Bug in WCFM Stores.
 				\add_filter(
-					'wcfmp_store_tabs_url',
-					function ( $store_tab_url, $tab ) {
-						if ( self::PRODUCTS_STOREFRONT_SLUG === $tab ) {
-							$store_tab_url .= self::VIDEO_STOREFRONT_SLUG;
-						}
-
-						return $store_tab_url;
+					'wcfmmp_is_allow_elementor_is_post_type_archive_reset',
+					function () {
+						return false;
 					},
-					50,
+					99,
 					2
+				);
+				\add_filter(
+					'wcfmp_store_default_query_vars',
+					function ( $query_var ) {
+						$query_var = self::VIDEO_STOREFRONT_SLUG;
+						return $query_var;
+					},
+					50
+				);
+				\add_filter(
+					'wcfmmp_store_default_query_vars',
+					function ( $query_var ) {
+						$query_var = self::VIDEO_STOREFRONT_SLUG;
+						return $query_var;
+					},
+					50
 				);
 
 				\add_filter(
@@ -200,6 +210,7 @@ class FiltersUtilities extends Shortcode {
 		\add_filter( 'big_image_size_threshold', '__return_false' );
 
 		add_shortcode( 'debughook', array( $this, 'debug_hook' ) );
+		add_shortcode( 'debugvars', array( $this, 'debug_vars' ) );
 		add_shortcode( 'logout', array( $this, 'logout' ) );
 	}
 
@@ -224,6 +235,9 @@ class FiltersUtilities extends Shortcode {
 				$debug[] = $tags;
 			}
 		);
+	}
+	public function debug_vars() {
+		echo \debug_print_backtrace();
 	}
 
 	/**
