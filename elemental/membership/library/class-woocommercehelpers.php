@@ -17,8 +17,8 @@ use \MyVideoRoomPlugin\Library\Ajax;
  */
 class WooCommerceHelpers {
 
-	const SETTING_ONBOARD_SLUG              = 'elemental-onboard-slug';
-	const SETTING_ONBOARD_POST_SUB_SLUG     = 'elemental-post-sub-slug';
+	const SETTING_ONBOARD_SLUG                 = 'elemental-onboard-slug';
+	const SETTING_ONBOARD_POST_SUB_SLUG        = 'elemental-post-sub-slug';
 	const SETTING_WCFM_ARCHIVE_SHORTCODE_ID    = 'elemental-WCFM-archive';
 	const SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID = 'elemental-product-archive';
 

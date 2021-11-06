@@ -37,6 +37,7 @@ class WCFMShortcodes {
 		if ( isset( $attr['show_owner'] ) ) {
 			$show_owner = $attr['show_owner'];
 		}
+
 		return $this->show_wcfm_staff_worker( $show_owner );
 	}
 

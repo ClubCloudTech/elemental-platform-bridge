@@ -10,7 +10,6 @@ namespace ElementalPlugin\WCFM;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
-use ElementalPlugin\Shortcode as Shortcode;
 use \ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Membership\Library\WooCommerceHelpers;
 
@@ -30,16 +29,6 @@ class WCFMHelpers {
 		add_shortcode( self::SHORTCODE_STORELINK, array( $this, 'store_link_shortcode' ) );
 		add_shortcode( self::SHORTCODE_ARCHIVE_TEMPLATE_REDIRECT, array( $this, 'switch_product_archive' ) );
 	}
-
-
-	public function display_products_shortcode( $params = array() ) {
-		$id = $params['id'] ?? null;
-
-		return $this->display_products( $id );
-	}
-
-
-
 
 	/**
 	 * Store_link_shortcode - returns formatted title information for templates
@@ -207,15 +196,19 @@ class WCFMHelpers {
 		return $render( $sponsored_accounts );
 
 	}
-
-	public function switch_product_archive() {
+	/**
+	 * Switch Product Archive
+	 * Switches the Product Archive Template inside WCFM stores to a given template, and normal product archives to another.
+	 * Used as WCFM without template overrides always displays product archive pages.
+	 *
+	 * @return string
+	 */
+	public function switch_product_archive(): string {
 		$is_wcfm_shop = Factory::get_instance( WCFMTools::class )->is_wcfm_store();
 		if ( $is_wcfm_shop ) {
 			return \do_shortcode( '[elementor-template id="' . \get_option( WooCommerceHelpers::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '"]' );
 		} else {
 			return \do_shortcode( '[elementor-template id="' . \get_option( WooCommerceHelpers::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID ) . '"]' );
 		}
-
 	}
-
 }

@@ -63,22 +63,7 @@ return function (
 		<div id="confirmation_<?php echo esc_textarea( $memberships['level'] ); ?>" class = "elemental-membership-displayconf"></div>
 		</td>
 		<td>
-	<?php
-	foreach ( $edit_actions as $action ) {
-		?>
-				<a href="<?php echo esc_url( $action[1] ); ?>"
-					class="mvr-icons <?php echo esc_attr( $action[2] ); ?>"
-					data-level="<?php echo esc_attr( $memberships['level'] ); ?>"
-					title="<?php echo esc_attr( $action[0] ); ?>"
-		<?php
-		foreach ( $actions[3] ?? array() as $key => $value ) {
-			echo esc_attr( $key ) . '="' . esc_attr( $value ) . '" ';
-		}
-		?>
-				></a>
-		<?php
-	}
-	?>
+		Table;
 		</td>
 	</tr>
 
