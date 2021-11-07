@@ -89,7 +89,7 @@ class Membership {
 		add_shortcode( self::SHORTCODE_LOGOUT, array( $this, 'elemental_logout' ) );
 		// Legacy Shortcodes.
 		add_shortcode( self::SHORTCODE_LEGACY_LOGOUT, array( $this, 'elemental_logout' ) );
-		
+
 	}
 	/**
 	 * Activate Functions for Membership.
