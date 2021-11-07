@@ -26,7 +26,7 @@ class WCFMShortcodes {
 	const SHORTCODE_GETNAME    = 'elemental_wcfm_storename';
 
 	// Backward Compatible legacy shortcode names.
-	const SHORTCODE_BACK_COMPAT_GETNAME = 'ccname';
+	const SHORTCODE_BACK_COMPAT_GETNAME = 'ccmenu';
 
 	/**
 	 * Runtime Shortcodes and Setup
