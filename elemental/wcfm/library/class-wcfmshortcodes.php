@@ -310,7 +310,7 @@ class WCFMShortcodes {
 		if ( ! $store_id ) {
 			$store_id = Factory::get_instance( WCFMTools::class )->get_wcfm_page_owner();
 		}
-		echo $store_id;
+
 		$store_user = \wcfmmp_get_store( $store_id );
 		$store_info = $store_user->get_shop_info();
 

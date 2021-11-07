@@ -8,6 +8,7 @@
 namespace ElementalPlugin\WCFM;
 
 use ElementalPlugin\Factory;
+use ElementalPlugin\WCFM\Library\WCFMFilters;
 use ElementalPlugin\WCFM\Library\WCFMHelpers;
 use ElementalPlugin\WCFM\Library\WCFMSearch;
 use ElementalPlugin\WCFM\Library\WCFMShortcodes;
@@ -26,6 +27,7 @@ class WCFM {
 		Factory::get_instance( WCFMShortcodes::class )->init();
 		Factory::get_instance( WCFMHelpers::class )->init();
 		Factory::get_instance( WCFMTools::class )->init();
+		Factory::get_instance( WCFMFilters::class )->init();
 	}
 
 	/**

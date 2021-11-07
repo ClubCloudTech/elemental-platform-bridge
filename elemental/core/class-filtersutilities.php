@@ -59,15 +59,6 @@ class FiltersUtilities extends Shortcode {
 				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::VIDEO_STOREFRONT_SLUG . '?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&' . self::VIDEO_STOREFRONT_SLUG . '=true', 'top' );
 				add_rewrite_rule( $wcfm_store_url . '/([^/]+)/' . self::VIDEO_STOREFRONT_SLUG . '/page/?([0-9]{1,})/?$', 'index.php?' . $wcfm_store_url . '=$matches[1]&paged=$matches[2]&' . self::VIDEO_STOREFRONT_SLUG . '=true', 'top' );
 
-				// Fix for Elementor 404 Bug in WCFM Stores.
-				\add_filter(
-					'wcfmmp_is_allow_elementor_is_post_type_archive_reset',
-					function () {
-						return false;
-					},
-					99,
-					2
-				);
 				\add_filter(
 					'wcfmp_store_default_query_vars',
 					function ( $query_var ) {

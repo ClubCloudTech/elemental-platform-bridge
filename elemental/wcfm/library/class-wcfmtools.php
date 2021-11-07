@@ -288,6 +288,7 @@ class WCFMTools {
 			// phpcs:ignore --WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase - variable not set in this function can't change it here.
 			global $WCFM, $post;
 			$post_id = $post->ID;
+			echo $post_id;
 			// phpcs:ignore --WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase - variable not set in this function can't change it here.
 			$owner_id = $WCFM->wcfm_vendor_support->wcfm_get_vendor_id_from_product( $post_id );
 

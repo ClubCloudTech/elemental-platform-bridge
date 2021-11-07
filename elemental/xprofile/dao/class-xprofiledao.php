@@ -17,8 +17,6 @@ use ElementalPlugin\Factory;
  */
 class XProfileDAO {
 
-const XPROFILE_COUNTRY_FIELD = ;
-
 	/**
 	 * Room Default Settings Install.
 	 *

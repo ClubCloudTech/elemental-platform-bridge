@@ -20,14 +20,9 @@ class ElementalFunctions {
 	 * @return void
 	 */
 	public function init() {
-		// Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( $id_only ) ;
-		// $this->alextest();
-		add_filter( 'wcfm_login_redirect', array( $this, 'custom_wcfm_login_redirect' ), 10, 2 );
-		// add_filter( 'wcfm_login_redirect', array ( Factory::get_instance( testclass::class), 'custom_wcfm_login_redirect' ), 10, 2 );
-	}
 
-	private function alextest() {
-		echo 'Alex';
+		//add_filter( 'wcfm_login_redirect', array( $this, 'custom_wcfm_login_redirect' ), 10, 2 );
+		// add_filter( 'wcfm_login_redirect', array ( Factory::get_instance( testclass::class), 'custom_wcfm_login_redirect' ), 10, 2 );
 	}
 
 	public function custom_wcfm_login_redirect( $redirect_to, $user ) {
