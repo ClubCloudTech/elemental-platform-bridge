@@ -23,6 +23,10 @@ class WCFMShortcodes {
 
 	const SHORTCODE_SHOW_STAFF = 'elemental_show_staff';
 	const SHORTCODE_STORELINK  = 'elemental_storelink';
+	const SHORTCODE_GETNAME    = 'elemental_wcfm_storename';
+
+	// Backward Compatible legacy shortcode names.
+	const SHORTCODE_BACK_COMPAT_GETNAME = 'ccname';
 
 	/**
 	 * Runtime Shortcodes and Setup
@@ -30,6 +34,10 @@ class WCFMShortcodes {
 	public function init() {
 		add_shortcode( self::SHORTCODE_SHOW_STAFF, array( $this, 'show_wcfm_staff' ) );
 		add_shortcode( self::SHORTCODE_STORELINK, array( $this, 'store_link_shortcode' ) );
+		add_shortcode( self::SHORTCODE_GETNAME, array( $this, 'elemental_getname' ) );
+
+		// Backward Compatible legacy shortcode declarations.
+		add_shortcode( self::SHORTCODE_BACK_COMPAT_GETNAME, array( $this, 'elemental_getname' ) );
 	}
 
 	/**
@@ -235,5 +243,55 @@ class WCFMShortcodes {
 
 		return ob_get_clean();
 
+	}
+	/**
+	 * Elemental Get User Name for Merchants and Staff Shortcode.
+	 *
+	 * @param array $attr - shortcode attributes.
+	 * @return string|null
+	 */
+	public function elemental_getname( $attr = array() ): ?string {
+		if ( isset( $attr['user_id'] ) ) {
+			$user_id = $attr['user_id'];
+		}
+		return $this->elemental_getname_worker( $user_id );
+	}
+	/**
+	 * Elemental Get User Name for Merchants and Staff.
+	 *
+	 * @param int $user_id - the user id( can be left null to try current logged in user ).
+	 * @return string|null
+	 */
+	public function elemental_getname_worker( int $user_id = null ): ?string {
+
+		if ( ! \function_exists( 'wcfmmp_get_store' ) ) {
+			return null;
+		}
+
+		if ( $user_id ) {
+			$user = get_user_by( 'id', $user_id );
+		} else {
+			$user = wp_get_current_user();
+		}
+
+		if ( ! $user ) {
+			return null;
+		}
+
+		$user_roles = Factory::get_instance( UserRoles::class );
+
+		if ( $user_roles->is_wcfm_vendor() ) {
+			return $user->user_nicename;
+
+		} elseif ( $user_roles->is_wcfm_shop_staff() ) {
+
+			$parentID   = $user->_wcfm_vendor;
+			$store_user = wcfmmp_get_store( $parentID );
+			$store_info = $store_user->get_shop_info();
+
+			return $store_info['store_slug'];
+		}
+
+		return $user->user_nicename;
 	}
 }
