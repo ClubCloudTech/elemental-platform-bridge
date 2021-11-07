@@ -31,6 +31,9 @@ class Membership {
 	const MEMBERSHIP_ROLE_DESCRIPTION = 'Sponsored Account';
 	const MEMBERSHIP_NONCE_PREFIX_DU  = 'delete_user_';
 
+	const SHORTCODE_LOGOUT        = 'elemental_logout';
+	const SHORTCODE_LEGACY_LOGOUT = 'cclogout';
+
 	/**
 	 * Runtime Shortcodes and Setup
 	 * Required for Normal Runtime.
@@ -61,7 +64,6 @@ class Membership {
 			$script_data_array
 		);
 
-		add_shortcode( self::SHORTCODE_TAG, array( Factory::get_instance( MembershipShortCode::class ), 'render_membership_shortcode' ) );
 		Factory::get_instance( Onboard::class )->init();
 
 		wp_register_script(
@@ -83,6 +85,11 @@ class Membership {
 		);
 		wp_localize_script( 'wcfm_membership_registration_js', 'wcfm_registration_params', $wcfm_registration_params );
 
+		add_shortcode( self::SHORTCODE_TAG, array( Factory::get_instance( MembershipShortCode::class ), 'render_membership_shortcode' ) );
+		add_shortcode( self::SHORTCODE_LOGOUT, array( $this, 'elemental_logout' ) );
+		// Legacy Shortcodes.
+		add_shortcode( self::SHORTCODE_LEGACY_LOGOUT, array( $this, 'elemental_logout' ) );
+		
 	}
 	/**
 	 * Activate Functions for Membership.
@@ -140,6 +147,11 @@ class Membership {
 		foreach ( $opcache_scripts as $file ) {
 			\wp_opcache_invalidate( $file, true );
 		}
+	}
+
+
+	function elemental_logout() {
+		return wp_logout_url( home_url() );
 	}
 }
 

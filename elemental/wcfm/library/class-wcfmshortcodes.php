@@ -281,7 +281,7 @@ class WCFMShortcodes {
 		$user_roles = Factory::get_instance( UserRoles::class );
 
 		if ( $user_roles->is_wcfm_vendor() ) {
-			return $user->user_nicename;
+			return ucwords( $user->user_nicename );
 
 		} elseif ( $user_roles->is_wcfm_shop_staff() ) {
 
@@ -289,9 +289,9 @@ class WCFMShortcodes {
 			$store_user = wcfmmp_get_store( $parentID );
 			$store_info = $store_user->get_shop_info();
 
-			return $store_info['store_slug'];
+			return ucwords( $store_info['store_slug'] );
 		}
 
-		return $user->user_nicename;
+		return ucwords( $user->user_nicename );
 	}
 }
