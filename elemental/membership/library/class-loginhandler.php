@@ -15,13 +15,26 @@ use \MyVideoRoomPlugin\Library\HttpGet;
  */
 class LoginHandler {
 
+	const SHORTCODE_LOGOUT_SWITCH = 'elemental_logout';
+	const SHORTCODE_LOGOUT        = 'elemental_logout_url';
+
+	const SHORTCODE_LEGACY_LOGOUT = 'cclogout';
+	const SHORTCODE_LEGACY_LOGIN  = 'ccloginswitch';
+	const SHORTCODE_LOGIN_SWITCH  = 'elemental_login';
+
 	/**
 	 * Init
 	 *
 	 * @return void
 	 */
 	public function init() {
-		add_shortcode( 'elemental_logout', array( $this, 'render_logout_shortcode' ) );
+		add_shortcode( self::SHORTCODE_LOGOUT_SWITCH, array( $this, 'render_logout_shortcode' ) );
+		add_shortcode( self::SHORTCODE_LOGOUT, array( $this, 'elemental_logout' ) );
+		add_shortcode( self::SHORTCODE_LOGIN_SWITCH, array( $this, 'elemental_loginswitch' ) );
+
+		// Legacy Shortcodes.
+		add_shortcode( self::SHORTCODE_LEGACY_LOGOUT, array( $this, 'elemental_logout' ) );
+		add_shortcode( self::SHORTCODE_LEGACY_LOGIN, array( $this, 'elemental_loginswitch' ) );
 	}
 	/**
 	 * Render shortcode to allow user to update their settings
@@ -38,5 +51,23 @@ class LoginHandler {
 			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
 			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
 		}
+	}
+
+	/**
+	 * Render shortcode to provide WordPress Logout URL (used in menu links)
+	 *
+	 * @return string
+	 */
+	public function elemental_logout_url() {
+		return wp_logout_url( home_url() );
+	}
+
+	/**
+	 * Render shortcode to provide login template for Login pages.
+	 *
+	 * @return string
+	 */
+	public function elemental_loginswitch() {
+		return do_shortcode( '[elementor-template id="24912"]' );
 	}
 }
