@@ -17,14 +17,13 @@ use ElementalPlugin\Library\WordPressUser;
 class WCFMTools {
 
 	const SHORTCODE_DISPLAY_PRODUCT = 'wcfm_store_products';
-	const SHORTCODE_STORE_FIELDS    = 'wcfm_store_fields';
 
 	/**
 	 * Runtime Shortcodes
 	 */
 	public function init() {
 		add_shortcode( self::SHORTCODE_DISPLAY_PRODUCT, array( $this, 'display_products' ) );
-		add_shortcode( self::SHORTCODE_STORE_FIELDS, array( $this, 'wcfm_store_display' ) );
+
 	}
 
 
@@ -331,34 +330,5 @@ class WCFMTools {
 		}
 
 		return \do_shortcode( '[products store="' . $store_id . '" paginate="true"]' );
-	}
-
-	/**
-	 * Display Store Display Information Name or Slug
-	 *
-	 * @param  array $attributes - the attributes.
-	 * @return ?string
-	 */
-	public function wcfm_store_display( array $attributes ): ?string {
-		$input_type = $attributes['item'];
-		$store_id   = $attributes['id'];
-
-		if ( ! $store_id ) {
-			$store_id = $this->get_wcfm_page_owner();
-		}
-
-		$store_user = \wcfmmp_get_store( $store_id );
-		$store_info = $store_user->get_shop_info();
-
-		switch ( $input_type ) {
-			case 'slug':
-				return $store_info['store_slug'];
-			case 'name':
-				return $store_info['store_name'];
-			case 'description':
-				return $store_info['shop_description'];
-			default:
-				return $store_info['store_name'];
-		}
 	}
 }

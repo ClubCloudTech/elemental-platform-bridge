@@ -12,10 +12,9 @@ use ElementalPlugin\Admin;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\Onboard;
 use ElementalPlugin\Library\Version;
-use ElementalPlugin\Membership\DAO\MembershipDAO;
-use ElementalPlugin\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Membership\Library\LoginHandler;
 use ElementalPlugin\Membership\Library\MembershipAjax;
+use ElementalPlugin\Membership\Library\MembershipSetup;
 use ElementalPlugin\Membership\Library\MembershipShortCode;
 use ElementalPlugin\UltimateMembershipPro\Library\UMPMemberships;
 
@@ -90,10 +89,7 @@ class Membership {
 	 * Activate Functions for Membership.
 	 */
 	public function activate() {
-
-		Factory::get_instance( MembershipDAO::class )->install_membership_mapping_table();
-		Factory::get_instance( MemberSyncDAO::class )->install_membership_sync_table();
-		$this->create_membership_role();
+		Factory::get_instance( MembershipSetup::class )->activate();
 	}
 	/**
 	 * Render Membership Config Page
@@ -105,14 +101,6 @@ class Membership {
 		return ( include __DIR__ . '/views/membership/table-output.php' )( $membership_levels );
 	}
 
-	/**
-	 * Create Membership Role for Sponsored Account
-	 */
-	public function create_membership_role(): void {
-		global $wp_roles;
-		$edr = $wp_roles->get_role( 'Subscriber' );
-		add_role( self::MEMBERSHIP_ROLE_NAME, self::MEMBERSHIP_ROLE_DESCRIPTION, $edr->capabilities );
-	}
 
 	/**
 	 * Where OPcache is actually flushed

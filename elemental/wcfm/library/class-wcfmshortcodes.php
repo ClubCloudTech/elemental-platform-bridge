@@ -21,9 +21,10 @@ use ElementalPlugin\WCFM\Library\WCFMTools;
  */
 class WCFMShortcodes {
 
-	const SHORTCODE_SHOW_STAFF = 'elemental_show_staff';
-	const SHORTCODE_STORELINK  = 'elemental_storelink';
-	const SHORTCODE_GETNAME    = 'elemental_wcfm_storename';
+	const SHORTCODE_SHOW_STAFF   = 'elemental_show_staff';
+	const SHORTCODE_STORELINK    = 'elemental_storelink';
+	const SHORTCODE_GETNAME      = 'elemental_wcfm_storename';
+	const SHORTCODE_STORE_FIELDS = 'wcfm_store_fields';
 
 	// Backward Compatible legacy shortcode names.
 	const SHORTCODE_BACK_COMPAT_GETNAME = 'ccmenu';
@@ -32,6 +33,7 @@ class WCFMShortcodes {
 	 * Runtime Shortcodes and Setup
 	 */
 	public function init() {
+		add_shortcode( self::SHORTCODE_STORE_FIELDS, array( $this, 'wcfm_store_display' ) );
 		add_shortcode( self::SHORTCODE_SHOW_STAFF, array( $this, 'show_wcfm_staff' ) );
 		add_shortcode( self::SHORTCODE_STORELINK, array( $this, 'store_link_shortcode' ) );
 		add_shortcode( self::SHORTCODE_GETNAME, array( $this, 'elemental_getname' ) );
@@ -293,5 +295,34 @@ class WCFMShortcodes {
 		}
 
 		return ucwords( $user->user_nicename );
+	}
+
+	/**
+	 * Display Store Display Information Name or Slug
+	 *
+	 * @param  array $attributes - the attributes.
+	 * @return ?string
+	 */
+	public function wcfm_store_display( array $attributes ): ?string {
+		$input_type = $attributes['item'];
+		$store_id   = $attributes['id'];
+
+		if ( ! $store_id ) {
+			$store_id = Factory::get_instance( WCFMTools::class )->get_wcfm_page_owner();
+		}
+		echo $store_id;
+		$store_user = \wcfmmp_get_store( $store_id );
+		$store_info = $store_user->get_shop_info();
+
+		switch ( $input_type ) {
+			case 'slug':
+				return $store_info['store_slug'];
+			case 'name':
+				return $store_info['store_name'];
+			case 'description':
+				return $store_info['shop_description'];
+			default:
+				return $store_info['store_name'];
+		}
 	}
 }

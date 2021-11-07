@@ -11,6 +11,7 @@ use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\Library\WooCommerceHelpers;
 use ElementalPlugin\UltimateMembershipPro\DAO\ElementalUMPDAO;
+use ElementalPlugin\Xprofile\Library\XprofileTools;
 use \MyVideoRoomPlugin\Library\Ajax;
 
 /**
@@ -62,6 +63,9 @@ class WCFMHelpers {
 	 * @return string
 	 */
 	public function switch_product_archive(): string {
+		$group_name = 'Folng';
+		$description = 'DDASAHKJHASJHAS hksdhkjashd';
+		echo Factory::get_instance( XprofileTools::class )->create_xprofile_group( $group_name, $description );
 		$is_wcfm_shop = Factory::get_instance( WCFMTools::class )->is_wcfm_store();
 		if ( $is_wcfm_shop ) {
 			$template_id = $this->get_store_template();

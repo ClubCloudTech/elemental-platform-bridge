@@ -190,3 +190,5 @@ public function get_list( $input = '' ) {
 }
 
 
+$groups = bp_xprofile_get_groups( array( 'fetch_fields' => true ) );
+echo var_dump ( $groups );
