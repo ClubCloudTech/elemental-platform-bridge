@@ -8,7 +8,7 @@
 namespace ElementalPlugin\UltimateMembershipPro\Library;
 
 use ElementalPlugin\Factory;
-use ElementalPlugin\WCFM\WCFMTools;
+use ElementalPlugin\WCFM\Library\WCFMTools;
 use \MyVideoRoomPlugin\Library\HttpGet;
 
 /**

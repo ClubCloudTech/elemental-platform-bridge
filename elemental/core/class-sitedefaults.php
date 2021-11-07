@@ -14,7 +14,7 @@ use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Shortcode as Shortcode;
 use ElementalPlugin\WoocommerceBookings\ShortCodeConstructor;
 use ElementalPlugin\WoocommerceBookings\WCHelpers;
-use ElementalPlugin\WCFM\WCFMHelpers;
+use ElementalPlugin\WCFM\Library\WCFMHelpers;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Dao\RoomMap;
 

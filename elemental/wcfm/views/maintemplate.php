@@ -7,7 +7,7 @@
  */
 
 use ElementalPlugin\Factory;
-use ElementalPlugin\WCFM\WCFMTools;
+use ElementalPlugin\WCFM\Library\WCFMTools;
 use MyVideoRoomPlugin\Module\WooCommerce\WooCommerce;
 
 /**

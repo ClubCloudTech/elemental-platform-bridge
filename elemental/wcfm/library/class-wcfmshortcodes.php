@@ -11,8 +11,8 @@ use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
-use ElementalPlugin\WCFM\WCFMHelpers;
-use ElementalPlugin\WCFM\WCFMTools;
+use ElementalPlugin\WCFM\Library\WCFMHelpers;
+use ElementalPlugin\WCFM\Library\WCFMTools;
 
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
 

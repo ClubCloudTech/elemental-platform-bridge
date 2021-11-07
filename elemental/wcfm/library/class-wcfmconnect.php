@@ -2,10 +2,10 @@
 /**
  * Connect MyVideoRoom to Woocommerce FrontEnd Manager Video
  *
- * @package ElementalPlugin\WoocommerceBookings
+ * @package elemental/wcfm/library/class-wcfmconnect.php
  */
 
-namespace ElementalPlugin\WCFM;
+namespace ElementalPlugin\WCFM\Library;
 
 use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Library\UserRoles;
@@ -19,12 +19,9 @@ use ElementalPlugin\Core\Security;
 use ElementalPlugin\Shortcode\SecurityVideoPreference;
 
 /**
- * Class WCFM Connect
+ * Connect MyVideoRoom to Woocommerce FrontEnd Manager Video
  */
 class WCFMConnect extends Shortcode {
-
-
-
 
 	/**
 	 * Install the shortcode

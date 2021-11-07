@@ -12,7 +12,7 @@ use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Shortcode as Shortcode;
 use ElementalPlugin\Shortcode\UserVideoPreference;
 use ElementalPlugin\WoocommerceBookings\WCHelpers;
-use ElementalPlugin\WCFM\WCFMHelpers;
+use ElementalPlugin\WCFM\Library\WCFMHelpers;
 
 /**
  * Class URLSwitch

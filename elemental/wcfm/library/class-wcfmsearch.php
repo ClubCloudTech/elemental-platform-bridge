@@ -5,7 +5,7 @@
  * @package ElementalPlugin\WoocommerceBookings
  */
 
-namespace ElementalPlugin\WCFM;
+namespace ElementalPlugin\WCFM\Library;
 
 use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Factory;

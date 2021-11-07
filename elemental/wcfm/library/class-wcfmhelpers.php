@@ -1,11 +1,11 @@
 <?php
 /**
- * Helpers for WCFM
+ * Frontend Helpers for WCFM.
  *
- * @package ElementalPlugin\WCFM
+ * @package elemental/wcfm/library/class-wcfmhelpers.php
  */
 
-namespace ElementalPlugin\WCFM;
+namespace ElementalPlugin\WCFM\Library;
 
 use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MembershipDAO;

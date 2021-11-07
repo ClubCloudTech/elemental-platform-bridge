@@ -10,7 +10,7 @@ namespace ElementalPlugin\Membership\Library;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Membership\Membership;
-use ElementalPlugin\WCFM\WCFMTools;
+use ElementalPlugin\WCFM\Library\WCFMTools;
 use \MyVideoRoomPlugin\Library\Ajax;
 
 /**

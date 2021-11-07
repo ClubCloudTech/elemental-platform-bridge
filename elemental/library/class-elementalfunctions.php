@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Library;
 
-use ElementalPlugin\WCFM\WCFMTools;
+use ElementalPlugin\WCFM\Library\WCFMTools;
 
 /**
  * Class SectionTemplate

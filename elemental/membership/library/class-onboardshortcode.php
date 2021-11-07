@@ -9,7 +9,7 @@
 namespace ElementalPlugin\Membership\Library;
 
 use ElementalPlugin\Factory;
-use ElementalPlugin\WCFM\WCFMTools;
+use ElementalPlugin\WCFM\Library\WCFMTools;
 use ElementalPlugin\WooCommerceSubscriptions\Library\SubscriptionHelpers;
 use \MyVideoRoomPlugin\Library\HttpGet;
 

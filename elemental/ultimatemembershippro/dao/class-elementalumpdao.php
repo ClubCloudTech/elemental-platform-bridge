@@ -8,7 +8,7 @@
 namespace ElementalPlugin\UltimateMembershipPro\DAO;
 
 use ElementalPlugin\Factory;
-use ElementalPlugin\WCFM\WCFMTools;
+use ElementalPlugin\WCFM\Library\WCFMTools;
 
 /**
  * Class ElementalUMP

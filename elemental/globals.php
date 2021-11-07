@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-use ElementalPlugin\WCFM\WCFMTools;
+use ElementalPlugin\WCFM\Library\WCFMTools;
 
 if ( ! function_exists( 'elemental_get_wcfm_memberships' ) ) {
 	/**

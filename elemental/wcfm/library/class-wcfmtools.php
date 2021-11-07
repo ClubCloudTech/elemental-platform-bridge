@@ -2,10 +2,10 @@
 /**
  * Utilities for WCFM
  *
- * @package wcfm/class-wcfmtools.php
+ * @package wcfm/library/class-wcfmtools.php
  */
 
-namespace ElementalPlugin\WCFM;
+namespace ElementalPlugin\WCFM\Library;
 
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\UserRoles;
@@ -15,6 +15,18 @@ use ElementalPlugin\Library\WordPressUser;
  * Class WCFM Search
  */
 class WCFMTools {
+
+	const SHORTCODE_DISPLAY_PRODUCT = 'wcfm_store_products';
+	const SHORTCODE_STORE_FIELDS    = 'wcfm_store_fields';
+
+	/**
+	 * Runtime Shortcodes
+	 */
+	public function init() {
+		add_shortcode( self::SHORTCODE_DISPLAY_PRODUCT, array( $this, 'display_products' ) );
+		add_shortcode( self::SHORTCODE_STORE_FIELDS, array( $this, 'wcfm_store_display' ) );
+	}
+
 
 	/**
 	 * Get WCFM Membership Levels.

@@ -11,7 +11,7 @@ use ElementalPlugin\UltimateMembershipPro\MembershipLevel;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Shortcode as Shortcode;
-use ElementalPlugin\WCFM\WCFMHelpers;
+use ElementalPlugin\WCFM\Library\WCFMHelpers;
 
 /**
  * Class MenuHelpers
