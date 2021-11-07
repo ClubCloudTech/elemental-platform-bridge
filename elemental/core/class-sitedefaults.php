@@ -372,7 +372,6 @@ class SiteDefaults extends Shortcode {
 				$store_slug = $this->get_instance( WCHelpers::class )->orderinfo_by_booking( $input_id, 'store_slug', 0 );
 
 				return 'Booking-' . $store_slug . '-' . $input_id;
-				
 
 			case 'group':
 				$group     = groups_get_group( array( 'group_id' => $input_id ) );  // get group by ID
@@ -422,7 +421,7 @@ class SiteDefaults extends Shortcode {
 					return 2735;
 				}
 
-			case 'xprofile_storefront_reception': 
+			case 'xprofile_storefront_reception':
 				if ( $this->is_premium_check( $input ) == true ) {
 					return 2751;
 				} else {
@@ -432,7 +431,7 @@ class SiteDefaults extends Shortcode {
 			case 'xprofile_storefront_reception_sitedefault':
 				return \xprofile_get_field_data( 2997, 1 );
 
-			case 'reception_template_sitedefault': 
+			case 'reception_template_sitedefault':
 				return \xprofile_get_field_data( 3109, 1 );
 
 			case 'parent_security':
@@ -466,7 +465,6 @@ class SiteDefaults extends Shortcode {
 				return 3120;
 
 				// Taxonomies
-
 
 			case 'staff_storefront': // The Friendly Name Connections Page Displays
 				return 'Connections';

@@ -8,10 +8,10 @@
 namespace ElementalPlugin\WCFM;
 
 use ElementalPlugin\Factory;
-use ElementalPlugin\Library\UserRoles;
-use ElementalPlugin\Library\WordPressUser;
-use \ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\Library\WooCommerceHelpers;
+use ElementalPlugin\UltimateMembershipPro\DAO\ElementalUMPDAO;
+use \MyVideoRoomPlugin\Library\Ajax;
 
 /**
  * Class WCFMHelpers
@@ -19,166 +19,24 @@ use ElementalPlugin\Membership\Library\WooCommerceHelpers;
 class WCFMHelpers {
 
 	const SHORTCODE_ARCHIVE_TEMPLATE_REDIRECT = 'elemental_wcfm_archive_switch';
-	const SHORTCODE_STORELINK                 = 'elemental_storelink';
+	const SETTING_WCFM_PREMIUM_MEMBERSHIPS    = 'elemental-WCFM-premium-memberships';
+	const SETTING_WCFM_ARCHIVE_SHORTCODE_ID   = 'elemental-WCFM-archive';
 
 	/**
 	 * Install the shortcode
 	 */
 	public function init() {
 
-		add_shortcode( self::SHORTCODE_STORELINK, array( $this, 'store_link_shortcode' ) );
 		add_shortcode( self::SHORTCODE_ARCHIVE_TEMPLATE_REDIRECT, array( $this, 'switch_product_archive' ) );
-	}
+		// Option for Premium Memberships Setting.
+		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_wcfm_premium_settings' ), 10, 2 );
+		\add_filter( 'elemental_page_option', array( $this, 'add_wcfm_premium_setting' ), 10, 2 );
 
-	/**
-	 * Store_link_shortcode - returns formatted title information for templates
-	 *
-	 * @param  mixed $params Type== shortcode type to render.
-	 * @return string
-	 */
-	public function store_link_shortcode( $params = array() ): string {
-		$type = $params['type'] ?? null;
-		return $this->store_link( $type );
-	}
-
-	/**
-	 * Shortcode to create Store Details for Menu Item
-	 * Create Store Shortcode.
-	 *
-	 * @param string|null $type
-	 *
-	 * @return string
-	 */
-	public function store_link( string $type = null ): string {
-		// Get Logged-IN User ID.
-		$user = wp_get_current_user();
-
-		$user_roles = $this->get_instance( UserRoles::class );
-
-		if ( 'ownerstorelogo' === $type ) {
-			$user_id = $this->get_instance( self::class )->staff_to_parent( get_current_user_id() );
-			$user    = $this->get_instance( WordPressUser::class )->get_wordpress_user_by_id( $user_id );
-		}
-
-		$parent_id = $user->ID;
-
-		if ( 'stafflogo' === $type ) {
-			if ( $user_roles->is_wcfm_vendor() ) {
-				$store_user     = \wcfmmp_get_store( $user_id );
-				$store_gravatar = $store_user->get_avatar();
-				$url            = $store_gravatar;
-			} else {
-				if ( Factory::get_instance( SiteDefaults::class )->is_buddypress_available() ) {
-					$url = \bp_core_fetch_avatar(
-						array(
-							'item_id' => get_current_user_id(),
-							'type'    => 'full',
-							'html'    => false,
-						)
-					);
-				}
-			}
-			$store_user = \wcfmmp_get_store( $parent_id );
-			$store_info = $store_user->get_shop_info();
-			$output     = $store_info['store_name'];
-
-		} elseif ( 'childaccount' === $type || 'breakout' === $type ) {
-			// parent is for returning Parent Accounts, Childaccount is for returning childaccount .
-			$user_id = \get_current_user_id();
-
-			if ( $user_roles->is_wcfm_vendor() ) {
-				$store_user     = wcfmmp_get_store( $user_id );
-				$store_info     = $store_user->get_shop_info();
-				$store_gravatar = $store_user->get_avatar();
-				$url            = $store_gravatar;
-				$output         = $store_info['store_name'];
-			} elseif ( $user_roles->is_wcfm_shop_staff()
-				&& 'breakout' !== $type
-			) {
-				$url    = bp_core_fetch_avatar(
-					array(
-						'item_id' => get_current_user_id(),
-						'type'    => 'full',
-						'html'    => false,
-					)
-				);
-				$output = $this->get_instance( SiteDefaults::class )->displayname();
-
-			} else {
-
-				$url    = \bp_core_fetch_avatar(
-					array(
-						'item_id' => \get_current_user_id(),
-						'type'    => 'full',
-						'html'    => false,
-					)
-				);
-				$output = $this->get_instance( SiteDefaults::class )->displayname();
-			}
-		} elseif ( $user_roles->is_wcfm_shop_staff() || $user_roles->is_wcfm_vendor() ) {
-
-			$store_user = \wcfmmp_get_store( $parent_id );
-
-			$store_info     = $store_user->get_shop_info();
-			$store_gravatar = $store_user->get_avatar();
-			$url            = $store_gravatar;
-			$output         = $store_info['store_name'];
-		} else {
-			$url    = \bp_core_fetch_avatar(
-				array(
-					'item_id' => \get_current_user_id(),
-					'type'    => 'full',
-					'html'    => false,
-				)
-			);
-			$output = $this->get_instance( SiteDefaults::class )->displayname();
-		}
-
-		ob_start();
-
-		?>
-
-		<div class="yz-primary-nav-area">
-
-			<div class="yz-primary-nav-settings">
-				<div class="yz-primary-nav-img" style="background-image: url(<?php echo $url; ?>)"></div>
-				<span>
-		<?php
-		echo $output
-		?>
-			</span>
-
-		<?php if ( 'on' == yz_option( 'yz_disable_wp_menu_avatar_icon', 'on' ) ) : ?>
-<i class="fas fa-angle-down yz-settings-icon"></i><?php endif; ?>
-			</div>
-
-		</div>
-
-		<script type="text/javascript">
-
-			// Show/Hide Primary Nav Message
-			jQuery( '.yz-primary-nav-settings' ).click(function (e) {
-				// e.preventDefault();
-				// Get Parent Box.
-				var settings_box = jQuery(this).closest( '.yz-primary-nav-area' );
-				// Toggle Menu.
-				settings_box.toggleClass( 'open-settings-menu' );
-				// Display or Hide Box.
-				settings_box.find( '.yz-settings-menu' ).fadeToggle(400);
-			});
-
-		</script>
-
-		<?php
-
-		return ob_get_clean();
+		// Option for WCFM Store Template.
+		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_wcfm_archive_settings' ), 10, 2 );
+		\add_filter( 'elemental_page_option', array( $this, 'add_wcfm_archive_setting' ), 10, 2 );
 
 	}
-
-	/**
-	 * OK from Here.
-	 * For Clean
-	 */
 
 	/** Child Account User Table
 	 * Handles the rendering of the User tables for Child Accounts.
@@ -206,9 +64,102 @@ class WCFMHelpers {
 	public function switch_product_archive(): string {
 		$is_wcfm_shop = Factory::get_instance( WCFMTools::class )->is_wcfm_store();
 		if ( $is_wcfm_shop ) {
-			return \do_shortcode( '[elementor-template id="' . \get_option( WooCommerceHelpers::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '"]' );
+			$template_id = $this->get_store_template();
+			return \do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 		} else {
 			return \do_shortcode( '[elementor-template id="' . \get_option( WooCommerceHelpers::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID ) . '"]' );
 		}
+	}
+
+	/**
+	 * Return Store Template
+	 * Correctly Retrieves Membership Level Store Template.
+	 *
+	 * @param int $store_id - the store_id (if blank current store owner used if any).
+	 * @return string
+	 */
+	public function get_store_template( int $store_id = null ): string {
+		if ( $store_id ) {
+			$owner_id = $store_id;
+		} else {
+			$owner_id = Factory::get_instance( WCFMTools::class )->get_wcfm_page_owner();
+			if ( ! $owner_id ) {
+				return false;
+			}
+		}
+		$membership_level = Factory::get_instance( ElementalUMPDAO::class )->get_all_active_ump_levels( $owner_id, true );
+		$data_object      = Factory::get_instance( MembershipDAO::class )->get_limit_info( intval( $membership_level[0] ) );
+		$template         = $data_object->template;
+		return $template;
+	}
+
+	/**
+	 * Add WCFM Premium Account List.
+	 *
+	 * @param array $input - the filter input.
+	 * @return array
+	 */
+	public function add_wcfm_premium_setting( array $input ): array {
+		$input_add = ' 
+		<td>
+		<span>' . esc_html__( 'Premium WCFM Memberships', 'myvideoroom' ) . '</span>
+		</td>
+		<td>
+		<input type="text" size="32"
+		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		id="' . esc_attr( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS ) . '"
+		value="' . get_option( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS ) . '">
+			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Comma separated list of what accounts site considers Premium (use numeric ID of WCFM Membership ID)', 'myvideoroom' ) . '"></i>
+		</td>';
+		\array_push( $input, $input_add );
+		return $input;
+	}
+
+	/**
+	 * Process Update Result. WCFM Update Setting.
+	 *
+	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
+	 * @return array
+	 */
+	public function update_wcfm_premium_settings( array $response ): array {
+		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS );
+		\update_option( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS, $field );
+		$response['feedback'] = \esc_html__( 'WCFM Premium Saved', 'myvideoroom' );
+		return $response;
+	}
+
+	/**
+	 * Add WCFM Archive Setting to Plugin Menu
+	 *
+	 * @param array $input - the filter input.
+	 * @return array
+	 */
+	public function add_wcfm_archive_setting( array $input ): array {
+		$input_add = ' 
+		<td>
+		<span>' . esc_html__( 'WCFM Default Archive Page ID', 'myvideoroom' ) . '</span>
+		</td>
+		<td>
+		<input type="number" size="32"
+		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		id="' . esc_attr( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '"
+		value="' . get_option( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '">
+			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Shortcode Post ID Template Switch to Call for a WCFM Store in case a membership level has no setting', 'myvideoroom' ) . '"></i>
+		</td>';
+		\array_push( $input, $input_add );
+		return $input;
+	}
+
+	/**
+	 * Process Update Result. WCFM Update Setting.
+	 *
+	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
+	 * @return array
+	 */
+	public function update_wcfm_archive_settings( array $response ): array {
+		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID );
+		\update_option( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID, $field );
+		$response['feedback'] = \esc_html__( 'WCFM Archive Saved', 'myvideoroom' );
+		return $response;
 	}
 }

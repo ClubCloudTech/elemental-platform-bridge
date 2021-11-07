@@ -8,8 +8,7 @@
 /**
  * Render the Membership Items.
  *
- * @param \stdClass $memberships The room
- * @param ?string $memberships_type  Category of Room to Filter.
+ * @param array $memberships data room
  *
  * @return string
  */
@@ -18,24 +17,7 @@ return function (
 ): string {
 	ob_start();
 
-		$save_nonce     = wp_create_nonce( 'delete_room_' . $memberships['level'] );
-		$delete_url     = \add_query_arg(
-			array(
-				'room_id'  => $memberships['id'],
-				'confirm'  => null,
-				'action'   => 'delete',
-				'_wpnonce' => $save_nonce,
-			),
-			\esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) )
-		);
-		$edit_actions[] = array(
-			__( 'Save' ),
-			$delete_url,
-			'myvideoroom-dashicons dashicons-database-add myvideoroom-sitevideo-delete',
-			array( 'data-nonce' => $save_nonce ),
-		);
-
-		?>
+	?>
 	<tr class="active mvr-table-mobile" data-room-id="<?php echo esc_attr( $memberships['level'] ); ?>">
 		<td class="plugin-title column-primary myvideoroom-mobile-table-row-adjust">
 	<?php
@@ -48,7 +30,11 @@ return function (
 		</td>
 		<td class="column-description myvideoroom-mobile-table-row-adjust">
 	<?php
-				echo esc_textarea( $memberships['label'] );
+	if ( $memberships['wcfm_level'] ) {
+		$output = ' WCFM (' . esc_textarea( $memberships['wcfm_level'] ) . ')';
+	}
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped - escaped two lines above.
+		echo '<h2>' . esc_textarea( $memberships['label'] ) . ' UMP(' . esc_textarea( $memberships['level'] ) . ')'. $output . '</h2>';
 	?>
 		</td>
 		<td>
@@ -58,12 +44,13 @@ return function (
 		</td>
 		<td class="plugin-title column-primary">
 		<label for="number_child">
-			<input type="number" min="0" max="10000" name="number_child" value="<?php echo esc_textarea( $memberships['limit'] ); ?>" placeholder="" data-level = "<?php echo esc_textarea( $memberships['level'] ); ?>" id="number_child_<?php echo esc_textarea( $memberships['level'] ); ?>" class="elemental-membership-control" />
+			<input type="number" size="12" name="number_child" value="<?php echo esc_textarea( $memberships['limit'] ); ?>" placeholder="" data-level = "<?php echo esc_textarea( $memberships['level'] ); ?>" id="number_child_<?php echo esc_textarea( $memberships['level'] ); ?>" class="elemental-membership-control" />
 		</label>
 		<div id="confirmation_<?php echo esc_textarea( $memberships['level'] ); ?>" class = "elemental-membership-displayconf"></div>
 		</td>
 		<td>
-		Table;
+		<input type="number" min="0" max="10000" name="number_template" value="<?php echo esc_textarea( $memberships['template'] ); ?>" placeholder="" data-level = "<?php echo esc_textarea( $memberships['level'] ); ?>" id="number_template_<?php echo esc_textarea( $memberships['level'] ); ?>" class="elemental-membership-template" />
+		<div id="confirmation_template_<?php echo esc_textarea( $memberships['level'] ); ?>" class = "elemental-membership-displayconf"></div>
 		</td>
 	</tr>
 

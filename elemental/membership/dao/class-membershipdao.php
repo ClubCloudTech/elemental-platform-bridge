@@ -34,6 +34,7 @@ class MembershipDAO {
 			`membership_level` BIGINT UNSIGNED NOT NULL,
 			`woocomm_level` BIGINT UNSIGNED NOT NULL,
 			`user_limit` BIGINT UNSIGNED NOT NULL,
+			`template` BIGINT UNSIGNED NULL,
 			PRIMARY KEY (`record_id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
 
@@ -83,8 +84,7 @@ class MembershipDAO {
 	}
 
 	/**
-	 * Update Room Post ID in Database
-	 * This plugin will update the room name in the database with the parameter
+	 * Update Limits by Membership Level.
 	 *
 	 * @param int $user_limit       The user limit.
 	 * @param int $membership_level Membership level to update.
@@ -119,6 +119,35 @@ class MembershipDAO {
 		);
 
 		\wp_cache_delete( $user_limit, __CLASS__ . '::get_limit_by_membership' );
+		\wp_cache_delete( $membership_level, __CLASS__ . '::get_limit_info' );
+
+		return $success;
+	}
+
+	/**
+	 * Update Template ID in the Database. Used for Control Panel Elemental.
+	 *
+	 * @param int $template       The Template ID.
+	 * @param int $membership_level Membership level to update.
+	 *
+	 * @return bool|null
+	 */
+	public function update_template( int $template, int $membership_level ): ?bool {
+		global $wpdb;
+
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$success = $wpdb->query(
+			$wpdb->prepare(
+				'
+					UPDATE ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
+					SET template = %d
+					WHERE membership_level = %d
+				',
+				$template,
+				$membership_level,
+			)
+		);
+
 		\wp_cache_delete( $membership_level, __CLASS__ . '::get_limit_info' );
 
 		return $success;
@@ -197,6 +226,9 @@ class MembershipDAO {
 
 			\wp_cache_set( $membership_level, $result, __METHOD__ );
 		}
+		if ( $wpdb->last_error ) {
+			$this->repair_update_database( $wpdb->last_error );
+		}
 
 		return (int) $result;
 	}
@@ -218,7 +250,7 @@ class MembershipDAO {
 			$result = $wpdb->get_row(
 				$wpdb->prepare(
 					'
-						SELECT record_id, membership_level, woocomm_level, user_limit
+						SELECT record_id, membership_level, woocomm_level, user_limit, template
 						FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
 						WHERE membership_level = %d
 					',
@@ -226,12 +258,18 @@ class MembershipDAO {
 				),
 				'ARRAY_A'
 			);
+		}
+		if ( $wpdb->last_error ) {
+			\error_log( $wpdb->last_error );
+			$this->repair_update_database( $wpdb->last_error );
+		} else {
 			\wp_cache_set( $membership_level, $result, __METHOD__ );
 		}
-
 		if ( $result ) {
-			$result     = (object) $result;
-			$result->id = $result->membership_level;
+			$result             = (object) $result;
+			$result->id         = $result->membership_level;
+			$result->user_limit = $result->user_limit;
+			$result->template   = $result->template;
 		} else {
 			$result = null;
 		}
@@ -288,10 +326,44 @@ class MembershipDAO {
 				},
 				$rows
 			);
+			if ( $wpdb->last_error ) {
+				$this->repair_update_database( $wpdb->last_error );
+			}
 
 			\wp_cache_set( $cache_key, $result, __METHOD__ );
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Database Restore and Update
+	 *
+	 * @param string $db_error_message   The Error Message.
+	 *
+	 * @return bool
+	 */
+	private function repair_update_database( string $db_error_message = null ): bool {
+		global $wpdb;
+		$table_name = $this->get_table_name();
+		// Case Table Mising Column.
+		if ( strpos( $db_error_message, 'Unknown column' ) !== false ) {
+			// Update Database to new Schema.
+			// V2.
+			$update_db = "ALTER TABLE `{$table_name}` ADD `template` BIGINT UNSIGNED NULL AFTER `user_limit`";
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
+			$wpdb->query( $wpdb->prepare( $update_db ) );
+
+			return true;
+		}
+
+		// Case Table Delete.
+		$table_message = $table_name . '\' doesn\'t exist';
+		if ( strpos( $db_error_message, $table_message ) !== false ) {
+			// Recreate Table.
+			$this->install_membership_mapping_table();
+
+			return true;
+		}
 	}
 }

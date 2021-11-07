@@ -56,7 +56,7 @@ class MembershipAjax {
 		}
 
 		/*
-		* Update Display Name section.
+		* Update Membership Limit section.
 		*
 		*/
 		if ( 'update_db' === $action_taken ) {
@@ -64,9 +64,25 @@ class MembershipAjax {
 			$update = Factory::get_instance( MembershipDAO::class )->update_membership_limit( \intval( $set_value ), \intval( $membership_level ) );
 
 			if ( $update ) {
-				$response['feedback'] = \esc_html__( 'Display Name Update Updated', 'myvideoroom' );
+				$response['feedback'] = \esc_html__( 'Limit Updated', 'myvideoroom' );
 			} else {
-				$response['feedback'] = \esc_html__( 'Display Name Update Failed', 'myvideoroom' ) . $membership_level . '->' . $set_value;
+				$response['feedback'] = \esc_html__( 'Update Failed', 'myvideoroom' ) . $membership_level . '->' . $set_value;
+			}
+			return \wp_send_json( $response );
+		}
+
+		/*
+		* Update Membership Limit section.
+		*
+		*/
+		if ( 'update_template' === $action_taken ) {
+
+			$update = Factory::get_instance( MembershipDAO::class )->update_template( \intval( $set_value ), \intval( $membership_level ) );
+
+			if ( $update ) {
+				$response['feedback'] = \esc_html__( 'Template Updated', 'myvideoroom' );
+			} else {
+				$response['feedback'] = \esc_html__( 'Update Failed', 'myvideoroom' ) . $membership_level . '->' . $set_value;
 			}
 			return \wp_send_json( $response );
 		}

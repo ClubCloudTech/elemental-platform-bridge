@@ -10,6 +10,7 @@ namespace ElementalPlugin\Membership\Library;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
+use ElementalPlugin\UltimateMembershipPro\DAO\ElementalUMPDAO;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -35,7 +36,7 @@ class MembershipUMP {
 		}
 
 		// Get all levels valid.
-		$levels_object = \IHC_db::get_user_levels( $user_id, true );
+		$levels_object = Factory::get_instance( ElementalUMPDAO::class )->get_active_user_membership_levels( $user_id );
 
 		// Check each Level Quota.
 		foreach ( $levels_object as $level ) {

@@ -19,7 +19,6 @@ class WooCommerceHelpers {
 
 	const SETTING_ONBOARD_SLUG                 = 'elemental-onboard-slug';
 	const SETTING_ONBOARD_POST_SUB_SLUG        = 'elemental-post-sub-slug';
-	const SETTING_WCFM_ARCHIVE_SHORTCODE_ID    = 'elemental-WCFM-archive';
 	const SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID = 'elemental-product-archive';
 
 	/**
@@ -41,10 +40,6 @@ class WooCommerceHelpers {
 		// Option for Post Onboarding Ind Subs Landing Page  in Config Page (settings).
 		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_indv_subs_landing_settings' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_indv_post_subs_setting' ), 10, 2 );
-
-		// Option for WCFM Store Template.
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_wcfm_archive_settings' ), 10, 2 );
-		\add_filter( 'elemental_page_option', array( $this, 'add_wcfm_archive_setting' ), 10, 2 );
 
 		// Option for Product Archive Template.
 		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_product_archive_settings' ), 10, 2 );
@@ -158,40 +153,6 @@ class WooCommerceHelpers {
 		return $response;
 	}
 
-	/**
-	 * Add WCFM Archive Setting to Plugin Menu
-	 *
-	 * @param array $input - the filter input.
-	 * @return array
-	 */
-	public function add_wcfm_archive_setting( array $input ): array {
-		$input_add = ' 
-		<td>
-		<span>' . esc_html__( 'WCFM Archive Page ID', 'myvideoroom' ) . '</span>
-		</td>
-		<td>
-		<input type="number" size="32"
-		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
-		id="' . esc_attr( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '"
-		value="' . get_option( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Shortcode Post ID Template Switch to Call for a WCFM Store', 'myvideoroom' ) . '"></i>
-		</td>';
-		\array_push( $input, $input_add );
-		return $input;
-	}
-
-	/**
-	 * Process Update Result. WCFM Update Setting.
-	 *
-	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
-	 * @return array
-	 */
-	public function update_wcfm_archive_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID );
-		\update_option( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID, $field );
-		$response['feedback'] = \esc_html__( 'WCFM Archive Saved', 'myvideoroom' );
-		return $response;
-	}
 	/**
 	 * Add Product Archive Setting to Plugin Menu
 	 *

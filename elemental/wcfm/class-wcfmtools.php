@@ -16,7 +16,6 @@ use ElementalPlugin\Library\WordPressUser;
  */
 class WCFMTools {
 
-	const PREMIUM_LIST = 16306;
 	/**
 	 * Get WCFM Membership Levels.
 	 *
@@ -244,6 +243,7 @@ class WCFMTools {
 
 	/**
 	 * Am I a Premium Member.
+	 * Checks whether store and all memberships are part of stored premium experience setting.
 	 *
 	 * @param int $store_id the StoreID to Check.
 	 * @return bool
@@ -253,12 +253,19 @@ class WCFMTools {
 		if ( ! $store_memberships ) {
 			return false;
 		}
-		$premium_stores = self::PREMIUM_LIST;
-		if ( in_array( $premium_stores, $store_memberships, true ) ) {
-			return true;
-		} else {
-			return false;
+		$premium        = get_option( WCFMHelpers::SETTING_WCFM_PREMIUM_MEMBERSHIPS );
+		$premium_levels = str_getcsv( $premium );
+
+		foreach ( $premium_levels as $level ) {
+			$level = intval( $level );
+			foreach ( $store_memberships as $membership ) {
+				$membership = intval( $membership );
+				if ( $membership === $level ) {
+					return true;
+				}
+			}
 		}
+		return false;
 	}
 	/**
 	 * Get Correct Page Owner
@@ -310,7 +317,7 @@ class WCFMTools {
 		} else {
 			$store_id = $this->get_wcfm_page_owner();
 		}
-		$store_user = \wcfmmp_get_store( $store_id );
+
 		return \do_shortcode( '[products store="' . $store_id . '" paginate="true"]' );
 	}
 
