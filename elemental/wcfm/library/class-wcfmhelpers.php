@@ -11,7 +11,6 @@ use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\Library\WooCommerceHelpers;
 use ElementalPlugin\UltimateMembershipPro\DAO\ElementalUMPDAO;
-use ElementalPlugin\Xprofile\Library\XprofileTools;
 use \MyVideoRoomPlugin\Library\Ajax;
 
 /**
@@ -63,9 +62,7 @@ class WCFMHelpers {
 	 * @return string
 	 */
 	public function switch_product_archive(): string {
-		$group_name = 'Folng';
-		$description = 'DDASAHKJHASJHAS hksdhkjashd';
-		echo Factory::get_instance( XprofileTools::class )->create_xprofile_group( $group_name, $description );
+
 		$is_wcfm_shop = Factory::get_instance( WCFMTools::class )->is_wcfm_store();
 		if ( $is_wcfm_shop ) {
 			$template_id = $this->get_store_template();
@@ -82,18 +79,28 @@ class WCFMHelpers {
 	 * @param int $store_id - the store_id (if blank current store owner used if any).
 	 * @return string
 	 */
-	public function get_store_template( int $store_id = null ): string {
+	public function get_store_template( int $store_id = null ): ?string {
 		if ( $store_id ) {
 			$owner_id = $store_id;
 		} else {
 			$owner_id = Factory::get_instance( WCFMTools::class )->get_wcfm_page_owner();
 			if ( ! $owner_id ) {
-				return false;
+				echo '<h1>No Valid Owner Found</h1>';
+				return null;
 			}
 		}
+
 		$membership_level = Factory::get_instance( ElementalUMPDAO::class )->get_all_active_ump_levels( $owner_id, true );
-		$data_object      = Factory::get_instance( MembershipDAO::class )->get_limit_info( intval( $membership_level[0] ) );
-		$template         = $data_object->template;
+		if ( ! $membership_level ) {
+			echo '<h1>No Valid User Memberships Found</h1>';
+			return null;
+		}
+		$data_object = Factory::get_instance( MembershipDAO::class )->get_limit_info( intval( $membership_level[0] ) );
+		$template    = $data_object->template;
+		if ( ! $template ) {
+			echo '<h1>No Valid Template Found</h1>';
+			return null;
+		}
 		return $template;
 	}
 

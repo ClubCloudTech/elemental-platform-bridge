@@ -285,14 +285,17 @@ class WCFMTools {
 	 */
 	public function get_wcfm_page_owner(): ?int {
 
-			// phpcs:ignore --WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase - variable not set in this function can't change it here.
-			global $WCFM, $post;
-			$post_id = $post->ID;
-			echo $post_id;
-			// phpcs:ignore --WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase - variable not set in this function can't change it here.
-			$owner_id = $WCFM->wcfm_vendor_support->wcfm_get_vendor_id_from_product( $post_id );
+		$wcfm_store_url  = wcfm_get_option( 'wcfm_store_url', 'store' );
+		$wcfm_store_name = apply_filters( 'wcfmmp_store_query_var', get_query_var( $wcfm_store_url ) );
 
-		return $owner_id;
+		if ( empty( $wcfm_store_name ) ) {
+			return null;
+		}
+		$seller_info = get_user_by( 'slug', $wcfm_store_name );
+		if ( ! $seller_info ) {
+			return null;
+		}
+		return $seller_info->ID;
 	}
 
 	/**

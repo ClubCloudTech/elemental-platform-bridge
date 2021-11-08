@@ -13,6 +13,7 @@ use ElementalPlugin\Core\FiltersUtilities;
 use ElementalPlugin\Library\ElementalFunctions;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\Membership;
+use ElementalPlugin\Search\Search;
 use ElementalPlugin\ShortCode\ShortCodeTab;
 use ElementalPlugin\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\WCFM\WCFM;
@@ -40,6 +41,7 @@ class Plugin {
 		Factory::get_instance( XProfile::class )->init();
 		Factory::get_instance( WCFM::class )->init();
 		Factory::get_instance( FiltersUtilities::class )->init();
+		Factory::get_instance( Search::class )->init();
 
 		$this->styles();
 	}

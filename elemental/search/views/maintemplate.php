@@ -8,7 +8,6 @@
 
 use ElementalPlugin\Factory;
 use ElementalPlugin\WCFM\Library\WCFMTools;
-use MyVideoRoomPlugin\Module\WooCommerce\WooCommerce;
 
 /**
  * Render the Main Template
@@ -28,7 +27,7 @@ return function (
 ): string {
 	ob_start();
 	?>
-<div class="mvr-nav-shortcode-outer-wrap" style="max-width: 1250px;">
+<div class="mvr-nav-shortcode-outer-wrap">
 
 	<div class="mvr-header-section">
 	<?php
@@ -39,9 +38,7 @@ return function (
 
 	</div>
 	<div id="mvr-notification-master" class="mvr-nav-shortcode-outer-wrap-clean mvr-notification-master">
-	
-	
-		
+
 		<div id="mvr-postbutton-notification" class="mvr-notification-align">
 		<div id="notification" class="mvr-table-row ">
 		<input id="elemental-search" type="text" placeholder="Search....."  class="myvideoroom-input-restrict-alphanumeric-space mvr-input-box myvideoroom-center">
@@ -50,13 +47,13 @@ return function (
 			</button>
 <div id="mvr-postbutton-notification" class="mvr-notification-align"></div>
 </div>
-		
+
 
 		</div>
 	</div>
 
-	<nav class="myvideoroom-nav-tab-wrapper nav-tab-wrapper elemental-side-tab">
-		<ul class="mvr-ul-style-side-menu">
+	<nav class="myvideoroom-nav-tab-wrapper nav-tab-wrapper ">
+		<ul class="search-menu-header">
 			<?php
 					$active = ' nav-tab-active';
 			foreach ( $tabs as $menu_output ) {
@@ -90,8 +87,6 @@ return function (
 	<?php
 	$roles = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( true );
 
-	// echo var_dump( Factory::get_instance( WCFMTools::class )->elemental_get_store_memberships( 134 ) );
-
 			$count = 0;
 	foreach ( $tabs as $article_output ) {
 
@@ -99,32 +94,18 @@ return function (
 		$tab_slug          = $article_output->get_tab_slug();
 		?>
 	<article id="<?php echo esc_attr( $html_library->get_id( $tab_slug ) ); ?>"
-		class="elemental-content-tab mvr-article-separation">
+		class="mvr-article-separation">
 		<?php
-
-		if ( WooCommerce::SETTING_SHOPPING_BASKET !== $tab_slug ) {
 			// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.
 				echo $function_callback;
-		}
 
 		?>
 	</article>
 		<?php
-		if ( WooCommerce::SETTING_SHOPPING_BASKET === $tab_slug ) {
-			?>
-	<article id="<?php echo \esc_textarea( WooCommerce::SETTING_SHOPPING_BASKET ); ?>" class="mvr-article-separation">
-			<?php
-				// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.
-				echo $function_callback; 
-			?>
-
-	</article>
-			<?php
-		}
 	}
 	?>
 </div>
-	
+
 	<?php
 
 			return \ob_get_clean();

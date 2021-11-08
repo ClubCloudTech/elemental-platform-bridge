@@ -40,4 +40,15 @@ if ( ! function_exists( 'elemental_get_wcfm_memberships' ) ) {
 		$function_to_call = new WCFMTools();
 		return $function_to_call->elemental_am_i_premium( ...func_get_args() );
 	}
+
+	/**
+	 * Wrapper for Elemental Get Page Owner Function.
+	 *
+	 * @return array|false|int|mixed|string|void|null
+	 */
+	function elemental_get_wcfm_page_owner() {
+		$function_to_call = new WCFMTools();
+		return $function_to_call->get_wcfm_page_owner( ...func_get_args() );
+	}
 }
+
