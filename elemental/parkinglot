@@ -192,3 +192,16 @@ public function get_list( $input = '' ) {
 
 $groups = bp_xprofile_get_groups( array( 'fetch_fields' => true ) );
 echo var_dump ( $groups );
+
+
+	// The WP_Query loop
+	if ( $query->have_posts() ) :
+		while ( $query->have_posts() ) :
+			$query->the_post();
+
+			// Test output
+			echo '<p>' . $query->post->post_title . ' (' . $query->post->ID . ')</p>';
+
+		endwhile;
+		wp_reset_postdata();
+	endif;

@@ -42,8 +42,9 @@ return function (
 		<div id="mvr-postbutton-notification" class="mvr-notification-align">
 		<div id="notification" class="mvr-table-row ">
 		<input id="elemental-search" type="text" placeholder="Search....."  class="myvideoroom-input-restrict-alphanumeric-space mvr-input-box myvideoroom-center">
-			<button class="mvr-main-button-enabled myvideoroom-woocommerce-basket-ajax" data-target="mvr-shopping-basket">
-			<a data-input-type="woocommerce-refresh-basket" data-auth-nonce="" data-room-name="" class="mvr-main-button-enabled myvideoroom-woocommerce-basket-ajax myvideoroom-button-link"><span title="Search" class="myvideoroom-dashicons dashicons-search"></span></a>
+		<div id="searchnotification" class="mvr-notification-align"></div>
+			<button class="mvr-main-button-enabled " >
+			<a data-room-name="" class="mvr-main-button-enabled elemental-search-trigger"><span title="Search" class="myvideoroom-dashicons dashicons-search elemental-search-trigger"></span></a>
 			</button>
 <div id="mvr-postbutton-notification" class="mvr-notification-align"></div>
 </div>

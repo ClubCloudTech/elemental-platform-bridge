@@ -21,7 +21,7 @@ class ElementalFunctions {
 	 */
 	public function init() {
 
-		//add_filter( 'wcfm_login_redirect', array( $this, 'custom_wcfm_login_redirect' ), 10, 2 );
+		// add_filter( 'wcfm_login_redirect', array( $this, 'custom_wcfm_login_redirect' ), 10, 2 );
 		// add_filter( 'wcfm_login_redirect', array ( Factory::get_instance( testclass::class), 'custom_wcfm_login_redirect' ), 10, 2 );
 	}
 

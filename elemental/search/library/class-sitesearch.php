@@ -14,11 +14,16 @@ use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\HTML;
 use ElementalPlugin\WCFM\Library\WCFMHelpers;
+use \MyVideoRoomPlugin\Library\Ajax;
 
 /**
  * Class Site Search
  */
 class SiteSearch {
+
+	const SEARCH_ORG_TAB     = 'elemental-organisation-tab';
+	const SEARCH_PRODUCT_TAB = 'elemental-main-products';
+	const SEARCH_CONTENT_TAB = 'elemental-main-content';
 
 	/**
 	 * Install the shortcode
@@ -52,13 +57,13 @@ class SiteSearch {
 	 * @param string $product_template - Product Template.
 	 */
 	public function sitesearch_shortcode_handler( string $header_template = null, string $search_template = null, string $product_template = null ) {
-		global $WCFMmp;
+		$this->enqueue_wcfm_dependencies();
+		\wp_enqueue_script( 'elemental-search-js' );
 		$header       = \do_shortcode( '[elementor-template id="' . \esc_attr( $header_template ) . '"]' );
 		$html_library = Factory::get_instance( HTML::class, array( 'view-management' ) );
 		$tabs         = array();
 		$tabs         = apply_filters( 'elemental_search_template_render', $tabs, $search_template, $product_template );
-		\wp_enqueue_style( 'wcfmmp_store_list_css', $WCFMmp->library->css_lib_url_min . 'store-lists/wcfmmp-style-stores-list.css', array(), $WCFMmp->version );
-		\wp_enqueue_script( 'elemental-search-js' );
+
 		$render = include __DIR__ . '/../views/maintemplate.php';
 		return $render( $header, $html_library, $tabs );
 
@@ -75,7 +80,8 @@ class SiteSearch {
 			$admin_menu = new MenuTabDisplay(
 				\esc_html__( 'Organisations', 'myvideoroom' ),
 				\esc_html__( 'Organisations', 'myvideoroom' ),
-				fn() => $this->render_wcfm_order()
+				fn() => $this->render_wcfm_organisations(),
+				'elemental-org-result'
 			);
 			\array_push( $input, $admin_menu );
 
@@ -83,17 +89,39 @@ class SiteSearch {
 	}
 
 	/**
-	 * Render WCFM Order
+	 * Ajax Handler for Organisation Search Response.
 	 *
+	 * @param array  $response - the inbound response object.
+	 * @param string $search_term - the term searched for.
 	 * @return array
 	 */
-	public function render_wcfm_order() :string {
-		$output  = '<h1 class="elemental-login-button">' . \esc_html__( 'Featured Partnerships', 'myvideoroom ' ) . '</h1>';
-		$output .= \do_shortcode( '[wcfm_stores_carousel theme="simple" include_membership="' . get_option( WCFMHelpers::SETTING_WCFM_PREMIUM_MEMBERSHIPS ) . '" has_search="no" ]' );
-		$output .= '<h1 class="elemental-login-button">' . \esc_html__( 'All of UAM Organisations', 'myvideoroom ' ) . '</h1>';
-		$output .= \do_shortcode( '[wcfm_stores theme="simple" has_search="no" has_map="no" has_orderby="yes" ]' );
+	public function organisation_search_response( array $response, string $search_term ): array {
+		$action_taken = Factory::get_instance( Ajax::class )->get_string_parameter( self::SEARCH_ORG_TAB );
+		if ( self::SEARCH_ORG_TAB === $action_taken ) {
+			$response['organisation'] = $this->render_wcfm_organisations( $search_term );
+			$response['target']       = self::SEARCH_ORG_TAB;
+		}
+		return $response;
+	}
 
-		return $output;
+	/**
+	 * Render WCFM Window.
+	 *
+	 * @param string $search_term -Whether to search on a given term.
+	 * @return array
+	 */
+	public function render_wcfm_organisations( string $search_term = null ) :string {
+		$tab_name = self::SEARCH_ORG_TAB;
+		if ( $search_term ) {
+			$premium_display = null;
+			$main_display    = \do_shortcode( '[wcfm_stores search_term="' . $search_term . '" theme="simple" has_map="no" has_orderby="yes" ]' );
+		} else {
+			$premium_display = \do_shortcode( '[wcfm_stores_carousel theme="simple" include_membership="' . get_option( WCFMHelpers::SETTING_WCFM_PREMIUM_MEMBERSHIPS ) . '" ]' );
+			$main_display    = \do_shortcode( '[wcfm_stores theme="simple" has_map="no" has_orderby="yes" ]' );
+		}
+
+		$render = include __DIR__ . '/../views/wcfm-orgs.php';
+		return $render( $premium_display, $main_display, $tab_name );
 	}
 
 	/**
@@ -113,25 +141,12 @@ class SiteSearch {
 					3
 				);
 				// Partners Organisation Tab.
-				add_filter(
-					'elemental_search_template_render',
-					array(
-						$this,
-						'get_wcfm_tabs',
-					),
-					5,
-					3
-				);
-					// Products Organisation Tab.
-					add_filter(
-						'elemental_search_template_render',
-						array(
-							$this,
-							'render_product_result_tab',
-						),
-						5,
-						3
-					);
+				add_filter( 'elemental_search_template_render', array( $this, 'get_wcfm_tabs' ), 5, 3 );
+				add_filter( 'elemental_search_ajax_response', array( $this, 'organisation_search_response' ), 10, 2 );
+
+				// Products Organisation Tab.
+				add_filter( 'elemental_search_template_render', array( $this, 'render_product_result_tab' ), 5, 3 );
+				add_filter( 'elemental_search_ajax_response', array( $this, 'product_search_response' ), 10, 2 );
 
 	}
 	/**
@@ -179,10 +194,10 @@ class SiteSearch {
 	public function render_product_result_tab( array $input, string $search_template = null, string $product_template = null ): array {
 
 		$host_menu = new MenuTabDisplay(
-			\esc_html__( 'Product', 'myvideoroom' ),
+			\esc_html__( 'Products', 'myvideoroom' ),
 			'elemental-product',
 			fn() => $this->render_product_template( $product_template ),
-			'elemental-search-result'
+			'elemental-product-result'
 		);
 
 		array_push( $input, $host_menu );
@@ -197,8 +212,110 @@ class SiteSearch {
 	 * @return array
 	 */
 	public function render_product_template( string $product_template = null ) :?string {
-		$output = \do_shortcode( '[elementor-template id="' . \esc_textarea( $product_template ) . '"]' );
-		return $output;
+		$tab       = self::SEARCH_PRODUCT_TAB;
+		$shortcode = \do_shortcode( '[elementor-template id="' . \esc_textarea( $product_template ) . '"]' );
+		$render    = include __DIR__ . '/../views/products-render.php';
+		return $render( $shortcode, $tab );
+	}
+
+	/**
+	 * Ajax Handler for Product Search Response.
+	 *
+	 * @param array  $response - the inbound response object.
+	 * @param string $search_term - the term searched for.
+	 * @return array
+	 */
+	public function product_search_response( array $response, string $search_term ): array {
+		$action_taken = Factory::get_instance( Ajax::class )->get_string_parameter( self::SEARCH_PRODUCT_TAB );
+		if ( self::SEARCH_PRODUCT_TAB === $action_taken ) {
+			$product_return            = $this->search_products( $search_term );
+			$response['product']       = $product_return['screen'];
+			$response['count']         = $product_return['count'];
+			$response['producttarget'] = self::SEARCH_PRODUCT_TAB;
+		}
+		return $response;
+	}
+
+	private function enqueue_wcfm_dependencies(): void {
+			global $WCFM, $WCFMmp;
+			$WCFM->library->load_select2_lib();
+			wp_enqueue_script( 'wc-country-select' );
+			$WCFMmp->library->load_map_lib();
+			$enable_store_radius = isset( $WCFMmp->wcfmmp_marketplace_options['enable_wcfm_storelist_radius'] ) ? $WCFMmp->wcfmmp_marketplace_options['enable_wcfm_storelist_radius'] : 'no';
+			wp_enqueue_script( 'wcfmmp_store_list_js', $WCFMmp->library->js_lib_url_min . 'store-lists/wcfmmp-script-store-lists.js', array( 'jquery' ), $WCFMmp->version, true );
+			wp_localize_script(
+				'wcfmmp_store_list_js',
+				'wcfmmp_store_list_messages',
+				array(
+					'choose_category' => __( 'Choose Category', 'wc-multivendor-marketplace' ),
+					'choose_location' => __( 'Choose Location', 'wc-multivendor-marketplace' ),
+					'choose_state'    => __(
+						'Choose State',
+						'wc-multivendor-marketplace'
+					),
+				)
+			);
+			wp_localize_script(
+				'wcfmmp_store_list_js',
+				'wcfmmp_store_list_options',
+				array(
+					'search_location'      => __( 'Insert your address ..', 'wc-multivendor-marketplace' ),
+					'is_geolocate'         => apply_filters( 'wcfmmp_is_allow_store_list_by_user_location', true ),
+					'max_radius'           => apply_filters( 'wcfmmp_radius_filter_max_distance', $max_radius_to_search ),
+					'radius_unit'          => ucfirst( $radius_unit ),
+					'start_radius'         => apply_filters( 'wcfmmp_radius_filter_start_distance', 10 ),
+					'default_lat'          => $default_lat,
+					'default_lng'          => $default_lng,
+					'default_zoom'         => absint( $default_zoom ),
+					'icon_width'           => apply_filters( 'wcfmmp_map_icon_width', 40 ),
+					'icon_height'          => apply_filters( 'wcfmmp_map_icon_height', 57 ),
+					'is_poi'               => apply_filters( 'wcfmmp_is_allow_map_poi', true ),
+					'is_allow_scroll_zoom' => apply_filters( 'wcfmmp_is_allow_map_scroll_zoom', true ),
+					'is_cluster'           => apply_filters( 'wcfmmp_is_allow_map_pointer_cluster', true ),
+					'cluster_image'        => apply_filters( 'wcfmmp_is_cluster_image', 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' ),
+					'is_rtl'               => is_rtl(),
+				)
+			);
+
+	}
+
+	/**
+	 * Search Products
+	 *
+	 * @param string $search_term - the product search term.
+	 * @return void
+	 */
+	private function search_products( string $search_term ): array {
+		// Get the terms IDs for the current product related to 'collane' custom taxonomy.
+
+		$query    = new \WP_Query(
+			$args = array(
+				'post_type'           => 'product',
+				'post_status'         => 'publish',
+				'ignore_sticky_posts' => 1,
+				's'                   => $search_term,
+			)
+		);
+		ob_start();
+		?>
+			<div class="woocommerce">
+				<ul id="elemental-product-grid" class="products elementor-grid oceanwp-row clr grid tablet-col tablet-3-col" style="display: initial;">
+					<?php
+					// The WP_Query loop
+					if ( $query->have_posts() ) :
+						while ( $query->have_posts() ) : $query->the_post();
+						wc_get_template_part( 'content', 'product' );
+					endwhile;
+						wp_reset_postdata();
+					endif;
+					?>
+				</ul>
+			</div>
+			<?php
+			$return_array           = array();
+			$return_array['screen'] = ob_get_clean();
+			$return_array['count']  = $query->post_count;
+			return $return_array;
 	}
 
 }

@@ -45,7 +45,7 @@ class MembershipSetup {
 	 * Create Registration BP Group
 	 */
 	public function create_registration_bpgroup(): void {
-		$description = esc_html__( 'This Contains the Mandatory and Important Information that is needed Club Wide for all members, staff, and vendors', 'myvideoroom' ) ;
+		$description = esc_html__( 'This Contains the Mandatory and Important Information that is needed Club Wide for all members, staff, and vendors', 'myvideoroom' );
 		$group_name  = 'Registration';
 		$field       = Factory::get_instance( XprofileTools::class )->create_xprofile_group( $group_name, $description );
 		\update_option( self::SETTING_REGISTRATION_GROUP_ID, $field );

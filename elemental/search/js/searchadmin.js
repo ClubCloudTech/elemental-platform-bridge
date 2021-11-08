@@ -13,98 +13,55 @@ window.addEventListener(
                  * Initialise Functions on Load
                  */
                 function init() {
+                    var notification = $('#searchnotification');
 
-
-                    $('.elemental-membership-control').on('change', dbUpload);
-                    $('.elemental-membership-template').on('change', templateUpload);
-                    $('#elemental-inbound-email').on('keyup', chkEmail);
-                    $('#first_name').on('keyup', checkShow);
-                    $('#last_name').on('keyup', checkShow);
-
-
-
-                    $('#elemental-inbound-email').click(
+                    // Search Bar Triggers (click and enter key)
+                    $('.elemental-search-trigger').click(
                         function(e) {
                             e.stopPropagation();
                             e.preventDefault();
-                            $('#submit').prop('value', 'Add User');
+                            notification.html('Searching');
+                            var input = $('#elemental-search').val();
+                            checkorgs(input);
                         }
                     );
 
-                    $('#first_name').click(
-                        function(e) {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            $('#submit').prop('value', 'Add User');
+                    $("#elemental-search").on('keyup', function(event) {
+                        if (event.keyCode === 13) {
+                            var input = $('#elemental-search').val();
+                            notification.html('Searching');
+                            checkorgs(input);
                         }
-                    );
-
-                    $('#last_name').click(
+                    });
+                    // Listen to WCFM Ajax box being used.
+                    $('#search').keyup(
                         function(e) {
+                            var premium_div = $('#elemental-premium-wcfm');
                             e.stopPropagation();
                             e.preventDefault();
-                            $('#submit').prop('value', 'Add User');
-                        }
-                    );
+                            notification.html('Searching');
+                            if (premium_div.length) {
+                                premium_div.empty();
+                            }
 
-                    $('.elemental-delete-user-account').click(
-                        function(e) {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            var user_id = $(this).attr('data-userid'),
-                                nonce = $(this).attr('data-nonce');
-                            deleteUser(e, user_id, nonce);
-                        }
-                    );
-
-                    $('#mvr-main-button-cancel').click(
-                        function(e) {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            $('#elemental-membership-table').show();
-                            $('#elemental-notification-frame').empty();
-                        }
-                    );
-
-                    $('.mvr-main-button-enabled').click(
-                        function(e) {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            user_id = $(this).attr('data-record-id');
-                            nonce = $(this).attr('data-auth-nonce');
-                            deleteUser(e, user_id, nonce, true);
                         }
                     );
                 }
 
-
                 /**
-                 * Search Stores and Spaces.
+                 * Search Organisations and Spaces.
                  */
-                var chkEmail = function(event) {
-                    event.stopPropagation();
+                var checkorgs = function(search) {
 
-                    $('#elemental-email-status').removeClass('elemental-checking');
-                    $('#elemental-email-status').addClass('elemental-invalid');
-                    var email = event.target.value,
-                        valid_email = validateEmail(email);
-
-                    if (!valid_email) {
-                        $('#elemental-email-status').removeClass('elemental-checking');
-                        $('#elemental-email-status').removeClass('elemental-email-available');
-                        $('#elemental-email-status').removeClass('elemental-email-taken');
-                        $('#elemental-email-status').html('Invalid Address');
-                        $('#elemental-email-status').addClass('elemental-invalid');
-                        return false;
-                    } else {
-                        $('#elemental-email-status').removeClass('elemental-invalid');
-                        $('#elemental-email-status').addClass('elemental-checking');
-                        $('#elemental-email-status').html('Checking is Free');
-                    }
                     var form_data = new FormData();
+                    $('.elemental-label-trigger').each(function() {
+                        //console.log(": " + $(this).attr("id"));
+                        form_data.append($(this).attr("id"), $(this).attr("id"));
+                    });
+
                     form_data.append('action', 'elemental_searchadmin_ajax');
-                    form_data.append('action_taken', 'check_email');
-                    form_data.append('email', email);
+                    //form_data.append('action_taken', 'search_org');
+                    form_data.append('search_term', search);
                     form_data.append('security', elemental_searchadmin_ajax.security);
                     $.ajax({
                         type: 'post',
@@ -115,24 +72,30 @@ window.addEventListener(
                         data: form_data,
                         success: function(response) {
                             var state_response = JSON.parse(response);
-                            console.log(state_response.available);
-                            if (state_response.available === false) {
-                                $('#elemental-email-status').removeClass('elemental-checking');
-                                $('#elemental-email-status').removeClass('elemental-invalid');
-                                $('#elemental-email-status').addClass('elemental-email-taken');
-                                $('#elemental-email-status').html('Email Taken');
-                            } else {
-                                $('#elemental-email-status').removeClass('elemental-checking');
-                                $('#elemental-email-status').removeClass('elemental-invalid');
-                                $('#elemental-email-status').addClass('elemental-email-available');
-                                $('#elemental-email-status').html('Email Available');
-                                $('#elemental-email-status').attr('data-status', 'checked');
-                                checkShow();
+
+                            if (state_response.organisation && state_response.target) {
+                                $('#' + state_response.target).html(state_response.organisation);
+                                let orgcount = $('.woocommerce-result-count').text();
+                                //console.log(orgcount + 'orgcount');
+                                let number = orgcount.match(/\d+/g).pop();
+                                $('#elemental-org-result').html('Organisations (' + number + ')');
+                            }
+                            if (state_response.product && state_response.producttarget) {
+                                $('#' + state_response.producttarget).html(state_response.product);
+
+                                let destination = $('#elemental-product-grid').children('li').eq(0),
+                                    source = $('#elemental-product-grid').children('li').eq(1);
+
+                                //Rewrite First Product Class due to OWP bug.
+                                $(destination).attr("class", $(source).attr("class"));
+                                if (state_response.count) {
+                                    $('#elemental-product-result').html('Products (' + state_response.count + ')');
+                                }
                             }
 
                         },
                         error: function(response) {
-                            console.log('Error Uploading');
+                            console.log('Error Search Organisations');
                         }
                     });
                 }

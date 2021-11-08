@@ -32,13 +32,13 @@ class XprofileTools {
 		$bp = buddypress();
 		global $wpdb;
 
-		$exists = $wpdb->get_var( 
+		$exists = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT id FROM {$bp->profile->table_name_groups} WHERE name = %s",
 				$name
 			)
 		);
-		
+
 		if ( $return_id && $exists ) {
 			return $exists;
 
@@ -58,7 +58,7 @@ class XprofileTools {
 		$bp = buddypress();
 		global $wpdb;
 
-		$exists = $wpdb->get_var( 
+		$exists = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT id FROM {$bp->profile->table_name_groups} WHERE name = %s",
 				$name

@@ -242,7 +242,7 @@
 }
 
 .search-menu-header {
-    display: inline-block;
+    display: flex;
     box-sizing: border-box;
     background-color: #e0e0e0;
     color: #525151;
