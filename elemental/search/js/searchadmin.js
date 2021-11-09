@@ -73,6 +73,8 @@ window.addEventListener(
                 var checkorgs = function(search) {
                     notification = $('#searchnotification');
                     var form_data = new FormData();
+                    searchid = $('#elemental-pageinfo').data("searchid");
+
                     $('.elemental-label-trigger').each(
                         function() {
                             form_data.append($(this).attr("id"), $(this).attr("id"));
@@ -82,6 +84,7 @@ window.addEventListener(
                     form_data.append('action', 'elemental_searchadmin_ajax');
                     // form_data.append('action_taken', 'search_org');
                     form_data.append('search_term', search);
+                    form_data.append('searchid', searchid);
                     form_data.append('security', elemental_searchadmin_ajax.security);
                     $.ajax({
                         type: 'post',
@@ -110,6 +113,8 @@ window.addEventListener(
                                 $(destination).attr("class", $(source).attr("class"));
                                 if (state_response.productcount) {
                                     $('#elemental-product-result').html('Products (' + state_response.productcount + ')');
+                                } else {
+                                    $('#elemental-product-result').html('Products (0)');
                                 }
                             }
                             if (state_response.content && state_response.contenttarget) {
@@ -135,8 +140,8 @@ window.addEventListener(
                  */
                 var searchonly = function(search, page) {
                     notification = $('#searchnotification'),
-                        searchid = $('#elemental-pageinfo').attr('data-searchid');
-
+                        searchid = $('#elemental-pageinfo').data("searchid");
+                    console.log(searchid + 'test');
                     var form_data = new FormData();
                     form_data.append('searchid', searchid);
                     form_data.append('elemental-main-content', 'elemental-main-content');

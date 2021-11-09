@@ -330,7 +330,7 @@ class SiteSearch {
 			<?php
 			$return_array           = array();
 			$return_array['screen'] = ob_get_clean();
-			$return_array['count']  = $query->post_count;
+			$return_array['count']  = $query->found_posts;
 			return $return_array;
 	}
 
@@ -354,15 +354,15 @@ class SiteSearch {
 				's'              => $search_term,
 			)
 		);
-		$return_array['screen']             = intval( Factory::get_instance( Ajax::class )->get_string_parameter( 'searchid' ) ).'123';
-		$search_template = 43577;
-		\error_log( $search_template );
-		$render                       = include __DIR__ . '/../views/content-render.php';
-		$tab                          = self::SEARCH_CONTENT_TAB;
-		$content                      = $this->render_search_template( $search_template );
-		$return_array                 = array();
-		//$return_array['screen']       = $render( $content, $tab );
-		$return_array['contentcount'] = $query->found_posts;
+
+		$search_template        = Factory::get_instance( Ajax::class )->get_integer_parameter( 'searchid' );
+		$render                 = include __DIR__ . '/../views/content-render.php';
+		$tab                    = self::SEARCH_CONTENT_TAB;
+		$content                = $this->render_search_template( $search_template );
+		$return_array           = array();
+		$return_array['screen'] = $render( $content, $tab );
+		$return_array['count']  = $wp_query->found_posts;
+
 		return $return_array;
 	}
 
