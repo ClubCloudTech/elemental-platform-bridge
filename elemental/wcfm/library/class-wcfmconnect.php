@@ -102,9 +102,9 @@ class WCFMConnect extends Shortcode {
 						$room_name,
 						$video_template,
 					)->enable_admin();
-					   // Prepare Room Settings to Send to Wrapper Template - Host.
-					   $header        = Factory::get_instance( SectionTemplates::class )->wcfmc_visitor_header();
-					   $shortcode     = $myvideoroom_app->output_shortcode();
+					// Prepare Room Settings to Send to Wrapper Template - Host.
+					$header           = Factory::get_instance( SectionTemplates::class )->wcfmc_visitor_header();
+					$shortcode        = $myvideoroom_app->output_shortcode();
 					$admin_page       = Factory::get_instance( \ElementalPlugin\Shortcode\UserVideoPreference::class )->choose_settings(
 						$owner_id,
 						$store_name,
@@ -115,7 +115,7 @@ class WCFMConnect extends Shortcode {
 						$store_name
 					);
 
-					   return Factory::get_instance( SectionTemplates::class )->shortcode_template_wrapper_wcfm( $header, $shortcode, $admin_page, $permissions_page );
+					return Factory::get_instance( SectionTemplates::class )->shortcode_template_wrapper_wcfm( $header, $shortcode, $admin_page, $permissions_page );
 				}
 			}
 

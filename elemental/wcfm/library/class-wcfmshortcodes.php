@@ -304,7 +304,7 @@ class WCFMShortcodes {
 	 * @return ?string
 	 */
 	public function wcfm_store_display( array $attributes ): ?string {
-		$input_type = $attributes['item'];
+		$input_type = $attributes['type'];
 		$store_id   = $attributes['id'];
 
 		if ( ! $store_id ) {

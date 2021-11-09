@@ -13,8 +13,9 @@ use ElementalPlugin\WCFM\Library\WCFMTools;
  * Render the Main Template
  *
  * @param string $header - the header of the template.
- * @param array  $tabs -Inbound object with tabs.
  * @param object $html_library - randomizing object class.
+ * @param array  $tabs -Inbound object with tabs.
+ * @param object $search_template - the templateID of the search template.
  *
  * @return string
  */
@@ -23,12 +24,13 @@ use ElementalPlugin\WCFM\Library\WCFMTools;
 return function (
 	string $header,
 	object $html_library,
-	array $tabs
+	array $tabs,
+	string $search_template
 ): string {
 	ob_start();
 	?>
-<div class="mvr-nav-shortcode-outer-wrap">
-
+<div class="wrap">
+<div id="elemental-pageinfo" data-searchid="<?php echo esc_attr( $search_template ); ?>"></div>
 	<div class="mvr-header-section">
 	<?php
 		// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.

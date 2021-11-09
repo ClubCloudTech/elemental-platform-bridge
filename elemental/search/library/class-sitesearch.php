@@ -65,7 +65,7 @@ class SiteSearch {
 		$tabs         = apply_filters( 'elemental_search_template_render', $tabs, $search_template, $product_template );
 
 		$render = include __DIR__ . '/../views/maintemplate.php';
-		return $render( $header, $html_library, $tabs );
+		return $render( $header, $html_library, $tabs, $search_template );
 
 	}
 
@@ -99,7 +99,7 @@ class SiteSearch {
 		$action_taken = Factory::get_instance( Ajax::class )->get_string_parameter( self::SEARCH_ORG_TAB );
 		if ( self::SEARCH_ORG_TAB === $action_taken ) {
 			$response['organisation'] = $this->render_wcfm_organisations( $search_term );
-			$response['target']       = self::SEARCH_ORG_TAB;
+			$response['orgtarget']    = self::SEARCH_ORG_TAB;
 		}
 		return $response;
 	}
@@ -130,23 +130,16 @@ class SiteSearch {
 	 * @return void
 	 */
 	public function add_search_tabs() {
-				// Add Search Tab.
-				add_filter(
-					'elemental_search_template_render',
-					array(
-						$this,
-						'render_search_result_tab',
-					),
-					15,
-					3
-				);
-				// Partners Organisation Tab.
-				add_filter( 'elemental_search_template_render', array( $this, 'get_wcfm_tabs' ), 5, 3 );
-				add_filter( 'elemental_search_ajax_response', array( $this, 'organisation_search_response' ), 10, 2 );
+		// Add Search Tab.
+		add_filter( 'elemental_search_template_render', array( $this, 'render_search_result_tab' ), 15, 3 );
+		add_filter( 'elemental_search_ajax_response', array( $this, 'content_search_response' ), 10, 2 );
+		// Partners Organisation Tab.
+		add_filter( 'elemental_search_template_render', array( $this, 'get_wcfm_tabs' ), 5, 3 );
+		add_filter( 'elemental_search_ajax_response', array( $this, 'organisation_search_response' ), 10, 2 );
 
-				// Products Organisation Tab.
-				add_filter( 'elemental_search_template_render', array( $this, 'render_product_result_tab' ), 5, 3 );
-				add_filter( 'elemental_search_ajax_response', array( $this, 'product_search_response' ), 10, 2 );
+		// Products Organisation Tab.
+		add_filter( 'elemental_search_template_render', array( $this, 'render_product_result_tab' ), 5, 3 );
+		add_filter( 'elemental_search_ajax_response', array( $this, 'product_search_response' ), 10, 2 );
 
 	}
 	/**
@@ -173,14 +166,36 @@ class SiteSearch {
 	}
 
 	/**
-	 * Render Search Template
+	 * Render Content Search Template
 	 *
 	 * @param string $search_template  - the search template.
 	 * @return array
 	 */
 	public function render_search_template( string $search_template = null ) :string {
-		$output = \do_shortcode( '[elementor-template id="' . \esc_textarea( $search_template ) . '"]' );
-		return $output;
+		$tab       = self::SEARCH_CONTENT_TAB;
+		$shortcode = \do_shortcode( '[elementor-template id="' . \esc_textarea( $search_template ) . '"]' );
+		$render    = include __DIR__ . '/../views/search-render.php';
+		return $render( $shortcode, $tab );
+
+	}
+
+	/**
+	 * Ajax Handler for Content Search Response.
+	 *
+	 * @param array  $response - the inbound response object.
+	 * @param string $search_term - the term searched for.
+	 * @return array
+	 */
+	public function content_search_response( array $response, string $search_term ): array {
+		$action_taken = Factory::get_instance( Ajax::class )->get_string_parameter( self::SEARCH_CONTENT_TAB );
+		if ( self::SEARCH_CONTENT_TAB === $action_taken ) {
+			$page                      = intval( Factory::get_instance( Ajax::class )->get_string_parameter( 'page' ) );
+			$content_return            = $this->search_terms( $search_term, $page );
+			$response['content']       = $content_return['screen'];
+			$response['contentcount']  = $content_return['count'];
+			$response['contenttarget'] = self::SEARCH_CONTENT_TAB;
+		}
+		return $response;
 	}
 
 	/**
@@ -230,7 +245,7 @@ class SiteSearch {
 		if ( self::SEARCH_PRODUCT_TAB === $action_taken ) {
 			$product_return            = $this->search_products( $search_term );
 			$response['product']       = $product_return['screen'];
-			$response['count']         = $product_return['count'];
+			$response['productcount']  = $product_return['count'];
 			$response['producttarget'] = self::SEARCH_PRODUCT_TAB;
 		}
 		return $response;
@@ -283,7 +298,7 @@ class SiteSearch {
 	 * Search Products
 	 *
 	 * @param string $search_term - the product search term.
-	 * @return void
+	 * @return array
 	 */
 	private function search_products( string $search_term ): array {
 		// Get the terms IDs for the current product related to 'collane' custom taxonomy.
@@ -301,10 +316,11 @@ class SiteSearch {
 			<div class="woocommerce">
 				<ul id="elemental-product-grid" class="products elementor-grid oceanwp-row clr grid tablet-col tablet-3-col" style="display: initial;">
 					<?php
-					// The WP_Query loop
+					// The WP_Query loop.
 					if ( $query->have_posts() ) :
-						while ( $query->have_posts() ) : $query->the_post();
-						wc_get_template_part( 'content', 'product' );
+						while ( $query->have_posts() ) :
+							$query->the_post();
+							wc_get_template_part( 'content', 'product' );
 					endwhile;
 						wp_reset_postdata();
 					endif;
@@ -316,6 +332,38 @@ class SiteSearch {
 			$return_array['screen'] = ob_get_clean();
 			$return_array['count']  = $query->post_count;
 			return $return_array;
+	}
+
+	/**
+	 * Search Terms
+	 *
+	 * @param string $search_term - the product search term.
+	 * @param int    $page_number - the return page number.
+	 * @return array
+	 */
+	private function search_terms( string $search_term, int $page_number = null ): array {
+		// Get the terms IDs for the current product related to 'collane' custom taxonomy.
+		global $wp_query;
+		$pagenum = $page_number ?? 1;
+		// phpcs:ignore -- WordPress.WP.GlobalVariablesOverride.Prohibited - intercepting main site search function by design.
+		$wp_query = new \WP_Query(
+			array(
+				'post_status'    => 'publish',
+				'posts_per_page' => 5,
+				'paged'          => $pagenum,
+				's'              => $search_term,
+			)
+		);
+		$return_array['screen']             = intval( Factory::get_instance( Ajax::class )->get_string_parameter( 'searchid' ) ).'123';
+		$search_template = 43577;
+		\error_log( $search_template );
+		$render                       = include __DIR__ . '/../views/content-render.php';
+		$tab                          = self::SEARCH_CONTENT_TAB;
+		$content                      = $this->render_search_template( $search_template );
+		$return_array                 = array();
+		//$return_array['screen']       = $render( $content, $tab );
+		$return_array['contentcount'] = $query->found_posts;
+		return $return_array;
 	}
 
 }

@@ -26,13 +26,16 @@ window.addEventListener(
                         }
                     );
 
-                    $("#elemental-search").on('keyup', function(event) {
-                        if (event.keyCode === 13) {
-                            var input = $('#elemental-search').val();
-                            notification.html('Searching');
-                            checkorgs(input);
+                    $("#elemental-search").on(
+                        'keyup',
+                        function(event) {
+                            if (event.keyCode === 13) {
+                                var input = $('#elemental-search').val();
+                                notification.html('Searching');
+                                checkorgs(input);
+                            }
                         }
-                    });
+                    );
                     // Listen to WCFM Ajax box being used.
                     $('#search').keyup(
                         function(e) {
@@ -46,21 +49,38 @@ window.addEventListener(
 
                         }
                     );
+
+                    // Search Pagination
+                    $('.page-numbers').click(
+                        function(e) {
+                            console.log('click');
+                            e.stopPropagation();
+                            e.preventDefault();
+                            notification.html('Getting Next Page');
+                            var input = $('#elemental-search').val();
+                            let page = $(this).attr('href');
+                            let pagenumber = page.match(/\d+/g).pop();
+                            searchonly(input, pagenumber);
+
+                        }
+                    );
+
                 }
 
                 /**
                  * Search Organisations and Spaces.
                  */
                 var checkorgs = function(search) {
-
+                    notification = $('#searchnotification');
                     var form_data = new FormData();
-                    $('.elemental-label-trigger').each(function() {
-                        //console.log(": " + $(this).attr("id"));
-                        form_data.append($(this).attr("id"), $(this).attr("id"));
-                    });
+                    $('.elemental-label-trigger').each(
+                        function() {
+                            form_data.append($(this).attr("id"), $(this).attr("id"));
+                        }
+                    );
 
                     form_data.append('action', 'elemental_searchadmin_ajax');
-                    //form_data.append('action_taken', 'search_org');
+                    // form_data.append('action_taken', 'search_org');
                     form_data.append('search_term', search);
                     form_data.append('security', elemental_searchadmin_ajax.security);
                     $.ajax({
@@ -73,29 +93,79 @@ window.addEventListener(
                         success: function(response) {
                             var state_response = JSON.parse(response);
 
-                            if (state_response.organisation && state_response.target) {
-                                $('#' + state_response.target).html(state_response.organisation);
+                            notification.html('Search Complete');
+                            if (state_response.organisation && state_response.orgtarget) {
+                                $('#' + state_response.orgtarget).html(state_response.organisation);
                                 let orgcount = $('.woocommerce-result-count').text();
-                                //console.log(orgcount + 'orgcount');
                                 let number = orgcount.match(/\d+/g).pop();
                                 $('#elemental-org-result').html('Organisations (' + number + ')');
                             }
                             if (state_response.product && state_response.producttarget) {
                                 $('#' + state_response.producttarget).html(state_response.product);
 
+                                // Rewrite First Product Class due to OWP bug.
                                 let destination = $('#elemental-product-grid').children('li').eq(0),
                                     source = $('#elemental-product-grid').children('li').eq(1);
 
-                                //Rewrite First Product Class due to OWP bug.
                                 $(destination).attr("class", $(source).attr("class"));
-                                if (state_response.count) {
-                                    $('#elemental-product-result').html('Products (' + state_response.count + ')');
+                                if (state_response.productcount) {
+                                    $('#elemental-product-result').html('Products (' + state_response.productcount + ')');
                                 }
                             }
+                            if (state_response.content && state_response.contenttarget) {
+                                $('#' + state_response.contenttarget).html(state_response.content);
+
+                                if (state_response.contentcount) {
+                                    $('#elemental-search-result').html('Content (' + state_response.contentcount + ')');
+                                }
+                            }
+                            init();
 
                         },
                         error: function(response) {
-                            console.log('Error Search Organisations');
+
+                            notification.html('Search Error');
+                            console.log('Error in Search Content');
+                        }
+                    });
+                }
+
+                /**
+                 * Search Organisations and Spaces.
+                 */
+                var searchonly = function(search, page) {
+                    notification = $('#searchnotification'),
+                        searchid = $('#elemental-pageinfo').attr('data-searchid');
+
+                    var form_data = new FormData();
+                    form_data.append('searchid', searchid);
+                    form_data.append('elemental-main-content', 'elemental-main-content');
+                    form_data.append('page', page);
+                    form_data.append('action', 'elemental_searchadmin_ajax');
+                    form_data.append('search_term', search);
+                    form_data.append('security', elemental_searchadmin_ajax.security);
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'html',
+                        url: elemental_searchadmin_ajax.ajax_url,
+                        contentType: false,
+                        processData: false,
+                        data: form_data,
+                        success: function(response) {
+                            var state_response = JSON.parse(response);
+
+                            if (state_response.content && state_response.contenttarget) {
+                                $('#' + state_response.contenttarget).html(state_response.content);
+
+                                if (state_response.contentcount) {
+                                    $('#elemental-search-result').html('Content (' + state_response.contentcount + ')');
+                                }
+                            }
+                            init();
+
+                        },
+                        error: function(response) {
+                            console.log('Error in Search Content');
                         }
                     });
                 }
