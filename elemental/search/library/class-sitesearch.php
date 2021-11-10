@@ -25,6 +25,8 @@ class SiteSearch {
 	public function init() {
 		add_shortcode( 'elemental_search', array( $this, 'render_sitesearch_shortcode' ) );
 		add_shortcode( 'elemental_show_stores', array( Factory::get_instance( OrganisationSearch::class ), 'elemental_show_stores' ) );
+		add_shortcode( 'elemental_show_members', array( Factory::get_instance( MemberSearch::class ), 'elemental_members_shortcode' ) );
+
 		$this->add_search_tabs();
 	}
 
@@ -86,6 +88,8 @@ class SiteSearch {
 		add_filter( 'elemental_search_template_render', array( Factory::get_instance( ProductSearch::class ), 'render_product_result_tab' ), 5, 3 );
 		add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( ProductSearch::class ), 'product_search_response' ), 10, 2 );
 
+		// Products Organisation Tab and Handler.
+		add_filter( 'elemental_search_template_render', array( Factory::get_instance( MemberSearch::class ), 'render_organisations_tabs' ), 5, 3 );
 	}
 
 	/**

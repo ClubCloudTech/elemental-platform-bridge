@@ -52,7 +52,7 @@ class ContentSearch {
 	public function render_content_search_template( string $search_template = null ) :string {
 		$tab       = self::SEARCH_CONTENT_TAB;
 		$shortcode = \do_shortcode( '[elementor-template id="' . \esc_textarea( $search_template ) . '"]' );
-		$render    = include __DIR__ . '/../views/search-render.php';
+		$render    = include __DIR__ . '/../views/contentsearch/search-render.php';
 		return $render( $shortcode, $tab );
 
 	}
@@ -107,7 +107,7 @@ class ContentSearch {
 		);
 
 		$search_template        = Factory::get_instance( Ajax::class )->get_integer_parameter( 'searchid' );
-		$render                 = include __DIR__ . '/../views/content-render.php';
+		$render                 = include __DIR__ . '/../views/contentsearch/content-render.php';
 		$tab                    = self::SEARCH_CONTENT_TAB;
 		$content                = $this->render_content_search_template( $search_template );
 		$return_array           = array();

@@ -2,13 +2,13 @@
 /**
  * Search Display Products View.
  *
- * @package elemental/search/views/search-render.php
+ * @package search/views/contentsearch/content-render.php
  */
 
 /**
- * Search Display Content View.
+ * Search Display WCFM Window View.
  *
- * @param string $main_display - the Content Search Archive Template.
+ * @param string $main_display - the Products Archive Template.
  *
  * @return string
  */
@@ -26,8 +26,8 @@ return function (
 		<div id="<?php echo esc_attr( $tab_name ); ?>" class="elemental-label-trigger">
 
 			<?php
-				//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped - output is an escaped shortcode.
-				echo $main_display;
+				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - content already escaped.
+				echo $main_display
 			?>
 		</div>
 	</div>

@@ -79,8 +79,14 @@ window.addEventListener(
                             let target = $(this).closest("ul").attr('data-target'),
                                 wcfm_target = $(this).closest("ul").attr('class');
 
-                            if (wcfm_target === 'page-numbers') {
-                                console.log(input + pagenumber);
+
+                            //Members Search Case.
+                            if (page.includes('upage')) {
+                                console.log('up');
+
+                                //Org Search Case.
+                            } else if (wcfm_target === 'page-numbers') {
+
                                 var premium_div = $('#elemental-premium-wcfm');
                                 if (premium_div.length) {
                                     premium_div.empty();
@@ -89,8 +95,11 @@ window.addEventListener(
                                     pagenumber = null;
                                 }
                                 orgonly(input, pagenumber, e);
+
+                                //Product Search Case.
                             } else if (target === 'products') {
                                 productonly(input, pagenumber);
+                                // Content Search Case.
                             } else {
                                 contentsearch(input, pagenumber);
                             }
@@ -111,7 +120,6 @@ window.addEventListener(
                         searchid = $('#elemental-pageinfo').data("searchid"),
                         baseurl = $('#elemental-pageinfo').attr('data-pagination');
                     var form_data = new FormData();
-
 
                     $('.elemental-label-trigger').each(
                         function() {

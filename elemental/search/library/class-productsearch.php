@@ -49,7 +49,7 @@ class ProductSearch {
 	public function render_product_template( string $product_template = null ) :?string {
 		$tab       = self::SEARCH_PRODUCT_TAB;
 		$shortcode = \do_shortcode( '[elementor-template id="' . \esc_textarea( $product_template ) . '"]' );
-		$render    = include __DIR__ . '/../views/products-initial-render.php';
+		$render    = include __DIR__ . '/../views/productsearch/products-initial-render.php';
 		return $render( $shortcode, $tab );
 	}
 
@@ -99,7 +99,7 @@ class ProductSearch {
 				's'              => $search_term,
 			)
 		);
-			$render                 = include __DIR__ . '/../views/product-search-render.php';
+			$render                 = include __DIR__ . '/../views/productsearch/product-search-render.php';
 			$tab                    = self::SEARCH_PRODUCT_TAB;
 			$return_array           = array();
 			$return_array['screen'] = $render( $query, $tab, $page );

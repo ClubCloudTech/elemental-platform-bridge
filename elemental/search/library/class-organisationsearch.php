@@ -69,7 +69,7 @@ class OrganisationSearch {
 			$main_display    = \do_shortcode( '[elemental_show_stores  ' . $baseinfo . ' paged =1 theme="simple" has_map="no" has_orderby="yes" ]' );
 		}
 
-		$render = include __DIR__ . '/../views/wcfm-orgs.php';
+		$render = include __DIR__ . '/../views/orgsearch/wcfm-orgs.php';
 		return $render( $main_display, $tab_name, $premium_display );
 	}
 
@@ -149,7 +149,7 @@ class OrganisationSearch {
 
 		$attr = shortcode_atts( apply_filters( 'wcfmmp_stores_default_args', $defaults ), $atts );
 
-		$paged = max( 1, $attr['paged'] );
+		$paged    = max( 1, $attr['paged'] );
 		$base_url = $attr['baseurl'];
 
 		$length = apply_filters( 'wcfmmp_stores_per_page', $attr['per_page'] );

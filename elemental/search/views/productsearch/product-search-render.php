@@ -2,7 +2,7 @@
 /**
  * Product Search Display Loop for View.
  *
- * @package search/views/product-render.php
+ * @package search/views/productsearch/product-search-render.php
  */
 
 /**

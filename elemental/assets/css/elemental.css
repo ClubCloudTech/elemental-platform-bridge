@@ -1,263 +1,263 @@
 .elemental-membership-displayconf {
-	display: inline;
+    display: inline;
 }
 
 .elemental-align-left {
-	text-align: start;
+    text-align: start;
 }
 
 .elemental-email-status {
-	float: right;
-	width: 20%;
-	border: 1px solid #ddd;
-	padding-top: 7px;
-	padding-bottom: 6px;
-	border-radius: 3px 3px 3px 3px;
+    float: right;
+    width: 20%;
+    border: 1px solid #ddd;
+    padding-top: 7px;
+    padding-bottom: 6px;
+    border-radius: 3px 3px 3px 3px;
 }
 
 .elemental-email-status-individual {
-	float: right;
-	width: 50%;
-	border: 1px solid #ddd;
-	padding-top: 7px;
-	padding-bottom: 6px;
-	border-radius: 3px 3px 3px 3px;
+    float: right;
+    width: 50%;
+    border: 1px solid #ddd;
+    padding-top: 7px;
+    padding-bottom: 6px;
+    border-radius: 3px 3px 3px 3px;
 }
 
 .elemental-email-wrapper {
-	float: left;
-	width: 70%;
+    float: left;
+    width: 70%;
 }
 
 .elemental-initial {
-	display: initial;
+    display: initial;
 }
 
 .elemental-invalid {
-	background: rgb(235, 133, 65);
-	color: white;
-	padding: 5px;
+    background: rgb(235, 133, 65);
+    color: white;
+    padding: 5px;
 }
 
 .elemental-checking {
-	background: rgb(197, 228, 163);
-	color: white;
-	padding: 5px;
+    background: rgb(197, 228, 163);
+    color: white;
+    padding: 5px;
 }
 
 .elemental-email-taken {
-	background: rgb(228, 43, 43);
-	color: white;
-	padding: 5px;
+    background: rgb(228, 43, 43);
+    color: white;
+    padding: 5px;
 }
 
 .elemental-email-available {
-	background: rgb(33, 94, 20);
-	color: white;
-	padding: 5px;
+    background: rgb(33, 94, 20);
+    color: white;
+    padding: 5px;
 }
 
 .elemental-accounts-remaining {
-	background: rgb(255, 255, 255);
-	border: 1px solid #e91414;
-	border-radius: 4px;
-	color: #e91414;
-	display: initial;
-	padding: 6px;
-	font-size: 12px;
+    background: rgb(255, 255, 255);
+    border: 1px solid #e91414;
+    border-radius: 4px;
+    color: #e91414;
+    display: initial;
+    padding: 6px;
+    font-size: 12px;
 }
 
 .myvideoroom-logo-image {
-	width: 74px;
+    width: 74px;
 }
 
 .elemental-side-tab {
-	float: left;
-	width: 20%;
-	min-width: 7%;
+    float: left;
+    width: 20%;
+    min-width: 7%;
 }
 
 .elemental-content-tab {
-	float: right;
-	width: 80%;
+    float: right;
+    width: 80%;
 }
 
 .store-data p {
-	font-size: 12px!important;
+    font-size: 12px!important;
 }
 
 #wcfmmp-stores-wrap ul.wcfmmp-store-wrap li .store-footer .store-avatar {
-	padding: 6px;
-	background: #fff;
-	margin-top: 10px;
-	position: absolute;
-	top: -75px;
-	width: 116px;
-	height: 116px;
-	border-radius: 0!important;
-	border: 1px solid #969696!important;
+    padding: 6px;
+    background: #fff;
+    margin-top: 10px;
+    position: absolute;
+    top: -75px;
+    width: 116px;
+    height: 116px;
+    border-radius: 0!important;
+    border: 1px solid #969696!important;
 }
 
 .elemental-thankyou-box {
-	width: 60%;
-	background: #fff;
-	padding: 10px;
+    width: 60%;
+    background: #fff;
+    padding: 10px;
 }
 
 .elemental-split {
-	width: 50 %;
+    width: 50 %;
 }
 
 .elemental-float-left {
-	float: left;
+    float: left;
 }
 
 .elemental-float-right {
-	float: right;
+    float: right;
 }
 
 .elemental-clear {
-	clear: both;
+    clear: both;
 }
 
 #elemental-inbound-email,
 .elemental-email {
-	padding: 5px;
-	width: 60%;
-	margin-bottom: 10px;
-	font-size: 15px;
-	display: inline-block;
-	background-color: #fff !important;
-	border: 1px solid #555 !important;
-	box-shadow: none;
+    padding: 5px;
+    width: 60%;
+    margin-bottom: 10px;
+    font-size: 15px;
+    display: inline-block;
+    background-color: #fff !important;
+    border: 1px solid #555 !important;
+    box-shadow: none;
 }
 
 #wcfmmp-stores-wrap ul.wcfmmp-store-wrap li .store-footer .store-avatar img {
-	width: 100%;
-	height: 100%;
-	border-radius: 0!important;
+    width: 100%;
+    height: 100%;
+    border-radius: 0!important;
 }
 
 .elemental-premium-content {
-	border: solid #c6c0ad 3px;
+    border: solid #c6c0ad 3px;
 }
 
 .elemental-premium-content {
-	max-width: 100%;
-	border-bottom: solid #c6c0ad 5px;
+    max-width: 100%;
+    border-bottom: solid #c6c0ad 5px;
 }
 
 .elemental-store-content {
-	border: solid #fff 3px;
+    border: solid #fff 3px;
 }
 
 .elemental-store-content {
-	max-width: 100%;
-	border-bottom: solid #fff 5px;
+    max-width: 100%;
+    border-bottom: solid #fff 5px;
 }
 
 #wcfmmp-stores-wrap ul.wcfmmp-store-wrap li .store-content {
-	max-width: 100%;
-	border-bottom: 4px solid #c6c0ad!important;
+    max-width: 100%;
+    border-bottom: 4px solid #c6c0ad!important;
 }
 
 .elemental-ribbon {
-	background: #c6c0ad;
-	color: white;
-	border: solid black 2px;
-	padding: 3px;
-	font-size: 14px;
+    background: #c6c0ad;
+    color: white;
+    border: solid black 2px;
+    padding: 3px;
+    font-size: 14px;
 }
 
 .elemental-background-item {
-	background: white!important;
+    background: white!important;
 }
 
 #wcfm_membership_container p.wcfm_title,
 #wcfm_membership_container span.wcfm_title {
-	font-size: 15px;
-	margin-bottom: 10 px !important;
-	font-style: normal;
-	width: 39%;
-	display: -webkit-box!important;
-	vertical-align: top;
+    font-size: 15px;
+    margin-bottom: 10 px !important;
+    font-style: normal;
+    width: 39%;
+    display: -webkit-box!important;
+    vertical-align: top;
 }
 
 .elemental-onboard-header {
-	color: #070707;
-	font-size: 30px;
-	font-weight: 200;
-	line-height: 1.2em;
+    color: #070707;
+    font-size: 30px;
+    font-weight: 200;
+    line-height: 1.2em;
 }
 
 .wcfm-container h3,
 .wcfm-container h2,
 .elemental-container h2,
 .elemental-container h3 {
-	font-weight: 200;
-	line-height: 1.2em;
-	font-size: 20px;
-	color: #070707;
+    font-weight: 200;
+    line-height: 1.2em;
+    font-size: 20px;
+    color: #070707;
 }
 
 #elemental-extra,
 .elemental-top-margin {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 .elemental-login-button {
-	padding: 10px;
+    padding: 10px;
 }
 
 .elemental-premium-header {
-	border: #c6c0ad;
-	border-top-color: rgb(198, 192, 173);
-	border-top-style: none;
-	border-top-width: medium;
-	border-right-color: rgb(198, 192, 173);
-	border-right-style: none;
-	border-right-width: medium;
-	border-bottom-color: rgb(198, 192, 173);
-	border-bottom-style: none;
-	border-bottom-width: medium;
-	border-left-color: rgb(198, 192, 173);
-	border-left-style: none;
-	border-left-width: medium;
-	border-image-outset: 0;
-	border-image-repeat: stretch;
-	border-image-slice: 100%;
-	border-image-source: none;
-	border-image-width: 1;
-	border-width: 7px;
-	border-style: solid;
+    border: #c6c0ad;
+    border-top-color: rgb(198, 192, 173);
+    border-top-style: none;
+    border-top-width: medium;
+    border-right-color: rgb(198, 192, 173);
+    border-right-style: none;
+    border-right-width: medium;
+    border-bottom-color: rgb(198, 192, 173);
+    border-bottom-style: none;
+    border-bottom-width: medium;
+    border-left-color: rgb(198, 192, 173);
+    border-left-style: none;
+    border-left-width: medium;
+    border-image-outset: 0;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-width: 7px;
+    border-style: solid;
 }
 
 #wcfmmp-stores-lists .right_side {
-	width: 100%!important;
-	padding: 2% 2% 0 2%!important;
+    width: 100%!important;
+    padding: 2% 2% 0 2%!important;
 }
 
 .left_sidebar {
-	display: none!important;
+    display: none!important;
 }
 
 .search-menu-header {
-	display: flex;
-	box-sizing: border-box;
-	background-color: #e0e0e0;
-	color: #525151;
-	font-size: 16px;
-	line-height: initial;
-	text-decoration: none;
-	padding-left: 3px;
+    display: flex;
+    box-sizing: border-box;
+    background-color: #e0e0e0;
+    color: #525151;
+    font-size: 16px;
+    line-height: initial;
+    text-decoration: none;
+    padding-left: 3px;
 }
 
 .elemental-shortcode-padding {
-	padding: 10px;
+    padding: 10px;
 }
 
 #wcfmmp-stores-wrap ul.wcfmmp-store-wrap p.store-phone {
-	background: none!important;
+    background: none!important;
 }
 
 background: none!important;
