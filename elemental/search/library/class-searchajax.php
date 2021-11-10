@@ -28,11 +28,6 @@ class SearchAjax {
 		check_ajax_referer( 'elemental_membership', 'security', false );
 		$search_term = Factory::get_instance( Ajax::class )->get_string_parameter( 'search_term' );
 
-		if ( ! $search_term ) {
-			$response['feedback'] = esc_html__( 'No Search Term', 'myvideoroom' );
-			return \wp_send_json( $response );
-		}
-
 		$response = \apply_filters( 'elemental_search_ajax_response', $response, $search_term );
 
 		return \wp_send_json( $response );

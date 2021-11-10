@@ -15,7 +15,8 @@ use ElementalPlugin\WCFM\Library\WCFMTools;
  * @param string $header - the header of the template.
  * @param object $html_library - randomizing object class.
  * @param array  $tabs -Inbound object with tabs.
- * @param object $search_template - the templateID of the search template.
+ * @param string $search_template - the templateID of the search template.
+ * @param string $product_template - the templateID of the product template.
  *
  * @return string
  */
@@ -23,14 +24,19 @@ use ElementalPlugin\WCFM\Library\WCFMTools;
 
 return function (
 	string $header,
+	string $pagination_base,
 	object $html_library,
 	array $tabs,
-	string $search_template
+	string $search_template,
+	string $product_template
 ): string {
 	ob_start();
 	?>
-<div class="wrap">
-<div id="elemental-pageinfo" data-searchid="<?php echo esc_attr( $search_template ); ?>"></div>
+<div class="wrap elemental-background-item elemental-shortcode-padding">
+	<div id="elemental-pageinfo" data-searchid="<?php echo esc_attr( $search_template ); ?>"
+	data-productid="<?php echo esc_attr( $product_template ); ?>"
+	data-pagination="<?php echo esc_url_raw( $pagination_base ); ?>"
+	></div>
 	<div class="mvr-header-section">
 	<?php
 		// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.
@@ -43,6 +49,9 @@ return function (
 
 		<div id="mvr-postbutton-notification" class="mvr-notification-align">
 		<div id="notification" class="mvr-table-row ">
+		<button id="elemental-refresh-search" class="mvr-main-button-enabled" style="display:none;">
+		<a  class="mvr-main-button-enabled  myvideoroom-button-link"><span title="Search Again" class="myvideoroom-dashicons dashicons-search"></span><span title="Search Again" class="myvideoroom-dashicons dashicons-update-alt"></span></a>
+		</button>
 		<input id="elemental-search" type="text" placeholder="Search....."  class="myvideoroom-input-restrict-alphanumeric-space mvr-input-box myvideoroom-center">
 		<div id="searchnotification" class="mvr-notification-align"></div>
 			<button class="mvr-main-button-enabled " >

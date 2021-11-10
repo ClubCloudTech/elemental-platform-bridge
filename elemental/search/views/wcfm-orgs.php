@@ -8,18 +8,18 @@
 /**
  * Search Display WCFM Window View.
  *
- * @param string $header - the header of the template.
+ * @param string $main - the header of the template.
  * @param array  $tabs -Inbound object with tabs.
- * @param object $html_library - randomizing object class.
+ * @param object $premium_display - premium shortcode.
  *
  * @return string
  */
 
 
 return function (
-	string $premium_display = null,
 	string $main_display,
-	string $tab_name
+	string $tab_name,
+	string $premium_display = null
 ): string {
 	ob_start();
 	?>

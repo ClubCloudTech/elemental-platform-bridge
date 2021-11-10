@@ -2,7 +2,7 @@
 /**
  * Search Display Products View.
  *
- * @package search/views/products-render.php
+ * @package search/views/products-initial-render.php
  */
 
 /**
