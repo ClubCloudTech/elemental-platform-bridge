@@ -190,6 +190,11 @@
     line-height: 1.2em;
 }
 
+.elemental-capitalise {
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
 .wcfm-container h3,
 .wcfm-container h2,
 .elemental-container h2,
@@ -258,11 +263,4 @@
 
 #wcfmmp-stores-wrap ul.wcfmmp-store-wrap p.store-phone {
     background: none!important;
-}
-
-background: none!important;
-
-}
-background: none!important;
-
 }

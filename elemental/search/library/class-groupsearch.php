@@ -1,8 +1,8 @@
 <?php
 /**
- * Handling Membersearch.
+ * Handling Group Search.
  *
- * @package search/library/class-membersearch.php
+ * @package search/library/class-groupsearch.php
  */
 
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
@@ -17,23 +17,23 @@ use \MyVideoRoomPlugin\Library\Ajax;
 /**
  * Member Search Functions
  */
-class MemberSearch {
+class GroupSearch {
 
-	const SEARCH_MEMBER_TAB = 'elemental-member-tab';
+	const SEARCH_GROUP_TAB = 'elemental-group-tab';
 
 	/**
-	 * Render Membership Search Tabs.
+	 * Render Group Search Tabs.
 	 *
 	 * @param array $input   - the inbound menu.
 	 * @return array
 	 */
-	public function render_members_tabs( array $input = null ) :array {
+	public function render_group_tabs( array $input = null ) :array {
 
 		$admin_menu = new MenuTabDisplay(
-			\esc_html__( 'Members', 'myvideoroom' ),
-			\esc_html__( 'Members', 'myvideoroom' ),
-			fn() => $this->render_member_search(),
-			'elemental-member-result'
+			\esc_html__( 'Groups', 'myvideoroom' ),
+			\esc_html__( 'Groups', 'myvideoroom' ),
+			fn() => $this->render_group_search(),
+			'elemental-group-result'
 		);
 		\array_push( $input, $admin_menu );
 
@@ -44,10 +44,11 @@ class MemberSearch {
 	 * Render Organisations from WCFM. Initial Page Render Template.
 	 *
 	 * @param string $search_term -Whether to search on a given term.
+	 * @param string $search_type -What Filter By Field.
 	 * @return array
 	 */
-	private function render_member_search( string $search_term = null, string $search_type = null ) :string {
-		$tab_name = self::SEARCH_MEMBER_TAB;
+	private function render_group_search( string $search_term = null, string $search_type = null ) :string {
+		$tab_name = self::SEARCH_GROUP_TAB;
 		$page_num = Factory::get_instance( Ajax::class )->get_string_parameter( 'page' );
 
 		if ( $page_num ) {
@@ -77,21 +78,21 @@ class MemberSearch {
 	 * @param string $search_term - the term searched for.
 	 * @return array
 	 */
-	public function member_search_response( array $response, string $search_term ): array {
-		$action_taken = Factory::get_instance( Ajax::class )->get_string_parameter( self::SEARCH_MEMBER_TAB );
+	public function group_search_response( array $response, string $search_term ): array {
+		$action_taken = Factory::get_instance( Ajax::class )->get_string_parameter( self::SEARCH_GROUP_TAB );
 		$refresh_tabs = Factory::get_instance( Ajax::class )->get_string_parameter( 'refresh_tabs' );
 
-		if ( 'refresh_tabs' === $refresh_tabs || self::SEARCH_MEMBER_TAB === $refresh_tabs ) {
-			$screen             = $this->render_member_search();
+		if ( 'refresh_tabs' === $refresh_tabs || self::SEARCH_GROUP_TAB === $refresh_tabs ) {
+			$screen             = $this->render_group_search();
 			$response['member'] = $screen;
 
 		}
 
-		if ( self::SEARCH_MEMBER_TAB === $action_taken ) {
+		if ( self::SEARCH_GROUP_TAB === $action_taken ) {
 			$record_type        = Factory::get_instance( Ajax::class )->get_string_parameter( 'type' );
-			$response['member'] = $this->render_member_search( $search_term, $record_type );
+			$response['member'] = $this->render_group_search( $search_term, $record_type );
 		}
-		$response['membertarget'] = self::SEARCH_MEMBER_TAB;
+		$response['membertarget'] = self::SEARCH_GROUP_TAB;
 		return $response;
 	}
 
@@ -102,7 +103,7 @@ class MemberSearch {
 	 *
 	 * @param array $atts - the shortcode attributes.
 	 **/
-	public function elemental_members_shortcode( $atts = array() ) {
+	public function elemental_group_shortcode( $atts = array() ) {
 		$youzify_loaded = \function_exists( 'youzify_members_directory_class' );
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
 

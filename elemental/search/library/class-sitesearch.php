@@ -89,7 +89,7 @@ class SiteSearch {
 		add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( ProductSearch::class ), 'product_search_response' ), 10, 2 );
 
 		// Products Organisation Tab and Handler.
-		add_filter( 'elemental_search_template_render', array( Factory::get_instance( MemberSearch::class ), 'render_organisations_tabs' ), 5, 3 );
+		add_filter( 'elemental_search_template_render', array( Factory::get_instance( MemberSearch::class ), 'render_members_tabs' ), 5, 3 );
 		add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( MemberSearch::class ), 'member_search_response' ), 10, 2 );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_bp_legacy' ) );

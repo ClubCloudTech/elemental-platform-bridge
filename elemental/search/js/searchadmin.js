@@ -12,7 +12,7 @@ window.addEventListener(
                 /**
                  * Initialise Functions on Load
                  */
-                function init() {
+                function init(firstrun) {
                     window.wcfm_script_init;
                     var notification = $('#searchnotification');
                     // Search Bar Triggers (click and enter key)
@@ -87,24 +87,45 @@ window.addEventListener(
                         }
                     );
 
+                    if (firstrun) {
+                        setTimeout(() => {
+                            $("#members-order-by").on(
+                                'change',
+                                function(e) {
+                                    e.stopImmediatePropagation();
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    var notification = $('#searchnotification');
+                                    notification.html('Searching');
+                                    var input = $(this).val();
+                                    $('#elemental-refresh-search').fadeIn();
+                                    memberonly(null, null, input);
+                                    e.stopImmediatePropagation();
+                                }
+                            );
+                        }, 4000);
+                    } else {
+                        console.log('notfirstrun');
+                        $("#members-order-by").on(
+                            'change',
+                            function(e) {
+                                e.stopImmediatePropagation();
+                                e.preventDefault();
+                                e.stopPropagation();
+                                var notification = $('#searchnotification');
+                                notification.html('Searching');
+                                var input = $(this).val();
+                                $('#elemental-refresh-search').fadeIn();
+                                memberonly(null, null, input);
+                                e.stopImmediatePropagation();
+                            }
+                        );
+                    }
 
-                    $("#members-order-by").on(
-                        'change',
-                        function(e) {
-                            e.stopImmediatePropagation();
-                            e.preventDefault();
-                            e.stopPropagation();
-                            var notification = $('#searchnotification');
-                            notification.html('Searching');
-                            var input = $(this).val();
-                            $('#elemental-refresh-search').fadeIn();
-                            memberonly(null, null, input);
-                            e.stopImmediatePropagation();
-                        }
-                    );
 
                     $('#elemental-member-result').click(
                         function(e) {
+                            e.stopPropagation();
                             window.dispatchEvent(new Event('resize'));
                         }
                     );
@@ -156,6 +177,14 @@ window.addEventListener(
                 function stringContainsNumber(_string) {
                     return /\d/.test(_string);
                 }
+
+                function changeSelectBox(e) {
+                    source = $('#elemental-capitalise').text();
+                    console.log(source);
+                    $('#members-order-by').val(source).change();
+
+                }
+
 
                 /**
                  * Search All Items.
@@ -500,7 +529,7 @@ window.addEventListener(
                         }
                     });
                 }
-                init();
+                init(true);
             }
         );
     }

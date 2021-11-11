@@ -73,7 +73,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 				</div><!-- .item-list-tabs -->
 
 				<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Members directory secondary navigation', 'youzify' ); ?>" role="navigation">
-					<ul>
+				<ul>
 						<?php
 
 						/**
@@ -81,31 +81,13 @@ do_action( 'bp_before_directory_members_page' ); ?>
 						 *
 						 * @since 1.5.0
 						 */
-						do_action( 'bp_members_directory_member_sub_types' ); ?>
+						do_action( 'bp_members_directory_member_sub_types' );
+						global $elemental_members_loop_arguments;
+							echo $elemental_members_loop_arguments['drop_down'];
+						?>
 
-						<li id="members-order-select" class="last filter">
-							<label for="members-order-by"><?php _e( 'Order By:', 'myvideoroom' ); ?></label>
-							<select id="members-order-by">
-								<option value="active"><?php _e( 'Last Active', 'myvideoroom' ); ?></option>
-								<option value="newest"><?php _e( 'Newest Joiners', 'myvideoroom' ); ?></option>
-								<option value="random"><?php _e( 'Random Mix', 'myvideoroom' ); ?></option>
-								<option value="popular"><?php _e( 'Popular and Frequent', 'myvideoroom' ); ?></option>
-								<option value="online"><?php  _e( 'Online', 'myvideoroom' ); ?></option>
-								<?php if ( bp_is_active( 'xprofile' ) ) : ?>
-									<option value="alphabetical"><?php _e( 'Alphabetical', 'myvideoroom' ); ?></option>
-								<?php endif; ?>
 
-								<?php
-
-								/**
-								 * Fires inside the members directory member order options.
-								 *
-								 * @since 1.2.0
-								 */
-								do_action( 'bp_members_directory_order_options' ); ?>
-							</select>
-						</li>
-						<?php if ( apply_filters( 'youzify_display_members_directory_search_bar', true ) ) : ?>
+						<?php if ( apply_filters( 'yz_display_members_directory_search_bar', true ) ) : ?>
 						<li id="elemental-directory-search-box">
 							<div id="members-dir-search" class="dir-search" role="search">
 								<?php bp_directory_members_search_form(); ?>
