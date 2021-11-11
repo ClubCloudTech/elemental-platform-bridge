@@ -100,15 +100,22 @@ class MemberSearch {
 	 * @param array $atts - the shortcode attributes.
 	 **/
 	public function elemental_members_shortcode( $atts = array() ) {
-
+		$youzify_loaded = \function_exists( 'youzify_members_directory_class' );
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
 
 		add_filter( 'bp_is_current_component', array( $this, 'elemental_enable_shortcode' ), 10, 2 );
 		add_filter( 'bp_is_directory', '__return_true' );
 
 		// Scripts.
-		wp_enqueue_style( 'elemental-directories-css', plugins_url( '/../css/directories.css', __FILE__ ), array( 'dashicons' ), $plugin_version );
-		wp_enqueue_script( 'elemental-directories-js', plugins_url( '/../js/directories.js', __FILE__ ), array( 'jquery' ), $plugin_version, true );
+
+		if ( $youzify_loaded ) {
+			wp_enqueue_style( 'elemental-directoriesyz-css', plugins_url( '/../css/youzify-directories.css', __FILE__ ), array( 'dashicons' ), $plugin_version );
+			wp_enqueue_script( 'elemental-directoriesyz-js', plugins_url( '/../js/directoriesyz.js', __FILE__ ), array( 'jquery' ), $plugin_version, true );
+			wp_enqueue_script( 'masonry' );
+		} else {
+			wp_enqueue_style( 'elemental-directories-css', plugins_url( '/../css/directories.css', __FILE__ ), array( 'dashicons' ), $plugin_version );
+			wp_enqueue_script( 'elemental-directories-js', plugins_url( '/../js/directories.js', __FILE__ ), array( 'jquery' ), $plugin_version, true );
+		}
 
 		global $elemental_members_loop_arguments;
 
@@ -127,20 +134,35 @@ class MemberSearch {
 		add_filter( 'bp_after_has_members_parse_args', array( $this, 'elemental_set_loop_query' ) );
 
 		if ( false === $elemental_members_loop_arguments['show_filter'] ) {
-			add_filter( 'yz_display_members_directory_filter', '__return_false' );
+			if ( $youzify_loaded ) {
+				add_filter( 'youzify_display_members_directory_filter', '__return_false' );
+			} else {
+				add_filter( 'yz_display_members_directory_filter', '__return_false' );
+			}
 		}
+			$directory_data = '';
+		if ( ! empty( $elemental_members_loop_arguments ) ) foreach ( $elemental_members_loop_arguments as $key => $value) { $directory_data .= "data-$key='$value'"; }
 
 		ob_start();
 
-		echo "<div class='elemental-members-directory-list-shortcode'>";
+		echo "<div class='elemental-members-directory-list-shortcode youzify-members-directory-shortcode youzify-directory-shortcode' {$directory_data}>";
+		if ( $youzify_loaded ) {
+			include __DIR__ . '/../views/membersearch/member-template-youzify.php';
+		} else {
 			include __DIR__ . '/../views/membersearch/member-template.php';
+		}
+
 		echo '</div>';
 
 		// Remove Filter.
 		remove_filter( 'bp_after_has_members_parse_args', array( $this, 'elemental_set_loop_query' ) );
 
 		if ( false === $elemental_members_loop_arguments['show_filter'] ) {
-			remove_filter( 'yz_display_members_directory_filter', '__return_false' );
+			if ( $youzify_loaded ) {
+				remove_filter( 'youzify_display_members_directory_filter', '__return_false' );
+			} else {
+				remove_filter( 'yz_display_members_directory_filter', '__return_false' );
+			}
 		}
 
 		// Unset Global Value.
@@ -151,7 +173,6 @@ class MemberSearch {
 
 		return ob_get_clean();
 	}
-
 	/**
 	 * Members Directory - Shortcode Attributes.
 	 */
@@ -162,9 +183,7 @@ class MemberSearch {
 		$loop = shortcode_atts( $loop, $elemental_members_loop_arguments, 'elemental_members_atts' );
 
 		return $loop;
-
 	}
-
 
 	/**
 	 * Enable Members Directory Component For Shortcode.

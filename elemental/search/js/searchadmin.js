@@ -65,6 +65,7 @@ window.addEventListener(
                     //Refresh Trigger.
                     $('.elemental-refresh-member-search-trigger').click(
                         function(e) {
+                            console.log('click handler');
                             e.stopImmediatePropagation();
                             e.stopPropagation();
                             refreshall('elemental-member-tab');
@@ -259,8 +260,6 @@ window.addEventListener(
                         form_data.append('refresh_tabs', 'refresh_tabs');
                     }
                     form_data.append('action', 'elemental_searchadmin_ajax');
-                    // form_data.append('action_taken', 'search_org');
-                    form_data.append('search_term', search);
                     form_data.append('searchid', searchid);
                     form_data.append('productid', productid);
                     form_data.append('security', elemental_searchadmin_ajax.security);
