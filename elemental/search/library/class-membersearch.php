@@ -103,7 +103,7 @@ class MemberSearch {
 	 * @param array $atts - the shortcode attributes.
 	 **/
 	public function elemental_members_shortcode( $atts = array() ) {
-		$youzify_loaded = \function_exists( 'youzify_members_directory_class' );
+		$youzify_loaded = ! $this->is_youzer_available();
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
 
 		add_filter( 'bp_is_current_component', array( $this, 'elemental_enable_shortcode' ), 10, 2 );
@@ -244,5 +244,14 @@ class MemberSearch {
 		<?php
 		return ob_get_clean();
 	}
+ 	/**
+	 * Is Youzer Active - checks if Youzer is enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_youzer_available(): bool {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
+		return is_plugin_active( 'youzer/youzer.php' );
+	}
 }

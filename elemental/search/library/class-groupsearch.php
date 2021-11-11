@@ -104,7 +104,7 @@ class GroupSearch {
 	 * @param array $atts - the shortcode attributes.
 	 **/
 	public function elemental_group_shortcode( $atts = array() ) {
-		$youzify_loaded = \function_exists( 'youzify_members_directory_class' );
+		$youzify_loaded = ! Factory::get_instance( MemberSearch::class )->is_youzer_available();
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
 
 		add_filter( 'bp_is_current_component', array( $this, 'elemental_enable_shortcode' ), 10, 2 );
@@ -141,9 +141,9 @@ class GroupSearch {
 
 		if ( false === $elemental_members_loop_arguments['show_filter'] ) {
 			if ( $youzify_loaded ) {
-				add_filter( 'youzify_display_members_directory_filter', '__return_false' );
+				add_filter( 'youzify_display_groups_directory_filter', '__return_false' );
 			} else {
-				add_filter( 'yz_display_members_directory_filter', '__return_false' );
+				add_filter( 'yz_display_groups_directory_filter', '__return_false' );
 			}
 		}
 			$directory_data = '';
@@ -151,30 +151,28 @@ class GroupSearch {
 
 		ob_start();
 
-		echo "<div class='elemental-members-directory-list-shortcode youzify-members-directory-shortcode youzify-directory-shortcode' {$directory_data}>";
+		echo "<div class='elemental-members-directory-list-shortcode youzify-groups-directory-shortcode youzify-directory-shortcode' {$directory_data}>";
 		if ( $youzify_loaded ) {
-			include __DIR__ . '/../views/membersearch/member-template-youzify.php';
+			include __DIR__ . '/../views/groupsearch/group-template-youzify.php';
 		} else {
-			include __DIR__ . '/../views/membersearch/member-template.php';
+			include __DIR__ . '/../views/groupsearch/group-template.php';
 		}
 
 		echo '</div>';
 
 		// Remove Filter.
-		remove_filter( 'bp_after_has_members_parse_args', array( $this, 'elemental_set_loop_query' ) );
+		remove_filter( 'bp_after_has_groups_parse_args', array( $this, 'elemental_set_loop_query' ) );
 
 		if ( false === $elemental_members_loop_arguments['show_filter'] ) {
 			if ( $youzify_loaded ) {
-				remove_filter( 'youzify_display_members_directory_filter', '__return_false' );
+				remove_filter( 'youzify_display_groups_directory_filter', '__return_false' );
 			} else {
-				remove_filter( 'yz_display_members_directory_filter', '__return_false' );
+				remove_filter( 'yz_display_groups_directory_filter', '__return_false' );
 			}
 		}
 
-		// Unset Global Value.
+		// Unset Global Values and clean up.
 		unset( $elemental_members_loop_arguments );
-
-		remove_filter( 'bp_is_directory', '__return_true' );
 		remove_filter( 'bp_is_current_component', array( $this, 'elemental_enable_shortcode' ), 10, 2 );
 
 		return ob_get_clean();
@@ -182,7 +180,7 @@ class GroupSearch {
 	/**
 	 * Members Directory - Shortcode Attributes.
 	 */
-	public function elemental_set_loop_query( $loop ) {
+	private function elemental_set_loop_query( $loop ) {
 
 		global $elemental_members_loop_arguments;
 
@@ -194,9 +192,9 @@ class GroupSearch {
 	/**
 	 * Enable Members Directory Component For Shortcode.
 	 */
-	public function elemental_enable_shortcode( $active, $component ) {
+	private function elemental_enable_shortcode( $active, $component ) {
 
-		if ( 'members' === $component ) {
+		if ( 'groups' === $component ) {
 			return true;
 		}
 
