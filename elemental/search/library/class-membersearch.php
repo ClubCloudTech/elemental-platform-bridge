@@ -46,16 +46,19 @@ class MemberSearch {
 	 * @param string $search_term -Whether to search on a given term.
 	 * @return array
 	 */
-	private function render_member_search( string $search_term = null ) :string {
+	private function render_member_search( string $search_term = null, string $search_type = null ) :string {
 		$tab_name = self::SEARCH_MEMBER_TAB;
 		$page_num = Factory::get_instance( Ajax::class )->get_string_parameter( 'page' );
 
 		if ( $page_num ) {
 			$pagedinfo = 'page = ' . $page_num . ' ';
 		}
+		if ( $search_type ) {
+			$type_info = 'type = ' . $search_type . ' ';
+		}
 
 		if ( $search_term || $page_num ) {
-			$main_display = \do_shortcode( '[elemental_show_members ' . $pagedinfo . 'search_terms="' . $search_term . '"]' );
+			$main_display = \do_shortcode( '[elemental_show_members ' . $pagedinfo . 'search_terms="' . $search_term . '" ' . $type_info . ']' );
 		} else {
 			$main_display = \do_shortcode( '[elemental_show_members ]' );
 		}
@@ -74,6 +77,7 @@ class MemberSearch {
 	public function member_search_response( array $response, string $search_term ): array {
 		$action_taken = Factory::get_instance( Ajax::class )->get_string_parameter( self::SEARCH_MEMBER_TAB );
 		$refresh_tabs = Factory::get_instance( Ajax::class )->get_string_parameter( 'refresh_tabs' );
+
 		if ( 'refresh_tabs' === $refresh_tabs || self::SEARCH_MEMBER_TAB === $refresh_tabs ) {
 			$screen             = $this->render_member_search();
 			$response['member'] = $screen;
@@ -81,7 +85,8 @@ class MemberSearch {
 		}
 
 		if ( self::SEARCH_MEMBER_TAB === $action_taken ) {
-			$response['member'] = $this->render_member_search( $search_term );
+			$record_type        = Factory::get_instance( Ajax::class )->get_string_parameter( 'type' );
+			$response['member'] = $this->render_member_search( $search_term, $record_type );
 		}
 		$response['membertarget'] = self::SEARCH_MEMBER_TAB;
 		return $response;

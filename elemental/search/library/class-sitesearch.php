@@ -91,8 +91,13 @@ class SiteSearch {
 		// Products Organisation Tab and Handler.
 		add_filter( 'elemental_search_template_render', array( Factory::get_instance( MemberSearch::class ), 'render_organisations_tabs' ), 5, 3 );
 		add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( MemberSearch::class ), 'member_search_response' ), 10, 2 );
-	}
 
+		
+		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_bp_legacy' ) );
+	}
+		public function dequeue_bp_legacy() {
+			wp_dequeue_script( 'bp-legacy-js' );
+		}
 	/**
 	 * Enqueue WCFM dependencies. Needed to make product and other templates run correctly for org cards.
 	 *
