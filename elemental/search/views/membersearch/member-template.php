@@ -83,29 +83,11 @@ do_action( 'bp_before_directory_members_page' ); ?>
 						 * @since 1.5.0
 						 */
 						do_action( 'bp_members_directory_member_sub_types' );
+						global $elemental_members_loop_arguments;
+							echo $elemental_members_loop_arguments['drop_down'];
 						?>
 
-						<li id="members-order-select" class="last filter">
-							<label for="members-order-by"><?php esc_html_e( 'Order By:', 'myvideoroom' ); ?></label>
-							<select id="members-order-by">
-								<option value="active"><?php esc_html_e( 'Last Active', 'myvideoroom' ); ?></option>
-								<option value="newest"><?php esc_html_e( 'Newest Registered', 'myvideoroom' ); ?></option>
 
-								<?php if ( bp_is_active( 'xprofile' ) ) : ?>
-									<option value="alphabetical"><?php esc_html_e( 'Alphabetical', 'myvideoroom' ); ?></option>
-								<?php endif; ?>
-
-								<?php
-
-								/**
-								 * Fires inside the members directory member order options.
-								 *
-								 * @since 1.2.0
-								 */
-								do_action( 'bp_members_directory_order_options' );
-								?>
-							</select>
-						</li>
 						<?php if ( apply_filters( 'yz_display_members_directory_search_bar', true ) ) : ?>
 						<li id="elemental-directory-search-box">
 							<div id="members-dir-search" class="dir-search" role="search">

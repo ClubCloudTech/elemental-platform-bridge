@@ -84,13 +84,15 @@ do_action( 'bp_before_directory_members_page' ); ?>
 						do_action( 'bp_members_directory_member_sub_types' ); ?>
 
 						<li id="members-order-select" class="last filter">
-							<label for="members-order-by"><?php _e( 'Order By:', 'youzify' ); ?></label>
+							<label for="members-order-by"><?php _e( 'Order By:', 'myvideoroom' ); ?></label>
 							<select id="members-order-by">
-								<option value="active"><?php _e( 'Last Active', 'youzify' ); ?></option>
-								<option value="newest"><?php _e( 'Newest Registered', 'youzify' ); ?></option>
-
+								<option value="active"><?php _e( 'Last Active', 'myvideoroom' ); ?></option>
+								<option value="newest"><?php _e( 'Newest Joiners', 'myvideoroom' ); ?></option>
+								<option value="random"><?php _e( 'Random Mix', 'myvideoroom' ); ?></option>
+								<option value="popular"><?php _e( 'Popular and Frequent', 'myvideoroom' ); ?></option>
+								<option value="online"><?php  _e( 'Online', 'myvideoroom' ); ?></option>
 								<?php if ( bp_is_active( 'xprofile' ) ) : ?>
-									<option value="alphabetical"><?php _e( 'Alphabetical', 'youzify' ); ?></option>
+									<option value="alphabetical"><?php _e( 'Alphabetical', 'myvideoroom' ); ?></option>
 								<?php endif; ?>
 
 								<?php

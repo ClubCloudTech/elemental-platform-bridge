@@ -51,16 +51,19 @@ class MemberSearch {
 		$page_num = Factory::get_instance( Ajax::class )->get_string_parameter( 'page' );
 
 		if ( $page_num ) {
-			$pagedinfo = 'page = ' . $page_num . ' ';
+			$pagedinfo = 'page= ' . $page_num . ' ';
 		}
 		if ( $search_type ) {
-			$type_info = 'type = ' . $search_type . ' ';
+			$type_info = 'type="' . $search_type . '" ';
 		}
-
-		if ( $search_term || $page_num ) {
-			$main_display = \do_shortcode( '[elemental_show_members ' . $pagedinfo . 'search_terms="' . $search_term . '" ' . $type_info . ']' );
+		if ( $search_term ) {
+			$search_info = 'search_terms ="' . $search_term . '" ';
+		}
+		if ( $search_term || $page_num || $search_type ) {
+			$shortcode    = '[elemental_show_members ' . $pagedinfo . $search_info . $type_info . ']';
+			$main_display = \do_shortcode( $shortcode );
 		} else {
-			$main_display = \do_shortcode( '[elemental_show_members ]' );
+			$main_display = \do_shortcode( '[elemental_show_members]' );
 		}
 
 		$render = include __DIR__ . '/../views/membersearch/member-search.php';
@@ -118,6 +121,7 @@ class MemberSearch {
 		}
 
 		global $elemental_members_loop_arguments;
+		$drop_down = $this->generate_sort_dropdown( $atts['type'] );
 
 		$defaults = array(
 			'per_page'     => 12,
@@ -126,6 +130,7 @@ class MemberSearch {
 			'page'         => '1',
 			'type'         => 'alphabetical',
 			'search_terms' => '',
+			'drop_down'    => $drop_down,
 		);
 
 		$elemental_members_loop_arguments = wp_parse_args( $atts, $defaults );
@@ -141,7 +146,7 @@ class MemberSearch {
 			}
 		}
 			$directory_data = '';
-		if ( ! empty( $elemental_members_loop_arguments ) ) foreach ( $elemental_members_loop_arguments as $key => $value) { $directory_data .= "data-$key='$value'"; }
+		if ( ! empty( $elemental_members_loop_arguments ) ) foreach ( $elemental_members_loop_arguments as $key => $value) {$directory_data .= "data-$key='$value'";}
 
 		ob_start();
 
@@ -196,6 +201,47 @@ class MemberSearch {
 
 		return $active;
 
+	}
+
+	private function generate_sort_dropdown( string $active_type = null ) {
+
+
+		$alphabetical = array( 'alphabetical', '<option value="alphabetical" selected>' . esc_html__( 'Alphabetical', 'myvideoroom' ) . '</option>' );
+		$active       = array( 'active', '<option value="active">' . esc_html__( 'Last Active', 'myvideoroom' ) . '</option>' );
+		$newest       = array( 'newest', '<option value="newest">' . esc_html__( 'Newest Members', 'myvideoroom' ) . '</option>' );
+		$random       = array( 'random', '<option value="random">' . esc_html__( 'Random Selection', 'myvideoroom' ) . '</option>' );
+		$popular      = array( 'popular', '<option value="popular">' . esc_html__( 'Popular and Regular', 'myvideoroom' ) . '</option>' );
+		$online       = array( 'online', '<option value="online">' . esc_html__( 'Online', 'myvideoroom' ) . '</option>' );
+
+		if ( ! $active_type ) {
+			$active_type = 'alphabetical';
+		}
+
+		$options = array( $random, $online, $newest, $active, $popular, $alphabetical );
+		$output_string = '';
+		foreach ( $options as $option ) {
+
+			if ( $active_type === $option[0] ) {
+				$option[1]    .= $output_string;
+				$output_string = $option[1];
+			} else {
+				$output_string .= $option[1];
+			}
+		}
+		ob_start();
+		?>
+		<li id="members-order-select" class="last filter">
+			<label for="members-order-by"><?php esc_html_e( 'Order By:', 'myvideoroom' ); ?></label>
+			<select id="members-order-by">
+			<?php
+				echo $output_string;
+			do_action( 'bp_members_directory_order_options' );
+			?>
+			</select>
+		</li>
+
+		<?php
+		return ob_get_clean();
 	}
 
 }
