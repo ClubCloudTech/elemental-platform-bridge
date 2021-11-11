@@ -32,7 +32,7 @@ return function (
 ): string {
 	ob_start();
 	?>
-<div class="wrap elemental-background-item elemental-shortcode-padding">
+<div id="elemental-search-base" class="wrap elemental-background-item elemental-shortcode-padding">
 	<div id="elemental-pageinfo" data-searchid="<?php echo esc_attr( $search_template ); ?>"
 	data-productid="<?php echo esc_attr( $product_template ); ?>"
 	data-pagination="<?php echo esc_url_raw( $pagination_base ); ?>"

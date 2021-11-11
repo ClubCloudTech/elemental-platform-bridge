@@ -23,7 +23,7 @@ return function (
 ): string {
 	ob_start();
 	?>
-<div class="elemental-wcfm-outer-wrap">
+<div class="elemental-membersearch-outer-wrap">
 	<div id="<?php echo esc_attr( $tab_name ); ?>" class="elemental-label-trigger">
 		<?php
 		if ( $premium_display ) {

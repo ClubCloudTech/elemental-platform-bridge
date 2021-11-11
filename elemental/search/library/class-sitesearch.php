@@ -90,6 +90,7 @@ class SiteSearch {
 
 		// Products Organisation Tab and Handler.
 		add_filter( 'elemental_search_template_render', array( Factory::get_instance( MemberSearch::class ), 'render_organisations_tabs' ), 5, 3 );
+		add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( MemberSearch::class ), 'member_search_response' ), 10, 2 );
 	}
 
 	/**

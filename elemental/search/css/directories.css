@@ -144,7 +144,7 @@
 
 #youzer .elemental-directory-filter .item-list-tabs li select {
     margin: 0;
-    width: 120px;
+    width: 200px;
     height: 40px;
     color: #8a8a8a;
     font-size: 13px;
@@ -152,11 +152,11 @@
     text-align: center;
     display: inline-block;
     vertical-align: middle;
-    border: none !!important;
+    border: none!important;
     background-color: #f6f6f6;
     text-transform: uppercase;
     padding: 0 18px !important;
-    box-shadow: none !!important;
+    box-shadow: none !important;
 }
 
 
@@ -397,17 +397,19 @@ ul {
 }
 
 #elemental-members-directory-list {
-    background-color: #fbfbfb;
+    background-color: #f7f7f7;
+    border: 2px solid #a5a5a5;
 }
 
 #yz-members-list .yz-item-avatar {
-    height: 50px;
+    height: 105px;
+    width: 105px;
     display: block;
     position: relative;
 }
 
 #yz-members-list .yz-show-cover .yz-item-avatar {
-    margin: -55px auto 20px;
+    margin: -110px auto 20px;
 }
 
 #yz-members-list .yz-item-avatar {

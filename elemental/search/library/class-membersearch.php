@@ -11,9 +11,7 @@ namespace ElementalPlugin\Search\Library;
 
 use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Factory;
-use ElementalPlugin\Library\HTML;
 use ElementalPlugin\Library\Version;
-use ElementalPlugin\WCFM\Library\WCFMHelpers;
 use \MyVideoRoomPlugin\Library\Ajax;
 
 /**
@@ -35,7 +33,7 @@ class MemberSearch {
 			\esc_html__( 'Members', 'myvideoroom' ),
 			\esc_html__( 'Members', 'myvideoroom' ),
 			fn() => $this->render_member_search(),
-			self::SEARCH_MEMBER_TAB
+			'elemental-member-result'
 		);
 		\array_push( $input, $admin_menu );
 
@@ -51,17 +49,13 @@ class MemberSearch {
 	private function render_member_search( string $search_term = null ) :string {
 		$tab_name = self::SEARCH_MEMBER_TAB;
 		$page_num = Factory::get_instance( Ajax::class )->get_string_parameter( 'page' );
-		$base_url = Factory::get_instance( Ajax::class )->get_string_parameter( 'base' );
 
 		if ( $page_num ) {
-			$pagedinfo = 'paged = ' . $page_num . ' ';
-		}
-		if ( $base_url ) {
-			$baseinfo = 'baseurl = ' . $base_url . ' ';
+			$pagedinfo = 'page = ' . $page_num . ' ';
 		}
 
 		if ( $search_term || $page_num ) {
-			$main_display = \do_shortcode( '[elemental_show_members ' . $pagedinfo . 'search_term="' . $search_term . '" ' . $baseinfo . ' ]' );
+			$main_display = \do_shortcode( '[elemental_show_members ' . $pagedinfo . 'search_terms="' . $search_term . '"]' );
 		} else {
 			$main_display = \do_shortcode( '[elemental_show_members ]' );
 		}
@@ -70,44 +64,64 @@ class MemberSearch {
 		return $render( $main_display, $tab_name );
 	}
 
+	/**
+	 * Ajax Handler for Member Search Response.
+	 *
+	 * @param array  $response - the inbound response object.
+	 * @param string $search_term - the term searched for.
+	 * @return array
+	 */
+	public function member_search_response( array $response, string $search_term ): array {
+		$action_taken = Factory::get_instance( Ajax::class )->get_string_parameter( self::SEARCH_MEMBER_TAB );
+		$refresh_tabs = Factory::get_instance( Ajax::class )->get_string_parameter( 'refresh_tabs' );
+		if ( 'refresh_tabs' === $refresh_tabs || self::SEARCH_MEMBER_TAB === $refresh_tabs ) {
+			$screen             = $this->render_member_search();
+			$response['member'] = $screen;
 
+		}
+
+		if ( self::SEARCH_MEMBER_TAB === $action_taken ) {
+			$response['member'] = $this->render_member_search( $search_term );
+		}
+		$response['membertarget'] = self::SEARCH_MEMBER_TAB;
+		return $response;
+	}
 
 
 	/**
-	 * Add Member Directory Shortcode.
-	 * Developed from Youzer Source Code and Modified from ClubCloud
-	 * 
+	 * Member Directory Shortcode.
+	 * Inspired by Youzify Source Code and Rewritten from ClubCloud
+	 *
+	 * @param array $atts - the shortcode attributes.
 	 **/
-	function elemental_members_shortcode( $atts ) {
-		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
-		define( 'PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-		define( 'TEMPLATE_PATH', PLUGIN_PATH . '/../emplates/' );
-		define( 'ASSETS', plugin_dir_url( __FILE__ ) . 'includes/public/assets/' );
-		define( 'VERSION_PLUGIN', $plugin_version . wp_rand( 1, 2000 ) );
+	public function elemental_members_shortcode( $atts = array() ) {
 
-		//add_filter( 'bp_is_current_component', 'yz_enable_shortcode_md', 10, 2 );
+		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
+
+		add_filter( 'bp_is_current_component', array( $this, 'elemental_enable_shortcode' ), 10, 2 );
 		add_filter( 'bp_is_directory', '__return_true' );
 
 		// Scripts.
-		wp_enqueue_style( 'elemental-directories-css', plugins_url( '/../css/directories.css', __FILE__ ), array( 'dashicons' ), VERSION_PLUGIN );
-		wp_enqueue_script( 'elemental-directories-js', plugins_url( '/../js/directories.js', __FILE__ ), array( 'jquery' ), VERSION_PLUGIN, true );
+		wp_enqueue_style( 'elemental-directories-css', plugins_url( '/../css/directories.css', __FILE__ ), array( 'dashicons' ), $plugin_version );
+		wp_enqueue_script( 'elemental-directories-js', plugins_url( '/../js/directories.js', __FILE__ ), array( 'jquery' ), $plugin_version, true );
 
-		global $yz_md_shortcode_atts;
+		global $elemental_members_loop_arguments;
 
-		// Get Args.
-		$yz_md_shortcode_atts = wp_parse_args(
-			$atts,
-			array(
-				'per_page'    => 12,
-				'member_type' => false,
-				'show_filter' => 'false',
-			)
+		$defaults = array(
+			'per_page'     => 12,
+			'member_type'  => false,
+			'show_filter'  => 'false',
+			'page'         => '1',
+			'type'         => 'alphabetical',
+			'search_terms' => '',
 		);
 
-		// Add Filter.
-		add_filter( 'bp_after_has_members_parse_args', 'yz_set_members_directory_shortcode_atts' );
+		$elemental_members_loop_arguments = wp_parse_args( $atts, $defaults );
 
-		if ( $yz_md_shortcode_atts['show_filter'] == false ) {
+		// Add Filter.
+		add_filter( 'bp_after_has_members_parse_args', array( $this, 'elemental_set_loop_query' ) );
+
+		if ( false === $elemental_members_loop_arguments['show_filter'] ) {
 			add_filter( 'yz_display_members_directory_filter', '__return_false' );
 		}
 
@@ -118,21 +132,46 @@ class MemberSearch {
 		echo '</div>';
 
 		// Remove Filter.
-		remove_filter( 'bp_after_has_members_parse_args', 'yz_set_members_directory_shortcode_atts' );
+		remove_filter( 'bp_after_has_members_parse_args', array( $this, 'elemental_set_loop_query' ) );
 
-		if ( $yz_md_shortcode_atts['show_filter'] == false ) {
+		if ( false === $elemental_members_loop_arguments['show_filter'] ) {
 			remove_filter( 'yz_display_members_directory_filter', '__return_false' );
 		}
 
 		// Unset Global Value.
-		unset( $yz_md_shortcode_atts );
+		unset( $elemental_members_loop_arguments );
 
 		remove_filter( 'bp_is_directory', '__return_true' );
-		remove_filter( 'bp_is_current_component', 'yz_enable_shortcode_md', 10, 2 );
+		remove_filter( 'bp_is_current_component', array( $this, 'elemental_enable_shortcode' ), 10, 2 );
 
 		return ob_get_clean();
 	}
 
+	/**
+	 * Members Directory - Shortcode Attributes.
+	 */
+	public function elemental_set_loop_query( $loop ) {
 
+		global $elemental_members_loop_arguments;
+
+		$loop = shortcode_atts( $loop, $elemental_members_loop_arguments, 'elemental_members_atts' );
+
+		return $loop;
+
+	}
+
+
+	/**
+	 * Enable Members Directory Component For Shortcode.
+	 */
+	public function elemental_enable_shortcode( $active, $component ) {
+
+		if ( 'members' === $component ) {
+			return true;
+		}
+
+		return $active;
+
+	}
 
 }

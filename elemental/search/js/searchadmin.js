@@ -59,6 +59,22 @@ window.addEventListener(
                         function(e) {
                             e.preventDefault();
                             refreshall();
+
+                        }
+                    );
+                    $('.elemental-refresh-member-search-trigger').click(
+                        function(e) {
+                            e.stopImmediatePropagation();
+                            e.stopPropagation();
+                            refreshall('elemental-member-tab');
+                            e.preventDefault();
+
+                        }
+                    );
+
+                    $('#elemental-member-result').click(
+                        function(e) {
+                            window.dispatchEvent(new Event('resize'));
                         }
                     );
                     // Search Pagination
@@ -115,7 +131,7 @@ window.addEventListener(
                  * Search All Items.
                  */
                 var searchall = function(search) {
-                    console.log('searchall');
+
                     var notification = $('#searchnotification'),
                         searchid = $('#elemental-pageinfo').data("searchid"),
                         baseurl = $('#elemental-pageinfo').attr('data-pagination');
@@ -131,7 +147,6 @@ window.addEventListener(
                     if (baseurl) {
                         form_data.append('base', baseurl);
                     }
-                    // form_data.append('action_taken', 'search_org');
                     form_data.append('search_term', search);
                     form_data.append('searchid', searchid),
                         productid = $('#elemental-pageinfo').data("productid");
@@ -175,6 +190,16 @@ window.addEventListener(
                                     $('#elemental-search-result').html('Content (' + state_response.contentcount + ')');
                                 }
                             }
+                            if (state_response.member && state_response.membertarget) {
+                                $('#' + state_response.membertarget).html(state_response.member);
+                                let membercount = $('#member-dir-count-bottom').text();
+                                console.log(membercount);
+                                let number = membercount.match(/\d+/g).pop();
+
+                                if (number) {
+                                    $('#elemental-member-result').html('Members (' + number + ')');
+                                }
+                            }
                             init();
 
                         },
@@ -187,9 +212,9 @@ window.addEventListener(
                 }
 
                 /**
-                 * Refresh All Tabs.
+                 * Refresh All Tabs. (or a targetted single)
                  */
-                var refreshall = function() {
+                var refreshall = function(target) {
                     console.log('refreshall');
                     notification = $('#searchnotification');
                     var form_data = new FormData();
@@ -199,8 +224,12 @@ window.addEventListener(
                     if (baseurl) {
                         form_data.append('base', baseurl);
                     }
+                    if (target) {
+                        form_data.append('refresh_tabs', target);
+                    } else {
+                        form_data.append('refresh_tabs', 'refresh_tabs');
+                    }
                     form_data.append('action', 'elemental_searchadmin_ajax');
-                    form_data.append('refresh_tabs', 'refresh_tabs');
                     // form_data.append('action_taken', 'search_org');
                     form_data.append('search_term', search);
                     form_data.append('searchid', searchid);
@@ -238,6 +267,10 @@ window.addEventListener(
                             if (state_response.content && state_response.contenttarget) {
                                 $('#' + state_response.contenttarget).html(state_response.content);
                                 $('#elemental-search-result').html('Content');
+                            }
+                            if (state_response.member && state_response.membertarget) {
+                                $('#' + state_response.membertarget).html(state_response.member);
+                                $('#elemental-member-result').html('Members');
 
                             }
                             init();
@@ -385,8 +418,55 @@ window.addEventListener(
                         }
                     });
                 }
+
+                /**
+                 * Search only Members. (used for pagination)
+                 */
+                var memberonly = function(search, page) {
+                    console.log('membersearch');
+                    notification = $('#searchnotification'),
+                        searchid = $('#elemental-pageinfo').data("searchid"),
+                        productid = $('#elemental-pageinfo').data("productid");
+
+                    var form_data = new FormData();
+                    form_data.append('searchid', searchid);
+                    form_data.append('productid', productid);
+                    form_data.append('elemental-main-content', 'elemental-main-content');
+                    form_data.append('page', page);
+                    form_data.append('action', 'elemental_searchadmin_ajax');
+                    form_data.append('search_term', search);
+                    form_data.append('security', elemental_searchadmin_ajax.security);
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'html',
+                        url: elemental_searchadmin_ajax.ajax_url,
+                        contentType: false,
+                        processData: false,
+                        data: form_data,
+                        success: function(response) {
+                            var state_response = JSON.parse(response);
+
+                            if (state_response.content && state_response.contenttarget) {
+                                $('#' + state_response.contenttarget).html(state_response.content);
+
+                                if (state_response.contentcount) {
+                                    $('#elemental-search-result').html('Content (' + state_response.contentcount + ')');
+                                }
+                            }
+                            init();
+                        },
+                        error: function(response) {
+                            console.log('Error in Search Content');
+                        }
+                    });
+                }
+
+
+
+
                 init();
+
             }
         );
     }
-);
+); //end

@@ -10,9 +10,9 @@ jQuery(document).ready(function($) {
         var csd_selected_state = '';
 
         let test = $('.wcfmmp-store-search-form').attr('role');
-        console.log(test + 'tt');
+
         if ($('.wcfmmp-store-search-form').length > 0) {
-            console.log('searchform');
+
             if (wcfmmp_store_list_options.is_geolocate) {
                 if (($('#wcfmmp_radius_addr').length == 0) || !navigator.geolocation) {
                     refreshStoreList();

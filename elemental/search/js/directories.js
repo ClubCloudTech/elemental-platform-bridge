@@ -49,24 +49,28 @@
 
         // Activate Members Masonry Layout.
 
-        /*
-                            if ($('#yz-members-list ')[0]) {
+        // Activate Members Masonry Layout.
+        if ($('#yz-members-list')[0]) {
 
-                                // Set the container that Masonry will be inside of in a var
-                                var members_container = document.querySelector('#yz-members-list ');
+            // Set the container that Masonry will be inside of in a var
+            var members_container = document.querySelector('#yz-members-list');
 
-                                // Create empty var msnry
-                                var members_msnry;
+            // Create empty var msnry
+            var members_msnry;
 
-                                // Initialize Masonry after all images have loaded
-                                imagesLoaded(members_container, function() {
-                                    members_msnry = new Masonry(members_container, {
-                                        itemSelector: '#yz-members-list  li'
-                                    });
-                                });
+            // Initialize Masonry after all images have loaded
+            imagesLoaded(members_container, function() {
+                members_msnry = new Masonry(members_container, {
+                    itemSelector: '#yz-members-list li',
+                });
 
-                            }
-*/
+            });
+
+
+
+        }
+
+
 
         // Activate Groups Masonry Layout.
         if ($('#yz-groups-list')[0]) {
@@ -98,6 +102,16 @@
             e.preventDefault();
             $('.elemental-directory-filter #members-order-select, .elemental-directory-filter #groups-order-select').fadeToggle();
         });
+
+
+        var masonryUpdate = function() {
+                setTimeout(function() {
+                    $('#yz-members-list').masonry();
+                }, 0);
+            }
+            //$(document).on('click', masonryUpdate);
+        $(document).ajaxComplete(masonryUpdate);
+        masonryUpdate();
 
     });
 
