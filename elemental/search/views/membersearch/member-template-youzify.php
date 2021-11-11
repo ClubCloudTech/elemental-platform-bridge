@@ -11,7 +11,13 @@
 do_action( 'bp_before_directory_members_page' ); ?>
 <div id="youzify">
 
-<div id="<?php echo apply_filters( 'youzify_members_template_id', 'youzify-bp' ); ?>" class="youzify <?php echo youzify_members_directory_class() ?>">
+<div id="<?php echo apply_filters( 'youzify_members_template_id', 'youzify-bp' ); ?>" class="youzify
+<?php
+	if ( function_exists( 'youzify_members_directory_class' ) ) {
+		echo esc_attr( \youzify_members_directory_class() );
+	}
+	?>
+">
 
 	<main class="elemental-page-main-content">
 
@@ -43,7 +49,7 @@ do_action( 'bp_before_directory_members_page' ); ?>
 			 */
 			do_action( 'bp_before_directory_members_tabs' ); ?>
 
-			<?php if ( youzify_display_md_filter_bar() ) : ?>
+			<?php if ( function_exists( 'youzify_display_md_filter_bar' ) && youzify_display_md_filter_bar() ) : ?>
 
 			<div class="youzify-mobile-nav">
 				<div id="directory-show-menu" class="youzify-mobile-nav-item"><div class="elemental-mobile-nav-container"><i class="fas fa-bars"></i><a><?php _e( 'Menu', 'youzify' ); ?></a></div></div>
