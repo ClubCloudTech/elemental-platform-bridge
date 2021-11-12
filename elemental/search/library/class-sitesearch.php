@@ -13,6 +13,7 @@ namespace ElementalPlugin\Search\Library;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\HTML;
 use ElementalPlugin\Library\Version;
+use ElementalPlugin\WCFM\Library\WCFMTools;
 
 /**
  * Class Site Search
@@ -77,13 +78,17 @@ class SiteSearch {
 	 * @return void
 	 */
 	public function add_search_tabs() {
+		$org_search_available = Factory::get_instance( WCFMTools::class )->is_wcfmmp_available();
+
 		// Content Search Tab and Handler.
 		add_filter( 'elemental_search_template_render', array( Factory::get_instance( ContentSearch::class ), 'render_content_search_result_tab' ), 15, 3 );
 		add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( ContentSearch::class ), 'content_search_response' ), 10, 2 );
 
-		// Organisation Search Tab and Handler.
-		add_filter( 'elemental_search_template_render', array( Factory::get_instance( OrganisationSearch::class ), 'render_organisations_tabs' ), 5, 3 );
-		add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( OrganisationSearch::class ), 'organisation_search_response' ), 10, 2 );
+		if ( $org_search_available ) {
+			// Organisation Search Tab and Handler.
+			add_filter( 'elemental_search_template_render', array( Factory::get_instance( OrganisationSearch::class ), 'render_organisations_tabs' ), 5, 3 );
+			add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( OrganisationSearch::class ), 'organisation_search_response' ), 10, 2 );
+		}
 
 		// Products Organisation Tab and Handler.
 		add_filter( 'elemental_search_template_render', array( Factory::get_instance( ProductSearch::class ), 'render_product_result_tab' ), 5, 3 );
@@ -111,9 +116,12 @@ class SiteSearch {
 	/**
 	 * Enqueue WCFM dependencies. Needed to make product and other templates run correctly for org cards.
 	 *
-	 * @return void
+	 * @return ?null
 	 */
-	private function enqueue_organisation_wcfm_dependencies(): void {
+	private function enqueue_organisation_wcfm_dependencies() {
+		if ( ! Factory::get_instance( WCFMTools::class )->is_wcfmmp_available() ) {
+			return null;
+		}
 		global $WCFM, $WCFMmp;
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
 		$WCFM->library->load_select2_lib();

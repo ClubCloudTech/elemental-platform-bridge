@@ -101,8 +101,12 @@ class OrganisationSearch {
 	 *
 	 * @param array $atts - the shortcode attributes.
 	 */
-	public function elemental_show_stores( $atts ) {
-		global $WCFM, $WCFMmp, $wp, $WCFM_Query, $includes;
+	public function elemental_show_stores( $atts ): ?string {
+		if ( ! Factory::get_instance( WCFMTools::class )->is_wcfmmp_available() ) {
+			return null;
+		}
+
+		global $WCFM, $WCFMmp, $includes;
 		$WCFM->nocache();
 		ob_start();
 		$defaults = array(

@@ -335,4 +335,16 @@ class WCFMTools {
 
 		return \do_shortcode( '[products store="' . $store_id . '" paginate="true"]' );
 	}
+
+	/**
+	 * Is WCFM Marketplace Active - checks if WCFMMP is enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_wcfmmp_available(): bool {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		return is_plugin_active( 'wc-multivendor-marketplace/wc-multivendor-marketplace.php' );
+	}
+
 }
