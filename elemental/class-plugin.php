@@ -9,6 +9,7 @@ declare( strict_types=1 );
 
 namespace ElementalPlugin;
 
+use ElementalPlugin\BuddyPress\ElementalBP;
 use ElementalPlugin\Core\FiltersUtilities;
 use ElementalPlugin\Library\ElementalFunctions;
 use ElementalPlugin\Library\Version;
@@ -42,8 +43,10 @@ class Plugin {
 		Factory::get_instance( WCFM::class )->init();
 		Factory::get_instance( FiltersUtilities::class )->init();
 		Factory::get_instance( Search::class )->init();
+		Factory::get_instance( ElementalBP::class )->init();
 
 		$this->styles();
+		add_filter( 'xmlrpc_enabled', '__return_false' );
 	}
 	/**
 	 * Stylesheet Enqueue.

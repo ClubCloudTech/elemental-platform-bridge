@@ -10,6 +10,7 @@
 
 namespace ElementalPlugin\Search\Library;
 
+use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\HTML;
 use ElementalPlugin\Library\Version;
@@ -78,7 +79,9 @@ class SiteSearch {
 	 * @return void
 	 */
 	public function add_search_tabs() {
-		$org_search_available = Factory::get_instance( WCFMTools::class )->is_wcfmmp_available();
+		$org_search_available   = Factory::get_instance( WCFMTools::class )->is_wcfmmp_available();
+		$member_group_available = Factory::get_instance( SiteDefaults::class )->is_buddypress_available();
+		$wcfm_available         = Factory::get_instance( SiteDefaults::class )->is_wcfm_active();
 
 		// Content Search Tab and Handler.
 		add_filter( 'elemental_search_template_render', array( Factory::get_instance( ContentSearch::class ), 'render_content_search_result_tab' ), 15, 3 );
@@ -90,19 +93,24 @@ class SiteSearch {
 			add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( OrganisationSearch::class ), 'organisation_search_response' ), 10, 2 );
 		}
 
-		// Products Organisation Tab and Handler.
-		add_filter( 'elemental_search_template_render', array( Factory::get_instance( ProductSearch::class ), 'render_product_result_tab' ), 5, 3 );
-		add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( ProductSearch::class ), 'product_search_response' ), 10, 2 );
+		if ( $wcfm_available ) {
+			// Products Organisation Tab and Handler.
+			add_filter( 'elemental_search_template_render', array( Factory::get_instance( ProductSearch::class ), 'render_product_result_tab' ), 5, 3 );
+			add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( ProductSearch::class ), 'product_search_response' ), 10, 2 );
+		}
+		if ( $member_group_available ) {
+			// Member Search Tab and Handler.
+			add_filter( 'elemental_search_template_render', array( Factory::get_instance( MemberSearch::class ), 'render_members_tabs' ), 5, 3 );
+			add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( MemberSearch::class ), 'member_search_response' ), 10, 2 );
 
-		// Member Search Tab and Handler.
-		add_filter( 'elemental_search_template_render', array( Factory::get_instance( MemberSearch::class ), 'render_members_tabs' ), 5, 3 );
-		add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( MemberSearch::class ), 'member_search_response' ), 10, 2 );
+			if ( function_exists( 'bp_is_active' ) || ! bp_is_active( 'groups' ) ) {
+				// Group Search Tab and Handler.
+				add_filter( 'elemental_search_template_render', array( Factory::get_instance( GroupSearch::class ), 'render_group_tabs' ), 5, 3 );
+				add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( GroupSearch::class ), 'group_search_response' ), 10, 2 );
 
-		// Group Search Tab and Handler.
-		add_filter( 'elemental_search_template_render', array( Factory::get_instance( GroupSearch::class ), 'render_group_tabs' ), 5, 3 );
-		add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( GroupSearch::class ), 'group_search_response' ), 10, 2 );
-
-		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_bp_legacy' ) );
+			}
+			add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_bp_legacy' ) );
+		}
 	}
 	/**
 	 * Dequeue BP Legacy Script
