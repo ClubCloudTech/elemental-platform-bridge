@@ -62,18 +62,81 @@ window.addEventListener(
 
                         }
                     );
-                    //Refresh Trigger.
-                    $('.elemental-refresh-member-search-trigger').click(
-                        function(e) {
-                            console.log('click handler');
-                            e.stopImmediatePropagation();
-                            e.stopPropagation();
-                            refreshall('elemental-member-tab');
-                            e.preventDefault();
+					
+					/**
+					 * Groups Section
+					 */
+					//Group Refine Search.
+					$('#elemental-group-search-submit').click(
+						function(e) {
+							e.preventDefault();
+							e.stopPropagation();
+							var notification = $('#searchnotification');
+							notification.html('Refining Search');
+							var input = $('#elemental-group-search').val();
+							$('#elemental-refresh-search').fadeIn();
+							grouponly(input);
+							e.stopImmediatePropagation();
+						}
+					);
+					//Click All Group Refresh.
+					$('.elemental-refresh-group-search-trigger').click(
+						function(e) {
+							console.log('click handler');
+							e.stopImmediatePropagation();
+							e.stopPropagation();
+							refreshall('elemental-group-tab');
+							e.preventDefault();
 
+						}
+					);
+					// On Click on Group tab to resize (trigger masonry)
+					$('#elemental-group-result').click(
+                        function(e) {
+                            e.stopPropagation();
+                            window.dispatchEvent(new Event('resize'));
                         }
                     );
-                    //Refresh Trigger.
+					// Drop Down for Sort Order Members
+                    if (firstrun) {
+                        setTimeout(() => {
+                            $("#groups-order-by").on(
+                                'change',
+                                function(e) {
+                                    e.stopImmediatePropagation();
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    var notification = $('#searchnotification');
+                                    notification.html('Searching');
+                                    var input = $(this).val();
+                                    $('#elemental-refresh-search').fadeIn();
+                                    grouponly(null, null, input);
+                                    e.stopImmediatePropagation();
+                                }
+                            );
+                        }, 4000);
+                    } else {
+                        $("#groups-order-by").on(
+                            'change',
+                            function(e) {
+                                e.stopImmediatePropagation();
+                                e.preventDefault();
+                                e.stopPropagation();
+                                var notification = $('#searchnotification');
+                                notification.html('Searching');
+                                var input = $(this).val();
+                                $('#elemental-refresh-search').fadeIn();
+                                grouponly(null, null, input);
+                                e.stopImmediatePropagation();
+                            }
+                        );
+                    }
+					/**
+					 * Members Section
+					 */
+
+
+                    //Members Refine Search Trigger.
                     $('#members_search_submit').click(
                         function(e) {
                             e.preventDefault();
@@ -87,54 +150,59 @@ window.addEventListener(
                         }
                     );
 
-                    if (firstrun) {
-                        setTimeout(() => {
-                            $("#members-order-by").on(
-                                'change',
-                                function(e) {
-                                    e.stopImmediatePropagation();
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    var notification = $('#searchnotification');
-                                    notification.html('Searching');
-                                    var input = $(this).val();
-                                    $('#elemental-refresh-search').fadeIn();
-                                    memberonly(null, null, input);
-                                    e.stopImmediatePropagation();
-                                }
-                            );
-                        }, 4000);
-                    } else {
-                        $("#members-order-by").on(
-                            'change',
-                            function(e) {
-                                e.stopImmediatePropagation();
-                                e.preventDefault();
-                                e.stopPropagation();
-                                var notification = $('#searchnotification');
-                                notification.html('Searching');
-                                var input = $(this).val();
-                                $('#elemental-refresh-search').fadeIn();
-                                memberonly(null, null, input);
-                                e.stopImmediatePropagation();
-                            }
-                        );
-                    }
+					//Refresh All Trigger Members.
+					$('.elemental-refresh-member-search-trigger').click(
+						function(e) {
+							console.log('click handler');
+							e.stopImmediatePropagation();
+							e.stopPropagation();
+							refreshall('elemental-member-tab');
+							e.preventDefault();
 
-
-                    $('#elemental-member-result').click(
+						}
+					);
+                    // On Click on Member tab to resize (trigger masonry)
+					$('#elemental-member-result').click(
                         function(e) {
                             e.stopPropagation();
                             window.dispatchEvent(new Event('resize'));
                         }
                     );
+					// Drop Down for Sort Order  - Members
+					if (firstrun) {
+						setTimeout(() => {
+							$("#members-order-by").on(
+								'change',
+								function(e) {
+									e.stopImmediatePropagation();
+									e.preventDefault();
+									e.stopPropagation();
+									var notification = $('#searchnotification');
+									notification.html('Searching');
+									var input = $(this).val();
+									$('#elemental-refresh-search').fadeIn();
+									memberonly(null, null, input);
+									e.stopImmediatePropagation();
+								}
+							);
+						}, 4000);
+					} else {
+						$("#members-order-by").on(
+							'change',
+							function(e) {
+								e.stopImmediatePropagation();
+								e.preventDefault();
+								e.stopPropagation();
+								var notification = $('#searchnotification');
+								notification.html('Searching');
+								var input = $(this).val();
+								$('#elemental-refresh-search').fadeIn();
+								memberonly(null, null, input);
+								e.stopImmediatePropagation();
+							}
+						);
+					}
 
-                    $('#elemental-group-result').click(
-                        function(e) {
-                            e.stopPropagation();
-                            window.dispatchEvent(new Event('resize'));
-                        }
-                    );
                     // Search Pagination
                     $('.page-numbers').click(
                         function(e) {
@@ -560,7 +628,7 @@ window.addEventListener(
                     form_data.append('action', 'elemental_searchadmin_ajax');
                     form_data.append('searchid', searchid);
                     form_data.append('productid', productid);
-                    form_data.append('elemental-member-tab', 'elemental-member-tab');
+                    form_data.append('elemental-group-tab', 'elemental-group-tab');
 
                     if (page) {
                         form_data.append('page', page);
@@ -583,16 +651,16 @@ window.addEventListener(
                         success: function(response) {
                             var state_response = JSON.parse(response);
 
-                            if (state_response.member && state_response.membertarget) {
-                                $('#' + state_response.membertarget).html(state_response.member);
-                                let membercount = $('#member-dir-count-bottom').text();
-                                console.log(membercount);
-                                let number = membercount.match(/\d+/g).pop();
+                            if (state_response.group && state_response.grouptarget) {
+                                $('#' + state_response.grouptarget).html(state_response.group);
+                                let groupcount = $('#group-dir-count-bottom').text();
+                                console.log(groupcount);
+                                let number = groupcount.match(/\d+/g).pop();
 
                                 if (number) {
-                                    $('#elemental-member-result').html('Groups (' + number + ')');
+                                    $('#elemental-group-result').html('Groups (' + number + ')');
                                 } else {
-                                    $('#elemental-member-result').html('Groups ( 0 )');
+                                    $('#elemental-group-result').html('Groups ( 0 )');
                                 }
                             }
                             init();

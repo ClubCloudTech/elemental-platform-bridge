@@ -124,12 +124,11 @@ class MemberSearch {
 
 		global $elemental_members_loop_arguments;
 
-		if ( isset ( $atts['type'] ) ) {
+		if ( isset( $atts['type'] ) ) {
 			$drop_down = $this->generate_sort_dropdown( $atts['type'] );
 		} else {
 			$drop_down = $this->generate_sort_dropdown();
 		}
-		
 
 		$defaults = array(
 			'per_page'     => 12,

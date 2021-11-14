@@ -28,26 +28,6 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 
 		<div id="yz-groups-directory">
 
-		<?php
-
-		/**
-		 * Fires before the display of the groups.
-		 *
-		 * @since 1.1.0
-		 */
-		// do_action( 'bp_before_directory_groups' );
-		?>
-
-		<?php
-
-		/**
-		 * Fires before the display of the groups content.
-		 *
-		 * @since 1.1.0
-		 */
-		// do_action( 'bp_before_directory_groups_content' );
-		?>
-
 		<?php if ( apply_filters( 'yz_display_groups_directory_filter', true ) ) : ?>
 		<div class="yz-mobile-nav">
 			<div id="directory-show-menu" class="yz-mobile-nav-item"><div class="yz-mobile-nav-container"><i class="fas fa-bars"></i><a><?php esc_html_e( 'Menu', 'youzer' ); ?></a></div></div>
@@ -65,7 +45,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 				<?php	//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - Function already builds every parameter safely.  ?>
 					<li id="groups-personal"><a href="<?php echo bp_loggedin_user_domain() . bp_get_groups_slug() . '/my-groups/'; ?>"><?php printf( esc_html__( 'My Groups %s', 'youzer' ), '<span>' . bp_get_total_group_count_for_user( bp_loggedin_user_id() ) . '</span>' ); ?></a></li>
 				<?php endif; ?>
-				
+
 				<?php
 
 				/**

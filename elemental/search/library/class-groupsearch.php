@@ -107,6 +107,15 @@ class GroupSearch {
 		$youzify_loaded = ! Factory::get_instance( MemberSearch::class )->is_youzer_available();
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
 
+		$defaults = array(
+			'per_page'     => 12,
+			'page'         => '1',
+			'type'         => 'alphabetical',
+			'search_terms' => '',
+		);
+
+		$attr = shortcode_atts( $defaults, $atts );
+
 		add_filter( 'bp_is_current_component', array( $this, 'elemental_enable_shortcode' ), 10, 2 );
 		add_filter( 'bp_is_directory', '__return_true' );
 
@@ -122,21 +131,17 @@ class GroupSearch {
 		}
 
 		global $elemental_group_loop_arguments;
-		if ( $atts['type'] ) {
-			$drop_down = $this->generate_sort_dropdown( $atts['type'] );
+		if ( $attr['type'] ) {
+			$drop_down = $this->generate_sort_dropdown( $attr['type'] );
 		} else {
 			$drop_down = $this->generate_sort_dropdown();
 		}
 
-		$defaults = array(
-			'per_page'     => 12,
-			'page'         => '1',
-			'type'         => 'alphabetical',
-			'search_terms' => '',
-			'drop_down'    => $drop_down,
+		$defaultsdd = array(
+			'drop_down' => $drop_down,
 		);
 
-		$elemental_group_loop_arguments = wp_parse_args( $atts, $defaults );
+		$elemental_group_loop_arguments = wp_parse_args( $attr, $defaultsdd );
 
 		// Add Filter.
 		add_filter( 'bp_after_has_groups_parse_args', array( $this, 'elemental_set_loop_query' ) );

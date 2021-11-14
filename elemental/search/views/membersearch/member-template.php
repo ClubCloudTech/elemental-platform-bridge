@@ -1,7 +1,6 @@
 <?php
 /**
  * BuddyPress - Members
- *
  */
 /**
  * Fires at the top of the members directory template file.
@@ -13,9 +12,9 @@ do_action( 'bp_before_directory_members_page' ); ?>
 
 <div id="<?php echo esc_attr( apply_filters( 'yz_members_template_id', 'elemental-bp' ) ); ?>" class="
 <?php
-	if ( function_exists( 'yz_members_directory_class' ) ) {
-		echo esc_attr( \yz_members_directory_class() );
-	}
+if ( function_exists( 'yz_members_directory_class' ) ) {
+	echo esc_attr( \yz_members_directory_class() );
+}
 ?>
 ">
 
@@ -30,7 +29,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 			 *
 			 * @since 1.1.0
 			 */
-			do_action( 'bp_before_directory_members' ); ?>
+			do_action( 'bp_before_directory_members' );
+			?>
 
 			<?php
 
@@ -39,7 +39,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 			 *
 			 * @since 1.1.0
 			 */
-			do_action( 'bp_before_directory_members_content' ); ?>
+			do_action( 'bp_before_directory_members_content' );
+			?>
 
 			<?php
 			/**
@@ -47,7 +48,8 @@ do_action( 'bp_before_directory_members_page' ); ?>
 			 *
 			 * @since 1.8.0
 			 */
-			do_action( 'bp_before_directory_members_tabs' ); ?>
+			do_action( 'bp_before_directory_members_tabs' );
+			?>
 
 			<?php if ( function_exists( 'yz_display_md_filter_bar' ) && yz_display_md_filter_bar() ) : ?>
 
