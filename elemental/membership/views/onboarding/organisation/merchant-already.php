@@ -18,7 +18,7 @@ return function (
 	ob_start();
 	?>
 
-<div class="" id="wcfm_shop_listing">
+<div class="" id="elemental-onboard-listing">
 
 	<div class="wcfm-collapse-content">
 		<div id="wcfm_page_load "></div>

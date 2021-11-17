@@ -15,6 +15,7 @@ use ElementalPlugin\Factory;
 use ElementalPlugin\Library\HTML;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\WCFM\Library\WCFMTools;
+use \MyVideoRoomPlugin\Library\HttpGet;
 
 /**
  * Class Site Search
@@ -45,8 +46,17 @@ class SiteSearch {
 		$header_template  = $attributes['header'] ?? null;
 		$search_template  = $attributes['search'] ?? null;
 		$product_template = $attributes['product'] ?? null;
-
-		return $this->sitesearch_shortcode_handler( $header_template, $search_template, $product_template );
+		$tab              = $attributes['tab'] ?? null;
+		$only             = $attributes['only'] ?? false;
+		if ( ! $tab ) {
+			$http_get_library = Factory::get_instance( HttpGet::class );
+			$tab              = $http_get_library->get_string_parameter( 'tab' ) ?? null;
+		}
+		if ( ! $only ) {
+			$http_get_library = Factory::get_instance( HttpGet::class );
+			$only             = $http_get_library->get_string_parameter( 'only' ) ?? false;
+		}
+		return $this->sitesearch_shortcode_handler( $header_template, $search_template, $product_template, $tab, $only );
 	}
 
 	/**
@@ -55,22 +65,50 @@ class SiteSearch {
 	 * @param string $header_template - Header Template.
 	 * @param string $search_template - Search Template.
 	 * @param string $product_template - Product Template.
+	 * @param string $tab - starting tab (optional).
+	 * @param string $only - return a single tab only in case of tab sort (optional).
 	 */
-	public function sitesearch_shortcode_handler( string $header_template = null, string $search_template = null, string $product_template = null ) {
+	public function sitesearch_shortcode_handler( string $header_template = null, string $search_template = null, string $product_template = null, string $tab = null, bool $only = null ) {
 		global $post;
 		$this->enqueue_organisation_wcfm_dependencies();
 		\wp_enqueue_script( 'elemental-search-js' );
-		$header       = \do_shortcode( '[elementor-template id="' . \esc_attr( $header_template ) . '"]' );
-		$html_library = Factory::get_instance( HTML::class, array( 'view-management' ) );
-		$tabs         = array();
-		$tabs         = apply_filters( 'elemental_search_template_render', $tabs, $search_template, $product_template );
-
+		$header          = \do_shortcode( '[elementor-template id="' . \esc_attr( $header_template ) . '"]' );
+		$html_library    = Factory::get_instance( HTML::class, array( 'view-management' ) );
+		$tabs            = array();
+		$tabs            = apply_filters( 'elemental_search_template_render', $tabs, $search_template, $product_template );
+		$tabs            = $this->tab_sort( $tabs, $tab, $only );
 		$pagination_base = str_replace( $post->ID, '%#%', esc_url( get_pagenum_link( $post->ID ) ) );
 
 		$render = include __DIR__ . '/../views/maintemplate.php';
 		return $render( $header, $pagination_base, $html_library, $tabs, $search_template, $product_template );
 
 	}
+
+	/**
+	 * Sort Global Directory Tabs.
+	 *
+	 * @param array  $inputs - the tabs to sort.
+	 * @param string $term - starting tab desired.
+	 * @param bool   $single_tab - return only a single tab (dont push the rest behind it) used to dedicate a custom view.
+	 * @return array - a sorted array.
+	 */
+	private function tab_sort( array $inputs, string $term = null, bool $single_tab = null ) {
+		$return_array = array();
+		foreach ( $inputs as $input ) {
+			$tab = $input->get_tab_slug();
+			if ( $tab === $term ) {
+				\array_unshift( $return_array, $input );
+			} else {
+				if ( ! $single_tab ) {
+					array_push( $return_array, $input );
+				}
+			}
+		}
+		return $return_array;
+	}
+
+
+
 
 	/**
 	 * Search Tab Controller.
@@ -82,6 +120,7 @@ class SiteSearch {
 		$org_search_available   = Factory::get_instance( WCFMTools::class )->is_wcfmmp_available();
 		$member_group_available = Factory::get_instance( SiteDefaults::class )->is_buddypress_available();
 		$wcfm_available         = Factory::get_instance( SiteDefaults::class )->is_wcfm_active();
+		$logged_in              = \is_user_logged_in();
 
 		// Content Search Tab and Handler.
 		add_filter( 'elemental_search_template_render', array( Factory::get_instance( ContentSearch::class ), 'render_content_search_result_tab' ), 15, 3 );
@@ -98,7 +137,7 @@ class SiteSearch {
 			add_filter( 'elemental_search_template_render', array( Factory::get_instance( ProductSearch::class ), 'render_product_result_tab' ), 5, 3 );
 			add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( ProductSearch::class ), 'product_search_response' ), 10, 2 );
 		}
-		if ( $member_group_available ) {
+		if ( $member_group_available && $logged_in ) {
 			// Member Search Tab and Handler.
 			add_filter( 'elemental_search_template_render', array( Factory::get_instance( MemberSearch::class ), 'render_members_tabs' ), 5, 3 );
 			add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( MemberSearch::class ), 'member_search_response' ), 10, 2 );

@@ -138,7 +138,7 @@ class MembershipShortCode {
 		if ( current_user_can( 'editor' ) || current_user_can( 'administrator' ) ) {
 			return '<div id="div-holder-temp" class="elemental-initial"> <div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have Unlimited Accounts Remaining ', 'myvideoroom' ) . '</div></div>';
 		} elseif ( $accounts_remaining > 0 ) {
-			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have ', 'myvideoroom' ) . esc_textarea( $accounts_remaining ) . esc_html__( ' accounts remaining', 'myvideoroom' ) . '</div></div>';
+			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have ', 'myvideoroom' ) . esc_textarea( $accounts_remaining ) . esc_html__( ' user accounts remaining', 'myvideoroom' ) . '</div></div>';
 		}
 		return null;
 	}

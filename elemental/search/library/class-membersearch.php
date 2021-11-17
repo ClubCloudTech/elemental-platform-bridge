@@ -31,7 +31,7 @@ class MemberSearch {
 
 		$admin_menu = new MenuTabDisplay(
 			\esc_html__( 'Members', 'myvideoroom' ),
-			\esc_html__( 'Members', 'myvideoroom' ),
+			'members',
 			fn() => $this->render_member_search(),
 			'elemental-member-result'
 		);
@@ -161,7 +161,7 @@ class MemberSearch {
 
 		ob_start();
 		// phpcs:ignore-WordPress.Security.EscapeOutput.OutputNotEscaped -- all text is escaped properly.
-		echo "<div class='elemental-members-directory-list-shortcode youzify-members-directory-shortcode youzify-directory-shortcode' {$directory_data}>";
+		echo "<div class='elemental-members-directory-list-shortcode youzify-members-directory-shortcode youzify-directory-shortcode'>";
 		if ( $youzify_loaded ) {
 			include __DIR__ . '/../views/membersearch/member-template-youzify.php';
 		} else {

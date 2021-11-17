@@ -35,7 +35,7 @@ class OrganisationSearch {
 
 		$admin_menu = new MenuTabDisplay(
 			\esc_html__( 'Organisations', 'myvideoroom' ),
-			\esc_html__( 'Organisations', 'myvideoroom' ),
+			'organisations',
 			fn() => $this->render_wcfm_organisations(),
 			'elemental-org-result'
 		);

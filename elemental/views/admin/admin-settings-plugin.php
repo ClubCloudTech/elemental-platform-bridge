@@ -41,6 +41,7 @@ return function (): string {
 			<input type="button" class="mvr-main-button-enabled"
 			id="myvideoroom_refresh_layout" value="<?php esc_html_e( 'Save Settings', 'myvideoroom' ); ?>" style="display: none;">
 			</div>
+		<div id="notification-update-result" ></div>
 		</div>
 		<div class="myvideoroom-feature-table-large">
 		<table id="mvr-table-basket-frame_<?php echo esc_attr( $index++ ); ?>" class="wp-list-table widefat plugins myvideoroom-table-adjust">

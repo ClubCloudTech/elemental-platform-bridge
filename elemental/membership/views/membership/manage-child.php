@@ -29,12 +29,7 @@ return function (
 
 	?>
 
-<div class="collapse wcfm-collapse" id="wcfm_shop_listing">
-	<div class="wcfm-page-headig">
-		<span class="wcfmfa fa-user"></span>
-		<span class="wcfm-page-heading-text"><?php esc_html_e( 'Sponsored Accounts', 'myvideoroom' ); ?></span>
-	<?php do_action( 'wcfm_page_heading' ); ?>
-	</div>
+<div class="collapse wcfm-collapse" id="elemental-onboard-listing">
 
 	<div class="wcfm-collapse-content">
 		<div id="wcfm_page_load "></div>
@@ -43,7 +38,7 @@ return function (
 	if ( is_user_logged_in() ) {
 		?>
 		<div class="wcfm-container wcfm-top-element-container">
-			<h2><?php esc_html_e( 'Manage Sponsored Accounts', 'myvideoroom' ); ?></h2>
+			<h2><?php esc_html_e( 'Manage User Accounts', 'myvideoroom' ); ?></h2>
 
 		<?php
 			echo '<a id="add-new-button" class="add_new_wcfmesc_html_ele_dashboard text_tip" href="' . esc_url( get_wcfm_shop_staffs_manage_url() ) . '" data-tip="' . esc_html__( 'Add New Account', 'myvideoroom' ) . '"><span class="wcfmfa fa-user-plus"></span><span class="text">' . esc_html__( 'Add New', 'wc-frontend-manager' ) . '</span></a>';
@@ -57,7 +52,7 @@ return function (
 			<div class="wcfm-clearfix"></div>
 		</div>
 		<div id="elemental-adduser-frame" class="wcfm-container wcfm-top-element-container" style="display:none;">
-			<h3 class="elemental-align-left"><?php esc_html_e( 'Add a Sponsored Account', 'myvideoroom' ); ?></h3>
+			<h3 class="elemental-align-left"><?php esc_html_e( 'Add a User Account to your Organisation', 'myvideoroom' ); ?></h3>
 		<?php
       // phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
       echo $add_account_form;

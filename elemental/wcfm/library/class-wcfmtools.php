@@ -7,6 +7,7 @@
 
 namespace ElementalPlugin\WCFM\Library;
 
+use ElementalPlugin\Core\MenuHelpers;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
@@ -345,6 +346,24 @@ class WCFMTools {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 		return is_plugin_active( 'wc-multivendor-marketplace/wc-multivendor-marketplace.php' );
+	}
+
+	/**
+	 * Generate a merchant URL from $ID
+	 * This function takes all site parameters and assembles correctly a Store URL taking merchants and staff into consideration and name of Marketplace parameter
+	 *
+	 * @param int|null $user_id - the user ID.
+	 *
+	 * @return string
+	 */
+	public function get_store_url( int $user_id = null ): string {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		$slug = Factory::get_instance( MenuHelpers::class )->get_name( $user_id );
+
+		return get_site_url() . '/' . get_option( 'wcfm_store_url' ) . '/' . $slug;
 	}
 
 }

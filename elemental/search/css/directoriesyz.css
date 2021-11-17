@@ -206,7 +206,7 @@
 .elemental-directory-filter .item-list-tabs ul,
 .elemental-directory-filter .item-list-tabs li,
 .elemental-directory-filter .item-list-tabs {
-	display: inline-block;
+	display: inline;
 	float: left;
 }
 

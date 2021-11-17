@@ -30,7 +30,7 @@ class ProductSearch {
 
 		$host_menu = new MenuTabDisplay(
 			\esc_html__( 'Products', 'myvideoroom' ),
-			'elemental-product',
+			'product',
 			fn() => $this->render_product_template( $product_template ),
 			'elemental-product-result'
 		);

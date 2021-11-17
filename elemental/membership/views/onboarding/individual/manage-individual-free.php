@@ -16,7 +16,7 @@ return function (): string {
 	ob_start();
 	?>
 
-<div class="elemental-container" id="wcfm_shop_listing">
+<div class="elemental-container" id="elemental-onboard-listing">
 	<div class="elemental-container">
 		<div id="wcfm_page_load" class="elemental-container"></div>
 			<h2 class="elemental-onboard-header">

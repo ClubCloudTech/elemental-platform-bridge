@@ -7,6 +7,7 @@
 
 namespace ElementalPlugin\WCFM\Library;
 
+use ElementalPlugin\BuddyPress\ElementalBP;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\Library\WooCommerceHelpers;
@@ -21,6 +22,8 @@ class WCFMHelpers {
 	const SHORTCODE_ARCHIVE_TEMPLATE_REDIRECT = 'elemental_wcfm_archive_switch';
 	const SETTING_WCFM_PREMIUM_MEMBERSHIPS    = 'elemental-WCFM-premium-memberships';
 	const SETTING_WCFM_ARCHIVE_SHORTCODE_ID   = 'elemental-WCFM-archive';
+	const SHORTCODE_MYSTORE                   = 'elemental_mystore';
+	const SHORTCODE_MYPROFILE                 = 'elemental_myprofile';
 
 	/**
 	 * Install the shortcode
@@ -28,6 +31,8 @@ class WCFMHelpers {
 	public function init() {
 
 		add_shortcode( self::SHORTCODE_ARCHIVE_TEMPLATE_REDIRECT, array( $this, 'switch_product_archive' ) );
+		add_shortcode( self::SHORTCODE_MYSTORE, array( $this, 'render_mystore_button' ) );
+		add_shortcode( self::SHORTCODE_MYPROFILE, array( $this, 'render_myprofile_button' ) );
 		// Option for Premium Memberships Setting.
 		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_wcfm_premium_settings' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_wcfm_premium_setting' ), 10, 2 );
@@ -103,6 +108,59 @@ class WCFMHelpers {
 		}
 		return $template;
 	}
+	/**
+	 * Visit Store Button Shortcode Handler.
+	 * Renders Visit My Store Button for Staff and Store Owners
+	 *
+	 * @param int $atts - the shortcode attributes.
+	 * @return string
+	 */
+	public function render_mystore_button( $atts = array() ): ?string {
+		if ( isset( $atts['user_id'] ) ) {
+			$user_id = $atts['user_id'];
+		} else {
+			$user_id = \get_current_user_id();
+		}
+		return $this->render_mystore_button_worker( $user_id );
+	}
+
+	/**
+	 * MyProfile Shortcode BP.
+	 * Renders My Profile Button in BP
+	 *
+	 * @param int $atts - the shortcode attributes.
+	 * @return string
+	 */
+	public function render_myprofile_button( $atts = array() ): ?string {
+		if ( isset( $atts['user_id'] ) ) {
+			$user_id = $atts['user_id'];
+		} else {
+			$user_id = \get_current_user_id();
+		}
+		$url    = Factory::get_instance( ElementalBP::class )->get_buddypress_profile_url( $user_id );
+		$output = '<a href="' . $url . '" class="elementor-item">' . esc_html__( 'My Profile', 'myvideoroom' ) . '</a>';
+		return $output;
+	}
+
+	/**
+	 * Visit Store Button
+	 * Renders Visit My Store Button for Staff and Store Owners
+	 *
+	 * @param int $store_id - the store_id (if blank current store owner used if any).
+	 * @return string
+	 */
+	public function render_mystore_button_worker( int $store_id ): ?string {
+		if ( ! Factory::get_instance( WCFMTools::class )->am_i_merchant() ) {
+			return null;
+		}
+
+		$store_url = Factory::get_instance( WCFMTools::class )->get_store_url( $store_id );
+
+		$output = '<a href="' . $store_url . '" class="elementor-item">' . esc_html__( 'My Site', 'myvideoroom' ) . '</a>';
+		return $output;
+	}
+
+
 
 	/**
 	 * Add WCFM Premium Account List.
@@ -173,4 +231,17 @@ class WCFMHelpers {
 		$response['feedback'] = \esc_html__( 'WCFM Archive Saved', 'myvideoroom' );
 		return $response;
 	}
+
+	/**
+	 * Get WCFM Control Panel Page
+	 *
+	 * @return string
+	 */
+	public function get_wcfm_control_panel_page(): string {
+		$pages = get_option( 'wcfm_page_options' );
+		$link  = get_permalink( $pages['wc_frontend_manager_page_id'] );
+		return $link;
+	}
+
+
 }

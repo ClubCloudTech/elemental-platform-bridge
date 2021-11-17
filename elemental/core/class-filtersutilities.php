@@ -214,6 +214,8 @@ class FiltersUtilities extends Shortcode {
 		return \wp_logout_url( \home_url() );
 	}
 
+
+
 	public function debug_hook() {
 		\add_action(
 			'all',

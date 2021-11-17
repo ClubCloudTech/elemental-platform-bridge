@@ -7,21 +7,24 @@
 
 namespace ElementalPlugin\Membership\Library;
 
+use ElementalPlugin\BuddyPress\ElementalBP;
 use ElementalPlugin\Factory;
-use \MyVideoRoomPlugin\Library\HttpGet;
 use \MyVideoRoomPlugin\Library\Ajax;
+use \MyVideoRoomPlugin\Library\HttpGet;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
  */
 class LoginHandler {
 
-	const SHORTCODE_LOGOUT_SWITCH = 'elemental_logout';
-	const SHORTCODE_LOGOUT        = 'elemental_logout_url';
+	const SHORTCODE_LOGOUT_SWITCH       = 'elemental_logout';
+	const SHORTCODE_LOGOUT              = 'elemental_logout_url';
+	const SHORTCODE_BP_PROFILE_REDIRECT = 'elemental_profile_redirect';
 
 	const SHORTCODE_LEGACY_LOGOUT = 'cclogout';
 	const SHORTCODE_LEGACY_LOGIN  = 'ccloginswitch';
 	const SHORTCODE_LOGIN_SWITCH  = 'elemental_login';
+	const SHORTCODE_LOGIN_BUTTON  = 'elemental_loginbutton';
 
 	const SETTING_LOGIN_SWITCH_TEMPLATE = 'elemental-login-switch-template';
 
@@ -34,6 +37,8 @@ class LoginHandler {
 		add_shortcode( self::SHORTCODE_LOGOUT_SWITCH, array( $this, 'render_logout_shortcode' ) );
 		add_shortcode( self::SHORTCODE_LOGOUT, array( $this, 'elemental_logout' ) );
 		add_shortcode( self::SHORTCODE_LOGIN_SWITCH, array( $this, 'elemental_loginswitch' ) );
+		add_shortcode( self::SHORTCODE_LOGIN_BUTTON, array( $this, 'elemental_login_out' ) );
+		add_shortcode( self::SHORTCODE_BP_PROFILE_REDIRECT, array( $this, 'bp_profile_redirect' ) );
 
 		// Legacy Shortcodes.
 		add_shortcode( self::SHORTCODE_LEGACY_LOGOUT, array( $this, 'elemental_logout' ) );
@@ -63,10 +68,30 @@ class LoginHandler {
 	/**
 	 * Render shortcode to provide WordPress Logout URL (used in menu links)
 	 *
+	 * @param string $redirect - the redirect url.
 	 * @return string
 	 */
-	public function elemental_logout_url() {
-		return wp_logout_url( home_url() );
+	public function elemental_logout_url( string $redirect = null ) {
+		if ( ! $redirect ) {
+			$redirect = home_url();
+		}
+		return wp_logout_url( $redirect );
+	}
+
+	/**
+	 * Login/Out Shortcode Switch.
+	 *
+	 * @return string
+	 */
+	public function elemental_login_out(): string {
+
+		if ( \is_user_logged_in() ) {
+			$nonce = \wp_create_nonce( 'logout' );
+			$url   = get_site_url() . '/login?action=logout&nonce=' . $nonce;
+			return '<a href="' . $url . '" class="elemental-thankyou-link">' . esc_html__( 'Sign Out', 'myvideoroom' ) . '</a>';
+		} else {
+			return '<button class="elemental-header-loginout"> <a class="elemental-thankyou-link" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'myvideoroom' ) . '</a> </button>';
+		}
 	}
 
 	/**
@@ -75,8 +100,47 @@ class LoginHandler {
 	 * @return string
 	 */
 	public function elemental_loginswitch() {
+		$http_get_library = Factory::get_instance( HttpGet::class );
+		$action           = $http_get_library->get_string_parameter( 'action' );
+		$nonce            = $http_get_library->get_string_parameter( 'nonce' );
+
+		if ( 'logout' === $action && \wp_verify_nonce( $nonce, 'logout' ) ) {
+
+			add_filter( 'wp_redirect', array( $this, 'logout_filter_redirect' ), 99, 1 );
+			$url = \get_site_url() . '/logout/';
+			wp_logout();
+			\wp_safe_redirect( $url );
+			die();
+		}
+
 		$template_id = intval( get_option( self::SETTING_LOGIN_SWITCH_TEMPLATE ) );
 		return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+	}
+
+	/**
+	 * BuddyPress Profile Redirect Shortcode.
+	 *
+	 * @return string
+	 */
+	public function bp_profile_redirect() {
+		if ( ! \is_user_logged_in() ) {
+			return null;
+		}
+		$user_id = \get_current_user_id();
+		$url     = Factory::get_instance( ElementalBP::class )->get_buddypress_profile_url( $user_id );
+		// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
+		echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+	}
+
+
+	/**
+	 * Render shortcode to provide login template for Login pages.
+	 *
+	 * @return string
+	 */
+	public function logout_filter_redirect() {
+		$url = \get_site_url() . '/logout/';
+		return $url;
 	}
 
 	/**

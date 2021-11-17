@@ -20,6 +20,7 @@ class WooCommerceHelpers {
 	const SETTING_ONBOARD_SLUG                 = 'elemental-onboard-slug';
 	const SETTING_ONBOARD_POST_SUB_SLUG        = 'elemental-post-sub-slug';
 	const SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID = 'elemental-product-archive';
+	const SETTING_WCFM_STAFF_USER_CONTROL      = 'elemental-staff-user-control';
 
 	/**
 	 * Init
@@ -44,6 +45,10 @@ class WooCommerceHelpers {
 		// Option for Product Archive Template.
 		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_product_archive_settings' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_product_archive_setting' ), 10, 2 );
+
+		// Option for Staff Control Panel PostID.
+		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_staffuser_cp_settings' ), 9, 2 );
+		\add_filter( 'elemental_page_option', array( $this, 'add_staffuser_cp_setting' ), 9, 2 );
 	}
 
 	/**
@@ -269,5 +274,39 @@ class WooCommerceHelpers {
 		);
 	}
 
+	/**
+	 * Add Staff CP Setting to Plugin Menu
+	 *
+	 * @param array $input - the filter input.
+	 * @return array
+	 */
+	public function add_staffuser_cp_setting( array $input ): array {
+		$input_add = ' 
+		<td>
+		<span>' . esc_html__( 'Staff and User Control Panel Page ID', 'myvideoroom' ) . '</span>
+		</td>
+		<td>
+		<input type="number" size="32"
+		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		id="' . esc_attr( self::SETTING_WCFM_STAFF_USER_CONTROL ) . '"
+		value="' . get_option( self::SETTING_WCFM_STAFF_USER_CONTROL ) . '">
+			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID that holds the staff and user add and manage page (use page ID and not slug)', 'myvideoroom' ) . '"></i>
+		</td>';
+		\array_push( $input, $input_add );
+		return $input;
+	}
+
+	/**
+	 * Process Update Result. Staff CP Setting.
+	 *
+	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
+	 * @return array
+	 */
+	public function update_staffuser_cp_settings( array $response ): array {
+		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_WCFM_STAFF_USER_CONTROL );
+		\update_option( self::SETTING_WCFM_STAFF_USER_CONTROL, $field );
+		$response['feedback'] = \esc_html__( 'PostID Saved', 'myvideoroom' );
+		return $response;
+	}
 }
 

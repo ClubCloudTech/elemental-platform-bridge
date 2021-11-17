@@ -14,6 +14,8 @@ use ElementalPlugin\Core\FiltersUtilities;
 use ElementalPlugin\Library\ElementalFunctions;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\Membership;
+use ElementalPlugin\Menus\ElementalMenus;
+use ElementalPlugin\Menus\Library\AdminPage;
 use ElementalPlugin\Search\Search;
 use ElementalPlugin\ShortCode\ShortCodeTab;
 use ElementalPlugin\UltimateMembershipPro\ElementalUMP;
@@ -44,6 +46,8 @@ class Plugin {
 		Factory::get_instance( FiltersUtilities::class )->init();
 		Factory::get_instance( Search::class )->init();
 		Factory::get_instance( ElementalBP::class )->init();
+		Factory::get_instance( ElementalMenus::class )->init();
+		//Factory::get_instance( AdminPage::class )->init();
 
 		$this->styles();
 		add_filter( 'xmlrpc_enabled', '__return_false' );

@@ -33,7 +33,7 @@ class ContentSearch {
 
 		$host_menu = new MenuTabDisplay(
 			\esc_html__( 'Content', 'myvideoroom' ),
-			'elemental-content',
+			'content',
 			fn() => $this->render_content_search_template( $search_template ),
 			'elemental-search-result'
 		);

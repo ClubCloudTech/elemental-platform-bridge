@@ -1,12 +1,12 @@
 <?php
 /**
- * Search Member Search.
+ * Search Group Search.
  *
- * @package search/views/membersearch/member-search.php
+ * @package search/views/groupsearch/group-search.php
  */
 
 /**
- * Search Member Search.
+ * Search Group Search.
  *
  * @param string $main - the header of the template.
  * @param array  $tabs -Inbound object with tabs.
@@ -18,8 +18,7 @@
 
 return function (
 	string $main_display,
-	string $tab_name,
-	string $premium_display = null
+	string $tab_name
 ): string {
 	ob_start();
 	?>

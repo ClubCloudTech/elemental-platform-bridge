@@ -12,43 +12,54 @@
  * @param int    $membership_id - membership ID requested to Join.
  */
 
+use ElementalPlugin\Factory;
+use ElementalPlugin\Membership\Library\WooCommerceHelpers;
+use ElementalPlugin\WCFM\Library\WCFMHelpers;
+use ElementalPlugin\WCFM\Library\WCFMStyling;
+
 return function (
 	array $membership_data
 ): string {
 	ob_start();
+
 	?>
 
-<div class="" id="wcfm_shop_listing">
+<div class="" id="elemental-onboard-listing">
+	<div class="elemental-thankyou-logo">
+		<?php echo get_custom_logo(); ?>
+	</div>
+<div class="elemental-clear"></div>
 
-	<div class="wcfm-collapse-content">
+	<div class="elemental-container">
 		<div id="wcfm_page_load "></div>
-		<div class="wcfm-container wcfm-top-element-container">
-			<h2><?php esc_html_e( 'Thank you for Joining', 'myvideoroom' ); ?></h2>
+		<div class="">
+			<h2 class="elemental-onboard-header"><?php esc_html_e( 'Thank you for Joining', 'myvideoroom' ); ?></h2>
 
 			<div class="wcfm-clearfix"></div>
 		</div>
-		<div id="elemental-adduser-frame" class="wcfm-container wcfm-top-element-container" >
-		<div id="elemental-adduser-target" class="wcfm-container wcfm-top-element-container" >
-<h2>
+		<div id="elemental-adduser-frame" class="" >
+		<div id="elemental-adduser-target" class="" >
+<h2 class="elemental-onboard-header">
 			<?php
 				echo \sprintf(
 					/* translators: %s is the text "Modules" and links to the Module Section */
 					\esc_html__(
-						'You have activated a %s membership on our platform.',
+						'You have activated an %s membership on our platform.',
 						'myvideoroom'
 					),
 					esc_textarea( $membership_data[0][0]->post_title ),
 				);
 			?>
 			</h2>
-			<h3 class="elemental-align-left"><?php esc_html_e( 'What would you like to do next ?', 'myvideoroom' ); ?></h3>
+
 
 			<div class="elemental-thankyou-box">
+			<h3 class="elemental-align-left elemental-thankyou-next"><?php esc_html_e( 'What would you like to do next ?', 'myvideoroom' ); ?></h3>
 			<div class = "elemental-float-left elemental-split">
-			<li class="myvideoroom-login-button menu-item menu-item-type-post_type menu-item-object-page menu-item-39579"><a href="" class="elementor-item elemental-login-button "><?php esc_html_e( 'Add Organisation Accounts', 'myvideoroom' ); ?></a></li>
+			<li class="elemental-thankyou-button  menu-item menu-item-type-post_type menu-item-object-page menu-item-39579"><a href="<?php echo esc_url( get_permalink( get_option( WooCommerceHelpers::SETTING_WCFM_STAFF_USER_CONTROL ) ) ); ?>" class="elementor-item elemental-thankyou-link "><?php esc_html_e( 'Add Admin and User Accounts', 'myvideoroom' ); ?></a></li>
 			</div>
 			<div class="elemental-float-right elemental-split">
-			<li class="myvideoroom-login-button menu-item menu-item-type-post_type menu-item-object-page menu-item-39579"><a href="/control" class="elementor-item elemental-login-button "><?php esc_html_e( 'Control Panel', 'myvideoroom' ); ?></a></li>
+			<li class="elemental-thankyou-button  menu-item menu-item-type-post_type menu-item-object-page menu-item-39579"><a href="<?php echo esc_url( Factory::get_instance( WCFMHelpers::class )->get_wcfm_control_panel_page() ); ?>" class="elementor-item elemental-thankyou-link"><?php esc_html_e( 'Organisation Control Panel', 'myvideoroom' ); ?></a></li>
 			</div>
 			<div class="elemental-clear"></div>
 		</div>

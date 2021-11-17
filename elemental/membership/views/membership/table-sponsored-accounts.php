@@ -59,7 +59,7 @@ return function (
 <div class="elemental-align-left wcfm-container wcfm-top-element-container">
 <p>
 		<?php
-		esc_html_e( 'You don\'t currently have any Sponsored Accounts.', 'myvideoroom' );
+		esc_html_e( 'You don\'t currently have any User Accounts Created.', 'myvideoroom' );
 		?>
 </p>
 </div>

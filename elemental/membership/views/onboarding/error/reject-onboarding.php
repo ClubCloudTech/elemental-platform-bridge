@@ -16,7 +16,7 @@ return function (): string {
 	ob_start();
 	?>
 
-<div class="collapse wcfm-collapse" id="wcfm_shop_listing">
+<div class="collapse wcfm-collapse" id="elemental-onboard-listing">
 	<div class="wcfm-page-headig">
 		<span class="wcfmfa fa-user"></span>
 		<span class="wcfm-page-heading-text"><?php esc_html_e( 'Account Creation', 'myvideoroom' ); ?></span>

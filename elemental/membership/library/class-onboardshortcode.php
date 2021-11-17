@@ -113,7 +113,7 @@ class OnboardShortcode {
 				return $render( $membership_data );
 
 			} elseif ( Factory::get_instance( MembershipUser::class )->is_user_onboarding( $user_id ) ) {
-				$render    = ( require __DIR__ . '/../views/onboarding/manage-onboarding.php' );
+				$render    = ( require __DIR__ . '/../views/onboarding/organisation/manage-onboarding.php' );
 				$info_form = $this->render_wcfm_step( $user_id );
 				return $render( $info_form );
 			}
@@ -124,7 +124,7 @@ class OnboardShortcode {
 
 		if ( $valid ) {
 			$membership_data     = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( null, $membership_id );
-			$render              = ( require __DIR__ . '/../views/onboarding/manage-onboarding.php' );
+			$render              = ( require __DIR__ . '/../views/onboarding/organisation/manage-onboarding.php' );
 			$manage_account_form = ( require __DIR__ . '/../views/onboarding/organisation/add-new-organisation.php' );
 			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 			return $render( $manage_account_form( $membership_id), $membership_data );
@@ -173,7 +173,7 @@ class OnboardShortcode {
 			wp_enqueue_style( 'wcfm_settings_css', $css_lib_url . 'settings/wcfm-style-settings.css', array(), $WCFM->version );
 			wp_enqueue_style( 'wcfm_template_css', $WCFM->plugin_url . 'templates/classic/template-style.css', array(), $WCFM->version );
 			wp_enqueue_style( 'wcfm_dashboard_css', $css_lib_url . 'dashboard/wcfm-style-dashboard.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
+			// wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
 
 		} else {
 			\wp_enqueue_script( 'myvideoroom-iframe-handler' );
@@ -191,7 +191,7 @@ class OnboardShortcode {
 			wp_enqueue_style( 'wcfm_no_menu_css', $css_lib_url . 'menu/wcfm-style-no-menu.css', array( 'wcfm_menu_css' ), $WCFM->version );
 			wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'min/menu/wcfm-style-menu.css', array(), $WCFM->version );
 			wp_enqueue_style( 'wcfm_products_manage_css', $css_lib_url . 'products-manager/wcfm-style-products-manage.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
+			// wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
 			wp_enqueue_style( 'myvideoroom-menutab-header' );
 		}
 		// Render WCFM Partner AJax.
@@ -206,6 +206,7 @@ class OnboardShortcode {
 
 		// Render Core Control Ajax.
 		\wp_enqueue_script( 'elemental-onboard-js' );
+		\wp_enqueue_style( 'elemental-onboard-css' );
 		// Localize script Ajax Upload.
 		$script_data_array = array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
@@ -237,7 +238,7 @@ class OnboardShortcode {
 		if ( current_user_can( 'editor' ) || current_user_can( 'administrator' ) ) {
 			return '<div id="div-holder-temp" class="elemental-initial"> <div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have Unlimited Accounts Remaining ', 'myvideoroom' ) . '</div></div>';
 		} elseif ( $accounts_remaining > 0 ) {
-			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have ', 'myvideoroom' ) . esc_textarea( $accounts_remaining ) . esc_html__( ' accounts remaining', 'myvideoroom' ) . '</div></div>';
+			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have ', 'myvideoroom' ) . esc_textarea( $accounts_remaining ) . esc_html__( ' user accounts remaining', 'myvideoroom' ) . '</div></div>';
 		}
 		return null;
 	}

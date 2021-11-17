@@ -19,7 +19,7 @@ return function (): string {
 	$html_library = Factory::get_instance( HTML::class, array( 'site-conference-center-new-room' ) );
 
 	?>
-	<div class="mvr-nav-settingstabs-outer-wrap myvideoroom-welcome-page elemental-align-left">
+	<div class="mvr-nav-settingstabs-outer-wrap elemental-align-left">
 
 	<form method="" action="#">
 
@@ -33,10 +33,8 @@ return function (): string {
 			class="elemental-membership-displayconf"
 
 		></div>
-		<label class="elemental-align-right" for="elemental-email-status-box">
-	<?php esc_html_e( 'Status ', 'myvideoroom' ); ?>
-		</label>
-		<div id="elemental-email-status" data-valid ="" class="elemental-email-status elemental-membership-displayconf"><?php esc_html_e( 'Blank ', 'myvideoroom' ); ?> </div>
+
+		<div id="elemental-email-status" data-valid ="" class="elemental-email-status elemental-membership-displayconf"></div>
 
 		<p class="elemental-clear" id="elemental-email-status-box">
 	<?php

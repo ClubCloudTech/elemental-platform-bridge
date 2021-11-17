@@ -31,7 +31,7 @@ class GroupSearch {
 
 		$admin_menu = new MenuTabDisplay(
 			\esc_html__( 'Groups', 'myvideoroom' ),
-			\esc_html__( 'Groups', 'myvideoroom' ),
+			'groups',
 			fn() => $this->render_group_search(),
 			'elemental-group-result'
 		);
@@ -162,7 +162,7 @@ class GroupSearch {
 		ob_start();
 
 		// phpcs:ignore-WordPress.Security.EscapeOutput.OutputNotEscaped -- all text is escaped properly.
-		echo "<div class='elemental-groups-directory-list-shortcode youzify-groups-directory-shortcode youzify-directory-shortcode' {$directory_data}>";
+		echo "<div class='elemental-groups-directory-list-shortcode youzify-groups-directory-shortcode youzify-directory-shortcode' >";
 		if ( $youzify_loaded ) {
 			include __DIR__ . '/../views/groupsearch/group-template-youzify.php';
 		} else {

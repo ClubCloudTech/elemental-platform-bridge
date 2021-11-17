@@ -319,22 +319,26 @@ window.addEventListener(
                                 $('#' + state_response.membertarget).html(state_response.member);
                                 let membercount = $('#member-dir-count-bottom').text();
                                 console.log(membercount);
-                                let number = membercount.match(/\d+/g).pop();
+								if (membercount > 1 ) {
+									let number = membercount.match(/\d+/g).pop();
 
-                                if (number) {
-                                    $('#elemental-member-result').html('Members (' + number + ')');
-                                }
+									if (number) {
+										$('#elemental-member-result').html('Members (' + number + ')');
+									}
+								}
+                                
                             }
 
                             if (state_response.group && state_response.grouptarget) {
                                 $('#' + state_response.grouptarget).html(state_response.group);
                                 let groupcount = $('#group-dir-count-bottom').text();
+								if (groupcount > 1 ) {
+									let number = groupcount.match(/\d+/g).pop();
 
-                                let number = groupcount.match(/\d+/g).pop();
-
-                                if (number) {
-                                    $('#elemental-group-result').html('Groups (' + number + ')');
-                                }
+									if (number) {
+										$('#elemental-group-result').html('Groups (' + number + ')');
+									}
+								}
                             }
                             init();
 
