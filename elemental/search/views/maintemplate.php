@@ -33,19 +33,19 @@ return function (
 	$count_tabs = count( $tabs );
 	ob_start();
 	?>
-<div id="elemental-search-base" class="wrap">
+<div id="elemental-search-base" class="">
 	
 	<div id="elemental-pageinfo" data-searchid="<?php echo esc_attr( $search_template ); ?>"
 	data-productid="<?php echo esc_attr( $product_template ); ?>"
 	data-pagination="<?php echo esc_url_raw( $pagination_base ); ?>"
 	></div>
-	<div class="mvr-header-section">
-	<?php
-		// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.
-		echo $header;
+		<div class="mvr-header-section">
+			<?php
+				// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.
+				echo $header;
 
-	?>
-	</div>
+			?>
+		</div>
 	<div class="elemental-header-searchbar elemental-background-item">	
 		<div id="mvr-notification-master" class="mvr-nav-shortcode-outer-wrap-clean mvr-notification-master">
 
@@ -63,40 +63,40 @@ return function (
 				</div>
 			</div>
 		</div>
-		<?php
-		if ( $count_tabs > 1 ) {
-			?>
-		<nav class="myvideoroom-nav-tab-wrapper elemental-nav-tab-wrapper nav-tab-wrapper  ">
-			<ul class="search-menu-header">
-				<?php
-						$active = ' nav-tab-active';
-				foreach ( $tabs as $menu_output ) {
-					$tab_display_name = $menu_output->get_tab_display_name();
-					$tab_slug         = $menu_output->get_tab_slug();
-					$object_id        = $menu_output->get_element_id();
-					?>
-				<li>
-					<a class="nav-tab<?php echo esc_attr( $active ); ?>" 
-												<?php
-												if ( $object_id ) {
-													echo 'id = "' . esc_attr( $object_id ) . '" ';
-												}
-												?>
-												href="#<?php echo esc_attr( $html_library->get_id( $tab_slug ) ); ?>">
-						<?php
-						//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Icon is created by escaped function.
-						echo $tab_display_name;
-						?>
-					</a>
-				</li>
-
-					<?php
-					$active = null;
-				}
+			<?php
+			if ( $count_tabs > 1 ) {
 				?>
-			</ul>
-		</nav>
-	<?php } ?>
+			<nav class="myvideoroom-nav-tab-wrapper elemental-nav-tab-wrapper nav-tab-wrapper  ">
+				<ul class="search-menu-header">
+					<?php
+							$active = ' nav-tab-active';
+					foreach ( $tabs as $menu_output ) {
+						$tab_display_name = $menu_output->get_tab_display_name();
+						$tab_slug         = $menu_output->get_tab_slug();
+						$object_id        = $menu_output->get_element_id();
+						?>
+					<li>
+						<a class="nav-tab<?php echo esc_attr( $active ); ?>" 
+													<?php
+													if ( $object_id ) {
+														echo 'id = "' . esc_attr( $object_id ) . '" ';
+													}
+													?>
+													href="#<?php echo esc_attr( $html_library->get_id( $tab_slug ) ); ?>">
+							<?php
+							//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Icon is created by escaped function.
+							echo $tab_display_name;
+							?>
+						</a>
+					</li>
+
+						<?php
+						$active = null;
+					}
+					?>
+				</ul>
+			</nav>
+			<?php } ?>
 	</div>
 	<div id="mvr-above-article-notification"></div>
 	<div id="elemental-container-article" class="elemental-article-container elemental-background-item">
@@ -116,12 +116,12 @@ return function (
 						echo $function_callback;
 				?>
 			</article>
-	
+
 				<?php
 			}
 			?>
-	</div>
-</div>
+	</div><!-- elemental-container-article -->
+</div><!-- #elemental-search-base -->
 
 	<?php
 

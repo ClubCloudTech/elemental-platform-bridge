@@ -11,6 +11,7 @@ use ElementalPlugin\Core\MenuHelpers;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
+use ElementalPlugin\Membership\DAO\MemberSyncDAO;
 
 /**
  * Class WCFM Search
@@ -204,10 +205,10 @@ class WCFMTools {
 	 * This function Returns the Parent ID of the Merchant of a store
 	 * Used to always return the store parent ID, and filter out Staff/Child Accounts
 	 *
-	 * @param ?int $id of user to check (either Staff or Store Owner ). (can be left blank for current logged in user ).
-	 * @return ?bool
+	 * @param int $id of user to check (either Staff or Store Owner, or Sponsored ).
+	 * @return ?int
 	 */
-	public function staff_to_parent( int $id ) {
+	public function staff_to_parent( int $id ): ?int {
 		if ( ! $id ) {
 			return null;
 		}
@@ -217,18 +218,22 @@ class WCFMTools {
 
 		if ( $user_roles->is_wcfm_vendor() ) {
 			return $id;
+		} elseif ( $user_roles->is_sponsored_account() ) {
+			$parent_id = Factory::get_instance( MemberSyncDAO::class )->get_parent_by_child( \get_current_user_id() );
+		} elseif ( $user_roles->is_wcfm_shop_staff() ) {
+			$parent_id = $staff->_wcfm_vendor;
+		} else {
+			return null;
 		}
-
-		$parent_id = $staff->_wcfm_vendor;
 
 		$parent     = Factory::get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $parent_id );
 		$user_roles = Factory::get_instance( UserRoles::class, array( $parent ) );
 
 		if ( $parent && $user_roles->is_wcfm_vendor() ) {
 			return $parent_id;
+		} else {
+			return null;
 		}
-
-		return null;
 	}
 
 	/**

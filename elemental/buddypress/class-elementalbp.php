@@ -16,6 +16,7 @@ use ElementalPlugin\WCFM\Library\WCFMTools;
  */
 class ElementalBP {
 
+	const SHORTCODE_PROFILE_URL = 'elemental_profileurl';
 
 	/**
 	 * Runtime Shortcodes and Setup
@@ -23,6 +24,7 @@ class ElementalBP {
 	 */
 	public function init() {
 		\add_action( 'bp_template_redirect', array( $this, 'redirect_profile' ) );
+		\add_shortcode( self::SHORTCODE_PROFILE_URL, array( $this, 'get_buddypress_profile_url_shortcode' ) );
 	}
 	/**
 	 * Activate Functions for Membership.
@@ -55,7 +57,29 @@ class ElementalBP {
 
 		die();
 	}
+	/**
+	 * Get BuddyPress Profile URL Shortcode.
+	 *
+	 *  @param array $atts = the attributes.
+	 *  @return ?string
+	 */
+	public function get_buddypress_profile_url_shortcode( $atts = array() ) {
+		// User_id in attributes.
+		if ( ! isset( $atts['user_id'] ) ) {
+				// Try user logged in for ID.
+			if ( \is_user_logged_in() ) {
+				$user_id = \get_current_user_id();
+				// User not logged in - exit.
+			} else {
+				return null;
+			}
+			// Atts has ID.
+		} else {
+			$user_id = intval( $atts['user_id'] );
+		}
 
+		return $this->get_buddypress_profile_url( $user_id );
+	}
 	/**
 	 * Get BuddyPress Profile URL.
 	 *

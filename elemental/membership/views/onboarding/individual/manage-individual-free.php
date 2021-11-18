@@ -37,7 +37,7 @@ return function (): string {
 			<div id="elemental-adduser-target" class="wcfm-container wcfm-top-element-container">
 				<?php
 			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
-			echo do_shortcode('[youzify_register]');
+			echo do_shortcode('[ihc-register]');
 				?>
 			</div>
 

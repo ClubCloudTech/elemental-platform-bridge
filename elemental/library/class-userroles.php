@@ -102,6 +102,14 @@ class UserRoles {
 
 	}
 
+	/**
+	 * Get current user WordPress Roles
+	 *
+	 * @return array of roles
+	 */
+	public function is_sponsored_account() {
+		return $this->user_has_role( 'Sponsored' );
+	}
 
 
 

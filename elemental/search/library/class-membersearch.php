@@ -138,6 +138,19 @@ class MemberSearch {
 			'type'         => 'alphabetical',
 			'search_terms' => '',
 			'drop_down'    => $drop_down,
+			'meta_query'   => array(
+				'relation'    => 'OR',
+				array(
+					'key'     => "{$GLOBALS['wpdb']->prefix}capabilities",
+					'value'   => 'wcfm',
+					'compare' => '!=',
+				),
+				array(
+					'key'     => "{$GLOBALS['wpdb']->prefix}capabilities",
+					'value'   => 'wcfm',
+					'compare' => 'NOT LIKE',
+				),
+			),
 		);
 
 		$elemental_members_loop_arguments = wp_parse_args( $atts, $defaults );

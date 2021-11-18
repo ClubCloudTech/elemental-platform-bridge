@@ -47,7 +47,7 @@ class Plugin {
 		Factory::get_instance( Search::class )->init();
 		Factory::get_instance( ElementalBP::class )->init();
 		Factory::get_instance( ElementalMenus::class )->init();
-		//Factory::get_instance( AdminPage::class )->init();
+		// Factory::get_instance( AdminPage::class )->init();
 
 		$this->styles();
 		add_filter( 'xmlrpc_enabled', '__return_false' );

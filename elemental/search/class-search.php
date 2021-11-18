@@ -20,6 +20,7 @@ class Search {
 	 * Runtime Shortcodes and Setup
 	 */
 	public function init() {
+
 		Factory::get_instance( SiteSearch::class )->init();
 
 		// Ajax Listeners.

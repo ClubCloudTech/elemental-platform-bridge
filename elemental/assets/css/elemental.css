@@ -340,7 +340,7 @@
 	margin-top: 25px;
 	border-radius:5px;
 }
-#elemental-search-base{
+.elemental-forum-search, #elemental-search-base {
 	width: 97%;
 	margin: auto;
 	margin-top:10px;
@@ -358,22 +358,123 @@
 }
 
 div.wcfm-collapse-content h2 {
-    font-size: 18px;
-    line-height: 20px;
-    display: table-cell;
-    float: left;
-    font-weight: 300!important;
-    color: #2d4e4c;
-    margin-top: 6px;
-    margin-bottom: 15px;
-    width: auto;
-    padding: 0;
-    clear: none;
+	font-size: 18px;
+	line-height: 20px;
+	display: table-cell;
+	float: left;
+	font-weight: 300!important;
+	color: #2d4e4c;
+	margin-top: 6px;
+	margin-bottom: 15px;
+	width: auto;
+	padding: 0;
+	clear: none;
 	font-family: var( --e-global-typography-primary-font-family ), Sans-serif;
-    font-style: inherit!important;
+	font-style: inherit!important;
 }
 p.wcfm_title strong, span.wcfm_title strong {
-    font-style: inherit!important;
-    font-weight: 300 !important;
+	font-style: inherit!important;
+	font-weight: 300 !important;
 	font-family: var( --e-global-typography-primary-font-family ), Sans-serif;
+}
+.elemental-host-link {
+	color: #FFFFFF;
+	fill: #FFFFFF;
+    font-size: 11px;
+	font-weight: 500;
+	text-transform: uppercase;
+	font-family: var( --e-global-typography-primary-font-family ), Sans-serif;
+}
+.elemental-buttonlink-border{
+	border: 2px solid white;
+	padding: 5px!important;
+	border-radius: 5px;
+	margin-left: 5px;
+}
+
+.iump-register-form{
+	background:#FFFFFF00!important;
+}
+.elemental-forumsearch-outer-wrap{
+	max-width: 96%;
+    margin: auto;
+    padding: 5px;
+}
+.myvideoroom-nav-tab-wrapper li:after {
+    border-bottom: 0px!important;
+    bottom: 0;
+    clear: both;
+    content: "\00a0";
+    display: inline-block;
+    margin-left: -1px;
+    padding-right: 2px;
+    position: absolute;
+    z-index: 0!important;
+}
+
+.youzify-bbp-topic-head {
+    padding: 20px;
+    border-radius: 2px;
+    margin-bottom: 5px!important;
+    background-color: #fff;
+    border-left: 5px solid #03a9f4;
+}
+.youzify-my-account-widget {
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    background: #ffffff4d!important;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+	padding:0px!important;
+}
+.youzify-button-item.youzify-home-button a {
+    background-color: #02293a!important;
+}
+.youzify-button-item a {
+    background-image: none!important;
+}
+.youzify-button-item.youzify-profile-button a {
+    background-color: #5e4909!important;
+}
+.youzify-button-item.youzify-networks-button a {
+    background-color: #280762!important;
+}
+.youzify-button-item.youzify-avatar-button a {
+    background-color: #182c01!important;
+}
+.youzify-button-item.youzify-cover-button a {
+    background-color:  #02293a!important;
+}
+.youzify-button-item.youzify-logout-button a {
+    background: #02293a!important;
+}
+.youzify .editfield label[for*=adminsonly] .field-visibility-text:before, .youzify-account-profile-settings {
+    background: #02293a!important;
+}
+.youzify .editfield label[for*=loggedin] .field-visibility-text:before, .youzify-account-account-settings {
+	background: #02293a!important;
+}
+.youzify-account-widgets-settings {
+	background: #02293a!important;
+}
+.youzify-reset-options, .youzify-save-options button, #youzify-profile-picture > div.options-section-title > div > button, #youzify-profile-picture > div.youzify-settings-actions > button,
+#youzify-change-password > div.options-section-title > div > button, #youzify-change-password > div.youzify-settings-actions > button, #youzify-notifications-settings > div.options-section-title > div > button,
+#youzify-notifications-settings > div.youzify-settings-actions > button, #youzify-about_me > div.youzify-settings-actions > button, #youzify-about_me > div.options-section-title > div > button,
+#youzify-skills > div.options-section-title > div > button, #youzify-skills > div.youzify-settings-actions > button, #youzify-services > div.options-section-title > div > button,
+#youzify-services > div.youzify-settings-actions > button,#youzify-post > div.options-section-title > div > button,#youzify-post > div.youzify-settings-actions > button{
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 13px!important;
+    font-weight: 600!important;
+    min-width: 135px;
+    line-height: 45px;
+    padding: 6px!important;
+    position: relative;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    letter-spacing: 0;
+    text-transform: initial;
 }

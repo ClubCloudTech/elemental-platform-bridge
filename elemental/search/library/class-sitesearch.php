@@ -10,6 +10,7 @@
 
 namespace ElementalPlugin\Search\Library;
 
+use ElementalPlugin\BBPress\ElementalBBPress;
 use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\HTML;
@@ -30,6 +31,7 @@ class SiteSearch {
 		add_shortcode( 'elemental_show_stores', array( Factory::get_instance( OrganisationSearch::class ), 'elemental_show_stores' ) );
 		add_shortcode( 'elemental_show_members', array( Factory::get_instance( MemberSearch::class ), 'elemental_members_shortcode' ) );
 		add_shortcode( 'elemental_show_groups', array( Factory::get_instance( GroupSearch::class ), 'elemental_group_shortcode' ) );
+		add_shortcode( 'elemental_show_forums', array( Factory::get_instance( ForumSearch::class ), 'elemental_display_search' ) );
 
 		$this->add_search_tabs();
 	}
@@ -120,6 +122,7 @@ class SiteSearch {
 		$org_search_available   = Factory::get_instance( WCFMTools::class )->is_wcfmmp_available();
 		$member_group_available = Factory::get_instance( SiteDefaults::class )->is_buddypress_available();
 		$wcfm_available         = Factory::get_instance( SiteDefaults::class )->is_wcfm_active();
+		$bbpress_available      = Factory::get_instance( ElementalBBPress::class )->is_bbpress_active();
 		$logged_in              = \is_user_logged_in();
 
 		// Content Search Tab and Handler.
@@ -149,6 +152,10 @@ class SiteSearch {
 
 			}
 			add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_bp_legacy' ) );
+		}
+		if ( $bbpress_available && $logged_in ) {
+			add_filter( 'elemental_search_template_render', array( Factory::get_instance( ForumSearch::class ), 'render_forum_tabs' ), 5, 3 );
+			add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( ForumSearch::class ), 'forum_search_response' ), 10, 2 );
 		}
 	}
 	/**

@@ -193,7 +193,7 @@ class MenuHelpers extends Shortcode {
 	/**
 	 * A Shortcode to Return the Correctly Formatted Username for Social Override in Youzer
 	 */
-	public function menu_name( $username = '' ): string {
+	public function menu_name( $username = null ): string {
 		$user       = \wp_get_current_user();
 		$user_roles = $this->get_instance( UserRoles::class );
 

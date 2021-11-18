@@ -102,7 +102,7 @@ class AdminPage {
 	public function wporg_field_pill_cb( $args ) {
 		// Get the value of the setting we've registered with register_setting().
 		$options = get_option( 'wporg_options' );
-		echo var_dump( $options).'ffs';
+		echo var_dump( $options ) . 'ffs';
 		?>
 	<select
 			id="<?php echo esc_attr( $args['label_for'] ); ?>"
@@ -125,19 +125,19 @@ class AdminPage {
 	}
 
 		/**
-	 * Pill field callbakc function.
-	 *
-	 * WordPress has magic interaction with the following keys: label_for, class.
-	 * - the "label_for" key value is used for the "for" attribute of the <label>.
-	 * - the "class" key value is used for the "class" attribute of the <tr> containing the field.
-	 * Note: you can add custom key value pairs to be used inside your callbacks.
-	 *
-	 * @param array $args - the params.
-	 */
+		 * Pill field callbakc function.
+		 *
+		 * WordPress has magic interaction with the following keys: label_for, class.
+		 * - the "label_for" key value is used for the "for" attribute of the <label>.
+		 * - the "class" key value is used for the "class" attribute of the <tr> containing the field.
+		 * Note: you can add custom key value pairs to be used inside your callbacks.
+		 *
+		 * @param array $args - the params.
+		 */
 	public function wporg_field_pill2_cb( $args ) {
 		// Get the value of the setting we've registered with register_setting().
 		$options = get_option( 'wporg_options' );
-		
+
 		?>
 	<select
 			id="<?php echo esc_attr( $args['label_for'] ); ?>"

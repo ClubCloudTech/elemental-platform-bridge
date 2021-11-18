@@ -260,7 +260,6 @@ class MembershipDAO {
 			);
 		}
 		if ( $wpdb->last_error ) {
-			\error_log( $wpdb->last_error );
 			$this->repair_update_database( $wpdb->last_error );
 		} else {
 			\wp_cache_set( $membership_level, $result, __METHOD__ );

@@ -88,9 +88,9 @@ class LoginHandler {
 		if ( \is_user_logged_in() ) {
 			$nonce = \wp_create_nonce( 'logout' );
 			$url   = get_site_url() . '/login?action=logout&nonce=' . $nonce;
-			return '<a href="' . $url . '" class="elemental-thankyou-link">' . esc_html__( 'Sign Out', 'myvideoroom' ) . '</a>';
+			return '<a href="' . $url . '" class="elemental-host-link elemental-buttonlink-border">' . esc_html__( 'Sign Out', 'myvideoroom' ) . '</a>';
 		} else {
-			return '<button class="elemental-header-loginout"> <a class="elemental-thankyou-link" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'myvideoroom' ) . '</a> </button>';
+			return ' <a class="elemental-host-link elemental-buttonlink-border" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'myvideoroom' ) . '</a><a class="elemental-host-link elemental-buttonlink-border" href="' . \get_site_url() . '/join" >' . esc_html__( 'Join', 'myvideoroom' ) . '</a>';
 		}
 	}
 

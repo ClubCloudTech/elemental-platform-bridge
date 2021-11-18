@@ -340,6 +340,18 @@ window.addEventListener(
 									}
 								}
                             }
+							if (state_response.forum && state_response.forumtarget) {
+                                $('#' + state_response.forumtarget).html(state_response.forum);
+                                
+								let forumcount = $('#bbpsearchcount').text();
+								if (forumcount.length > 1 ) {
+									let number = forumcount.match(/\d+/g).pop();
+
+									if (number) {
+										$('#elemental-forum-result').html('Expert Forums (' + number + ')');
+									}
+								}
+                            }
                             init();
 
                         },
