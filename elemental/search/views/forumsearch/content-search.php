@@ -25,7 +25,6 @@
 		<?php include __DIR__ . '/loop-search.php'; ?>
 
 		<?php include __DIR__ . '/pagination-search.php'; ?>
-		
 
 	<?php elseif ( bbp_get_search_terms() ) : ?>
 

@@ -21,12 +21,6 @@ return function (
 	string $login_form = null
 ): string {
 	ob_start();
-	$wcfm_is_allow_manage_staff = apply_filters( 'wcfm_is_allow_manage_staff', true );
-	if ( ! $wcfm_is_allow_manage_staff ) {
-		wcfm_restriction_message_show( 'Staffs' );
-		return '';
-	}
-
 	?>
 
 <div class="collapse wcfm-collapse" id="elemental-onboard-listing">

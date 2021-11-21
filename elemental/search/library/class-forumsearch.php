@@ -61,7 +61,7 @@ class ForumSearch {
 		}
 
 		if ( $search_term || $page_num ) {
-//TODO - finish page num.
+			// TODO - finish page num.
 			$main_display = \do_shortcode( '[elemental_show_forums search=' . $search_term . ']' );
 		} else {
 			$main_display = \do_shortcode( '[bbp-forum-index]' );

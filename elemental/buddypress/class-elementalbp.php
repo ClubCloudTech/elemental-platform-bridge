@@ -92,8 +92,6 @@ class ElementalBP {
 		}
 		return null;
 	}
-
-
 }
 
 

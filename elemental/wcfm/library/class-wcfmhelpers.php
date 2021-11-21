@@ -243,5 +243,4 @@ class WCFMHelpers {
 		return $link;
 	}
 
-
 }

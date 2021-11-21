@@ -139,7 +139,7 @@ class MemberSearch {
 			'search_terms' => '',
 			'drop_down'    => $drop_down,
 			'meta_query'   => array(
-				'relation'    => 'OR',
+				'relation' => 'OR',
 				array(
 					'key'     => "{$GLOBALS['wpdb']->prefix}capabilities",
 					'value'   => 'wcfm',
