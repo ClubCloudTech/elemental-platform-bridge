@@ -15,7 +15,6 @@
 use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\Library\WooCommerceHelpers;
 use ElementalPlugin\WCFM\Library\WCFMHelpers;
-use ElementalPlugin\WCFM\Library\WCFMStyling;
 
 return function (
 	array $membership_data
@@ -26,7 +25,7 @@ return function (
 
 <div class="" id="elemental-onboard-listing">
 	<div class="elemental-thankyou-logo">
-		<?php echo get_custom_logo(); ?>
+		<?php echo esc_url( get_custom_logo() ); ?>
 	</div>
 <div class="elemental-clear"></div>
 
