@@ -44,7 +44,7 @@ return function (
 				echo \sprintf(
 					/* translators: %s is the text "Modules" and links to the Module Section */
 					\esc_html__(
-						'You have activated an %s membership on our platform.',
+						'You have successfully activated your %s membership on our platform. You can continue to use the platform as your Organisation, in which case you might like to set up your Organisation profile via the Organisation Control Panel button. Alternatively, You might wish to join in on the Forums and Groups etc, in which case you will need to activate a User Account via the Add Admin and User Account button.',
 						'myvideoroom'
 					),
 					esc_textarea( $membership_data[0][0]->post_title ),

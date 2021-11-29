@@ -330,11 +330,23 @@ class WCFMShortcodes {
 	}
 
 	public function get_staff_shortcode() {
-		$this->enqueue_staffsc_styles();
-		$this->enqueue_staff_scripts();
-		\ob_start();
-		include __DIR__ . '/../views/staff-shortcode/wcfmgs-view-staffs.php';
-		return \ob_get_clean();
+		
+		//$this->enqueue_staffsc_styles();
+		//$this->enqueue_staff_scripts();
+		$user_id = \get_current_user_id();
+		$merchant_parent = Factory::get_instance( WCFMTools::class )->staff_to_parent( $user_id );
+		
+		\wp_set_current_user( $merchant_parent );
+		wp_clear_auth_cookie();
+		wp_set_current_user ( $merchant_parent);
+		wp_set_auth_cookie  ( $merchant_parent);
+		$shortcode =  \do_shortcode('[wcfm endpoint="wcfm-staffs"]');
+		//\ob_start();
+		//include __DIR__ . '/../views/staff-shortcode/wcfmgs-view-staffs.php';
+		\wp_set_current_user( $user_id );
+		
+		//return \ob_get_clean();
+		return $shortcode;
 
 	}
 
