@@ -8,6 +8,7 @@
 namespace ElementalPlugin\BuddyPress;
 
 use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Version;
 use ElementalPlugin\WCFM\Library\WCFMTools;
 
 /**
@@ -25,6 +26,8 @@ class ElementalBP {
 	public function init() {
 		\add_action( 'bp_template_redirect', array( $this, 'redirect_profile' ) );
 		\add_shortcode( self::SHORTCODE_PROFILE_URL, array( $this, 'get_buddypress_profile_url_shortcode' ) );
+		\add_action( 'yz_activity_scripts', array( $this, 'enqueue_bp_script' ) );
+		$this->enqueue_bp_script();
 	}
 	/**
 	 * Activate Functions for Membership.
@@ -92,6 +95,18 @@ class ElementalBP {
 		}
 		return null;
 	}
+
+	/**
+	 * Get BuddyPress Profile URL.
+	 *
+	 *  @param int $user_id = the user_id to look up.
+	 *  @return ?string
+	 */
+	public function enqueue_bp_script() {
+		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
+		wp_enqueue_script( 'youzify-buddypress', plugins_url( '/js/buddypress.js', __FILE__ ), array( 'jquery' ), $plugin_version, true );
+	}
+
 }
 
 
