@@ -21,11 +21,14 @@ class UMPMemberships {
 	 *
 	 * @return array
 	 */
-	public function get_ump_memberships() :array {
+	public function get_ump_memberships( int $membership_id = null ) :array {
+
 		$ihc_data          = get_option( 'ihc_levels' );
 		$membership_levels = array_keys( $ihc_data );
 		$return_array      = array();
 		foreach ( $membership_levels as $level => $value ) {
+			//echo Factory::get_instance( ElementalUMPDAO::class )->translate_ump_level_to_wc( $value ) . '<-UMPVal Mem ID->' . $membership_id .'<br>';
+			if ( ! $membership_id || Factory::get_instance( ElementalUMPDAO::class )->translate_ump_level_to_wc( $value ) === $membership_id ) {
 				$record_data                = Factory::get_instance( MembershipDAO::class )->get_limit_info( intval( $value ) );
 				$record_array               = array();
 				$record_array['level']      = $value;
@@ -35,8 +38,8 @@ class UMPMemberships {
 				$record_array['price_text'] = $ihc_data[ $value ]['price_text'];
 				$record_array['limit']      = $record_data->user_limit;
 				$record_array['template']   = $record_data->template;
-
 				\array_push( $return_array, $record_array );
+			}
 		}
 		return $return_array;
 	}

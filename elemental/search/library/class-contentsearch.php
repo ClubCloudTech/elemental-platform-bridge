@@ -32,7 +32,7 @@ class ContentSearch {
 	public function render_content_search_result_tab( array $input, string $search_template = null, string $product_template = null ): array {
 
 		$host_menu = new MenuTabDisplay(
-			\esc_html__( 'Content', 'myvideoroom' ),
+			\esc_html__( 'News', 'myvideoroom' ),
 			'content',
 			fn() => $this->render_content_search_template( $search_template ),
 			'elemental-search-result'

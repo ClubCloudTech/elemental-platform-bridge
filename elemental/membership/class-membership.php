@@ -36,7 +36,6 @@ class Membership {
 	 */
 	public function init() {
 		Factory::get_instance( LoginHandler::class )->init();
-		// $this->flush_opcache_reset();
 		\add_action( 'wp_ajax_elemental_membershipadmin_ajax', array( Factory::get_instance( MembershipAjax::class ), 'membership_ajax_handler' ), 10, 2 );
 
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
@@ -99,37 +98,6 @@ class Membership {
 		\wp_enqueue_script( 'elemental-membership-js' );
 		$membership_levels = Factory::get_instance( UMPMemberships::class )->get_ump_memberships();
 		return ( include __DIR__ . '/views/membership/table-output.php' )( $membership_levels );
-	}
-
-
-	/**
-	 * Where OPcache is actually flushed
-	 */
-	public function flush_opcache_reset() {
-
-		require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-
-		$opcache_scripts = array();
-		if ( function_exists( 'opcache_get_status' ) ) {
-			try {
-				$raw = opcache_get_status( true );
-				if ( array_key_exists( 'scripts', $raw ) ) {
-					foreach ( $raw['scripts'] as $script ) {
-						// Remove files outside of WP.
-						if ( false === strpos( $script['full_path'], \get_home_path() ) ) {
-							continue;
-						}
-						array_push( $opcache_scripts, $script['full_path'] );
-					}
-				}
-			} catch ( \Throwable $e ) {
-				error_log( sprintf( 'Unable to query OPcache status: %s.', $e->getMessage() ), $e->getCode() ); // phpcs:ignore
-			}
-		}
-		foreach ( $opcache_scripts as $file ) {
-			\wp_opcache_invalidate( $file, true );
-		}
 	}
 }
 

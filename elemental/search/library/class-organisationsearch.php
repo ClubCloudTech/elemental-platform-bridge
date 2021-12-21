@@ -356,8 +356,8 @@ class OrganisationSearch {
 				'radius'          => $has_radius,
 				'map_zoom'        => apply_filters( 'wcfmmp_map_default_zoom_level', $attr['map_zoom'] ),
 				'auto_zoom'       => wc_string_to_bool( apply_filters( 'wcfmmp_is_allow_map_auto_zoom', $attr['auto_zoom'] ) ),
-				'per_row'         => $attr['per_row'],
-				'theme'           => $attr['theme'],
+				'per_row'         => 4,
+				'theme'           => 'compact',
 			),
 			$attr,
 			$search_data

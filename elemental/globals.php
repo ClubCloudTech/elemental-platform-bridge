@@ -8,6 +8,7 @@
 
 declare(strict_types=1);
 
+use ElementalPlugin\UltimateMembershipPro\Library\UMPMemberships;
 use ElementalPlugin\WCFM\Library\WCFMTools;
 
 if ( ! function_exists( 'elemental_get_wcfm_memberships' ) ) {
@@ -23,6 +24,16 @@ if ( ! function_exists( 'elemental_get_wcfm_memberships' ) ) {
 
 	/**
 	 * Wrapper for Elemental Get Store Memberships Function.
+	 *
+	 * @return array|false|int|mixed|string|void|null
+	 */
+	function get_ump_memberships() {
+		$function_to_call = new UMPMemberships();
+		return $function_to_call->get_ump_memberships( ...func_get_args() );
+	}
+
+	/**
+	 * Wrapper for Elemental Get Store UMP Memberships Function.
 	 *
 	 * @return array|false|int|mixed|string|void|null
 	 */

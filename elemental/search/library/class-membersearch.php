@@ -131,7 +131,7 @@ class MemberSearch {
 		}
 
 		$defaults = array(
-			'per_page'     => 12,
+			'per_page'     => 21,
 			'member_type'  => false,
 			'show_filter'  => 'false',
 			'page'         => '1',

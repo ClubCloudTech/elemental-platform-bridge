@@ -2,7 +2,7 @@
 /**
  * Handles Addin Filters and Tools for WCFM.
  *
- * @package elemental/membership/views/onboarding/organisation/add-new-organisation.php
+ * @package elemental/core/class-filtersutilities.php
  */
 
 namespace ElementalPlugin\Core;

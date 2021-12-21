@@ -5,6 +5,9 @@
 .elemental-align-left {
 	text-align: start;
 }
+.elemental-align-centre {
+	text-align: center;
+}
 
 .elemental-email-status {
 	float: right;
@@ -110,7 +113,7 @@
 }
 
 .elemental-split {
-	width: 50 %;
+	width: 50%;
 }
 
 .elemental-float-left {
@@ -211,7 +214,7 @@
 	font-weight: 200;
 	line-height: 1.2em;
 	font-size: 20px;
-	color: #070707;
+	color: #fff;
 }
 .elemental-thankyou-next{
 	font-weight: 200;
@@ -326,7 +329,7 @@
 	margin-top: 0px!important;
 }
 .youzify-page {
-	background-color: #030d1d!important;
+	background-color: #fff!important;
 }
 
 .mvr-header-section {
@@ -340,7 +343,7 @@
 	margin-top: 25px;
 	border-radius:5px;
 }
-.elemental-forum-search, #elemental-search-base {
+.elemental-forum-search{
 	width: 97%;
 	margin: auto;
 	margin-top:10px;
@@ -494,4 +497,22 @@ p.wcfm_title strong, span.wcfm_title strong {
     -webkit-backface-visibility: visible;
     backface-visibility: visible;
     font-family: "Montserrat", Sans-serif;
+}
+
+.elemental-search-bar {
+	display: grid;
+	margin: 3px 3px 3px 3px;
+	padding: 2px 2px 2px 2px;
+	transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;
+	display: flex;
+}
+
+#elemental-store-phone{
+    background: linear-gradient(90deg,rgb(255 255 255) 50%,rgba(0,0,0,0) 100%)!important;
+    border-radius: 10px;
+}
+.elemental-premium-banner-description{
+	background:#00529c;
+	color:white;
+	text-align:center;
 }
