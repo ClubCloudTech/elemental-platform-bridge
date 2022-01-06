@@ -98,7 +98,7 @@ class OrganisationSearch {
 
 	/**
 	 * WCFM Stores Short Code
-	 * by WC Lovers - Modified by ClubCloud.
+	 * Originally by WC Lovers - Modified by ClubCloud.
 	 *
 	 * @param array $atts - the shortcode attributes.
 	 */
@@ -111,7 +111,7 @@ class OrganisationSearch {
 		$WCFM->nocache();
 		ob_start();
 		$defaults = array(
-			'per_page'           => 12,
+			'per_page'           => 20,
 			'paged'              => '',
 			'baseurl'            => '',
 			'sidebar'            => 'yes',

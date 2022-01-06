@@ -10,6 +10,7 @@ namespace ElementalPlugin\Membership;
 
 use ElementalPlugin\Admin;
 use ElementalPlugin\Factory;
+use \MyVideoRoomPlugin\Library\MeetingIdGenerator;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
@@ -25,6 +26,7 @@ class Onboard {
 	const TABLE_NAME_MEMBERSHIPS = 'elemental_memberships';
 	const TABLE_NAME_MEMBERSYNC  = 'elemental_membersync';
 	const SHORTCODE_TAG          = Admin::SHORTCODE_TAG . 'onboarding';
+	const CHECKOUT_SHORTCODE     = Admin::SHORTCODE_TAG . 'checkout_header';
 
 
 	/**
@@ -34,6 +36,8 @@ class Onboard {
 	public function init() {
 		Factory::get_instance( WooCommerceHelpers::class )->init();
 		add_shortcode( self::SHORTCODE_TAG, array( Factory::get_instance( OnboardShortcode::class ), 'render_onboarding_shortcode' ) );
+		add_shortcode( self::CHECKOUT_SHORTCODE, array( Factory::get_instance( OnboardShortcode::class ), 'render_onboarding_checkout_shortcode' ) );
+		add_filter( 'wcfm_is_allow_store_setup', '__return_false' );
 
 				// Enqueue Script Ajax Handling.
 				\wp_register_script(
@@ -72,6 +76,50 @@ class Onboard {
 
 		Factory::get_instance( MembershipDAO::class )->install_membership_mapping_table();
 		Factory::get_instance( MemberSyncDAO::class )->install_membership_sync_table();
+	}
+
+	/**
+	 * Decode Setup Cookie.
+	 *
+	 * @return ?int
+	 */
+	public function decode_setup_cookie(): ?int {
+		if ( ! \is_user_logged_in() || ! isset( $_COOKIE['setupid'] ) ) {
+			return null;
+		}
+		$hash    = sanitize_key( $_COOKIE['setupid'] );
+		$user_id = Factory::get_instance( MeetingIdGenerator::class )->get_user_id_from_meeting_hash( $hash );
+		if ( $user_id ) {
+			return $user_id;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Delete Cookie for Setup Mode
+	 *
+	 * @return void
+	 */
+	public function delete_setup_cookie(): void {
+		unset( $_COOKIE['setupid'] );
+		setcookie( 'setupid', null, time() - 1000, '/' );
+	}
+
+	/**
+	 * Create Cookie to Mark Setup Mode.
+	 *
+	 * @return void
+	 */
+	public function create_setup_cookie(): void {
+		if ( ! \is_user_logged_in() ) {
+			return;
+		}
+		$user_id     = \get_current_user_id();
+		$hash        = Factory::get_instance( MeetingIdGenerator::class )->get_meeting_hash_from_user_id( $user_id );
+		$time_offset = 60 * 60 * 36;
+		unset( $_COOKIE['setupid'] );
+		setcookie( 'setupid', $hash, time() + $time_offset, '/' );
 	}
 }
 

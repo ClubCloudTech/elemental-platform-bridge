@@ -104,13 +104,14 @@ class GroupSearch {
 	 * @param array $atts - the shortcode attributes.
 	 **/
 	public function elemental_group_shortcode( $atts = array() ) {
+
 		$youzify_loaded = ! Factory::get_instance( MemberSearch::class )->is_youzer_available();
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
 
 		$defaults = array(
 			'per_page'     => 12,
 			'page'         => '1',
-			'type'         => 'alphabetical',
+			'type'         => 'random',
 			'search_terms' => '',
 		);
 
@@ -185,7 +186,6 @@ class GroupSearch {
 		// Unset Global Values and clean up.
 		unset( $elemental_group_loop_arguments );
 		remove_filter( 'bp_is_current_component', array( $this, 'elemental_enable_shortcode' ), 10, 2 );
-
 		return ob_get_clean();
 	}
 	/**
@@ -194,9 +194,8 @@ class GroupSearch {
 	 * @param array $loop - the inbound group loop array.
 	 */
 	public function elemental_set_loop_query( $loop ) {
-
 		global $elemental_group_loop_arguments;
-
+		$loop['user_id']= null;
 		$loop = shortcode_atts( $loop, $elemental_group_loop_arguments, 'elemental_groups_atts' );
 
 		return $loop;

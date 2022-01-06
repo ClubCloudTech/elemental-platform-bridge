@@ -31,6 +31,9 @@ return function (
 	string $product_template = null
 ): string {
 	$count_tabs = count( $tabs );
+	if ( $count_tabs <= 1 ) {
+		$display_style = 'display:none;';
+	}
 	ob_start();
 	?>
 <div id="elemental-search-base" class="">
@@ -46,7 +49,7 @@ return function (
 
 			?>
 		</div>
-	<div class="elemental-header-searchbar elemental-background-item">	
+	<div style="<?php echo esc_attr( $display_style ); ?>" class="elemental-header-searchbar elemental-background-item">	
 		<div id="mvr-notification-master" class="mvr-nav-shortcode-outer-wrap-clean mvr-notification-master">
 
 			<div id="mvr-postbutton-notification" class="mvr-notification-align">

@@ -1,9 +1,9 @@
 .elemental-onboard-outerwrap{
-	background: #070c18;
-	padding:50px;
+	background: #fff;
+	padding:23px;
 }
 .elemental-onboard-text {
-	color:rgb(201, 201, 201);
+	color: #5b5b5b;
 }
 .elemental-text-input-box-background{
 	background: white!important;

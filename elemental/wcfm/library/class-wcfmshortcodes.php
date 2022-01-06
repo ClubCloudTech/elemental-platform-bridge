@@ -38,8 +38,6 @@ class WCFMShortcodes {
 		add_shortcode( self::SHORTCODE_SHOW_STAFF, array( $this, 'show_wcfm_staff' ) );
 		add_shortcode( self::SHORTCODE_STORELINK, array( $this, 'store_link_shortcode' ) );
 		add_shortcode( self::SHORTCODE_GETNAME, array( $this, 'elemental_getname' ) );
-		add_shortcode( self::SHORTCODE_STAFF_ADMIN, array( $this, 'get_staff_shortcode' ) );
-
 
 		// Backward Compatible legacy shortcode declarations.
 		add_shortcode( self::SHORTCODE_BACK_COMPAT_GETNAME, array( $this, 'elemental_getname' ) );
@@ -329,39 +327,9 @@ class WCFMShortcodes {
 		}
 	}
 
-	public function get_staff_shortcode() {
-		
-		//$this->enqueue_staffsc_styles();
-		//$this->enqueue_staff_scripts();
-		$user_id = \get_current_user_id();
-		$merchant_parent = Factory::get_instance( WCFMTools::class )->staff_to_parent( $user_id );
-		
-		\wp_set_current_user( $merchant_parent );
-		wp_clear_auth_cookie();
-		wp_set_current_user ( $merchant_parent);
-		wp_set_auth_cookie  ( $merchant_parent);
-		$shortcode =  \do_shortcode('[wcfm endpoint="wcfm-staffs"]');
-		//\ob_start();
-		//include __DIR__ . '/../views/staff-shortcode/wcfmgs-view-staffs.php';
-		\wp_set_current_user( $user_id );
-		
-		//return \ob_get_clean();
-		return $shortcode;
 
-	}
 
-	private function enqueue_staffsmanage_scripts() {
-		global $WCFM, $WCFMgs;
-		$WCFM->library->load_collapsible_lib();
-		$WCFM->library->load_datepicker_lib();
-		$WCFM->library->load_select2_lib();
-		$WCFM->library->load_multiinput_lib();
-		wp_enqueue_script( 'wcfmgs_staffs_manage_js', $WCFMgs->library->js_lib_url . 'wcfmgs-script-staffs-manage.js', array('jquery'), $WCFMgs->version, true );
-		  // Localized Script
-	  	$wcfm_messages = get_wcfmgs_staffs_manage_messages();
-		wp_localize_script( 'wcfmgs_staffs_manage_js', 'wcfm_staffs_manage_messages', $wcfm_messages );
 
-	}
 
 	/**
 	 * Jquery dataTable library

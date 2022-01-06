@@ -12,6 +12,8 @@ use ElementalPlugin\Factory;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
+use ElementalPlugin\Membership\Library\LoginHandler;
+use ElementalPlugin\Membership\Onboard;
 
 /**
  * Class WCFM Search
@@ -112,6 +114,62 @@ class WCFMTools {
 		return $return_array;
 	}
 
+	/**
+	 * Get Staff Member Count of a Store Owner
+	 *
+	 * @return ?int
+	 */
+	public function elemental_get_staff_member_count(): ?int {
+		$current_user_id   = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
+		$staff_user_role   = apply_filters( 'wcfm_staff_user_role', 'shop_staff' );
+		$args              = array(
+			'role__in'    => array( $staff_user_role ),
+			'orderby'     => 'ID',
+			'order'       => 'ASC',
+			'offset'      => 0,
+			'number'      => -1,
+			'count_total' => false,
+			'meta_key'    => '_wcfm_vendor',
+			'meta_value'  => $current_user_id,
+		);
+		$wcfm_staffs_array = get_users( $args );
+		$count_staffs      = count( $wcfm_staffs_array );
+		if ( $count_staffs ) {
+			return $count_staffs;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Get Staff Member ID's of a Store Owner
+	 *
+	 * @return ?array of Staff ID's
+	 */
+	public function elemental_get_staff_member_ids(): ?array {
+		$current_user_id   = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
+		$staff_user_role   = apply_filters( 'wcfm_staff_user_role', 'shop_staff' );
+		$args              = array(
+			'role__in'    => array( $staff_user_role ),
+			'orderby'     => 'ID',
+			'order'       => 'ASC',
+			'offset'      => 0,
+			'number'      => -1,
+			'count_total' => false,
+			'meta_key'    => '_wcfm_vendor',
+			'meta_value'  => $current_user_id,
+		);
+		$wcfm_staffs_array = get_users( $args );
+		$output = array();
+		foreach ( $wcfm_staffs_array as $item ) {
+			array_push( $output, $item->ID );
+		}
+		if ( $output ) {
+			return $output;
+		} else {
+			return null;
+		}
+	}
 
 	/**
 	 * Get User Members of a Group ID
@@ -369,6 +427,55 @@ class WCFMTools {
 		$slug = Factory::get_instance( MenuHelpers::class )->get_name( $user_id );
 
 		return get_site_url() . '/' . get_option( 'wcfm_store_url' ) . '/' . $slug;
+	}
+
+	/**
+	 * Login to Parent Account.
+	 * Finds Parent Account ID - and signs in as Parent Account.
+	 *
+	 * @return void
+	 */
+	public function login_to_parent_account(): void {
+		if ( ! is_user_logged_in() || ! Factory::get_instance( UserRoles::class )->is_wcfm_shop_staff() || Factory::get_instance( UserRoles::class )->is_wcfm_vendor() ) {
+			return;
+		}
+
+		// Get Parent Account ID.
+		$user_id = \get_current_user_id();
+		$parent_id = $this->staff_to_parent( $user_id );
+		$user_obj = \get_user_by( 'id', $parent_id );
+		wp_logout();
+		wp_set_current_user( $parent_id );
+		wp_set_auth_cookie( $parent_id );
+		do_action( 'wp_login', $user_obj->user_email, $user_obj );
+
+	}
+	/**
+	 * Login to Child Account.
+	 * Finds Child Account ID - and signs in to Child Account.
+	 *
+	 * @return void
+	 */
+	public function login_to_child_account(): void {
+		if ( ! Factory::get_instance( UserRoles::class )->is_wcfm_vendor() ) {
+			return;
+		}
+		// Get Parent Account ID.
+		$user_id   = Factory::get_instance( LoginHandler::class )->decode_user_child_cookie();
+		$parent_id = $this->staff_to_parent( $user_id );
+		$my_id     = \get_current_user_id();
+		// Calculate this is my child (if not exit for security).
+		if ( $parent_id !== $my_id ) {
+			return;
+		}
+
+		$user_obj = \get_user_by( 'id', $user_id );
+		wp_logout();
+		wp_set_current_user( $user_id );
+		wp_set_auth_cookie( $user_id );
+		do_action( 'wp_login', $user_obj->user_email, $user_obj );
+		unset( $_COOKIE['staffsessionid'] );
+
 	}
 
 }

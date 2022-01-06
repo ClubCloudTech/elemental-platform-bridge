@@ -10,7 +10,6 @@ namespace ElementalPlugin\WCFM;
 use ElementalPlugin\Factory;
 use ElementalPlugin\WCFM\Library\WCFMFilters;
 use ElementalPlugin\WCFM\Library\WCFMHelpers;
-use ElementalPlugin\WCFM\Library\WCFMSearch;
 use ElementalPlugin\WCFM\Library\WCFMShortcodes;
 use ElementalPlugin\WCFM\Library\WCFMStyling;
 use ElementalPlugin\WCFM\Library\WCFMTools;
@@ -29,6 +28,9 @@ class WCFM {
 		Factory::get_instance( WCFMTools::class )->init();
 		Factory::get_instance( WCFMFilters::class )->init();
 		Factory::get_instance( WCFMStyling::class )->init();
+
+		// Remove WCFM Store Function from BuddyPress Profiles.
+		remove_action( 'bp_member_options_nav', 'bp_wcfmmp_store_nav_item', 99 );
 	}
 
 	/**

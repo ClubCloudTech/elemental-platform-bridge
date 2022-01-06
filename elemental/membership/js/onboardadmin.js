@@ -14,6 +14,10 @@ window.addEventListener(
 				function init() {
 					$( '#submit' ).hide();
 					form_type = $( '#pageinfo' ).attr( 'data-formtype' );
+					registration_flag = $( '.wcfm_registration_form_heading ' ).html();
+					if ( registration_flag && registration_flag.includes('Registration') ){
+						change_to_step2();
+					}
 					/**
 					 * Organisation Case
 					 */
@@ -259,6 +263,8 @@ window.addEventListener(
 										step_window.parent().empty();
 										parent_element.html( state_response.table );
 									}
+									change_to_step2();
+									
 									$( '#elemental-email-status' ).removeClass( 'elemental-checking' );
 									$( '#elemental-email-status' ).removeClass( 'elemental-invalid' );
 									$( '#elemental-email-status' ).removeClass( 'elemental-email-taken' );
@@ -271,6 +277,8 @@ window.addEventListener(
 									$( '#elemental-email-status' ).attr( 'data-status', '' );
 									$( '#first-name-icon' ).hide();
 									$( '#last-name-icon' ).hide();
+									setTimeout(function() { $('#wcfm_membership_register_button').click(); }, 500);
+
 								}
 							},
 							error: function(response) {
@@ -278,6 +286,30 @@ window.addEventListener(
 							}
 						}
 					);
+				}
+
+				/**
+				 * Change Screen to Step 2.
+				 */
+				 function change_to_step2() {
+					$( '#stepnumber2' ).removeClass( 'elemental-hide' );
+					$( '#stepname2' ).removeClass( 'elemental-hide' );
+					$( '#stepimage2' ).removeClass( 'elemental-hide' );
+					$( '#stepheader2' ).removeClass( 'elemental-hide' );
+					$( '#stepheader1' ).addClass( 'elemental-hide' );
+					$( '#stepnumber1' ).addClass( 'elemental-hide' );
+					$( '#stepname1' ).addClass( 'elemental-hide' );
+					$( '#stepimage1' ).addClass( 'elemental-hide' );
+
+					$('.elemental-onboard-header').hide();
+					document.title = "Step 2 - Confirm Details";
+					$( '.wcfm_registration_form_heading ' ).html('Confirm Registration E-mail and Organisation Web Address');
+					$('.store_name').html('<strong>Organisation URL Name</strong> (Must be Unique)');
+					let urlexample = $('.description').html();
+					urlexample = urlexample.replace('http://','');
+					urloutput2 = urlexample.replace('http://','');
+					urloutput = urloutput2.replace('your_store','your-organisation');
+					$('.description').html( '<strong>' + urloutput + '</strong>');
 				}
 
 				/**

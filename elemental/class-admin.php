@@ -83,7 +83,7 @@ class Admin {
 	 */
 	public function proxy_test_function() {
 		// Factory::get_instance( Security::class )->activate_module();
-		Factory::get_instance( MembershipShortCode::class )->render_membership_shortcode();
+		//Factory::get_instance( MembershipShortCode::class )->render_membership_shortcode();
 		return null;
 	}
 }

@@ -8,6 +8,7 @@
 
 declare(strict_types=1);
 
+use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\UltimateMembershipPro\Library\UMPMemberships;
 use ElementalPlugin\WCFM\Library\WCFMTools;
 
@@ -60,6 +61,16 @@ if ( ! function_exists( 'elemental_get_wcfm_memberships' ) ) {
 	function elemental_get_wcfm_page_owner() {
 		$function_to_call = new WCFMTools();
 		return $function_to_call->get_wcfm_page_owner( ...func_get_args() );
+	}
+
+	/**
+	 * Wrapper for Elemental get_user_roles Function.
+	 *
+	 * @return array|false|int|mixed|string|void|null
+	 */
+	function get_user_roles() {
+		$function_to_call = new UserRoles();
+		return $function_to_call->get_user_roles( ...func_get_args() );
 	}
 }
 

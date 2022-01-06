@@ -79,6 +79,13 @@
 	width: 74px;
 }
 
+#members-order-by{
+	min-width:150px;
+}
+#youzify .elemental-directory-filter .item-list-tabs li select {
+    text-transform: none!important;
+}
+
 .elemental-side-tab {
 	float: left;
 	width: 20%;
@@ -196,8 +203,8 @@
 }
 
 .elemental-onboard-header {
-	color: #070707;
-	font-size: 30px;
+	color: #5b5b5b;
+	font-size: 20px;
 	font-weight: 200;
 	line-height: 1.2em;
 }
@@ -209,7 +216,6 @@
 
 .wcfm-container h3,
 .wcfm-container h2,
-.elemental-container h2,
 .elemental-align-left h3 {
 	font-weight: 200;
 	line-height: 1.2em;
@@ -227,7 +233,11 @@
 	font-weight: 300;
 	line-height: 1.2em;
 	font-size: 30px;
-	color: #ffffff;
+	color: #55595c;
+}
+.elemental-title-card{
+	font-size:22px!important;
+	text-transform:capitalize;
 }
 
 #elemental-extra,
@@ -267,7 +277,7 @@
 	padding: 2% 2% 0 2%!important;
 }
 
-.left_sidebar, .youzify-widget-head {
+.left_sidebar, .youzify-widget-head, .elemental-hide {
 	display: none!important;
 }
 
@@ -280,6 +290,9 @@
 	line-height: initial;
 	text-decoration: none;
 	padding-left: 3px;
+}
+#wcfm-main-contentainer{
+	background: white;
 }
 
 .elemental-shortcode-padding {
@@ -507,12 +520,20 @@ p.wcfm_title strong, span.wcfm_title strong {
 	display: flex;
 }
 
-#elemental-store-phone{
+#elemental-store-phone, .elemental-title-background{
     background: linear-gradient(90deg,rgb(255 255 255) 50%,rgba(0,0,0,0) 100%)!important;
     border-radius: 10px;
+	margin-bottom: 10px!important;
 }
 .elemental-premium-banner-description{
 	background:#00529c;
 	color:white;
 	text-align:center;
+}
+#friendship-button-3, {
+	background:#00529c;
+}
+
+.elementor-menu-cart__toggle .elementor-button {
+	border:none!important;
 }

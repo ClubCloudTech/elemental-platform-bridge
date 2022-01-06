@@ -24,7 +24,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 		?>
 		">
 
-			<main class="elemental-page-main-content">
+			
 
 				<div id="elemental-members-directory-list">
 
@@ -161,11 +161,10 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 
 				</div><!-- #elemental-members-directory-list -->
 
-			</main>
-
 	</div><!-- Outer div -->
 
 </div> <!-- YZ div -->
+
 <?php
 
 /**

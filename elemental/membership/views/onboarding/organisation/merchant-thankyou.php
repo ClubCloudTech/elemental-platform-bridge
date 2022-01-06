@@ -4,8 +4,8 @@
  *
  * Manage Onboarding.
  *
+ * @package elemental/membership/views/onboarding/organisation/merchant-thankyou.php
  * @author  Club Cloud based on template from WC Lovers
- * @packageelemental/membership/views/onboarding/organisation/merchant-thankyou.php
  * @version 1.0.0
  *
  * @param string $add_account_form - add an account form

@@ -22,18 +22,18 @@ return function (
 <div class="elemental-onboard-outerwrap" id="elemental-onboard-listing">
 	<div class="elemental-container">
 		<div id="wcfm_page_load" class="elemental-container"></div>
-			<h2 class="elemental-onboard-header">
+			<h4 class="elemental-onboard-header">
 				<?php
 				echo \sprintf(
 					/* translators: %s is the text "Modules" and links to the Module Section */
 					\esc_html__(
-						'Create a New %s Organisation Account.',
+						'Create a New %s Organisation.',
 						'myvideoroom'
 					),
 					esc_textarea( $membership_data[0]->post_title ),
 				);
 				?>
-			</h2>
+			</h4>
 			<div class="wcfm-clearfix"></div>
 
 		<div id="elemental-adduser-frame" class="elemental-onboard-text">

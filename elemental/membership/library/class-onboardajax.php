@@ -8,6 +8,7 @@
 namespace ElementalPlugin\Membership\Library;
 
 use ElementalPlugin\Factory;
+use ElementalPlugin\Membership\Onboard;
 use ElementalPlugin\WooCommerceSubscriptions\Library\SubscriptionHelpers;
 use \MyVideoRoomPlugin\Library\Ajax;
 
@@ -100,8 +101,11 @@ class OnboardAjax {
 					wp_set_auth_cookie( $user_id );
 					do_action( 'wp_login', $email, $user_obj );
 				}
+				// Set Registration Process Cookie.
+				Factory::get_instance( Onboard::class )->delete_setup_cookie();
+				Factory::get_instance( Onboard::class )->create_setup_cookie();
 				$response['feedback']   = true;
-				$response['membership'] = $membership . 'dbma';
+				$response['membership'] = $membership;
 
 				$this->wcfm_choose_membership( intval( $membership ) );
 				$response['table'] = Factory::get_instance( OnboardShortcode::class )->render_wcfm_step( $user_id );

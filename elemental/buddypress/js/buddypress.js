@@ -14,12 +14,12 @@ var directoryPreferences = {};
 
 jq(document).ready( function() {
 	var activity_oldestpage = 1;
-
+console.log('fff17');
 	// Bail if not set
 	if ( typeof BP_DTheme  === 'undefined' ) {
 		return;
 	}
-
+	console.log('fff21');
 	/**** Page Load Actions *******************************************************/
 
 	/* Activity filter and scope set */
@@ -1282,7 +1282,7 @@ jq(document).ready( function() {
 			return false;
 		}
 	});
-
+	console.log('1285fff');
 	jq('#groups-dir-list').on('click', '.group-button a', function() {
 		var gid   = jq(this).parent().attr('id'),
 			nonce   = jq(this).attr('href'),
@@ -1290,7 +1290,7 @@ jq(document).ready( function() {
 
 		gid = gid.split('-');
 		gid = gid[1];
-
+		console.log('1293fff');
 		nonce = nonce.split('?_wpnonce=');
 		nonce = nonce[1].split('&');
 		nonce = nonce[0];
@@ -1300,7 +1300,7 @@ jq(document).ready( function() {
 		if ( thelink.hasClass( 'leave-group' ) && false === confirm( BP_DTheme.leave_group_confirm ) ) {
 			return false;
 		}
-
+		console.log('1303fff');
 		jq.post( ajaxurl, {
 			action: 'joinleave_group',
 			'cookie': bp_get_cookies(),

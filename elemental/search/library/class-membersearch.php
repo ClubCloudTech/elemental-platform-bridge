@@ -30,7 +30,7 @@ class MemberSearch {
 	public function render_members_tabs( array $input = null ) :array {
 
 		$admin_menu = new MenuTabDisplay(
-			\esc_html__( 'Members', 'myvideoroom' ),
+			\esc_html__( 'Platform Users', 'myvideoroom' ),
 			'members',
 			fn() => $this->render_member_search(),
 			'elemental-member-result'
@@ -138,18 +138,9 @@ class MemberSearch {
 			'type'         => 'alphabetical',
 			'search_terms' => '',
 			'drop_down'    => $drop_down,
-			'meta_query'   => array(
-				'relation' => 'OR',
-				array(
-					'key'     => "{$GLOBALS['wpdb']->prefix}capabilities",
-					'value'   => 'wcfm',
-					'compare' => '!=',
-				),
-				array(
-					'key'     => "{$GLOBALS['wpdb']->prefix}capabilities",
-					'value'   => 'wcfm',
-					'compare' => 'NOT LIKE',
-				),
+			'role__not_in' => array(
+				'wcfm_vendor',
+				'Store Vendor',
 			),
 		);
 

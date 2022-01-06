@@ -13,6 +13,7 @@ window.addEventListener(
                  * Initialise Functions on Load
                  */
                 function init(firstrun) {
+					console.log('iizhere');
                     window.wcfm_script_init;
                     var notification = $('#searchnotification');
                     // Search Bar Triggers (click and enter key)
@@ -269,7 +270,7 @@ window.addEventListener(
                         }
                     );
 
-                    form_data.append('action', 'elemental_searchadmin_ajax');
+                    form_data.append('action', 'elemental_searchadmin2_ajax');
                     if (baseurl) {
                         form_data.append('base', baseurl);
                     }
@@ -277,11 +278,11 @@ window.addEventListener(
                     form_data.append('searchid', searchid),
                         productid = $('#elemental-pageinfo').data("productid");
                     form_data.append('productid', productid);
-                    form_data.append('security', elemental_searchadmin_ajax.security);
+                    form_data.append('security', elemental_searchadmin2_ajax.security);
                     $.ajax({
                         type: 'post',
                         dataType: 'html',
-                        url: elemental_searchadmin_ajax.ajax_url,
+                        url: elemental_searchadmin2_ajax.ajax_url,
                         contentType: false,
                         processData: false,
                         data: form_data,
@@ -382,14 +383,14 @@ window.addEventListener(
                     } else {
                         form_data.append('refresh_tabs', 'refresh_tabs');
                     }
-                    form_data.append('action', 'elemental_searchadmin_ajax');
+                    form_data.append('action', 'elemental_searchadmin2_ajax');
                     form_data.append('searchid', searchid);
                     form_data.append('productid', productid);
-                    form_data.append('security', elemental_searchadmin_ajax.security);
+                    form_data.append('security', elemental_searchadmin2_ajax.security);
                     $.ajax({
                         type: 'post',
                         dataType: 'html',
-                        url: elemental_searchadmin_ajax.ajax_url,
+                        url: elemental_searchadmin2_ajax.ajax_url,
                         contentType: false,
                         processData: false,
                         data: form_data,
@@ -453,13 +454,13 @@ window.addEventListener(
                     form_data.append('productid', productid);
                     form_data.append('elemental-main-content', 'elemental-main-content');
                     form_data.append('page', page);
-                    form_data.append('action', 'elemental_searchadmin_ajax');
+                    form_data.append('action', 'elemental_searchadmin2_ajax');
                     form_data.append('search_term', search);
-                    form_data.append('security', elemental_searchadmin_ajax.security);
+                    form_data.append('security', elemental_searchadmin2_ajax.security);
                     $.ajax({
                         type: 'post',
                         dataType: 'html',
-                        url: elemental_searchadmin_ajax.ajax_url,
+                        url: elemental_searchadmin2_ajax.ajax_url,
                         contentType: false,
                         processData: false,
                         data: form_data,
@@ -494,13 +495,13 @@ window.addEventListener(
                     form_data.append('productid', productid);
                     form_data.append('elemental-main-products', 'elemental-main-products');
                     form_data.append('page', page);
-                    form_data.append('action', 'elemental_searchadmin_ajax');
+                    form_data.append('action', 'elemental_searchadmin2_ajax');
                     form_data.append('search_term', search);
-                    form_data.append('security', elemental_searchadmin_ajax.security);
+                    form_data.append('security', elemental_searchadmin2_ajax.security);
                     $.ajax({
                         type: 'post',
                         dataType: 'html',
-                        url: elemental_searchadmin_ajax.ajax_url,
+                        url: elemental_searchadmin2_ajax.ajax_url,
                         contentType: false,
                         processData: false,
                         data: form_data,
@@ -548,13 +549,13 @@ window.addEventListener(
                     form_data.append('searchid', searchid);
                     form_data.append('productid', productid);
                     form_data.append('elemental-organisation-tab', 'elemental-organisation-tab');
-                    form_data.append('action', 'elemental_searchadmin_ajax');
+                    form_data.append('action', 'elemental_searchadmin2_ajax');
                     form_data.append('search_term', search);
-                    form_data.append('security', elemental_searchadmin_ajax.security);
+                    form_data.append('security', elemental_searchadmin2_ajax.security);
                     $.ajax({
                         type: 'post',
                         dataType: 'html',
-                        url: elemental_searchadmin_ajax.ajax_url,
+                        url: elemental_searchadmin2_ajax.ajax_url,
                         contentType: false,
                         processData: false,
                         data: form_data,
@@ -588,7 +589,7 @@ window.addEventListener(
                         productid = $('#elemental-pageinfo').data("productid");
 
                     var form_data = new FormData();
-                    form_data.append('action', 'elemental_searchadmin_ajax');
+                    form_data.append('action', 'elemental_searchadmin2_ajax');
                     form_data.append('searchid', searchid);
                     form_data.append('productid', productid);
                     form_data.append('elemental-member-tab', 'elemental-member-tab');
@@ -603,11 +604,11 @@ window.addEventListener(
                         form_data.append('search_term', search);
                     }
 
-                    form_data.append('security', elemental_searchadmin_ajax.security);
+                    form_data.append('security', elemental_searchadmin2_ajax.security);
                     $.ajax({
                         type: 'post',
                         dataType: 'html',
-                        url: elemental_searchadmin_ajax.ajax_url,
+                        url: elemental_searchadmin2_ajax.ajax_url,
                         contentType: false,
                         processData: false,
                         data: form_data,
@@ -642,7 +643,7 @@ window.addEventListener(
                         productid = $('#elemental-pageinfo').data("productid");
 
                     var form_data = new FormData();
-                    form_data.append('action', 'elemental_searchadmin_ajax');
+                    form_data.append('action', 'elemental_searchadmin2_ajax');
                     form_data.append('searchid', searchid);
                     form_data.append('productid', productid);
                     form_data.append('elemental-group-tab', 'elemental-group-tab');
@@ -657,11 +658,11 @@ window.addEventListener(
                         form_data.append('search_term', search);
                     }
 
-                    form_data.append('security', elemental_searchadmin_ajax.security);
+                    form_data.append('security', elemental_searchadmin2_ajax.security);
                     $.ajax({
                         type: 'post',
                         dataType: 'html',
-                        url: elemental_searchadmin_ajax.ajax_url,
+                        url: elemental_searchadmin2_ajax.ajax_url,
                         contentType: false,
                         processData: false,
                         data: form_data,

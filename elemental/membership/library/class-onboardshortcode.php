@@ -9,6 +9,8 @@
 namespace ElementalPlugin\Membership\Library;
 
 use ElementalPlugin\Factory;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Membership\Onboard;
 use ElementalPlugin\WCFM\Library\WCFMTools;
 use ElementalPlugin\WooCommerceSubscriptions\Library\SubscriptionHelpers;
 use \MyVideoRoomPlugin\Library\HttpGet;
@@ -34,6 +36,23 @@ class OnboardShortcode {
 		}
 
 		return $this->onboarding_shortcode_worker( $membership_id );
+	}
+
+	/**
+	 * Render Onboarding Checkout shortcode to Display Onboarding Phases in Checkout Page.
+	 *
+	 * @return ?string
+	 */
+	public function render_onboarding_checkout_shortcode(): ?string {
+		$cookie = Factory::get_instance( Onboard::class )->decode_setup_cookie();
+		$vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
+		$staff  = Factory::get_instance( UserRoles::class )->is_wcfm_shop_staff();
+
+		if ( ! $cookie || $vendor || $staff ) {
+			return null;
+		}
+		$template_id = intval( get_option( LoginHandler::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE ) );
+		return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 	}
 
 	/**
