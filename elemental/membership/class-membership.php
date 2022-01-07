@@ -78,8 +78,13 @@ class Membership {
 			'strong'            => __( 'Strong', 'wc-frontend-manager' ),
 			'password_failed'   => __( 'Password strength should be at least "Good".', 'wc-frontend-manager' ),
 			'choose_select2'    => __( 'Choose ', 'wc-frontend-manager' ),
+			'wcfm_ajax_nonce'   => wp_create_nonce( 'wcfm_ajax_nonce' ),
 		);
-		wp_localize_script( 'wcfm_membership_registration_js', 'wcfm_registration_params', $wcfm_registration_params );
+		wp_localize_script(
+			'wcfm_membership_registration_js',
+			'wcfm_registration_params',
+			$wcfm_registration_params
+		);
 
 		add_shortcode( self::SHORTCODE_TAG, array( Factory::get_instance( MembershipShortCode::class ), 'render_membership_shortcode' ) );
 

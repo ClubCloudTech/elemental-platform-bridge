@@ -50,5 +50,26 @@ class MembershipSetup {
 		$field       = Factory::get_instance( XprofileTools::class )->create_xprofile_group( $group_name, $description );
 		\update_option( self::SETTING_REGISTRATION_GROUP_ID, $field );
 	}
+
+	/**
+	 * IS Page Elementor ?
+	 * Returns whether page is in elementor admin mode.
+	 *
+	 * @return bool
+	 */
+	public function is_page_elementor(): bool {
+		$url= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		$admin_page = strpos( $url, 'wp-admin' );
+		$elementor  = strpos( $url, 'elementor' );
+		if ( $admin_page || $elementor ) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+
+
 }
 

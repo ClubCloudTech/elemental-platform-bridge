@@ -562,7 +562,7 @@ window.addEventListener(
                             var state_response = JSON.parse(response);
                             if (state_response.organisation && state_response.orgtarget) {
                                 $('#' + state_response.orgtarget).html(state_response.organisation);
-                                let orgcount = $('#group-dir-count-bottom').text();
+                                let orgcount = $('.woocommerce-result-count').text();
 
                                 let number = orgcount.match(/\d+/g).pop();
 

@@ -71,6 +71,7 @@ class LoginHandler {
 			$url = \get_site_url() . '/logout';
 			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
 			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+			die();
 		}
 	}
 
@@ -109,6 +110,7 @@ class LoginHandler {
 				// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
 				echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
 				Factory::get_instance( Onboard::class )->delete_setup_cookie();
+				die();
 			}
 		}
 
@@ -144,7 +146,17 @@ class LoginHandler {
 			$url     = get_site_url() . '/login?action=logout&nonce=' . $nonce;
 			$output .= '<a href="' . $url . '" class="elemental-host-link elemental-buttonlink-border">' . esc_html__( 'Sign Out', 'myvideoroom' ) . '</a>';
 		} else {
+			// Redirect- non-logged in users looking at profiles.
+			if ( \function_exists( 'bp_displayed_user_id' ) && bp_displayed_user_id() ) {
+				$url = \get_site_url() . '/access-restricted/';
+				// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
+				echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+				die();
+			}
+
 			$output .= ' <a class="elemental-host-link elemental-buttonlink-border" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'myvideoroom' ) . '</a><a class="elemental-host-link elemental-buttonlink-border" href="' . \get_site_url() . '/join" >' . esc_html__( 'Join', 'myvideoroom' ) . '</a>';
+
+
 		}
 		return $output;
 	}
@@ -211,6 +223,7 @@ class LoginHandler {
 		$url     = Factory::get_instance( ElementalBP::class )->get_buddypress_profile_url( $user_id );
 		// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
 		echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+		die();
 	}
 
 

@@ -68,7 +68,7 @@ class SiteSearch {
 	 * @param string $search_template - Search Template.
 	 * @param string $product_template - Product Template.
 	 * @param string $tab - starting tab (optional).
-	 * @param string $only - return a single tab only in case of tab sort (optional).
+	 * @param bool   $only - return a single tab only in case of tab sort (optional).
 	 */
 	public function sitesearch_shortcode_handler( string $header_template = null, string $search_template = null, string $product_template = null, string $tab = null, bool $only = null ) {
 		global $post;
@@ -151,6 +151,7 @@ class SiteSearch {
 				add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( GroupSearch::class ), 'group_search_response' ), 10, 2 );
 
 			}
+			//TODO @fred - remove line after go live testing.
 			//add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_bp_legacy' ) );
 		}
 		if ( $bbpress_available && $logged_in ) {

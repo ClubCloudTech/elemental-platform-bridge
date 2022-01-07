@@ -111,7 +111,7 @@ class OnboardAjax {
 				$response['table'] = Factory::get_instance( OnboardShortcode::class )->render_wcfm_step( $user_id );
 
 			} else {
-				$response['feedback'] = false;
+				$response['feedback'] = 'Error Creating Account';
 			}
 			return \wp_send_json( $response );
 		}

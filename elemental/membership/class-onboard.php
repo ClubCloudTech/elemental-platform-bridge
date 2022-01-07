@@ -44,7 +44,7 @@ class Onboard {
 					'elemental-onboard-js',
 					\plugins_url( '/js/onboardadmin.js', \realpath( __FILE__ ) ),
 					array( 'jquery' ),
-					Factory::get_instance( Version::class )->get_plugin_version() . \wp_rand( 40, 30000 ),
+					Factory::get_instance( Version::class )->get_plugin_version() . \wp_rand( 40, 3000 ),
 					true
 				);
 				// Localize script Ajax Upload.

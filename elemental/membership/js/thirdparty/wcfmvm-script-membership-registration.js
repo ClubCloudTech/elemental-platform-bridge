@@ -547,65 +547,77 @@ jQuery( document ).ready(
 			);
 
 			if ($is_valid) {
-
-				$form_data = new FormData( document.getElementById( 'wcfm_membership_registration_form' ) );
-				$form_data.append( 'wcfm_membership_registration_form', $( '#wcfm_membership_registration_form' ).serialize() );
-				$form_data.append( 'action', 'wcfm_ajax_controller' );
-				$form_data.append( 'controller', 'wcfm-memberships-registration' );
-
-				$.ajax(
-					{
-						type: 'POST',
-						url: wcfm_params.ajax_url,
-						data: $form_data,
-						contentType: false,
-						cache: false,
-						processData: false,
-						success: function(response) {
-							if (response) {
-								$response_json = $.parseJSON( response );
-								if ($response_json.status) {
-									$( '#wcfm_membership_registration_form .wcfm-message:not(.email_verification_message, .sms_verification_message)' ).html( '<span class="wcicon-status-completed"></span>' + $response_json.message ).addClass( 'wcfm-success' ).slideDown(
-										"slow",
-										function() {
-											if ($response_json.redirect) {
-												window.location = $response_json.redirect;
-
-											}
-										}
-									);
-								} else {
-									$( '.wcfm-message' ).html( '' ).removeClass( 'wcfm-success' ).slideUp();
-									$( '#wcfm_membership_registration_form .wcfm-message:not(.email_verification_message, .sms_verification_message)' ).html( '<span class="wcicon-status-cancelled"></span>' + $response_json.message ).addClass( 'wcfm-error' ).slideDown();
-								}
-
-								if (jQuery( '.anr_captcha_field' ).length > 0) {
-									if (typeof grecaptcha != "undefined") {
-										if ($wcfm_anr_loaded) {
-											grecaptcha.reset();
-										} else {
-											wcfmvm_anr_onloadCallback();
-										}
-									}
-								}
-
-								$( '#wcfm_membership_container' ).unblock();
-							}
-						}
-					}
-				);
-			} else {
-				if (jQuery( '.anr_captcha_field' ).length > 0) {
-					if (typeof grecaptcha != "undefined") {
-						if ($wcfm_anr_loaded) {
-							grecaptcha.reset();
-						} else {
-							wcfmvm_anr_onloadCallback();
-						}
-					}
+				$password = $('#passoword').val();
+				$confirm_pwd = $('#confirm_pwd').val();
+				if( $password != $confirm_pwd ) {
+					$('#passoword').removeClass('wcfm_validation_success').addClass('wcfm_validation_failed');
+					$('#confirm_pwd').removeClass('wcfm_validation_success').addClass('wcfm_validation_failed');
+					$('#wcfm_membership_container .wcfm-message:not(.email_verification_message, .sms_verification_message)').html( '<span class="wcicon-status-cancelled"></span>' + $('#passoword').data('mismatch_message') ).addClass('wcfm-error').slideDown();
+					$is_valid = false;
 				}
-				$( '#wcfm_membership_container' ).unblock();
 			}
+			
+			  $('#wcfm_membership_container').block({
+				  message: null,
+				  overlayCSS: {
+					  background: '#fff',
+					  opacity: 0.6
+				  }
+			  });
+			  
+			  if( $is_valid ) {
+				  
+				  $form_data = new FormData( document.getElementById('wcfm_membership_registration_form') );
+				  $form_data.append( 'wcfm_membership_registration_form', $('#wcfm_membership_registration_form').serialize() ); 
+				  $form_data.append( 'action', 'wcfm_ajax_controller' ); 
+				  $form_data.append( 'controller', 'wcfm-memberships-registration' );
+				  $form_data.append( 'wcfm_ajax_nonce', wcfm_registration_params.wcfm_ajax_nonce ); 
+				  
+				  $.ajax({
+					  type         : 'POST',
+					  url          : wcfm_params.ajax_url,
+					  data         : $form_data,
+					  contentType  : false,
+					  cache        : false,
+					  processData  :false,
+					  success: function(response) {
+						  if(response) {
+							  $response_json = $.parseJSON(response);
+							  if($response_json.status) {
+								  $('#wcfm_membership_registration_form .wcfm-message:not(.email_verification_message, .sms_verification_message)').html('<span class="wcicon-status-completed"></span>' + $response_json.message).addClass('wcfm-success').slideDown( "slow", function() {
+									  if( $response_json.redirect ) window.location = $response_json.redirect;	
+								  } );	
+							  } else {
+								  $('.wcfm-message').html('').removeClass('wcfm-success').slideUp();
+								  $('#wcfm_membership_registration_form .wcfm-message:not(.email_verification_message, .sms_verification_message)').html('<span class="wcicon-status-cancelled"></span>' + $response_json.message).addClass('wcfm-error').slideDown();
+							  }
+							  
+							  if( jQuery('.anr_captcha_field').length > 0 ) {
+								  if (typeof grecaptcha != "undefined") {
+									  if( $wcfm_anr_loaded ) {
+										  grecaptcha.reset();
+									  } else {
+										  wcfmvm_anr_onloadCallback();
+									  }
+								  }
+							  }
+						  
+							  $('#wcfm_membership_container').unblock();
+						  }
+					  }
+				  });
+			  } else {
+				  if( jQuery('.anr_captcha_field').length > 0 ) {
+					  if (typeof grecaptcha != "undefined") {
+						  if( $wcfm_anr_loaded ) {
+							  grecaptcha.reset();
+						  } else {
+							  wcfmvm_anr_onloadCallback();
+						  }
+					  }
+				  }
+				  $('#wcfm_membership_container').unblock();
+			  }
 
 		}
 

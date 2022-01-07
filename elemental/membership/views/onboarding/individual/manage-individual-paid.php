@@ -23,6 +23,7 @@ return function (
 	if ( $redirect_url ) {
 			echo '<script type="text/javascript"> window.location = "' . esc_url( $redirect_url ) . '"; </script>';
 			echo '<h1>' . esc_html_e( 'Thank you for Your Purchase ', 'myvideoroom' ) . '</h1>';
+			die();
 	}
 	?>
 
