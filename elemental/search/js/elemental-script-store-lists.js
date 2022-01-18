@@ -395,22 +395,23 @@ jQuery(document).ready(function($) {
         var xhr;
         var timer = null;
         data = {
-            action: 'wcfmmp_stores_list_search',
-            pagination_base: form.find('#pagination_base').val(),
-            paged: form.find('#wcfm_paged').val(),
-            per_row: $per_row,
-            per_page: $per_page,
-            includes: $includes,
-            excludes: $excludes,
-            orderby: $('#wcfmmp_store_orderby').val(),
-            has_orderby: $has_orderby,
-            has_product: $has_product,
-            sidebar: $sidebar,
-            theme: $theme,
-            search_term: $('.wcfmmp-store-search').val(),
-            wcfmmp_store_category: $('#wcfmmp_store_category').val(),
-            search_data: jQuery('.wcfmmp-store-search-form').serialize(),
-            _wpnonce: form.find('#nonce').val()
+			action                  : 'wcfmmp_stores_list_search',
+			pagination_base         : form.find('#pagination_base').val(),
+			paged                   : form.find('#wcfm_paged').val(),
+			per_row                 : $per_row,
+			per_page                : $per_page,
+			includes                : $includes,
+			excludes                : $excludes,
+			orderby                 : $('#wcfmmp_store_orderby').val(),
+			has_orderby             : $has_orderby,
+			has_product             : $has_product,
+			sidebar                 : $sidebar,
+			theme                   : $theme,
+			search_term             : $('.wcfmmp-store-search').val(),
+			wcfmmp_store_category   : $('#wcfmmp_store_category').val(),
+			search_data             : jQuery('.wcfmmp-store-search-form').serialize(),
+			wcfm_ajax_nonce         : wcfm_params.wcfm_ajax_nonce,
+			_wpnonce                : form.find('#nonce').val()
         };
 
         if (timer) {

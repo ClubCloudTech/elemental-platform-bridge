@@ -35,7 +35,7 @@ class Plugin {
 	 * Plugin constructor.
 	 */
 	public function __construct() {
-		
+
 		Factory::get_instance( Admin::class )->init();
 		Factory::get_instance( Membership::class )->init();
 		Factory::get_instance( ShortCodeTab::class )->init();
@@ -50,7 +50,6 @@ class Plugin {
 
 		$this->styles();
 		add_filter( 'xmlrpc_enabled', '__return_false' );
-
 
 	}
 	/**

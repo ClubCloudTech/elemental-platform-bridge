@@ -155,8 +155,6 @@ class LoginHandler {
 			}
 
 			$output .= ' <a class="elemental-host-link elemental-buttonlink-border" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'myvideoroom' ) . '</a><a class="elemental-host-link elemental-buttonlink-border" href="' . \get_site_url() . '/join" >' . esc_html__( 'Join', 'myvideoroom' ) . '</a>';
-
-
 		}
 		return $output;
 	}
@@ -178,14 +176,14 @@ class LoginHandler {
 			$url = \get_site_url() . '/logout/';
 			wp_logout();
 			\wp_safe_redirect( $url );
-			die();
+			// die();
 		}
 		$noncechild = $http_get_library->get_string_parameter( 'noncechild' );
 		if ( 'child' === $action && \wp_verify_nonce( $noncechild, 'child' ) ) {
 			Factory::get_instance( WCFMTools::class )->login_to_child_account();
 			$url = \get_site_url() . '/loginlanding/';
 			\wp_safe_redirect( $url );
-			die();
+			// die();
 		}
 		// Login to Parent Account if coming from Child with Correct Security.
 		$nonceparent = $http_get_library->get_string_parameter( 'nonceparent' );
@@ -203,10 +201,11 @@ class LoginHandler {
 			}
 			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
 			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
-			die();
+			// die();
 		}
 
 		$template_id = intval( get_option( self::SETTING_LOGIN_SWITCH_TEMPLATE ) );
+
 		return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 	}
 

@@ -96,7 +96,7 @@ class BuddyPress {
 		if ( ! $this->is_buddypress_available() ) {
 			return null;
 		}
-		//$this->setup_root_nav_action();
+		// $this->setup_root_nav_action();
 		add_action( 'bp_setup_nav', array( $this, 'setup_group_nav_action' ) );
 
 	}
@@ -119,9 +119,9 @@ class BuddyPress {
 		}
 
 			$tab_name = \get_option( 'myvideoroom-buddypress-user-tab' );
-			if ( ! $tab_name ) {
-				$tab_name = self::SETTING_DEFAULT_TAB_NAME;
-			}
+		if ( ! $tab_name ) {
+			$tab_name = self::SETTING_DEFAULT_TAB_NAME;
+		}
 			// Setup My Video Tab. Section 1.
 			\bp_core_new_nav_item(
 				array(
@@ -158,7 +158,7 @@ class BuddyPress {
 		global $bp;
 		if ( $bp->groups ) {
 			$tab_name = 'sssdf';
-			$slug = 'ggrs';
+			$slug     = 'ggrs';
 
 		}
 		$slug = bp_get_groups_slug();
@@ -182,7 +182,7 @@ class BuddyPress {
 			)
 		);
 		if ( $bp->groups && $bp->groups->current_group ) {
-		// Setup My Video Tab. Section 1.
+			// Setup My Video Tab. Section 1.
 
 		}
 	}

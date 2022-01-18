@@ -533,7 +533,8 @@ window.addEventListener(
                  * Search Organisation Only.
                  */
                 var orgonly = function(search, page, event) {
-                    event.stopImmediatePropagation();
+
+					event.stopImmediatePropagation();
                     var notification = $('#searchnotification'),
                         baseurl = $('#elemental-pageinfo').attr('data-pagination');
                     searchid = $('#elemental-pageinfo').data("searchid"),

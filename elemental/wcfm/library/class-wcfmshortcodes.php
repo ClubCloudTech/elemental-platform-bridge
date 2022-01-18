@@ -327,49 +327,36 @@ class WCFMShortcodes {
 		}
 	}
 
-
-
-
-
 	/**
 	 * Jquery dataTable library
 	 */
 	function load_datatable_lib() {
 		global $WCFM;
-		
-		// JS
-		wp_enqueue_script( 'dataTables_js', $WCFM->plugin_url . 'includes/libs/datatable/js/jquery.dataTables.min.js', array('jquery'), $WCFM->version, true );
-		wp_enqueue_script( 'dataTables_responsive_js', $WCFM->plugin_url . 'includes/libs/datatable/js/dataTables.responsive.min.js', array('jquery', 'dataTables_js'), $WCFM->version, true );
-		
-		$dataTables_language = '{"processing": "' . __('Processing...', 'wc-frontend-manager' ) . '" , "search": "' . __('Search:', 'wc-frontend-manager' ) . '", "lengthMenu": "' . __('Show _MENU_ entries', 'wc-frontend-manager' ) . '", "info": " ' . __('Showing _START_ to _END_ of _TOTAL_ entries', 'wc-frontend-manager' ) . '", "infoEmpty": "' . __('Showing 0 to 0 of 0 entries', 'wc-frontend-manager' ) . '", "infoFiltered": "' . __('(filtered _MAX_ entries of total)', 'wc-frontend-manager' ) . '", "loadingRecords": "' . __('Loading...', 'wc-frontend-manager' ) . '", "zeroRecords": "' . __('No matching records found', 'wc-frontend-manager' ) . '", "emptyTable": "' . __('No data in the table', 'wc-frontend-manager' ) . '", "paginate": {"first": "' . __('First', 'wc-frontend-manager' ) . '", "previous": "' . __('Previous', 'wc-frontend-manager' ) . '", "next": "' . __('Next', 'wc-frontend-manager' ) . '", "last": "' .  __('Last', 'wc-frontend-manager') . '"}, "buttons": {"print": "' . __('Print', 'wc-frontend-manager' ) . '", "pdf": "' . __('PDF', 'wc-frontend-manager' ) . '", "excel": "' . __('Excel', 'wc-frontend-manager' ) . '", "csv": "' . __('CSV', 'wc-frontend-manager' ) . '"}}';
-		wp_localize_script( 'dataTables_js', 'dataTables_language', $dataTables_language );
-		
-		wp_localize_script( 'dataTables_js', 'dataTables_config', array( 'pageLength' => apply_filters( 'wcfm_datatable_page_length', 25 ), 'is_allow_hidden_export' => apply_filters( 'wcfm_is_allow_datatable_hidden_export', false ) ) );
-		
-		// CSS
-		//wp_enqueue_style( 'wcfm_responsive_css',  $this->css_lib_url . 'wcfm-style-responsive.css', array('wcfm_menu_css'), $WCFM->version );
-		wp_enqueue_style( 'dataTables_css',  $WCFM->plugin_url . 'includes/libs/datatable/css/jquery.dataTables.min.css', array(), $WCFM->version );
-		wp_enqueue_style( 'dataTables_responsive_css',  $WCFM->plugin_url . 'includes/libs/datatable/css/responsive.dataTables.min.css', array(), $WCFM->version );
-	}
-	private function enqueue_staff_scripts() {
-		global $WCFM, $WCFMgs;
-		$this->load_datatable_lib();
-		wp_enqueue_script( 'wcfmgs_staffs_js', $WCFMgs->library->js_lib_url . 'wcfmgs-script-staffs.js', array('jquery', 'dataTables_js'), $WCFMgs->version, true );
-		
-		// Screen manager
-		$wcfm_screen_manager_data = array();
-		if( wcfm_is_vendor() || !wcfm_is_marketplace() ) {
-			$wcfm_screen_manager_data = array( 1  => __( 'Store', 'wc-frontend-manager' ) );
-		}
-		wp_localize_script( 'wcfmgs_staffs_js', 'wcfm_staffs_screen_manage', $wcfm_screen_manager_data );
 
+		// JS
+		wp_enqueue_script( 'dataTables_js', $WCFM->plugin_url . 'includes/libs/datatable/js/jquery.dataTables.min.js', array( 'jquery' ), $WCFM->version, true );
+		wp_enqueue_script( 'dataTables_responsive_js', $WCFM->plugin_url . 'includes/libs/datatable/js/dataTables.responsive.min.js', array( 'jquery', 'dataTables_js' ), $WCFM->version, true );
+
+		$dataTables_language = '{"processing": "' . __( 'Processing...', 'wc-frontend-manager' ) . '" , "search": "' . __( 'Search:', 'wc-frontend-manager' ) . '", "lengthMenu": "' . __( 'Show _MENU_ entries', 'wc-frontend-manager' ) . '", "info": " ' . __( 'Showing _START_ to _END_ of _TOTAL_ entries', 'wc-frontend-manager' ) . '", "infoEmpty": "' . __( 'Showing 0 to 0 of 0 entries', 'wc-frontend-manager' ) . '", "infoFiltered": "' . __( '(filtered _MAX_ entries of total)', 'wc-frontend-manager' ) . '", "loadingRecords": "' . __( 'Loading...', 'wc-frontend-manager' ) . '", "zeroRecords": "' . __( 'No matching records found', 'wc-frontend-manager' ) . '", "emptyTable": "' . __( 'No data in the table', 'wc-frontend-manager' ) . '", "paginate": {"first": "' . __( 'First', 'wc-frontend-manager' ) . '", "previous": "' . __( 'Previous', 'wc-frontend-manager' ) . '", "next": "' . __( 'Next', 'wc-frontend-manager' ) . '", "last": "' . __( 'Last', 'wc-frontend-manager' ) . '"}, "buttons": {"print": "' . __( 'Print', 'wc-frontend-manager' ) . '", "pdf": "' . __( 'PDF', 'wc-frontend-manager' ) . '", "excel": "' . __( 'Excel', 'wc-frontend-manager' ) . '", "csv": "' . __( 'CSV', 'wc-frontend-manager' ) . '"}}';
+		wp_localize_script( 'dataTables_js', 'dataTables_language', $dataTables_language );
+
+		wp_localize_script(
+			'dataTables_js',
+			'dataTables_config',
+			array(
+				'pageLength'             => apply_filters( 'wcfm_datatable_page_length', 25 ),
+				'is_allow_hidden_export' => apply_filters(
+					'wcfm_is_allow_datatable_hidden_export',
+					false
+				),
+			)
+		);
+
+		// CSS
+		// wp_enqueue_style( 'wcfm_responsive_css',  $this->css_lib_url . 'wcfm-style-responsive.css', array('wcfm_menu_css'), $WCFM->version );
+		wp_enqueue_style( 'dataTables_css', $WCFM->plugin_url . 'includes/libs/datatable/css/jquery.dataTables.min.css', array(), $WCFM->version );
+		wp_enqueue_style( 'dataTables_responsive_css', $WCFM->plugin_url . 'includes/libs/datatable/css/responsive.dataTables.min.css', array(), $WCFM->version );
 	}
-	
-	private function enqueue_staffsc_styles() {
-		global $WCFM, $WCFMgs;
-		wp_enqueue_style( 'wcfmgs_staffs_css', $WCFMgs->library->css_lib_url . 'wcfmgs-style-staffs.css', array(), $WCFMgs->version );
-		wp_enqueue_style( 'wcfm_capability_css', $WCFM->library->css_lib_url . 'capability/wcfm-style-capability.css', array(), $WCFMgs->version );
-		wp_enqueue_style( 'collapsible_css', $WCFM->library->css_lib_url . 'wcfm-style-collapsible.css', array(), $WCFMgs->version );
-		wp_enqueue_style( 'wcfmgs_staffs_manage_css', $WCFMgs->library->css_lib_url . 'wcfmgs-style-staffs-manage.css', array(), $WCFMgs->version );
-	}
+
+
 }

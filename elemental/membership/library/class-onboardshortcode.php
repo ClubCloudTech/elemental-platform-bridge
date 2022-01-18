@@ -90,8 +90,6 @@ class OnboardShortcode {
 		$individual_status = $http_get_library->get_string_parameter( 'membership' );
 		$this->enqueue_style_scripts( true );
 
-
-
 		if ( 434 === $membership_id && ! Factory::get_instance( MembershipSetup::class )->is_page_elementor() ) {
 			$url = \get_site_url() . '/settings/loginlanding/';
 			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.

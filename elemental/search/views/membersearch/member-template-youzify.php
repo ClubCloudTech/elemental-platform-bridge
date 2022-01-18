@@ -1,7 +1,7 @@
 <?php
 
 $roles = \get_user_roles( $store_id );
-if (in_array( 'wcfm_vendor', $roles ) ) {
+if ( in_array( 'wcfm_vendor', $roles ) ) {
 	echo 'bump';
 }
 /**

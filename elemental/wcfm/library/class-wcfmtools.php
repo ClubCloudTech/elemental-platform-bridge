@@ -160,7 +160,7 @@ class WCFMTools {
 			'meta_value'  => $current_user_id,
 		);
 		$wcfm_staffs_array = get_users( $args );
-		$output = array();
+		$output            = array();
 		foreach ( $wcfm_staffs_array as $item ) {
 			array_push( $output, $item->ID );
 		}
@@ -441,9 +441,9 @@ class WCFMTools {
 		}
 
 		// Get Parent Account ID.
-		$user_id = \get_current_user_id();
+		$user_id   = \get_current_user_id();
 		$parent_id = $this->staff_to_parent( $user_id );
-		$user_obj = \get_user_by( 'id', $parent_id );
+		$user_obj  = \get_user_by( 'id', $parent_id );
 		wp_logout();
 		wp_set_current_user( $parent_id );
 		wp_set_auth_cookie( $parent_id );

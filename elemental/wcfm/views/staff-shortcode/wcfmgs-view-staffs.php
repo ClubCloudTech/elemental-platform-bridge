@@ -4,8 +4,8 @@
  *
  * WCFM Shop Staffs View
  *
- * @author 		WC Lovers
- * @package 	elemental/wcfm/views/staff-shortcode/wcfmgs-view-staffs.php
+ * @author      WC Lovers
+ * @package     elemental/wcfm/views/staff-shortcode/wcfmgs-view-staffs.php
  * @version   1.0.0
  */
 
@@ -26,18 +26,18 @@ global $WCFM;
 			<h2><?php _e( 'Manage Staff', 'wc-frontend-manager-groups-staffs' ); ?></h2>
 			
 			<?php
-			if( $allow_wp_admin_view = apply_filters( 'wcfm_allow_wp_admin_view', true ) ) {
+			if ( $allow_wp_admin_view = apply_filters( 'wcfm_allow_wp_admin_view', true ) ) {
 				?>
-				<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('users.php?role=shop_staff'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager-groups-staffs' ); ?>"><span class="fab fa-wordpress"></span></a>
+				<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url( 'users.php?role=shop_staff' ); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager-groups-staffs' ); ?>"><span class="fab fa-wordpress"></span></a>
 				<?php
 			}
-			
-			if( $wcfm_is_allow_capability_controller = apply_filters( 'wcfm_is_allow_capability_controller', true ) ) {
-				echo '<a id="wcfm_capability_settings" class="add_new_wcfm_ele_dashboard text_tip" href="'.get_wcfm_capability_url().'" data-tip="' . __('Capability Controller', 'wc-frontend-manager') . '"><span class="wcfmfa fa-user-times"></span></a>';
+
+			if ( $wcfm_is_allow_capability_controller = apply_filters( 'wcfm_is_allow_capability_controller', true ) ) {
+				echo '<a id="wcfm_capability_settings" class="add_new_wcfm_ele_dashboard text_tip" href="' . get_wcfm_capability_url() . '" data-tip="' . __( 'Capability Controller', 'wc-frontend-manager' ) . '"><span class="wcfmfa fa-user-times"></span></a>';
 			}
-			
-			if( $has_new = apply_filters( 'wcfm_add_new_staff_sub_menu', true ) ) {
-				echo '<a class="add_new_wcfm_ele_dashboard text_tip" href="'.get_wcfm_shop_staffs_manage_url().'" data-tip="' . __('Add New Staff', 'wc-frontend-manager-groups-staffs') . '"><span class="wcfmfa fa-user-plus"></span><span class="text">' . __( 'Add New', 'wc-frontend-manager' ) . '</span></a>';
+
+			if ( $has_new = apply_filters( 'wcfm_add_new_staff_sub_menu', true ) ) {
+				echo '<a class="add_new_wcfm_ele_dashboard text_tip" href="' . get_wcfm_shop_staffs_manage_url() . '" data-tip="' . __( 'Add New Staff', 'wc-frontend-manager-groups-staffs' ) . '"><span class="wcfmfa fa-user-plus"></span><span class="text">' . __( 'Add New', 'wc-frontend-manager' ) . '</span></a>';
 			}
 			?>
 			

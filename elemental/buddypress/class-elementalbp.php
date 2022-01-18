@@ -106,7 +106,7 @@ class ElementalBP {
 	 */
 	public function enqueue_bp_script() {
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
-		//wp_enqueue_script( 'youzify-buddypress', plugins_url( '/js/buddypress.js', __FILE__ ), array( 'jquery' ), $plugin_version, true );
+		// wp_enqueue_script( 'youzify-buddypress', plugins_url( '/js/buddypress.js', __FILE__ ), array( 'jquery' ), $plugin_version, true );
 	}
 
 }

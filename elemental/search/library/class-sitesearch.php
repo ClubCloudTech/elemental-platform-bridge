@@ -151,8 +151,8 @@ class SiteSearch {
 				add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( GroupSearch::class ), 'group_search_response' ), 10, 2 );
 
 			}
-			//TODO @fred - remove line after go live testing.
-			//add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_bp_legacy' ) );
+			// TODO @fred - remove line after go live testing.
+			// add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_bp_legacy' ) );
 		}
 		if ( $bbpress_available && $logged_in ) {
 			add_filter( 'elemental_search_template_render', array( Factory::get_instance( ForumSearch::class ), 'render_forum_tabs' ), 5, 3 );
@@ -182,7 +182,10 @@ class SiteSearch {
 		$WCFM->library->load_select2_lib();
 		wp_enqueue_script( 'wc-country-select' );
 		$WCFMmp->library->load_map_lib();
-		wp_enqueue_script( 'wcfmmp_store_list_js', \plugins_url( '/../js/elemental-script-store-lists.js', \realpath( __FILE__ ) ), array( 'jquery' ), $plugin_version . \wp_rand( 1, 2000 ), true );
+		wp_register_script( 'wcfmmp_store_list_js', \plugins_url( '/../js/elemental-script-store-lists.js', \realpath( __FILE__ ) ), array( 'jquery' ), $plugin_version . \wp_rand( 1, 2000 ), true );
+
+		wp_enqueue_script( 'wcfmmp_store_list_js' );
+
 		wp_enqueue_style( 'wcfmmp_store_list_css', $WCFMmp->library->css_lib_url_min . 'store-lists/wcfmmp-style-stores-list.css', array(), $WCFMmp->version );
 		wp_localize_script(
 			'wcfmmp_store_list_js',

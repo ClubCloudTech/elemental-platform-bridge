@@ -195,8 +195,8 @@ class GroupSearch {
 	 */
 	public function elemental_set_loop_query( $loop ) {
 		global $elemental_group_loop_arguments;
-		$loop['user_id']= null;
-		$loop = shortcode_atts( $loop, $elemental_group_loop_arguments, 'elemental_groups_atts' );
+		$loop['user_id'] = null;
+		$loop            = shortcode_atts( $loop, $elemental_group_loop_arguments, 'elemental_groups_atts' );
 
 		return $loop;
 	}

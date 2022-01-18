@@ -62,7 +62,7 @@ if ( function_exists( 'yz_members_directory_class' ) ) {
 			<div class="elemental-directory-filter elemental-separation-header elemental-block-separation">
 				<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Members Directory Main Navigation', 'myvideoroom' ); ?>" role="navigation">
 					<ul>
-						<li class="selected elemental-refresh-member-search-trigger" id="members-all"><a href="<?php bp_members_directory_permalink(); ?>"><?php esc_html_e( 'All Members', 'myvideoroom' ) ; ?></a></li>
+						<li class="selected elemental-refresh-member-search-trigger" id="members-all"><a href="<?php bp_members_directory_permalink(); ?>"><?php esc_html_e( 'All Members', 'myvideoroom' ); ?></a></li>
 
 						<?php if ( is_user_logged_in() && bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
 							<li id="members-personal"><a href="<?php echo esc_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/my-friends/' ); ?>"><?php printf( __( 'Konnections %s', 'myvideoroom' ), '<span>' . bp_get_total_friend_count( bp_loggedin_user_id() ) . '</span>' ); ?></a></li>

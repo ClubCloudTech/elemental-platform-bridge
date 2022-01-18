@@ -58,7 +58,7 @@ class MembershipSetup {
 	 * @return bool
 	 */
 	public function is_page_elementor(): bool {
-		$url= "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		$url        = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		$admin_page = strpos( $url, 'wp-admin' );
 		$elementor  = strpos( $url, 'elementor' );
 		if ( $admin_page || $elementor ) {

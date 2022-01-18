@@ -54,10 +54,10 @@ class Admin {
 		Factory::get_instance( MVRAdmin::class )->init();
 
 		$tabs = array(
-			'admin-settings-membership' => 'Membership Settings',
-			'admin-settings-plugin'     => 'Plugin Settings',
-			'admin-settings-bookings'   => 'WooComm Bookings Integration',
-			'admin-settings-wcfm'       => 'WCFM Store Integration',
+			'admin-settings-membership' => \esc_html__( 'Membership Settings', 'myvideoroom' ),
+			'admin-settings-plugin'     => \esc_html__( 'Plugin Settings', 'myvideoroom' ),
+			'admin-settings-bookings'   => \esc_html__( 'WooComm Bookings Integration', 'myvideoroom' ),
+			'admin-settings-wcfm'       => \esc_html__( 'WCFM Store Integration', 'myvideoroom' ),
 		);
 
 		if ( ! $active_tab || ! isset( $tabs[ $active_tab ] ) ) {
@@ -83,7 +83,7 @@ class Admin {
 	 */
 	public function proxy_test_function() {
 		// Factory::get_instance( Security::class )->activate_module();
-		//Factory::get_instance( MembershipShortCode::class )->render_membership_shortcode();
+		// Factory::get_instance( MembershipShortCode::class )->render_membership_shortcode();
 		return null;
 	}
 }

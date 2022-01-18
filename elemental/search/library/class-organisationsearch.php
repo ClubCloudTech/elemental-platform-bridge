@@ -64,7 +64,7 @@ class OrganisationSearch {
 
 		if ( $search_term || $page_num ) {
 			$premium_display = null;
-			$main_display = \do_shortcode( '[elemental_show_stores ' . $pagedinfo . 'search_term="' . $search_term . '" ' . $baseinfo . ' theme="simple" has_map="no" has_orderby="yes" ]' );
+			$main_display    = \do_shortcode( '[elemental_show_stores ' . $pagedinfo . 'search_term="' . $search_term . '" ' . $baseinfo . ' theme="simple" has_map="no" has_orderby="yes" ]' );
 		} else {
 			$premium_display = \do_shortcode( '[wcfm_stores_carousel theme="simple" include_membership="' . get_option( WCFMHelpers::SETTING_WCFM_PREMIUM_MEMBERSHIPS ) . '" ]' );
 			$main_display    = \do_shortcode( '[elemental_show_stores  ' . $baseinfo . ' paged =1 theme="simple" has_map="no" has_orderby="yes" ]' );
@@ -152,7 +152,7 @@ class OrganisationSearch {
 			'has_map'            => 'yes',
 		);
 
-		$attr = shortcode_atts( apply_filters( 'wcfmmp_stores_default_args', $defaults ), $atts );
+		$attr     = shortcode_atts( apply_filters( 'wcfmmp_stores_default_args', $defaults ), $atts );
 		$paged    = max( 1, $attr['paged'] );
 		$base_url = $attr['baseurl'];
 
@@ -361,7 +361,7 @@ class OrganisationSearch {
 			$attr,
 			$search_data
 		);
-		//global $template_args;
+		// global $template_args;
 		$WCFMmp->template->get_template( 'store-lists/wcfmmp-view-store-lists.php', $template_args );
 		return ob_get_clean();
 	}

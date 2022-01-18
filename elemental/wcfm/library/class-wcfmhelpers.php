@@ -90,20 +90,25 @@ class WCFMHelpers {
 		} else {
 			$owner_id = Factory::get_instance( WCFMTools::class )->get_wcfm_page_owner();
 			if ( ! $owner_id ) {
-				echo '<h1>No Valid Owner Found</h1>';
+				echo '<h1>' . esc_html__( 'No Valid Owner Found', 'myvideoroom' ) . '</h1>';
 				return null;
 			}
+		}
+		// Individual Store Template Switch.
+		$individual_store_template = $this->premium_template_mappings( $owner_id );
+		if ( $individual_store_template ) {
+			return $individual_store_template;
 		}
 
 		$membership_level = Factory::get_instance( ElementalUMPDAO::class )->get_all_active_ump_levels( $owner_id, true );
 		if ( ! $membership_level ) {
-			echo '<h1>No Valid User Memberships Found</h1>';
+			echo '<h1>' . esc_html__( 'No Valid User Memberships Found', 'myvideoroom' ) . '</h1>';
 			return null;
 		}
 		$data_object = Factory::get_instance( MembershipDAO::class )->get_limit_info( intval( $membership_level[0] ) );
 		$template    = $data_object->template;
 		if ( ! $template ) {
-			echo '<h1>No Valid Template Found</h1>';
+			echo '<h1>' . esc_html__( 'No Valid Template Found', 'myvideoroom' ) . '</h1>';
 			return null;
 		}
 		return $template;
@@ -137,8 +142,11 @@ class WCFMHelpers {
 		} else {
 			$user_id = \get_current_user_id();
 		}
+		if ( ! \is_user_logged_in() ) {
+			return '';
+		}
 		$url    = Factory::get_instance( ElementalBP::class )->get_buddypress_profile_url( $user_id );
-		$output = '<a href="' . $url . '" class="elementor-item">' . esc_html__( 'My Profile', 'myvideoroom' ) . '</a>';
+		$output = '<a href="' . $url . '" class="elementor-item">' . esc_html__( 'Profile', 'myvideoroom' ) . '</a>';
 		return $output;
 	}
 
@@ -242,5 +250,25 @@ class WCFMHelpers {
 		$link  = get_permalink( $pages['wc_frontend_manager_page_id'] );
 		return $link;
 	}
+
+	/**
+	 * Premium Organisation Mappings
+	 * Returns mapping of premium templates that are custom.
+	 * Add a user ID to the list as a case with an elementor template number to give it a custom template.
+	 *
+	 * @param int $owner_id - Owner ID.
+	 * @return ?int
+	 */
+	public function premium_template_mappings( int $owner_id ): ?int {
+
+		switch ( $owner_id ) {
+			// Civata Global.
+			case 126:
+				return 49705;
+			default:
+				return null;
+		}
+	}
+
 
 }
