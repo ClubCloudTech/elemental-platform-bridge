@@ -1,6 +1,6 @@
 <?php
 /**
- * Installs and uninstalls the plugin
+ * Installs and uninstalls the plugin.
  *
  * @package ElementalPlugin\Admin
  */
