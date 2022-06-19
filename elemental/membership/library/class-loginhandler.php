@@ -14,7 +14,7 @@ use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Membership\Onboard;
 use ElementalPlugin\WCFM\Library\WCFMTools;
 use \MyVideoRoomPlugin\Library\Ajax;
-use \MyVideoRoomPlugin\Library\HttpGet;
+use ElementalPlugin\Library\HttpGet;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -176,7 +176,7 @@ class LoginHandler {
 			$url = \get_site_url() . '/logout/';
 			wp_logout();
 			\wp_safe_redirect( $url );
-			// die();
+
 		}
 		$noncechild = $http_get_library->get_string_parameter( 'noncechild' );
 		if ( 'child' === $action && \wp_verify_nonce( $noncechild, 'child' ) ) {
