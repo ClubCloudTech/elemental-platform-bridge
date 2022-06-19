@@ -14,7 +14,6 @@ use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\WCFM\Library\WCFMHelpers;
 use ElementalPlugin\WCFM\Library\WCFMTools;
 
-// phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
 
 /**
  * Class WCFMShortcodes - Display Shortcodes for WCFM Integration
