@@ -1,6 +1,6 @@
 <?php
 /**
- * Installs and uninstalls the plugin - fred edit
+ * Installs and uninstalls the plugin - fred edit konkey dong
  *
  * @package ElementalPlugin\Admin
  */
