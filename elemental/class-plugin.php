@@ -13,6 +13,7 @@ use ElementalPlugin\BuddyPress\ElementalBP;
 use ElementalPlugin\Core\FiltersUtilities;
 use ElementalPlugin\Library\ElementalFunctions;
 use ElementalPlugin\Library\Version;
+use ElementalPlugin\Membership\Library\LoginHandler;
 use ElementalPlugin\Membership\Membership;
 use ElementalPlugin\Menus\ElementalMenus;
 use ElementalPlugin\Search\Search;
@@ -50,6 +51,10 @@ class Plugin {
 
 		$this->styles();
 		add_filter( 'xmlrpc_enabled', '__return_false' );
+
+		// Handles Login Redirect Handlers.
+		add_action( 'init', array( Factory::get_instance( LoginHandler::class ), 'elemental_login_switch_hook' ) );
+		add_action( 'wp_login', array( Factory::get_instance( LoginHandler::class ), 'elemental_add_staff_account_cookie_hook' ), 10, 2 );
 
 	}
 	/**

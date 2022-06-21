@@ -21,10 +21,8 @@ use ElementalPlugin\Library\HttpGet;
  */
 class LoginHandler {
 
-	const SHORTCODE_LOGOUT_SWITCH       = 'elemental_logout';
-	const SHORTCODE_LOGOUT              = 'elemental_logout_url';
-	const SHORTCODE_BP_PROFILE_REDIRECT = 'elemental_profile_redirect';
-
+	const SHORTCODE_LOGOUT_SWITCH = 'elemental_logout';
+	const SHORTCODE_LOGOUT        = 'elemental_logout_url';
 	const SHORTCODE_LEGACY_LOGOUT = 'cclogout';
 	const SHORTCODE_LEGACY_LOGIN  = 'ccloginswitch';
 	const SHORTCODE_LOGIN_SWITCH  = 'elemental_login';
@@ -43,7 +41,7 @@ class LoginHandler {
 		add_shortcode( self::SHORTCODE_LOGOUT, array( $this, 'elemental_logout' ) );
 		add_shortcode( self::SHORTCODE_LOGIN_SWITCH, array( $this, 'elemental_loginswitch' ) );
 		add_shortcode( self::SHORTCODE_LOGIN_BUTTON, array( $this, 'elemental_login_out' ) );
-		add_shortcode( self::SHORTCODE_BP_PROFILE_REDIRECT, array( $this, 'bp_profile_redirect' ) );
+
 
 		// Legacy Shortcodes.
 		add_shortcode( self::SHORTCODE_LEGACY_LOGOUT, array( $this, 'elemental_logout' ) );
@@ -91,6 +89,7 @@ class LoginHandler {
 	/**
 	 * Login/Out Button Generation Shortcode.
 	 * Renders Login/Out or admin mode buttons and redirects.
+	 * Starts by understanding if there are sufficient staff accounts, if not - forces their creation
 	 *
 	 * @return string
 	 */
@@ -103,13 +102,15 @@ class LoginHandler {
 		$is_setup = Factory::get_instance( Onboard::class )->decode_setup_cookie();
 		// Case recently created first time vendor with setup cookie- adding child admin account.
 		if ( $is_vendor && $is_setup ) {
+
 			$staff_id = Factory::get_instance( WCFMTools::class )->elemental_get_staff_member_ids();
+
 			if ( count( $staff_id ) === 1 ) {
 				$this->create_user_child_cookie( $staff_id[0] );
 				$url = \get_site_url() . '/control/';
+				Factory::get_instance( Onboard::class )->delete_setup_cookie();
 				// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
 				echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
-				Factory::get_instance( Onboard::class )->delete_setup_cookie();
 				die();
 			}
 		}
@@ -126,7 +127,8 @@ class LoginHandler {
 					$output    .= '<a href="' . $url . '" class="elemental-host-link elemental-buttonlink-border">' . esc_html__( 'Exit Admin Mode', 'myvideoroom' ) . '</a>';
 				}
 			} else {
-				// Insufficient Admin Accounts - so redirect to Admin Account Addin page.
+
+				// There are Insufficient Admin Accounts - so redirect to Admin Account Addin page.
 				$url = \get_site_url() . '/control/manage-accounts/firstadmin/';
 				// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
 				echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
@@ -135,7 +137,7 @@ class LoginHandler {
 		}
 		// Case Normal Staff Member - need to encode user id in cookie so Parent account knows which user to return to.
 		if ( $is_staff ) {
-			$this->create_user_child_cookie();
+
 			$nonceparent = \wp_create_nonce( 'parent' );
 			$url         = get_site_url() . '/login?action=parent&nonceparent=' . $nonceparent;
 			$output     .= '<a href="' . $url . '" class="elemental-host-link elemental-buttonlink-border">' . esc_html__( 'Switch To Admin Mode', 'myvideoroom' ) . '</a>';
@@ -160,36 +162,46 @@ class LoginHandler {
 	}
 
 	/**
-	 * Login Switch
-	 * Renders the shortcode to correctly login and out users, and handle admin/child context switches for vendors.
+	 * Login Hook
+	 * Renders hook handler to manage logins.
 	 *
 	 * @return string
 	 */
-	public function elemental_loginswitch() {
+	public function elemental_login_switch_hook() {
+
 		$http_get_library = Factory::get_instance( HttpGet::class );
 		$action           = $http_get_library->get_string_parameter( 'action' );
 		$nonce            = $http_get_library->get_string_parameter( 'nonce' );
+		if ( ! $action && ! $nonce ) {
+			return;
+		}
+
+		$is_staff  = Factory::get_instance( UserRoles::class )->is_wcfm_shop_staff();
 
 		if ( 'logout' === $action && \wp_verify_nonce( $nonce, 'logout' ) ) {
-
 			add_filter( 'wp_redirect', array( $this, 'logout_filter_redirect' ), 99, 1 );
 			$url = \get_site_url() . '/logout/';
 			wp_logout();
+			$this->delete_child_cookie();
 			\wp_safe_redirect( $url );
-
+			die();
 		}
 		$noncechild = $http_get_library->get_string_parameter( 'noncechild' );
 		if ( 'child' === $action && \wp_verify_nonce( $noncechild, 'child' ) ) {
 			Factory::get_instance( WCFMTools::class )->login_to_child_account();
-			$url = \get_site_url() . '/loginlanding/';
+			$url = \get_site_url() . '/settings/loginlanding/';
 			\wp_safe_redirect( $url );
-			// die();
+			die();
 		}
 		// Login to Parent Account if coming from Child with Correct Security.
 		$nonceparent = $http_get_library->get_string_parameter( 'nonceparent' );
 		if ( 'parent' === $action && \wp_verify_nonce( $nonceparent, 'parent' ) ) {
 			Factory::get_instance( WCFMTools::class )->login_to_parent_account();
+			$url = \get_site_url() . '/settings/loginlanding/';
+			\wp_safe_redirect( $url );
+			die();
 		}
+
 		$is_vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
 		if ( $is_vendor ) {
 			// Decide Correct Redirect Path based on Staff Account Count.
@@ -199,31 +211,46 @@ class LoginHandler {
 			} else {
 				$url = \get_site_url() . '/control/manage-accounts/firstadmin/';
 			}
-			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
-			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
-			// die();
+			\wp_safe_redirect( $url );
+			die();
+
 		}
+	}
+
+
+	/**
+	 * Add Staff Acount Cookie
+	 * Renders hook handler to manage logins.
+	 *
+	 * @param string $user_login - not used.
+	 * @param object $user_object - The passed in object from the hook.
+	 *
+	 * @return void
+	 */
+	public function elemental_add_staff_account_cookie_hook( string $user_login, object $user_object ):void {
+
+		$is_staff = Factory::get_instance( UserRoles::class )->is_wcfm_shop_staff( $user_object->ID );
+
+		if ( $is_staff ) {
+			$this->create_user_child_cookie( $user_object->ID );
+		}
+
+	}
+
+	/**
+	 * Login Switch
+	 * Renders the shortcode to correctly login and out users, and handle admin/child context switches for vendors.
+	 *
+	 * @return string
+	 */
+	public function elemental_loginswitch() {
 
 		$template_id = intval( get_option( self::SETTING_LOGIN_SWITCH_TEMPLATE ) );
 
 		return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 	}
 
-	/**
-	 * BuddyPress Profile Redirect Shortcode for Login Landing Page.
-	 *
-	 * @return string
-	 */
-	public function bp_profile_redirect() {
-		if ( ! \is_user_logged_in() ) {
-			return null;
-		}
-		$user_id = \get_current_user_id();
-		$url     = Factory::get_instance( ElementalBP::class )->get_buddypress_profile_url( $user_id );
-		// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
-		echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
-		die();
-	}
+
 
 
 	/**
@@ -319,9 +346,7 @@ class LoginHandler {
 	 * @return void
 	 */
 	public function create_user_child_cookie( int $user_id = null ): void {
-		if ( ! \is_user_logged_in() ) {
-			return;
-		}
+
 		if ( ! $user_id ) {
 			$user_id = \get_current_user_id();
 		}

@@ -436,6 +436,7 @@ class WCFMTools {
 	 * @return void
 	 */
 	public function login_to_parent_account(): void {
+
 		if ( ! is_user_logged_in() || ! Factory::get_instance( UserRoles::class )->is_wcfm_shop_staff() || Factory::get_instance( UserRoles::class )->is_wcfm_vendor() ) {
 			return;
 		}
@@ -443,11 +444,10 @@ class WCFMTools {
 		// Get Parent Account ID.
 		$user_id   = \get_current_user_id();
 		$parent_id = $this->staff_to_parent( $user_id );
-		$user_obj  = \get_user_by( 'id', $parent_id );
 		wp_logout();
-		wp_set_current_user( $parent_id );
+		$user = wp_set_current_user( $parent_id );
 		wp_set_auth_cookie( $parent_id );
-		do_action( 'wp_login', $user_obj->user_email, $user_obj );
+		do_action( 'wp_login', $user->user_email, $user );
 
 	}
 	/**
@@ -461,20 +461,20 @@ class WCFMTools {
 			return;
 		}
 		// Get Parent Account ID.
+
 		$user_id   = Factory::get_instance( LoginHandler::class )->decode_user_child_cookie();
 		$parent_id = $this->staff_to_parent( $user_id );
 		$my_id     = \get_current_user_id();
+
 		// Calculate this is my child (if not exit for security).
 		if ( $parent_id !== $my_id ) {
 			return;
 		}
 
-		$user_obj = \get_user_by( 'id', $user_id );
 		wp_logout();
-		wp_set_current_user( $user_id );
+		$user = wp_set_current_user( $user_id );
 		wp_set_auth_cookie( $user_id );
-		do_action( 'wp_login', $user_obj->user_email, $user_obj );
-		unset( $_COOKIE['staffsessionid'] );
+		do_action( 'wp_login', $user->user_email, $user );
 
 	}
 

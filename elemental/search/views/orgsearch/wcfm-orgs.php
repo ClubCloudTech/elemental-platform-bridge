@@ -39,7 +39,7 @@ return function (
 		}
 		?>
 		<div class="elemental-main-orgs">
-			<h1 class="elemental-login-button"><?php \esc_html_e( 'All UAM Organisations', 'myvideoroom ' ); ?></h1>
+			<h1 class="elemental-login-button"><?php \esc_html_e( 'All Organisations', 'myvideoroom ' ); ?></h1>
 			<?php
 				//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped - output is an escaped shortcode.
 				echo $main_display;

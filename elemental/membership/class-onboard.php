@@ -97,13 +97,18 @@ class Onboard {
 	}
 
 	/**
-	 * Delete Cookie for Setup Mode
+	 * Delete Cookie to exit Setup Mode
 	 *
 	 * @return void
 	 */
 	public function delete_setup_cookie(): void {
-		unset( $_COOKIE['setupid'] );
-		setcookie( 'setupid', null, time() - 1000, '/' );
+
+		if ( isset( $_COOKIE['setupid'] ) ) {
+			unset( $_COOKIE['setupid'] );
+			setcookie( 'setupid', '', time() - 86400, '/' );
+			// Using Javascript as cookie unset happens too late in browser evaluation for PHP and Javascript needs to do it.
+			echo '<script type="text/javascript"> document.cookie = "setupid=; Max-Age=0; path=/; domain="</script>';
+		}
 	}
 
 	/**

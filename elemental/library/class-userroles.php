@@ -50,18 +50,28 @@ class UserRoles {
 	/**
 	 * Is the current WordPress user a WCFM Vendor?
 	 *
+	 * @param int $user_id - the user_id.
 	 * @return bool
 	 */
-	public function is_wcfm_vendor(): bool {
+	public function is_wcfm_vendor( int $user_id = null ): bool {
+		if ( $user_id ) {
+			$user       = \get_user_by( 'id', $user_id );
+			$this->user = $user;
+		}
 		return $this->user_has_role( 'wcfm_vendor' );
 	}
 
 	/**
 	 * Is the current WordPress user a WCFM Shop Staff Member?
 	 *
+	 * @param int $user_id - the user_id.
 	 * @return bool
 	 */
-	public function is_wcfm_shop_staff(): bool {
+	public function is_wcfm_shop_staff( int $user_id = null ): bool {
+		if ( $user_id ) {
+			$user       = \get_user_by( 'id', $user_id );
+			$this->user = $user;
+		}
 		return $this->user_has_role( 'shop_staff' );
 	}
 

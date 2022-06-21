@@ -18,7 +18,8 @@ use ElementalPlugin\WCFM\Library\WCFMTools;
  */
 class ElementalBP {
 
-	const SHORTCODE_PROFILE_URL = 'elemental_profileurl';
+	const SHORTCODE_PROFILE_URL         = 'elemental_profileurl';
+	const SHORTCODE_BP_PROFILE_REDIRECT = 'elemental_profile_redirect';
 
 	/**
 	 * Runtime Shortcodes and Setup
@@ -30,6 +31,8 @@ class ElementalBP {
 		\add_action( 'yz_activity_scripts', array( $this, 'enqueue_bp_script' ) );
 		$this->enqueue_bp_script();
 		Factory::get_instance( BuddyPress::class )->init();
+
+		add_shortcode( self::SHORTCODE_BP_PROFILE_REDIRECT, array( $this, 'bp_profile_redirect' ) );
 	}
 	/**
 	 * Activate Functions for Membership.
@@ -108,6 +111,25 @@ class ElementalBP {
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
 		// wp_enqueue_script( 'youzify-buddypress', plugins_url( '/js/buddypress.js', __FILE__ ), array( 'jquery' ), $plugin_version, true );
 	}
+
+	/**
+	 * BuddyPress Profile Redirect Shortcode for Login Landing Page.
+	 * Redirects a user landing in this page to the Users Buddypress ID.
+	 *
+	 * @return string
+	 */
+	public function bp_profile_redirect() {
+
+		if ( ! \is_user_logged_in() ) {
+			return null;
+		}
+		$user_id = \get_current_user_id();
+		$url     = $this->get_buddypress_profile_url( $user_id );
+		// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
+		echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+		die();
+	}
+
 
 }
 
