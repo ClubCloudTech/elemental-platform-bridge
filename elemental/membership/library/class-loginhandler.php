@@ -191,7 +191,7 @@ class LoginHandler {
 		if ( 'child' === $action && \wp_verify_nonce( $noncechild, 'child' ) ) {
 			Factory::get_instance( WCFMTools::class )->login_to_child_account();
 			$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
-			$url = get_permalink( $template );
+			$url      = get_permalink( $template );
 			\wp_safe_redirect( $url );
 			die();
 		}
@@ -200,8 +200,7 @@ class LoginHandler {
 		if ( 'parent' === $action && \wp_verify_nonce( $nonceparent, 'parent' ) ) {
 			Factory::get_instance( WCFMTools::class )->login_to_parent_account();
 			$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
-			$url = get_permalink( $template );
-			echo $url;
+			$url      = get_permalink( $template );
 			\wp_safe_redirect( $url );
 			die();
 		}
