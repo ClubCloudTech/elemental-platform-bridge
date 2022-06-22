@@ -72,7 +72,7 @@ class MembershipAjax {
 		}
 
 		/*
-		* Update Membership Limit section.
+		* Update Store Template Function
 		*
 		*/
 		if ( 'update_template' === $action_taken ) {
@@ -81,6 +81,22 @@ class MembershipAjax {
 
 			if ( $update ) {
 				$response['feedback'] = \esc_html__( 'Template Updated', 'myvideoroom' );
+			} else {
+				$response['feedback'] = \esc_html__( 'Update Failed', 'myvideoroom' ) . $membership_level . '->' . $set_value;
+			}
+			return \wp_send_json( $response );
+		}
+
+		/*
+		* Update Landing Template Section.
+		*
+		*/
+		if ( 'update_landing_template' === $action_taken ) {
+
+			$update = Factory::get_instance( MembershipDAO::class )->update_landing_template( \intval( $set_value ), \intval( $membership_level ) );
+
+			if ( $update ) {
+				$response['feedback'] = \esc_html__( 'Landing Template Updated', 'myvideoroom' );
 			} else {
 				$response['feedback'] = \esc_html__( 'Update Failed', 'myvideoroom' ) . $membership_level . '->' . $set_value;
 			}

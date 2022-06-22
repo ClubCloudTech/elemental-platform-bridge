@@ -15,6 +15,8 @@ use ElementalPlugin\Membership\Onboard;
 use ElementalPlugin\WCFM\Library\WCFMTools;
 use \MyVideoRoomPlugin\Library\Ajax;
 use ElementalPlugin\Library\HttpGet;
+use ElementalPlugin\UltimateMembershipPro\Library\UMPMemberships;
+use ElementalPlugin\UltimateMembershipPro\DAO\ElementalUMPDAO;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -41,7 +43,6 @@ class LoginHandler {
 		add_shortcode( self::SHORTCODE_LOGOUT, array( $this, 'elemental_logout' ) );
 		add_shortcode( self::SHORTCODE_LOGIN_SWITCH, array( $this, 'elemental_loginswitch' ) );
 		add_shortcode( self::SHORTCODE_LOGIN_BUTTON, array( $this, 'elemental_login_out' ) );
-
 
 		// Legacy Shortcodes.
 		add_shortcode( self::SHORTCODE_LEGACY_LOGOUT, array( $this, 'elemental_logout' ) );
@@ -176,7 +177,7 @@ class LoginHandler {
 			return;
 		}
 
-		$is_staff  = Factory::get_instance( UserRoles::class )->is_wcfm_shop_staff();
+		$is_staff = Factory::get_instance( UserRoles::class )->is_wcfm_shop_staff();
 
 		if ( 'logout' === $action && \wp_verify_nonce( $nonce, 'logout' ) ) {
 			add_filter( 'wp_redirect', array( $this, 'logout_filter_redirect' ), 99, 1 );
@@ -189,7 +190,8 @@ class LoginHandler {
 		$noncechild = $http_get_library->get_string_parameter( 'noncechild' );
 		if ( 'child' === $action && \wp_verify_nonce( $noncechild, 'child' ) ) {
 			Factory::get_instance( WCFMTools::class )->login_to_child_account();
-			$url = \get_site_url() . '/settings/loginlanding/';
+			$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
+			$url = get_permalink( $template );
 			\wp_safe_redirect( $url );
 			die();
 		}
@@ -197,7 +199,9 @@ class LoginHandler {
 		$nonceparent = $http_get_library->get_string_parameter( 'nonceparent' );
 		if ( 'parent' === $action && \wp_verify_nonce( $nonceparent, 'parent' ) ) {
 			Factory::get_instance( WCFMTools::class )->login_to_parent_account();
-			$url = \get_site_url() . '/settings/loginlanding/';
+			$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
+			$url = get_permalink( $template );
+			echo $url;
 			\wp_safe_redirect( $url );
 			die();
 		}

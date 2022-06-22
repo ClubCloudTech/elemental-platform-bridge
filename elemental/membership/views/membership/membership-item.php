@@ -52,6 +52,10 @@ return function (
 		<input type="number" min="0" max="10000" name="number_template" value="<?php echo esc_textarea( $memberships['template'] ); ?>" placeholder="" data-level = "<?php echo esc_textarea( $memberships['level'] ); ?>" id="number_template_<?php echo esc_textarea( $memberships['level'] ); ?>" class="elemental-membership-template" />
 		<div id="confirmation_template_<?php echo esc_textarea( $memberships['level'] ); ?>" class = "elemental-membership-displayconf"></div>
 		</td>
+		<td>
+		<input type="number" min="0" max="10000" name="number_template" value="<?php echo esc_textarea( $memberships['landing_template'] ); ?>" placeholder="" data-level = "<?php echo esc_textarea( $memberships['level'] ); ?>" id="number_landing_template_<?php echo esc_textarea( $memberships['level'] ); ?>" class="elemental-membership-landing-template" />
+		<div id="confirmation_template_<?php echo esc_textarea( $memberships['level'] ); ?>" class = "elemental-membership-displayconf"></div>
+		</td>
 	</tr>
 
 

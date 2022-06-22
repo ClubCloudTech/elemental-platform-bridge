@@ -42,7 +42,10 @@ return function (
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Template', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Store Template', 'my-video-room' ); ?>
+				</th>
+				<th scope="col" class="manage-column column-name column-primary">
+		<?php esc_html_e( 'Landing Template', 'my-video-room' ); ?>
 				</th>
 			</tr>
 		</thead>

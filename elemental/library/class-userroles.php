@@ -26,7 +26,7 @@ class UserRoles {
 	/**
 	 * UserRoles constructor.
 	 *
-	 * @param \WP_User|null $user
+	 * @param \WP_User|null $user - the user object.
 	 */
 	public function __construct( \WP_User $user = null ) {
 		if ( $user ) {
@@ -98,9 +98,10 @@ class UserRoles {
 	/**
 	 * Get current user WordPress Roles
 	 *
+	 * @param int $user_id - the user_id.
 	 * @return array of roles
 	 */
-	public function get_user_roles( $user_id = null ) {
+	public function get_user_roles( int $user_id = null ) {
 		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}

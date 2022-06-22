@@ -11,6 +11,7 @@ use ElementalPlugin\BuddyPress\Library\BuddyPress;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\WCFM\Library\WCFMTools;
+use ElementalPlugin\UltimateMembershipPro\Library\UMPMemberships;
 
 /**
  * Class ElementalBP
@@ -119,6 +120,13 @@ class ElementalBP {
 	 * @return string
 	 */
 	public function bp_profile_redirect() {
+
+		$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
+		if ( $template ) {
+			$url = get_permalink( $template );
+			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+			die();
+		}
 
 		if ( ! \is_user_logged_in() ) {
 			return null;

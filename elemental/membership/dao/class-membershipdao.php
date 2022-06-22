@@ -35,6 +35,7 @@ class MembershipDAO {
 			`woocomm_level` BIGINT UNSIGNED NOT NULL,
 			`user_limit` BIGINT UNSIGNED NOT NULL,
 			`template` BIGINT UNSIGNED NULL,
+			`landing_template` BIGINT UNSIGNED NULL,
 			PRIMARY KEY (`record_id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
 
@@ -42,7 +43,7 @@ class MembershipDAO {
 	}
 
 	/**
-	 * Register a given room in the Database, and ensure it does not already exist
+	 * Register an account limit
 	 *
 	 * @param int $user_limit       The User Limit to store.
 	 * @param int $membership_level The Membership Level.
@@ -72,6 +73,73 @@ class MembershipDAO {
 		}
 
 	}
+
+	/**
+	 * Register a Template Record
+	 *
+	 * @param int $template       The User Limit to store.
+	 * @param int $membership_level The Membership Level.
+	 *
+	 * @return string|int|false
+	 */
+	public function register_template_record( int $template, int $membership_level ) {
+		global $wpdb;
+
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$result = $wpdb->insert(
+			$this->get_table_name(),
+			array(
+				'membership_level' => $membership_level,
+				'template'         => $template,
+			)
+		);
+
+		\wp_cache_delete( $user_limit, __CLASS__ . '::get_limit_by_membership' );
+		\wp_cache_delete( $membership_level, __CLASS__ . '::get_all_membership_limits' );
+		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_membership_limits' );
+
+		if ( $result ) {
+			return $result;
+		} else {
+			return false;
+		}
+
+	}
+
+	/**
+	 * Register a Landing Template Record
+	 *
+	 * @param int $template       The Landing Template.
+	 * @param int $membership_level The Membership Level.
+	 *
+	 * @return string|int|false
+	 */
+	public function register_landing_template_record( int $template, int $membership_level ) {
+		global $wpdb;
+
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$result = $wpdb->insert(
+			$this->get_table_name(),
+			array(
+				'membership_level' => $membership_level,
+				'landing_template' => $template,
+			)
+		);
+
+		\wp_cache_delete( $user_limit, __CLASS__ . '::get_limit_by_membership' );
+		\wp_cache_delete( $membership_level, __CLASS__ . '::get_all_membership_limits' );
+		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_membership_limits' );
+
+		if ( $result ) {
+			return $result;
+		} else {
+			return false;
+		}
+
+	}
+
+
+
 
 	/**
 	 * Get the table name for this DAO.
@@ -135,6 +203,17 @@ class MembershipDAO {
 	public function update_template( int $template, int $membership_level ): ?bool {
 		global $wpdb;
 
+		// Check Record Exists.
+		$record_exists = $this->get_limit_info( $membership_level );
+		if ( ! $record_exists ) {
+			$success = $this->register_template_record( $user_limit, $membership_level );
+			if ( $success ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$success = $wpdb->query(
 			$wpdb->prepare(
@@ -154,7 +233,48 @@ class MembershipDAO {
 	}
 
 	/**
-	 * Delete a Room Record in Database.
+	 * Update Landing Template ID in the Database. Used for Control Panel Elemental.
+	 *
+	 * @param int $template       The Template ID.
+	 * @param int $membership_level Membership level to update.
+	 *
+	 * @return bool|null
+	 */
+	public function update_landing_template( int $template, int $membership_level ): ?bool {
+		global $wpdb;
+
+
+		// Check Record Exists.
+		$record_exists = $this->get_limit_info( $membership_level );
+		if ( ! $record_exists ) {
+			$success = $this->register_landing_template_record( $template, $membership_level );
+			if ( $success ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$success = $wpdb->query(
+			$wpdb->prepare(
+				'
+					UPDATE ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
+					SET landing_template = %d
+					WHERE membership_level = %d
+				',
+				$template,
+				$membership_level,
+			)
+		);
+
+		\wp_cache_delete( $membership_level, __CLASS__ . '::get_limit_info' );
+
+		return $success;
+	}
+
+
+	/**
+	 * Delete a Level Mapping.
 	 * This function will delete the room name in the database with the parameter.
 	 *
 	 * @param int $membership_level The Membership Level to query.
@@ -250,7 +370,7 @@ class MembershipDAO {
 			$result = $wpdb->get_row(
 				$wpdb->prepare(
 					'
-						SELECT record_id, membership_level, woocomm_level, user_limit, template
+						SELECT record_id, membership_level, woocomm_level, user_limit, template, landing_template
 						FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
 						WHERE membership_level = %d
 					',
@@ -265,10 +385,11 @@ class MembershipDAO {
 			\wp_cache_set( $membership_level, $result, __METHOD__ );
 		}
 		if ( $result ) {
-			$result             = (object) $result;
-			$result->id         = $result->membership_level;
-			$result->user_limit = $result->user_limit;
-			$result->template   = $result->template;
+			$result                   = (object) $result;
+			$result->id               = $result->membership_level;
+			$result->user_limit       = $result->user_limit;
+			$result->template         = $result->template;
+			$result->landing_template = $result->landing_template;
 		} else {
 			$result = null;
 		}
@@ -350,6 +471,9 @@ class MembershipDAO {
 			// Update Database to new Schema.
 			// V2.
 			$update_db = "ALTER TABLE `{$table_name}` ADD `template` BIGINT UNSIGNED NULL AFTER `user_limit`";
+
+			// V3.
+			$update_db = "ALTER TABLE `{$table_name}` ADD `landing_template` BIGINT UNSIGNED NULL AFTER `template`";
 			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
 			$wpdb->query( $wpdb->prepare( $update_db ) );
 
