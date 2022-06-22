@@ -295,8 +295,7 @@ console.log(level + value );
 							data: form_data,
 							success: function(response) {
 								var state_response = JSON.parse( response );
-								console.log( state_response.feedback );
-								if (state_response.feedback == true) {
+								if (state_response.status == true) {
 									if (state_response.table) {
 										account_window.html( state_response.table );
 									}
@@ -307,20 +306,26 @@ console.log(level + value );
 										counter_window.parent().empty();
 										parent_element.html( state_response.counter );
 									}
-
-									$( '#elemental-email-status' ).removeClass( 'elemental-checking' );
-									$( '#elemental-email-status' ).removeClass( 'elemental-invalid' );
-									$( '#elemental-email-status' ).removeClass( 'elemental-email-taken' );
-									$( '#elemental-email-status' ).addClass( 'elemental-email-available' );
-									$( '#elemental-email-status' ).html( 'Account Created' );
-									$( '#submit' ).prop( 'value', 'Account Created' );
-									$( '#submit' ).prop( 'disabled', true );
-									$( '#first_name' ).prop( 'value', '' );
-									$( '#last_name' ).prop( 'value', '' );
-									$( '#elemental-inbound-email' ).prop( 'value', '' );
-									$( '#elemental-email-status' ).attr( 'data-status', '' );
-									$( '#first-name-icon' ).hide();
-									$( '#last-name-icon' ).hide();
+									console.log ( 'stat' + state_response.status );
+									if (state_response.status == true ){
+										$( '#elemental-email-status' ).removeClass( 'elemental-checking' );
+										$( '#elemental-email-status' ).removeClass( 'elemental-invalid' );
+										$( '#elemental-email-status' ).removeClass( 'elemental-email-taken' );
+										$( '#elemental-email-status' ).addClass( 'elemental-email-available' );
+										$( '#elemental-email-status' ).html( 'Account Created' );
+										$( '#submit' ).prop( 'value', 'Account Created' );
+										$( '#submit' ).prop( 'disabled', true );
+										$( '#first_name' ).prop( 'value', '' );
+										$( '#last_name' ).prop( 'value', '' );
+										$( '#elemental-inbound-email' ).prop( 'value', '' );
+										$( '#elemental-email-status' ).attr( 'data-status', '' );
+										$( '#first-name-icon' ).hide();
+										$( '#last-name-icon' ).hide();
+									} 
+								} else {
+									$( '#elemental-email-status' ).removeClass( 'elemental-email-available' );
+									$( '#elemental-email-status' ).addClass( 'elemental-invalid' );
+									$( '#elemental-email-status' ).html( state_response.feedback );
 								}
 							},
 							error: function(response) {

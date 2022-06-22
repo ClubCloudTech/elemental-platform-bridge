@@ -139,15 +139,16 @@ class MembershipAjax {
 		*/
 		if ( 'create_user' === $action_taken ) {
 
-			$success = Factory::get_instance( MembershipUser::class )->create_wordpress_user( $first_name, $last_name, $email );
-
-			if ( $success ) {
-				$response['feedback'] = true;
-				$response['table']    = Factory::get_instance( MembershipShortCode::class )->generate_child_account_table();
-				$response['counter']  = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
+			$success_state        = Factory::get_instance( MembershipUser::class )->create_wordpress_user( $first_name, $last_name, $email );
+			$response['feedback'] = $success_state;
+			if ( 'Success' === $success_state ) {
+				$response['status']  = true;
+				$response['table']   = Factory::get_instance( MembershipShortCode::class )->generate_child_account_table();
+				$response['counter'] = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
 			} else {
-				$response['feedback'] = false;
+				$response['status'] = false;
 			}
+
 			return \wp_send_json( $response );
 		}
 

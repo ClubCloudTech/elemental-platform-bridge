@@ -34,18 +34,22 @@ class MembershipUser {
 	 * @param string $last_name  - User Last Name.
 	 * @param string $email      - User Email.
 	 *
-	 * @return bool
+	 * @return string
 	 */
-	public function create_wordpress_user( string $first_name, string $last_name, string $email ): bool {
+	public function create_wordpress_user( string $first_name, string $last_name, string $email ): string {
 		$quota_available = Factory::get_instance( MembershipUMP::class )->child_account_available_number();
-		if ( strlen( $first_name ) < 3 || strlen( $last_name ) < 3 || ! \sanitize_email( $email ) || \username_exists( $email ) || 0 === $quota_available ) {
-			return false;
+		if ( 0 === $quota_available ) {
+			return 'Insufficient Quota';
+		}
+
+		if ( strlen( $first_name ) < 3 || strlen( $last_name ) < 3 || ! \sanitize_email( $email ) || \username_exists( $email ) ) {
+			return null;
 		}
 
 		$password = wp_generate_password( 12, false );
 		$user_id  = wp_create_user( $email, $password, $email );
 		if ( ! $user_id ) {
-			return false;
+			return null;
 		}
 		// Notify User of Password.
 		$notify_user_status = $this->notify_new_child_user( $password, $email, $first_name );
@@ -64,7 +68,7 @@ class MembershipUser {
 		$parent_id = \get_current_user_id();
 		Factory::get_instance( MemberSyncDAO::class )->register_child_account( $user_id, $parent_id );
 
-		return true;
+		return 'Success';
 	}
 
 	/**
