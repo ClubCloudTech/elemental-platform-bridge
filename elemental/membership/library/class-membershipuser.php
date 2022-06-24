@@ -52,7 +52,7 @@ class MembershipUser {
 			return null;
 		}
 		// Notify User of Password.
-		$notify_user_status = $this->notify_new_child_user( $password, $email, $first_name );
+		$this->notify_new_child_user( $password, $email, $first_name );
 		// Update Additional User Parameters.
 		wp_update_user(
 			array(

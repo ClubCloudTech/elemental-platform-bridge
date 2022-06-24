@@ -68,7 +68,9 @@ class UMPMemberships {
 		}
 
 		$my_membership = Factory::get_instance( ElementalUMPDAO::class )->get_active_user_membership_levels( $user_id );
+
 		return $this->get_landing_template_by_ump_membership( intval( array_key_first( $my_membership ) ) );
+
 	}
 
 

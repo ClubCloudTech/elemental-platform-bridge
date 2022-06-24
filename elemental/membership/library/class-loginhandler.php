@@ -201,8 +201,13 @@ class LoginHandler {
 			Factory::get_instance( WCFMTools::class )->login_to_parent_account();
 			$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
 			$url      = get_permalink( $template );
-			\wp_safe_redirect( $url );
+			if ( ! $template ) {
+				esc_html_e( 'No Site Template for this subscription, Or subscription invalid', 'my-video-room');
+			} else {
+				\wp_safe_redirect( $url );
+			}
 			die();
+
 		}
 
 		$is_vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();

@@ -33,7 +33,7 @@ class Switches {
 		$user_roles = Factory::get_instance( UserRoles::class );
 
 		if ( ! \is_user_logged_in() ) {
-			return do_shortcode( '[elementor-template id="45228"]' );
+			return do_shortcode( '[elementor-template id="54290"]' );
 		}
 		if ( $user_roles->is_wordpress_administrator() ) {
 			return do_shortcode( '[elementor-template id="44805"]' );

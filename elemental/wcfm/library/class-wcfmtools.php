@@ -13,7 +13,6 @@ use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Membership\Library\LoginHandler;
-use ElementalPlugin\Membership\Onboard;
 
 /**
  * Class WCFM Search
@@ -29,7 +28,6 @@ class WCFMTools {
 		add_shortcode( self::SHORTCODE_DISPLAY_PRODUCT, array( $this, 'display_products' ) );
 
 	}
-
 
 	/**
 	 * Get WCFM Membership Levels.
@@ -444,6 +442,10 @@ class WCFMTools {
 		// Get Parent Account ID.
 		$user_id   = \get_current_user_id();
 		$parent_id = $this->staff_to_parent( $user_id );
+		if ( ! $parent_id ) {
+			esc_html_e('No Parent Active Subscription Found, or parent account deleted', 'my-video-room');
+			die();
+		}
 		wp_logout();
 		$user = wp_set_current_user( $parent_id );
 		wp_set_auth_cookie( $parent_id );
