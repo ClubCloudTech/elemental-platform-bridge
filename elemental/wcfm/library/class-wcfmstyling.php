@@ -53,7 +53,12 @@ class WCFMStyling {
 		if ( get_wcfm_url() !== $url ) {
 			return \do_shortcode( '[wc_frontend_manager]' );
 		} else {
-			return \do_shortcode( '[elementor-template id="' . \get_option( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID ) . '"]' );
+			$template = \do_shortcode( '[elementor-template id="' . \get_option( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID ) . '"]' );
+			if ( strlen( $template ) > 0 ) {
+				return $template;
+			} else {
+				return esc_html__( ' No Valid Template for Control Panel Page Found', 'elemental-plugin' );
+			}
 		}
 	}
 
