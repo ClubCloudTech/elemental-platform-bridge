@@ -11,7 +11,7 @@ declare(strict_types=1);
  * Plugin Name:         Elemental Platform by ClubCloud
  * Plugin URI:          https://clubcloud.tech
  * Description:         Adds user management, multi-entity onboarding, and integration support functions for Ultimate Member Pro, BuddyPress, WooCommerce, and WCFM.
- * Version:             0.9
+ * Version:             0.9mandy
  * Requires PHP:        7.4
  * Requires at least:   5.6
  * Author:              Fred Mocellin, Alex Dale
