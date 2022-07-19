@@ -15,7 +15,7 @@ use ElementalPlugin\WCFM\Library\WCFMStyling;
 use ElementalPlugin\WCFM\Library\WCFMTools;
 
 /**
- * Class WCFM Connect
+ * Class WCFM Connect..
  */
 class WCFM {
 
