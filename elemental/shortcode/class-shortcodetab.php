@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\ShortCode;
 
-use \MyVideoRoomPlugin\Entity\MenuTabDisplay;
+use ElementalPlugin\Entity\MenuTabDisplay;
 
 
 /**

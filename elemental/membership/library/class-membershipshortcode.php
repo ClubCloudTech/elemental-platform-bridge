@@ -10,7 +10,6 @@ namespace ElementalPlugin\Membership\Library;
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
 
 use ElementalPlugin\Factory;
-use \MyVideoRoomPlugin\Module\SiteVideo\Library\MVRSiteVideoViews;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -50,7 +49,13 @@ class MembershipShortCode {
 		$accounts_remaining  = $this->render_remaining_account_count( $user_id );
 		$child_account_table = $this->generate_child_account_table();
 		if ( ! \is_user_logged_in() ) {
-			$login_form = Factory::get_instance( MVRSiteVideoViews::class )->render_login_page();
+
+			$args       = array(
+				'echo'     => false,
+				'redirect' => get_permalink( get_the_ID() ),
+				'remember' => true,
+			);
+			$login_form = wp_login_form( $args );
 		}
 		$render              = ( require __DIR__ . '/../views/membership/manage-child.php' );
 		$manage_account_form = ( require __DIR__ . '/../views/membership/add-new-user.php' );

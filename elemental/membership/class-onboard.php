@@ -10,7 +10,7 @@ namespace ElementalPlugin\Membership;
 
 use ElementalPlugin\Admin;
 use ElementalPlugin\Factory;
-use \MyVideoRoomPlugin\Library\MeetingIdGenerator;
+use ElementalPlugin\Library\MeetingIdGenerator;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
