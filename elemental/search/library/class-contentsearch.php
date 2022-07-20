@@ -11,7 +11,7 @@ namespace ElementalPlugin\Search\Library;
 
 use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Factory;
-use \MyVideoRoomPlugin\Library\Ajax;
+use ElementalPlugin\Library\Ajax;
 
 /**
  * Content Search Functions

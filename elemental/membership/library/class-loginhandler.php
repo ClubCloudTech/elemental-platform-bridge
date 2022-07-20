@@ -7,16 +7,15 @@
 
 namespace ElementalPlugin\Membership\Library;
 
-use ElementalPlugin\BuddyPress\ElementalBP;
 use ElementalPlugin\Factory;
-use \MyVideoRoomPlugin\Library\MeetingIdGenerator;
+use ElementalPlugin\Library\MeetingIdGenerator;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Membership\Onboard;
 use ElementalPlugin\WCFM\Library\WCFMTools;
-use \MyVideoRoomPlugin\Library\Ajax;
+use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\HttpGet;
 use ElementalPlugin\UltimateMembershipPro\Library\UMPMemberships;
-use ElementalPlugin\UltimateMembershipPro\DAO\ElementalUMPDAO;
+
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.

@@ -16,7 +16,7 @@ use ElementalPlugin\Factory;
 use ElementalPlugin\Library\HTML;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\WCFM\Library\WCFMTools;
-use \MyVideoRoomPlugin\Library\HttpGet;
+use ElementalPlugin\Library\HttpGet;
 
 /**
  * Class Site Search

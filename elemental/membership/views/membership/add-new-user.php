@@ -6,7 +6,8 @@
  */
 
 use ElementalPlugin\Factory;
-use MyVideoRoomPlugin\Library\HTML;
+use ElementalPlugin\Library\HTML;
+use ElementalPlugin\Library\HttpPost;
 
 /**
  * Render the admin page
@@ -88,7 +89,7 @@ return function (): string {
 
 	<?php
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	echo Factory::get_instance( \MyVideoRoomPlugin\Library\HttpPost::class )->create_form_submit(
+	echo Factory::get_instance( HttpPost::class )->create_form_submit(
 		'add_room',
 		esc_html__( 'Add User', 'myvideoroom' )
 	);

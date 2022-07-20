@@ -9,7 +9,7 @@ namespace ElementalPlugin\Search\Library;
 
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\Version;
-use \MyVideoRoomPlugin\Library\Ajax;
+use ElementalPlugin\Library\Ajax;
 
 /**
  * Ajax for Search Handling.

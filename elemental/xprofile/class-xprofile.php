@@ -8,7 +8,7 @@
 namespace ElementalPlugin\XProfile;
 
 use ElementalPlugin\Factory;
-use \MyVideoRoomPlugin\Library\Ajax;
+use ElementalPlugin\Library\Ajax;
 
 /**
  * Class XProfile

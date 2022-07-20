@@ -13,7 +13,7 @@ use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Membership\Onboard;
 use ElementalPlugin\WCFM\Library\WCFMTools;
 use ElementalPlugin\WooCommerceSubscriptions\Library\SubscriptionHelpers;
-use \MyVideoRoomPlugin\Library\HttpGet;
+use ElementalPlugin\Library\HttpGet;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.

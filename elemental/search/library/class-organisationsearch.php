@@ -13,7 +13,7 @@ use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Factory;
 use ElementalPlugin\WCFM\Library\WCFMHelpers;
 use ElementalPlugin\WCFM\Library\WCFMTools;
-use \MyVideoRoomPlugin\Library\Ajax;
+use ElementalPlugin\Library\Ajax;
 
 /**
  * Handling Organisation Search.

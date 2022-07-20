@@ -12,7 +12,7 @@ use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Membership\Library\WooCommerceHelpers;
 use ElementalPlugin\UltimateMembershipPro\DAO\ElementalUMPDAO;
-use \MyVideoRoomPlugin\Library\Ajax;
+use ElementalPlugin\Library\Ajax;
 
 /**
  * Class WCFMHelpers

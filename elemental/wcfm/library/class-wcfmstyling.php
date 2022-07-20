@@ -8,7 +8,7 @@
 namespace ElementalPlugin\WCFM\Library;
 
 use ElementalPlugin\Factory;
-use \MyVideoRoomPlugin\Library\Ajax;
+use ElementalPlugin\Library\Ajax;
 
 /**
  * Filters to Modify Default WCFM Behaviour.

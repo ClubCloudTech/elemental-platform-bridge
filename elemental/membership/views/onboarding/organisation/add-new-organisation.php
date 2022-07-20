@@ -6,8 +6,8 @@
  */
 
 use ElementalPlugin\Factory;
-use MyVideoRoomPlugin\Library\HTML;
-use \MyVideoRoomPlugin\Library\HttpPost;
+use ElementalPlugin\Library\HTML;
+use ElementalPlugin\Library\HttpPost;
 
 /**
  * Render the admin page

@@ -11,7 +11,7 @@ use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Membership\Membership;
 use ElementalPlugin\WCFM\Library\WCFMTools;
-use \MyVideoRoomPlugin\Library\Ajax;
+use ElementalPlugin\Library\Ajax;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.

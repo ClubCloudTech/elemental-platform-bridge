@@ -9,11 +9,6 @@ declare(strict_types=1);
 
 namespace ElementalPlugin;
 
-use \MyVideoRoomPlugin\Admin as MVRAdmin;
-use ElementalPlugin\Membership\Library\MembershipShortCode;
-
-
-
 /**
  * Class Admin
  */
@@ -27,6 +22,7 @@ class Admin {
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
 
 		add_shortcode( self::SHORTCODE_TAG . 'proxytest', array( $this, 'proxy_test_function' ) );
+		$this->register_scripts();
 	}
 
 	/**
@@ -50,14 +46,11 @@ class Admin {
 	public function create_elemental_admin_page(): void {
      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Not required
 		$active_tab = $_GET['tab'] ?? null;
-		\wp_enqueue_script( 'mvr-admin-ajax-js' );
-		Factory::get_instance( MVRAdmin::class )->init();
+		\wp_enqueue_script( 'elemental-admin-ajax-js' );
 
 		$tabs = array(
 			'admin-settings-membership' => \esc_html__( 'Membership Settings', 'myvideoroom' ),
 			'admin-settings-plugin'     => \esc_html__( 'Plugin Settings', 'myvideoroom' ),
-			'admin-settings-bookings'   => \esc_html__( 'WooComm Bookings Integration', 'myvideoroom' ),
-			'admin-settings-wcfm'       => \esc_html__( 'WCFM Store Integration', 'myvideoroom' ),
 		);
 
 		if ( ! $active_tab || ! isset( $tabs[ $active_tab ] ) ) {
@@ -82,9 +75,36 @@ class Admin {
 	 * @return null
 	 */
 	public function proxy_test_function() {
-		// Factory::get_instance( Security::class )->activate_module();
-		// Factory::get_instance( MembershipShortCode::class )->render_membership_shortcode();
+
 		return null;
+	}
+
+	/**
+	 * Register Admin Page Scripts
+	 *
+	 * @return void
+	 */
+	public function register_scripts() {
+
+			// Enqueue Script Ajax Handling.
+			\wp_register_script(
+				'elemental-admin-ajax-js',
+				\plugins_url( 'assets/js/mvradminajax.js', \realpath( __FILE__ ) ),
+				array( 'jquery' ),
+				\wp_rand( 40, 30000 ),
+				true
+			);
+			// Localize script Ajax Upload.
+			$script_data_array = array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'security' => wp_create_nonce( 'mvr_admin_ajax' ),
+
+			);
+			wp_localize_script(
+				'elemental-admin-ajax-js',
+				'myvideoroom_admin_ajax',
+				$script_data_array
+			);
 	}
 }
 

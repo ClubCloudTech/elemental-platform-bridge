@@ -10,7 +10,7 @@ namespace ElementalPlugin\UltimateMembershipPro;
 
 use ElementalPlugin\Factory;
 use ElementalPlugin\UltimateMembershipPro\Library\ShortCodesUMP;
-use \MyVideoRoomPlugin\Library\Ajax;
+use ElementalPlugin\Library\Ajax;
 
 /**
  * Class ElementalUMP

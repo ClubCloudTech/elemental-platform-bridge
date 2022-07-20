@@ -10,7 +10,7 @@ namespace ElementalPlugin\Membership\Library;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Membership\Onboard;
 use ElementalPlugin\WooCommerceSubscriptions\Library\SubscriptionHelpers;
-use \MyVideoRoomPlugin\Library\Ajax;
+use ElementalPlugin\Library\Ajax;
 
 /**
  * Class OnboardAjax - Provides the Onboard Ajax Control.

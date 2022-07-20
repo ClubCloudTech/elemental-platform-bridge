@@ -8,8 +8,8 @@
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
 
 use ElementalPlugin\Factory;
-use \MyVideoRoomPlugin\Library\HTML;
-use \MyVideoRoomPlugin\Library\HttpPost;
+use ElementalPlugin\Library\HTML;
+use ElementalPlugin\Library\HttpPost;
 
 /**
  * Render the admin page

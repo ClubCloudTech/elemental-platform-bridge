@@ -9,7 +9,7 @@ namespace ElementalPlugin\UltimateMembershipPro\Library;
 
 use ElementalPlugin\Factory;
 use ElementalPlugin\WCFM\Library\WCFMTools;
-use \MyVideoRoomPlugin\Library\HttpGet;
+use ElementalPlugin\Library\HttpGet;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.

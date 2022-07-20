@@ -10,7 +10,7 @@ namespace ElementalPlugin\Membership\Library;
 use ElementalPlugin\Factory;
 use ElementalPlugin\WooCommerceSubscriptions\Library\SubscriptionHelpers;
 use ElementalPlugin\XProfile\XProfile;
-use \MyVideoRoomPlugin\Library\Ajax;
+use ElementalPlugin\Library\Ajax;
 
 /**
  * Functions to provide support to WooCommerce calls in Membership application.
