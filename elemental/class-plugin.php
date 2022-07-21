@@ -27,8 +27,7 @@ use ElementalPlugin\XProfile\XProfile;
  */
 class Plugin {
 
-
-
+	const PLUGIN_NAME_SPACE = 'elemental';
 	const SHORTCODE_PREFIXS = array( 'mvr_', 'cc' );
 	const ELEMENTAL_SLUG    = 'elemental';
 
