@@ -1,14 +1,13 @@
 <?php
 /**
- * Ajax for Site Video Room.
+ * Membership Function Handlers for Elemental.
  *
- * @package MyVideoRoomPlugin\Modules\SiteVideo
+ * @package membership/library/class-membershipshortcode.php
  */
 
 namespace ElementalPlugin\Membership\Library;
 
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
-
 use ElementalPlugin\Factory;
 
 /**

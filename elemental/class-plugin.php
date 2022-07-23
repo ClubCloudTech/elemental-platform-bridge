@@ -39,7 +39,6 @@ class Plugin {
 
 		Factory::get_instance( Admin::class )->init();
 		Factory::get_instance( Membership::class )->init();
-		Factory::get_instance( ShortCodeTab::class )->init();
 		Factory::get_instance( ElementalFunctions::class )->init();
 		Factory::get_instance( ElementalUMP::class )->init();
 		Factory::get_instance( XProfile::class )->init();

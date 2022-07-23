@@ -2,15 +2,16 @@
 /**
  * Helper functions for HTML elements - i.e. forms
  *
- * @package MyVideoRoomPlugin\Library
+ * @package ElementalPlugin\Library
  */
 
 declare( strict_types=1 );
 
 namespace ElementalPlugin\Library;
 
+use ElementalPlugin\Admin;
+use ElementalPlugin\Plugin;
 use Exception;
-use MyVideoRoomPlugin\Plugin;
 
 /**
  * Class HTML
@@ -57,7 +58,7 @@ class HTML {
 	public function __construct( string $identifier ) {
 		$current_index = self::get_or_create_current_index();
 
-		$this->identifier = Plugin::PLUGIN_NAMESPACE . '_' . $this->sanitize_name( $identifier );
+		$this->identifier = 'elemental_' . $this->sanitize_name( $identifier );
 
 		if ( ( $current_index - self::$start_index ) > 10 ** self::ID_LENGTH ) {
 			throw new Exception( 'Cannot exceed maximum ID count' );

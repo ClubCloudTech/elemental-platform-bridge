@@ -59,7 +59,7 @@ class WooCommerceHelpers {
 	 *
 	 * @return ?string
 	 */
-	public function checkout_field_redirect( ?array $input, string $key ) {
+	public function checkout_field_redirect( $input, string $key ) {
 
 		if ( ! is_user_logged_in() ) {
 			return null;

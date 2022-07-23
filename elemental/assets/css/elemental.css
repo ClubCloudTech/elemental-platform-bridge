@@ -394,7 +394,6 @@ p.wcfm_title strong, span.wcfm_title strong {
 	font-family: var( --e-global-typography-primary-font-family ), Sans-serif;
 }
 .elemental-host-link {
-	color: #FFFFFF;
 	fill: #FFFFFF;
 	font-size: 11px;
 	font-weight: 500;
@@ -402,10 +401,11 @@ p.wcfm_title strong, span.wcfm_title strong {
 	font-family: var( --e-global-typography-primary-font-family ), Sans-serif;
 }
 .elemental-buttonlink-border{
-	border: 2px solid white;
+	border: 2px solid rgb(158, 158, 158);
 	padding: 5px!important;
 	border-radius: 5px;
 	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .iump-register-form{
@@ -536,4 +536,23 @@ p.wcfm_title strong, span.wcfm_title strong {
 
 .elementor-menu-cart__toggle .elementor-button {
 	border:none!important;
+}
+
+.elemental-button-primary-nav-area {
+    display: inline-block;
+}
+
+.elemental-primary-nav-img {
+    width: 35px;
+    height: 35px;
+    display: inline-block;
+    vertical-align: middle;
+    background-size: cover;
+    background-color: #f5f5f5;
+    background-position: center;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+    border-radius: 100%;
 }

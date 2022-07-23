@@ -44,7 +44,7 @@ class SandboxShortCode {
 	 * @return ?string
 	 */
 	public function sandbox_shortcode_worker( object $current_user ): ?string {
-
+		$encryption_key = get_option('northbridge_email_key');
 		$render = ( require __DIR__ . '/../views/view-sandbox-control.php' );
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 		return $render( $current_user );

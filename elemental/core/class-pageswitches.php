@@ -15,9 +15,6 @@ use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Core\Security;
 
-use ElementalPlugin\Setup\Setup;
-
-
 // required for cleaning correct URL redirects in Firefox.
 ob_clean();
 ob_start();
@@ -62,14 +59,7 @@ class PageSwitches extends Shortcode {
 	 * @return string
 	 */
 	public function proxy_test_function() {
-		// $this->get_instance( ModuleConfig::class )->register_module_in_db( SiteDefaults::MODULE_BUDDYPRESS_FRIENDS_NAME, SiteDefaults::MODULE_BUDDYPRESS_FRIENDS_ID );
-		// $this->get_instance( ModuleConfig::class )->update_enabled_status( SiteDefaults::MODULE_BUDDYPRESS_FRIENDS_ID, true );
-		// $this->get_instance( ModuleConfig::class )->register_module_in_db( SiteDefaults::MODULE_SECURITY_NAME, SiteDefaults::MODULE_SECURITY_ID );
-		// print_r( $output_array);
-		// $this->get_instance(Setup::class)->install_user_video_preference_table();
-		$this->get_instance( Setup::class )->install_security_config_table();
-		// $this->get_instance(ModuleDefinition::class)->add_additional_modules_in_db(SiteDefaults::MODULE_BUDDYPRESS_GROUP_ID, SiteDefaults::MODULE_BUDDYPRESS_GROUP_NAME);
-		// $this->get_instance(ModuleDefinition::class)->add_additional_modules_in_db(SiteDefaults::MODULE_BUDDYPRESS_USER_ID, SiteDefaults::MODULE_BUDDYPRESS_USER_NAME);
+
 	}
 
 
@@ -96,7 +86,7 @@ class PageSwitches extends Shortcode {
 	 * @return string|null
 	 */
 	public function staff_switch_shortcode(): ?string {
-		// Reject Logged Out Users
+		// Reject Logged Out Users.
 		if ( ! is_user_logged_in() ) {
 			return null;
 		}

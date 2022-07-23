@@ -140,7 +140,7 @@ class LoginHandler {
 
 			$nonceparent = \wp_create_nonce( 'parent' );
 			$url         = get_site_url() . '/login?action=parent&nonceparent=' . $nonceparent;
-			$output     .= '<a href="' . $url . '" class="elemental-host-link elemental-buttonlink-border">' . esc_html__( 'Switch To Admin Mode', 'myvideoroom' ) . '</a>';
+			$output     .= '<a href="' . $url . '" class="elemental-host-link elemental-buttonlink-border">' . esc_html__( 'Admin Mode', 'myvideoroom' ) . '</a>';
 		}
 
 		if ( \is_user_logged_in() ) {
