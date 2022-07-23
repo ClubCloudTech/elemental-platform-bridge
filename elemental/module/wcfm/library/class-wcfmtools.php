@@ -7,7 +7,6 @@
 
 namespace ElementalPlugin\Module\WCFM\Library;
 
-use ElementalPlugin\Core\MenuHelpers;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
@@ -422,7 +421,7 @@ class WCFMTools {
 			$user_id = get_current_user_id();
 		}
 
-		$slug = Factory::get_instance( MenuHelpers::class )->get_name( $user_id );
+		$slug = $this->get_name( $user_id );
 
 		return get_site_url() . '/' . get_option( 'wcfm_store_url' ) . '/' . $slug;
 	}
@@ -443,7 +442,7 @@ class WCFMTools {
 		$user_id   = \get_current_user_id();
 		$parent_id = $this->staff_to_parent( $user_id );
 		if ( ! $parent_id ) {
-			esc_html_e('No Parent Active Subscription Found, or parent account deleted', 'my-video-room');
+			esc_html_e( 'No Parent Active Subscription Found, or parent account deleted', 'my-video-room');
 			die();
 		}
 		wp_logout();
@@ -478,6 +477,40 @@ class WCFMTools {
 		wp_set_auth_cookie( $user_id );
 		do_action( 'wp_login', $user->user_email, $user );
 
+	}
+
+	/**
+	 * Returns the Correctly Formatted Username in Menus dealing with Merchants
+	 * For Merchants it returns store name or their nice name - for staff it returns parent store name
+	 *
+	 * @param int|null $id - the ID.
+	 *
+	 * @return string
+	 */
+	public function get_name( int $id = null ): string {
+		if ( $id ) {
+			$user = Factory::get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $id );
+		} else {
+			$user = wp_get_current_user();
+		}
+
+		$user_roles = Factory::get_instance( UserRoles::class, array( $user ) );
+
+		switch ( true ) {
+			case $user_roles->is_wcfm_vendor():
+				return $user->user_nicename;
+
+			case $user_roles->is_wcfm_shop_staff():
+				$parent_id  = $user->_wcfm_vendor;
+				$store_user = \wcfmmp_get_store( $parent_id );
+				$store_info = $store_user->get_shop_info();
+
+				return $store_info['store_slug'];
+
+			default:
+				// If they aren't a vendor then we simply return User Login.
+				return $user->user_nicename;
+		}
 	}
 
 }

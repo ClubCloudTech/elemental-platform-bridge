@@ -26,17 +26,30 @@ class ElementalBP {
 	 * Required for Normal Runtime.
 	 */
 	public function init() {
+		if ( ! $this->is_buddypress_available() ) {
+			return null;
+		}
 		\add_action( 'bp_template_redirect', array( $this, 'redirect_profile' ) );
 		\add_shortcode( self::SHORTCODE_PROFILE_URL, array( $this, 'get_buddypress_profile_url_shortcode' ) );
 		\add_action( 'yz_activity_scripts', array( $this, 'enqueue_bp_script' ) );
 		$this->enqueue_bp_script();
-
 		add_shortcode( self::SHORTCODE_BP_PROFILE_REDIRECT, array( $this, 'bp_profile_redirect' ) );
 	}
 	/**
 	 * Activate Functions for Membership.
 	 */
 	public function activate() {
+	}
+
+	/**
+	 * Is Buddypress Available - checks if BuddyPress is enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_buddypress_available(): bool {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		return is_plugin_active( 'buddypress/bp-loader.php' );
 	}
 
 	/**

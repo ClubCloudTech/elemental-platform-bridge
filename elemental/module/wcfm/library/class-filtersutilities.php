@@ -2,10 +2,10 @@
 /**
  * Handles Addin Filters and Tools for WCFM.
  *
- * @package elemental/core/class-filtersutilities.php
+ * @package module/wcfm/library/class-filtersutilities.php
  */
 
-namespace ElementalPlugin\Core;
+namespace ElementalPlugin\Module\WCFM\Library;
 
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Shortcode as Shortcode;

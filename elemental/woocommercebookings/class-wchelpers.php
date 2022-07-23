@@ -625,4 +625,14 @@ class WCHelpers extends Shortcode {
 
 		return $order_array;
 	}
+
+	/**
+	 * Returns Order Information by Signed in User
+	 *
+	 * @return array an Array with VendorID, Store Name, Product ID, and Product Name (or multiple arrays)
+	 */
+	public function is_woocommerce_bookings_active(): bool {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		return is_plugin_active( 'woocommerce-bookings/woocommerce-bookings.php' );
+	}
 }

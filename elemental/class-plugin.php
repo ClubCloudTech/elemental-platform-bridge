@@ -10,7 +10,7 @@ declare( strict_types=1 );
 namespace ElementalPlugin;
 
 use ElementalPlugin\Module\BuddyPress\ElementalBP;
-use ElementalPlugin\Core\FiltersUtilities;
+use ElementalPlugin\Module\WCFM\Library\FiltersUtilities;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\Membership\Library\LoginHandler;
 use ElementalPlugin\Module\Membership\Membership;

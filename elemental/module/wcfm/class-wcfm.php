@@ -47,4 +47,12 @@ class WCFM {
 
 	}
 
+	/**
+	 * Is WCFM Active.
+	 */
+	public function is_wcfm_active() {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		return is_plugin_active( 'wc-frontend-manager/wc_frontend_manager.php' );
+	}
+
 }

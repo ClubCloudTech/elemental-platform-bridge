@@ -47,10 +47,22 @@ class Admin {
      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Not required
 		$active_tab = $_GET['tab'] ?? null;
 		\wp_enqueue_script( 'elemental-admin-ajax-js' );
+		add_action(
+			'wp_enqueue_scripts',
+			function() {
+				wp_enqueue_style( 'dashicons' );
+			}
+		);
+				\wp_enqueue_style(
+					'elemental-admin-css',
+					\plugins_url( 'assets/css/admin.css', __FILE__ ),
+					false,
+					\wp_rand( 1, 10000 ),
+				);
 
 		$tabs = array(
-			'admin-settings-membership' => \esc_html__( 'Membership Settings', 'myvideoroom' ),
-			'admin-settings-plugin'     => \esc_html__( 'Plugin Settings', 'myvideoroom' ),
+			'admin-settings-membership' => \esc_html__( 'Membership Settings', 'elementalplugin' ),
+			'admin-settings-plugin'     => \esc_html__( 'Plugin Settings', 'elementalplugin' ),
 		);
 
 		if ( ! $active_tab || ! isset( $tabs[ $active_tab ] ) ) {

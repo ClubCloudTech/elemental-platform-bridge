@@ -10,13 +10,14 @@
 
 namespace ElementalPlugin\Module\Search\Library;
 
-use ElementalPlugin\BBPress\ElementalBBPress;
-use ElementalPlugin\Core\SiteDefaults;
+use ElementalPlugin\Module\BBPress\ElementalBBPress;
+use ElementalPlugin\Module\BuddyPress\ElementalBP;
 use ElementalPlugin\Factory;
 use ElementalPlugin\Library\HTML;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\HttpGet;
+use ElementalPlugin\Module\WCFM\WCFM;
 
 /**
  * Class Site Search
@@ -120,8 +121,8 @@ class SiteSearch {
 	 */
 	public function add_search_tabs() {
 		$org_search_available   = Factory::get_instance( WCFMTools::class )->is_wcfmmp_available();
-		$member_group_available = Factory::get_instance( SiteDefaults::class )->is_buddypress_available();
-		$wcfm_available         = Factory::get_instance( SiteDefaults::class )->is_wcfm_active();
+		$member_group_available = Factory::get_instance( ElementalBP::class )->is_buddypress_available();
+		$wcfm_available         = Factory::get_instance( WCFM::class )->is_wcfm_active();
 		$bbpress_available      = Factory::get_instance( ElementalBBPress::class )->is_bbpress_active();
 		$logged_in              = \is_user_logged_in();
 

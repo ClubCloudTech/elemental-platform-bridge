@@ -2,13 +2,10 @@
 /**
  * BuddyPress Integration Features.
  *
- * @package elemental/bbpress/class-elementalbbpress.php
+ * @package elemental/module/bbpress/class-elementalbbpress.php
  */
 
-namespace ElementalPlugin\BBPress;
-
-use ElementalPlugin\Factory;
-use ElementalPlugin\Module\WCFM\Library\WCFMTools;
+namespace ElementalPlugin\Module\BBPress;
 
 /**
  * Class ElementalBP

@@ -11,8 +11,6 @@
  * @return string
  */
 
-use ElementalPlugin\Module\BuddyPress\XProfile;
-
 return function (): string {
 	ob_start();
 	$index = 7812;

@@ -21,12 +21,8 @@ return function (
 
 		<div class="overview">
 			<strong>
-				<?php echo \esc_html__( 'Elemental is the plugin from ClubCloud that allows Membership Management to a whole new level', 'myvideoroom' ); ?>
+				<?php echo \esc_html__( 'Elemental is a control and integration plugin connecting several plugins together', 'elemental' ); ?>
 			</strong>
-
-			<em>
-				<?php \esc_html_e( 'MyVideoRoom by ClubCloud.' ); ?>
-			</em>
 			<?php
 			foreach ( $messages as $message ) {
 				echo '<li class="notice ' . esc_attr( $message['type'] ) . '"><p>' . esc_html( $message['message'] ) . '</p></li>';
@@ -34,9 +30,6 @@ return function (
 			?>
 
 		</div>
-
-		<img src="<?php echo \esc_url( \plugins_url( '/img/screen-1.png', \realpath( __DIR__ . '/../' ) ) ); ?>"
-			alt="" />
 	</header>
 
 	<h2 class="nav-tab-wrapper">
