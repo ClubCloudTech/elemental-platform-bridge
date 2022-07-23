@@ -33,7 +33,7 @@ if ( ! function_exists( 'get_plugin_data' ) ) {
 
 if ( ! class_exists( Plugin::class ) ) {
 	/**
-	 * Autoloader for classes in the My Video Room Extras Plugin.
+	 * Autoloader for classes in the Elemental Plugin.
 	 *
 	 * @param string $class_name The name of the class to autoload.
 	 *

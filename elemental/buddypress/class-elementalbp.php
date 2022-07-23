@@ -31,7 +31,6 @@ class ElementalBP {
 		\add_shortcode( self::SHORTCODE_PROFILE_URL, array( $this, 'get_buddypress_profile_url_shortcode' ) );
 		\add_action( 'yz_activity_scripts', array( $this, 'enqueue_bp_script' ) );
 		$this->enqueue_bp_script();
-		Factory::get_instance( BuddyPress::class )->init();
 
 		add_shortcode( self::SHORTCODE_BP_PROFILE_REDIRECT, array( $this, 'bp_profile_redirect' ) );
 	}
@@ -39,7 +38,6 @@ class ElementalBP {
 	 * Activate Functions for Membership.
 	 */
 	public function activate() {
-		Factory::get_instance( BuddyPress::class )->activate();
 	}
 
 	/**
@@ -65,41 +63,6 @@ class ElementalBP {
 		\wp_safe_redirect( $url );
 
 		die();
-	}
-	/**
-	 * Get BuddyPress Profile URL Shortcode.
-	 *
-	 *  @param array $atts = the attributes.
-	 *  @return ?string
-	 */
-	public function get_buddypress_profile_url_shortcode( $atts = array() ) {
-		// User_id in attributes.
-		if ( ! isset( $atts['user_id'] ) ) {
-				// Try user logged in for ID.
-			if ( \is_user_logged_in() ) {
-				$user_id = \get_current_user_id();
-				// User not logged in - exit.
-			} else {
-				return null;
-			}
-			// Atts has ID.
-		} else {
-			$user_id = intval( $atts['user_id'] );
-		}
-
-		return $this->get_buddypress_profile_url( $user_id );
-	}
-	/**
-	 * Get BuddyPress Profile URL.
-	 *
-	 *  @param int $user_id = the user_id to look up.
-	 *  @return ?string
-	 */
-	public function get_buddypress_profile_url( int $user_id ) {
-		if ( \function_exists( 'bp_core_get_user_domain' ) ) {
-			return \bp_core_get_user_domain( $user_id );
-		}
-		return null;
 	}
 
 	/**
@@ -136,6 +99,42 @@ class ElementalBP {
 		// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
 		echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
 		die();
+	}
+
+	/**
+	 * Get BuddyPress Profile URL Shortcode.
+	 *
+	 *  @param array $atts = the attributes.
+	 *  @return ?string
+	 */
+	public function get_buddypress_profile_url_shortcode( $atts = array() ) {
+		// User_id in attributes.
+		if ( ! isset( $atts['user_id'] ) ) {
+				// Try user logged in for ID.
+			if ( \is_user_logged_in() ) {
+				$user_id = \get_current_user_id();
+				// User not logged in - exit.
+			} else {
+				return null;
+			}
+			// Atts has ID.
+		} else {
+			$user_id = intval( $atts['user_id'] );
+		}
+
+		return $this->get_buddypress_profile_url( $user_id );
+	}
+	/**
+	 * Get BuddyPress Profile URL.
+	 *
+	 *  @param int $user_id = the user_id to look up.
+	 *  @return ?string
+	 */
+	public function get_buddypress_profile_url( int $user_id ) {
+		if ( \function_exists( 'bp_core_get_user_domain' ) ) {
+			return \bp_core_get_user_domain( $user_id );
+		}
+		return null;
 	}
 
 
