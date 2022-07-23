@@ -8,15 +8,12 @@
 
 namespace ElementalPlugin\Core;
 
-use ElementalPlugin\UltimateMembershipPro\MembershipLevel;
+use ElementalPlugin\Module\UltimateMembershipPro\MembershipLevel;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Shortcode as Shortcode;
-use ElementalPlugin\WoocommerceBookings\ShortCodeConstructor;
 use ElementalPlugin\WoocommerceBookings\WCHelpers;
-use ElementalPlugin\WCFM\Library\WCFMHelpers;
-use ElementalPlugin\Factory;
-use ElementalPlugin\Dao\RoomMap;
+use ElementalPlugin\Module\WCFM\Library\WCFMHelpers;
 
 /**
  * Class SiteDefaults
@@ -118,7 +115,6 @@ class SiteDefaults extends Shortcode {
 	 */
 	public function install() {
 		$this->add_shortcode( 'display', array( $this, 'display_defaults' ) );
-		$this->add_shortcode( 'logo', array( $this, 'display_logo' ) );
 		$this->add_shortcode( 'pageowner', array( $this, 'page_owner' ) );
 	}
 
@@ -280,122 +276,6 @@ class SiteDefaults extends Shortcode {
 		}
 
 		return $owner_id;
-	}
-
-
-	/**
-	 * A constructor for XProfile Calls centrally
-	 *
-	 * @param $type
-	 * @param $input_id
-	 *
-	 * @return array|false|int|mixed|string|void|null
-	 */
-	public function get_layout_id( $type, $input_id ) {
-		if ( ! $type ) {
-			return 'ERR: CC103 - No Xprofile Type Provided';
-		}
-
-		switch ( $type ) {
-
-			case 'storeswitch':
-				$fieldnum         = $this->defaults( 'store_template' );
-				$xprofile_setting = \xprofile_get_field_data( $fieldnum, $input_id );
-				if ( $xprofile_setting == '' ) {
-					$xprofile_setting = $this->defaults( 'xprofilesitestoredefault' );
-				}
-
-				return $xprofile_setting;
-
-			case 'pbrreception':
-				$field             = $this->defaults( 'xprofilebreakoutprivacy', $input_id );
-				$reception_setting = \xprofile_get_field_data( $field, $input_id );
-				// echo 'Reception-Setting->'.$reception_setting. '-Field-returned->' .$field.'in-id->'.$input_id.'ipc->'.$this->get_instance( SiteDefaults::class  )->is_premium_check( $input_id );
-
-				if ( ! $reception_setting ) {
-					$reception_setting = \xprofile_get_field_data( $this->defaults( 'xprofilebreakoutprivacysitedefault' ), 1 ); // get site details from user1's backup site field
-				}
-
-				return ( 'No' !== $reception_setting );
-
-			case 'pbr_reception_template':
-				$xprofile_setting = \xprofile_get_field_data( $this->defaults( 'pbr_reception_template' ), $input_id );
-				if ( $xprofile_setting == '' ) {
-					$xprofile_setting = \xprofile_get_field_data( $this->defaults( 'reception_template_sitedefault' ), 1 ); // get site details from user1's backup site field
-				}
-
-				return $xprofile_setting;
-
-			case 'store_xprofile':
-				$fieldnum         = $this->defaults( 'xprofile_storefront_field', $input_id );
-				$xprofile_setting = \xprofile_get_field_data( $fieldnum, $input_id );
-				if ( $xprofile_setting == '' ) {
-					$xprofile_setting = $this->defaults( 'xprofile_storefront_sitedefault' );
-				}
-
-				return $xprofile_setting;
-				break;
-
-			case 'parent_security':
-				$fieldnum         = $this->defaults( 'parent_security' );
-				$xprofile_setting = \xprofile_get_field_data( $fieldnum, $input_id );
-				if ( $xprofile_setting == '' ) {
-					return 'No';
-				}
-
-				return $xprofile_setting;
-			case 'store_reception_template':
-				$fieldnum         = $this->defaults( 'store_reception_template' );
-				$xprofile_setting = \xprofile_get_field_data( $fieldnum, $input_id );
-				if ( $xprofile_setting == '' ) {
-					$xprofile_setting = $this->defaults( 'reception_template_sitedefault' );
-				}
-
-				return $xprofile_setting;
-
-			case 'store_privacy':
-				// To be deleted when Tested @TODO Fred- replaced with direct calls
-
-				$fieldnum         = $this->defaults( 'xprofile_storefront_reception', $input_id );
-				$xprofile_setting = \xprofile_get_field_data( $fieldnum, $input_id );
-				if ( $xprofile_setting == '' ) {
-					$xprofile_setting = $this->defaults( 'xprofile_storefront_reception_sitedefault' );
-				}
-				if ( $xprofile_setting == 'No' ) {
-					$xprofile_setting = null;
-				} else {
-					$xprofile_setting = 'reception=true';
-				}
-
-				return $xprofile_setting;
-			case 'bookings':
-				$store_slug = $this->get_instance( WCHelpers::class )->orderinfo_by_booking( $input_id, 'store_slug', 0 );
-
-				return 'Booking-' . $store_slug . '-' . $input_id;
-
-			case 'group':
-				$group     = groups_get_group( array( 'group_id' => $input_id ) );  // get group by ID
-				$groupname = $group->slug;
-
-				return 'Group-' . $groupname . '-Space';
-
-			case 'mvr':
-				$user       = $this->get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $input_id );
-				$user_roles = $this->get_instance( UserRoles::class, array( $user ) );
-
-				// IF staff member - then replace the ID with Owner ID.
-				if ( $user && $user_roles->is_wcfm_shop_staff() ) {
-					$parent_id  = $user->_wcfm_vendor;
-					$user_field = $this->get_instance( WordPressUser::class )->get_wordpress_user_by_id( $parent_id );
-					$input_id   = $parent_id;
-				}
-				$displayid    = $user_field->display_name;
-				$output       = preg_replace( '/[^A-Za-z0-9\-]/', '', $displayid ); // remove special characters from username
-				$outmeetingid = $this->get_instance( ShortCodeConstructor::class )->invite( $input_id, 'user', null );
-
-				return 'Space-' . $output . '-' . $outmeetingid;
-				break;
-		}
 	}
 
 	/**
@@ -579,29 +459,6 @@ class SiteDefaults extends Shortcode {
 		}
 
 		switch ( $type ) {
-			case 'managementbr':
-				return $this->get_instance( FiltersUtilities::class )->name_split( ( get_bloginfo( 'name' ) ) ) . '-Management-Boardroom'; // namesplit gets first letters of site title sent
-
-			case 'userbr':
-				$user_field = $this->get_instance( WordPressUser::class )->get_wordpress_user_by_id( $input_id );
-
-				$displayid    = $user_field->display_name;
-				$output       = preg_replace( '/[^A-Za-z0-9\-]/', '', $displayid ); // remove special characters from username
-				$outmeetingid = $this->get_instance( ShortCodeConstructor::class )->invite( $input_id, 'user', null );
-
-				return 'Space-' . $output . '-' . $outmeetingid;
-
-			case 'store':
-				// OK
-				$store_name = $this->get_instance( WCHelpers::class )->orderinfo_by_booking( 0, 'store_slug', $input_id );
-				// Handling Store not having been setup yet, we hash the store owner ID
-				if ( is_numeric( $store_name ) || $store_name == '' ) {
-					return $this->get_instance( MenuHelpers::class )->nice_name( (int) $input_id ) . \ElementalPlugin\Library\MeetingIdGenerator::get_meeting_hash_from_user_id( $input_id );
-				}
-				$output = preg_replace( '/[^A-Za-z0-9\-]/', '', $store_name ); // remove special characters from username
-
-				return 'Space-' . $output;
-
 			case 'bookings':
 				$store_slug = $this->get_instance( WCHelpers::class )->orderinfo_by_booking( $input_id, 'store_slug', 0 );
 
@@ -611,40 +468,6 @@ class SiteDefaults extends Shortcode {
 				global $bp;
 
 				return 'Group-' . $bp->groups->current_group->slug . '-Space';
-
-			case 'mvr':
-				$user       = $this->get_instance( WordPressUser::class )->get_wordpress_user_by_id( (int) $input_id );
-				$user_roles = $this->get_instance( UserRoles::class, array( $user ) );
-
-				// IF staff member - then replace the ID with Owner ID
-				if ( $user && $user_roles->is_wcfm_shop_staff() ) {
-					$parent_id = $user->_wcfm_vendor;
-
-					$user_field = $this->get_instance( WordPressUser::class )->get_wordpress_user_by_id( $parent_id );
-
-					$input_id = $parent_id;
-				}
-				$displayid    = $user_field->display_name;
-				$output       = preg_replace( '/[^A-Za-z0-9\-]/', '', $displayid ); // remove special characters from username
-				$outmeetingid = $this->get_instance( ShortCodeConstructor::class )->invite( $input_id, 'user', null );
-
-				return 'Space-' . $output . '-' . $outmeetingid;
 		}
-	}
-
-	// Club Cloud - a function to reutn the URL of Site image or another picture
-	public function display_logo() {
-		$url = '/wp-content/uploads/2021/01/cropped-Silver.png';
-
-		return '<div class="yz-primary-nav-img" style="background-image: url( ' . $url . '  )"></div>';
-	}
-
-	/**
-	 * Club Cloud - a function to return the Slug of meet center page - in case it is renamed
-	 */
-	public function meet_center_slug() {
-		$post_id = Factory::get_instance( RoomMap::class )->read();
-		$slug    = get_post_field( 'post_name', $post_id );
-		return $slug;
 	}
 }

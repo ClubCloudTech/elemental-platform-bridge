@@ -8,7 +8,7 @@
 namespace ElementalPlugin\BBPress;
 
 use ElementalPlugin\Factory;
-use ElementalPlugin\WCFM\Library\WCFMTools;
+use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 
 /**
  * Class ElementalBP

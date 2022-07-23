@@ -9,8 +9,8 @@
 declare(strict_types=1);
 
 use ElementalPlugin\Library\UserRoles;
-use ElementalPlugin\UltimateMembershipPro\Library\UMPMemberships;
-use ElementalPlugin\WCFM\Library\WCFMTools;
+use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
+use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 
 if ( ! function_exists( 'elemental_get_wcfm_memberships' ) ) {
 	/**

@@ -12,7 +12,7 @@ use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Shortcode as Shortcode;
 use ElementalPlugin\Shortcode\MyVideoRoomApp;
-use ElementalPlugin\WCFM\Library\WCFMHelpers;
+use ElementalPlugin\Module\WCFM\Library\WCFMHelpers;
 
 /**
  * Class WCHelpers

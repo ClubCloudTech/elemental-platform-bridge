@@ -16,7 +16,6 @@ use ElementalPlugin\Factory;
  */
 class FiltersUtilities extends Shortcode {
 
-
 	const VIDEO_STOREFRONT_SLUG    = 'videospace';
 	const VIDEO_STOREFRONT_NAME    = 'Video Space';
 	const STAFF_STOREFRONT_SLUG    = 'connections';

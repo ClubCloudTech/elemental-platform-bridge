@@ -7,11 +7,11 @@
 
 namespace ElementalPlugin\Core;
 
-use ElementalPlugin\UltimateMembershipPro\MembershipLevel;
+use ElementalPlugin\Module\UltimateMembershipPro\MembershipLevel;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Shortcode as Shortcode;
-use ElementalPlugin\WCFM\Library\WCFMHelpers;
+use ElementalPlugin\Module\WCFM\Library\WCFMHelpers;
 
 /**
  * Class MenuHelpers

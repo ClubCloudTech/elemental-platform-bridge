@@ -6,7 +6,7 @@
  */
 
 use ElementalPlugin\Factory;
-use ElementalPlugin\Membership\Membership;
+use ElementalPlugin\Module\Membership\Membership;
 
 /**
  * Render the admin page

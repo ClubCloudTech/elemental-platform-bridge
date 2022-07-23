@@ -2,7 +2,7 @@
 /**
  * Addon functionality for BuddyPress -Video Room Handlers for BuddyPress
  *
- * @package ElementalPlugin\BuddyPressVideo
+ * @package ElementalPlugin\Module\BuddyPressVideo
  */
 
 namespace ElementalPlugin\Template;

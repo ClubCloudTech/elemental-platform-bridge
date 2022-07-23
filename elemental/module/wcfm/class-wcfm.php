@@ -1,0 +1,50 @@
+<?php
+/**
+ * Connect MyVideoRoom to Woocommerce FrontEnd Manager Video
+ *
+ * @package ElementalPlugin\WoocommerceBookings
+ */
+
+namespace ElementalPlugin\Module\WCFM;
+
+use ElementalPlugin\Factory;
+use ElementalPlugin\Module\WCFM\Library\WCFMFilters;
+use ElementalPlugin\Module\WCFM\Library\WCFMHelpers;
+use ElementalPlugin\Module\WCFM\Library\WCFMShortcodes;
+use ElementalPlugin\Module\WCFM\Library\WCFMStyling;
+use ElementalPlugin\Module\WCFM\Library\WCFMTools;
+
+/**
+ * Class WCFM Connect..
+ */
+class WCFM {
+
+	/**
+	 * Runtime Shortcodes and Setup
+	 */
+	public function init() {
+		Factory::get_instance( WCFMShortcodes::class )->init();
+		Factory::get_instance( WCFMHelpers::class )->init();
+		Factory::get_instance( WCFMTools::class )->init();
+		Factory::get_instance( WCFMFilters::class )->init();
+		Factory::get_instance( WCFMStyling::class )->init();
+
+		// Remove WCFM Store Function from BuddyPress Profiles.
+		remove_action( 'bp_member_options_nav', 'bp_wcfmmp_store_nav_item', 99 );
+	}
+
+	/**
+	 * Activate Functions.
+	 */
+	public function activate() {
+
+	}
+
+	/**
+	 * De-Activate Functions.
+	 */
+	public function de_activate() {
+
+	}
+
+}

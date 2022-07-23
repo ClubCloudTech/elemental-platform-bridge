@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace ElementalPlugin;
 
-use ElementalPlugin\Membership\Membership;
-use ElementalPlugin\WCFM\WCFM;
+use ElementalPlugin\Module\Membership\Membership;
+use ElementalPlugin\Module\WCFM\WCFM;
 
 /**
  * Class Activation

@@ -9,19 +9,17 @@ declare( strict_types=1 );
 
 namespace ElementalPlugin;
 
-use ElementalPlugin\BuddyPress\ElementalBP;
+use ElementalPlugin\Module\BuddyPress\ElementalBP;
 use ElementalPlugin\Core\FiltersUtilities;
-use ElementalPlugin\Library\ElementalFunctions;
 use ElementalPlugin\Library\Version;
-use ElementalPlugin\Membership\Library\LoginHandler;
-use ElementalPlugin\Membership\Membership;
-use ElementalPlugin\Menus\ElementalMenus;
+use ElementalPlugin\Module\Membership\Library\LoginHandler;
+use ElementalPlugin\Module\Membership\Membership;
+use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\Sandbox\Sandbox;
-use ElementalPlugin\Search\Search;
-use ElementalPlugin\ShortCode\ShortCodeTab;
-use ElementalPlugin\UltimateMembershipPro\ElementalUMP;
-use ElementalPlugin\WCFM\WCFM;
-use ElementalPlugin\XProfile\XProfile;
+use ElementalPlugin\Module\Search\Search;
+use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
+use ElementalPlugin\Module\WCFM\WCFM;
+use ElementalPlugin\Module\BuddyPress\XProfile;
 
 /**
  * Class Plugin
@@ -39,7 +37,6 @@ class Plugin {
 
 		Factory::get_instance( Admin::class )->init();
 		Factory::get_instance( Membership::class )->init();
-		Factory::get_instance( ElementalFunctions::class )->init();
 		Factory::get_instance( ElementalUMP::class )->init();
 		Factory::get_instance( XProfile::class )->init();
 		Factory::get_instance( WCFM::class )->init();
