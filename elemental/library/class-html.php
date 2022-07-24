@@ -9,7 +9,7 @@ declare( strict_types=1 );
 
 namespace ElementalPlugin\Library;
 
-use ElementalPlugin\Admin;
+use ElementalPlugin\Library\Admin;
 use ElementalPlugin\Plugin;
 use Exception;
 

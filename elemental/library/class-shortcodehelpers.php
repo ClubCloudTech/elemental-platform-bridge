@@ -7,13 +7,10 @@
 
 namespace ElementalPlugin\Library;
 
-use ElementalPlugin\Shortcode as Shortcode;
-
-
 /**
  * Provides Helper Shortcodes for Usage
  */
-class ShortcodeHelpers extends Shortcode {
+class ShortcodeHelpers {
 
 
 

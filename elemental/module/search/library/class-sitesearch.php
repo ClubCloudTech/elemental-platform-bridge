@@ -12,17 +12,18 @@ namespace ElementalPlugin\Module\Search\Library;
 
 use ElementalPlugin\Module\BBPress\ElementalBBPress;
 use ElementalPlugin\Module\BuddyPress\ElementalBP;
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\HTML;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\HttpGet;
 use ElementalPlugin\Module\WCFM\WCFM;
+use ElementalPlugin\Library\TabHelper;
 
 /**
  * Class Site Search
  */
-class SiteSearch {
+class SiteSearch extends TabHelper {
 
 	/**
 	 * Install the shortcode
@@ -88,32 +89,6 @@ class SiteSearch {
 	}
 
 	/**
-	 * Sort Global Directory Tabs.
-	 *
-	 * @param array  $inputs - the tabs to sort.
-	 * @param string $term - starting tab desired.
-	 * @param bool   $single_tab - return only a single tab (dont push the rest behind it) used to dedicate a custom view.
-	 * @return array - a sorted array.
-	 */
-	private function tab_sort( array $inputs, string $term = null, bool $single_tab = null ) {
-		$return_array = array();
-		foreach ( $inputs as $input ) {
-			$tab = $input->get_tab_slug();
-			if ( $tab === $term ) {
-				\array_unshift( $return_array, $input );
-			} else {
-				if ( ! $single_tab ) {
-					array_push( $return_array, $input );
-				}
-			}
-		}
-		return $return_array;
-	}
-
-
-
-
-	/**
 	 * Search Tab Controller.
 	 * Search Tabs for Rendering, and Ajax handling are registered here.
 	 *
@@ -121,7 +96,7 @@ class SiteSearch {
 	 */
 	public function add_search_tabs() {
 		$org_search_available   = Factory::get_instance( WCFMTools::class )->is_wcfmmp_available();
-		$member_group_available = Factory::get_instance( ElementalBP::class )->is_buddypress_available();
+		$member_group_available = Factory::get_instance( ElementalBP::class )->is_group_module_available();
 		$wcfm_available         = Factory::get_instance( WCFM::class )->is_wcfm_active();
 		$bbpress_available      = Factory::get_instance( ElementalBBPress::class )->is_bbpress_active();
 		$logged_in              = \is_user_logged_in();
@@ -150,10 +125,7 @@ class SiteSearch {
 				// Group Search Tab and Handler.
 				add_filter( 'elemental_search_template_render', array( Factory::get_instance( GroupSearch::class ), 'render_group_tabs' ), 5, 3 );
 				add_filter( 'elemental_search_ajax_response', array( Factory::get_instance( GroupSearch::class ), 'group_search_response' ), 10, 2 );
-
 			}
-			// TODO @fred - remove line after go live testing.
-			// add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_bp_legacy' ) );
 		}
 		if ( $bbpress_available && $logged_in ) {
 			add_filter( 'elemental_search_template_render', array( Factory::get_instance( ForumSearch::class ), 'render_forum_tabs' ), 5, 3 );

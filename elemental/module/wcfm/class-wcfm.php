@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\WCFM;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\WCFM\Library\WCFMFilters;
 use ElementalPlugin\Module\WCFM\Library\WCFMHelpers;
 use ElementalPlugin\Module\WCFM\Library\WCFMShortcodes;

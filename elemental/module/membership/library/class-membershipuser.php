@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\Membership\Library;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;

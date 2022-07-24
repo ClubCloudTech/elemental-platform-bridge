@@ -8,7 +8,7 @@
 namespace ElementalPlugin\Module\WCFM\Library;
 
 use ElementalPlugin\Module\BuddyPress\ElementalBP;
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\Membership\Library\WooCommerceHelpers;
 use ElementalPlugin\Module\UltimateMembershipPro\DAO\ElementalUMPDAO;

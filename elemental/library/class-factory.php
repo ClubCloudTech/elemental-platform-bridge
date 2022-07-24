@@ -1,22 +1,18 @@
 <?php
 /**
  * A factory method to create new objects
- * Allows for easy mocking in tests f
  *
  * @package ElementalPlugin
  */
 
 declare(strict_types=1);
 
-namespace ElementalPlugin;
+namespace ElementalPlugin\Library;
 
 /**
  * Class Factory
  */
 class Factory {
-
-
-
 
 	/**
 	 * The list of cached objects

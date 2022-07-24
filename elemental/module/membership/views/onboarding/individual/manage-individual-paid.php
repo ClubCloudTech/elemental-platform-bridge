@@ -12,7 +12,7 @@
  * @param int    $membership_id - membership ID requested to Join.
  */
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\ShortCodesUMP;
 
 return function (

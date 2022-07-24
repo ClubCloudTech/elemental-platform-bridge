@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\Search;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Search\Library\SearchAjax;
 use ElementalPlugin\Module\Search\Library\SiteSearch;
 

@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\UltimateMembershipPro\Library;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\UltimateMembershipPro\DAO\ElementalUMPDAO;
 

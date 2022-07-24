@@ -11,7 +11,7 @@ namespace ElementalPlugin\WoocommerceBookings;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Shortcode as Shortcode;
 use ElementalPlugin\Library\SectionTemplates;
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Core\Sitedefaults;
 
 /**

@@ -5,7 +5,7 @@
  * @package elemental/membership/views/onboarding/organisation/add-new-organisation.php
  */
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\HTML;
 use ElementalPlugin\Library\HttpPost;
 

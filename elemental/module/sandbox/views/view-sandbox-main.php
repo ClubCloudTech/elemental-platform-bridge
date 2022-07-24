@@ -1,9 +1,9 @@
 <?php
 /**
- * Search Display Shortcode
- * This page appears from all non simple shortcode calls.
+ * Sandbox Main View
+ * This page appears for all Main Views of Sandbox.
  *
- * @package ElementalPlugin/wcfm/views/maintemplate.php
+ * @package module/sandbox/views/view-sandbox-main.php
  */
 
 use ElementalPlugin\Library\Factory;

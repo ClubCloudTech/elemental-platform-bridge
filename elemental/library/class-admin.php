@@ -2,12 +2,12 @@
 /**
  * Manages the configuration settings for the video plugin .
  *
- * @package MyVideoRoomExtrasPlugin\Admin
+ * @package library/class-admin.php
  */
 
 declare(strict_types=1);
 
-namespace ElementalPlugin;
+namespace ElementalPlugin\Library;
 
 /**
  * Class Admin

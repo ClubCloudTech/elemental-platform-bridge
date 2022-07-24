@@ -10,7 +10,7 @@
 namespace ElementalPlugin\Module\Search\Library;
 
 use ElementalPlugin\Entity\MenuTabDisplay;
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\Ajax;
 
 /**

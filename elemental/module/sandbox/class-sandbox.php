@@ -8,7 +8,7 @@
 
 namespace ElementalPlugin\Module\Sandbox;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Sandbox\Library\SandboxShortCode;
 
 /**

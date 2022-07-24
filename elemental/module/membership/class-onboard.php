@@ -8,8 +8,8 @@
 
 namespace ElementalPlugin\Module\Membership;
 
-use ElementalPlugin\Admin;
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Admin;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\MeetingIdGenerator;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;

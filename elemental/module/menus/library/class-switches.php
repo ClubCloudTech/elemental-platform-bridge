@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\Menus\Library;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\UserRoles;
 
 /**

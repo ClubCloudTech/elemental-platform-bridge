@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\WCFM\Library;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\Ajax;
 
 /**

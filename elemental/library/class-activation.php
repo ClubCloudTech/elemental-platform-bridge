@@ -2,12 +2,12 @@
 /**
  * Installs and uninstalls the plugin.
  *
- * @package ElementalPlugin\Admin
+ * @package library/class-activation.php
  */
 
 declare(strict_types=1);
 
-namespace ElementalPlugin;
+namespace ElementalPlugin\Library;
 
 use ElementalPlugin\Module\Membership\Membership;
 use ElementalPlugin\Module\WCFM\WCFM;
@@ -17,9 +17,6 @@ use ElementalPlugin\Module\WCFM\WCFM;
  */
 class Activation {
 
-
-
-
 	/**
 	 * Activate the plugin, and related modules.
 	 */
@@ -27,8 +24,6 @@ class Activation {
 		Factory::get_instance( Membership::class )->activate();
 		Factory::get_instance( WCFM::class )->activate();
 	}
-
-
 
 	/**
 	 * Remove the plugin

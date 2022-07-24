@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\BuddyPress;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
@@ -31,15 +31,42 @@ class ElementalBP {
 		}
 		\add_action( 'bp_template_redirect', array( $this, 'redirect_profile' ) );
 		\add_shortcode( self::SHORTCODE_PROFILE_URL, array( $this, 'get_buddypress_profile_url_shortcode' ) );
-		\add_action( 'yz_activity_scripts', array( $this, 'enqueue_bp_script' ) );
-		$this->enqueue_bp_script();
-		add_shortcode( self::SHORTCODE_BP_PROFILE_REDIRECT, array( $this, 'bp_profile_redirect' ) );
+		\add_shortcode( self::SHORTCODE_BP_PROFILE_REDIRECT, array( $this, 'bp_profile_redirect' ) );
 	}
 	/**
 	 * Activate Functions for Membership.
 	 */
 	public function activate() {
 	}
+
+	/**
+	 * Is Friends Module Active - checks if Module of Friends is enabled in BP as well as all other dependencies.
+	 *
+	 * @return bool
+	 */
+	public function is_friends_module_available() {
+		if ( $this->is_buddypress_available() && function_exists( 'bp_is_active' ) && \bp_is_active( 'friends' ) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Is User Module Active - checks if Module of User Rooms is enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_group_module_available() {
+
+		if ( $this->is_buddypress_available() && function_exists( 'bp_is_active' ) && \bp_is_active( 'groups' ) ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
 
 	/**
 	 * Is Buddypress Available - checks if BuddyPress is enabled.
@@ -75,17 +102,6 @@ class ElementalBP {
 		\wp_safe_redirect( $url );
 
 		die();
-	}
-
-	/**
-	 * Get BuddyPress Profile URL.
-	 *
-	 *  @param int $user_id = the user_id to look up.
-	 *  @return ?string
-	 */
-	public function enqueue_bp_script() {
-		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
-		// wp_enqueue_script( 'youzify-buddypress', plugins_url( '/js/buddypress.js', __FILE__ ), array( 'jquery' ), $plugin_version, true );
 	}
 
 	/**

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * Plugin Name:         Elemental Platform
  * Plugin URI:          https://coadjute.com
  * Description:         Adds user management, multi-entity onboarding, and integration support functions for Ultimate Member Pro, BuddyPress, WooCommerce, and WCFM.
- * Version:             0.92
+ * Version:             0.93
  * Requires PHP:        7.4
  * Requires at least:   5.6
  * Author:              Fred Mocellin, Coadjute team
@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 
 namespace ElementalPlugin;
+
+use ElementalPlugin\Library\Activation;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;

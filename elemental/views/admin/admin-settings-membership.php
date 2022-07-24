@@ -5,7 +5,7 @@
  * @package ElementalPlugin\Views\Admin
  */
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Membership\Membership;
 
 /**

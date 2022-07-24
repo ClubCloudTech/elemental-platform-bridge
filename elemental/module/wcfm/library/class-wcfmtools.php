@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\WCFM\Library;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
@@ -442,7 +442,7 @@ class WCFMTools {
 		$user_id   = \get_current_user_id();
 		$parent_id = $this->staff_to_parent( $user_id );
 		if ( ! $parent_id ) {
-			esc_html_e( 'No Parent Active Subscription Found, or parent account deleted', 'my-video-room');
+			esc_html_e( 'No Parent Active Subscription Found, or parent account deleted', 'elementalplugin' );
 			die();
 		}
 		wp_logout();

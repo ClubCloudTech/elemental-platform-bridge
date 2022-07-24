@@ -8,7 +8,7 @@
 
 namespace ElementalPlugin\Module\UltimateMembershipPro;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\ShortCodesUMP;
 use ElementalPlugin\Library\Ajax;
 

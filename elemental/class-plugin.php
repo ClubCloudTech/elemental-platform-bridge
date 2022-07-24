@@ -2,13 +2,14 @@
 /**
  * The entry point for the plugin
  *
- * @package ElementalPlugin
+ * @package class-plugin.php
  */
 
 declare( strict_types=1 );
 
 namespace ElementalPlugin;
 
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\BuddyPress\ElementalBP;
 use ElementalPlugin\Module\WCFM\Library\FiltersUtilities;
 use ElementalPlugin\Library\Version;
@@ -20,6 +21,7 @@ use ElementalPlugin\Module\Search\Search;
 use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\Module\WCFM\WCFM;
 use ElementalPlugin\Module\BuddyPress\XProfile;
+use ElementalPlugin\Library\Admin;
 
 /**
  * Class Plugin
@@ -58,13 +60,52 @@ class Plugin {
 	 */
 	private function styles() {
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
+
 		wp_register_style(
 			'elemental',
 			plugins_url( 'assets/css/elemental.css', __FILE__ ),
 			false,
-			$plugin_version . \wp_rand( 1, 20000 )
+			$plugin_version
 		);
 		\wp_enqueue_style( 'elemental' );
+
+		// Frontend NonMobile Style.
+		\add_action(
+			'wp_enqueue_scripts',
+			function () {
+				\wp_enqueue_style(
+					'myvideoroom-frontend-css',
+					\plugins_url( 'assets/css/frontend.css', __FILE__ ),
+					false,
+					Factory::get_instance( Version::class )->get_plugin_version(),
+					'(min-width: 640px)'
+				);
+			},
+		);
+
+		// Front End Mobile.
+		\add_action(
+			'wp_enqueue_scripts',
+			function () {
+				\wp_enqueue_style(
+					'myvideoroom-frontend-mobile-css',
+					\plugins_url( 'assets/css/frontend-mobile.css', __FILE__ ),
+					false,
+					Factory::get_instance( Version::class )->get_plugin_version(),
+					'(max-width: 640px)'
+				);
+			},
+		);
+		// Tabbed Frame Navigation.
+		wp_register_script(
+			'elemental-admin-tabs',
+			plugins_url( 'assets/js/tabbed.js', __FILE__ ),
+			array( 'jquery' ),
+			$plugin_version,
+			true
+		);
+
+		\wp_enqueue_script( 'elemental-admin-tabs' );
 	}
 
 	/**

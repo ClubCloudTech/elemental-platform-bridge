@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\Membership\Library;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Membership\Onboard;
 use ElementalPlugin\Module\WooCommerceSubscriptions\Library\SubscriptionHelpers;
 use ElementalPlugin\Library\Ajax;

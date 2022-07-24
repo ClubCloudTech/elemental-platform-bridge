@@ -8,13 +8,12 @@
 namespace ElementalPlugin\Module\WCFM\Library;
 
 use ElementalPlugin\Library\UserRoles;
-use ElementalPlugin\Shortcode as Shortcode;
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 
 /**
  * Class FiltersUtilities
  */
-class FiltersUtilities extends Shortcode {
+class FiltersUtilities {
 
 	const VIDEO_STOREFRONT_SLUG    = 'videospace';
 	const VIDEO_STOREFRONT_NAME    = 'Video Space';

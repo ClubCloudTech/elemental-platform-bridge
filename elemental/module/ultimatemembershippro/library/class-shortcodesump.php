@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\UltimateMembershipPro\Library;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\HttpGet;
 

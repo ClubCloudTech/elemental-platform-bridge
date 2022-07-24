@@ -5,7 +5,7 @@
  * @package ElementalPlugin\Module\Membership\Views\add-new-user.php
  */
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\HTML;
 use ElementalPlugin\Library\HttpPost;
 

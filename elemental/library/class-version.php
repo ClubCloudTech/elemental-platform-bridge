@@ -2,7 +2,7 @@
 /**
  * Get versioning information
  *
- * @package ElementalPlugin
+ * @package library/class-version.php
  */
 
 declare( strict_types=1 );
@@ -24,11 +24,7 @@ class Version {
 		$plugin_data = \get_plugin_data( __DIR__ . '/../index.php' );
 
 		$plugin_version = $plugin_data['Version'];
-
-		if ( \defined( 'MYVIDEOROOM_STATIC_CACHE_SUFFIX' ) ) {
-			$plugin_version .= '-' . MYVIDEOROOM_STATIC_CACHE_SUFFIX;
-		}
-
+		// TODO Remove before Production.
 		return $plugin_version . time();
 	}
 }

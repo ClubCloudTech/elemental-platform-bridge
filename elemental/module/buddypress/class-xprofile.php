@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\BuddyPress;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\Ajax;
 
 /**

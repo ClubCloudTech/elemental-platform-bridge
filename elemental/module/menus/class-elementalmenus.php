@@ -7,7 +7,7 @@
 
 namespace ElementalPlugin\Module\Menus;
 
-use ElementalPlugin\Factory;
+use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Menus\Library\Switches;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 

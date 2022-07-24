@@ -12,7 +12,11 @@
  */
 do_action( 'bp_before_directory_groups_page' ); ?>
 
-<?php $icons_style = youzify_option( 'youzify_tabs_list_icons_style', 'youzify-tabs-list-gradient' ); ?>
+		<?php
+		if ( function_exists( 'youzify_option' ) ) {
+			$icons_style = youzify_option( 'youzify_tabs_list_icons_style', 'youzify-tabs-list-gradient' );
+		}
+		?>
 
 <div id="youzer">
 
@@ -23,8 +27,6 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 		}
 		?>
 		">
-
-			
 
 				<div id="elemental-members-directory-list">
 
