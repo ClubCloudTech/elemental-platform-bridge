@@ -14,7 +14,7 @@ declare(strict_types=1);
  * Version:             0.93
  * Requires PHP:        7.4
  * Requires at least:   5.6
- * Author:              Fred Mocellin, Coadjute team
+ * Author:              Fred Mocellin at Clubcloud, Then by Coadjute team
  * Author URI:          https://clubcloud.tech/
  * License:             GPLv2 or later
  * License URI:         https://www.gnu.org/licenses/gpl-2.0.html
@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace ElementalPlugin;
 
 use ElementalPlugin\Library\Activation;
+use ElementalPlugin\Library\Plugin;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -75,7 +76,7 @@ if ( ! class_exists( Plugin::class ) ) {
 	}
 
 	spl_autoload_register( 'ElementalPlugin\autoloader' );
-	require_once __DIR__ . '/globals.php';
+	require_once __DIR__ . '/library/globals.php';
 	add_action( 'plugins_loaded', array( Plugin::class, 'init' ) );
 	register_activation_hook( __FILE__, array( Activation::class, 'activate' ) );
 	register_uninstall_hook( __FILE__, array( Activation::class, 'uninstall' ) );

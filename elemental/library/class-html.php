@@ -10,7 +10,7 @@ declare( strict_types=1 );
 namespace ElementalPlugin\Library;
 
 use ElementalPlugin\Library\Admin;
-use ElementalPlugin\Plugin;
+use ElementalPlugin\Library\Plugin;
 use Exception;
 
 /**

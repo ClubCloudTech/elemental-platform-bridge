@@ -3,7 +3,7 @@
  * My Video Room Extras Globals.
  * These are legacy global functions that were exported by the plugin
  *
- * @package ElementalPlugin
+ * @package library/globals.php
  */
 
 declare(strict_types=1);

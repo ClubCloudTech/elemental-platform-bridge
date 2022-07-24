@@ -5,7 +5,7 @@
  * @package ElementalPlugin\Views\Admin
  */
 
-use ElementalPlugin\Plugin;
+use ElementalPlugin\Library\Plugin;
 
 return function (
 	string $active_tab,

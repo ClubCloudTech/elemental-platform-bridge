@@ -7,7 +7,7 @@
 
 declare( strict_types=1 );
 
-namespace ElementalPlugin;
+namespace ElementalPlugin\Library;
 
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\BuddyPress\ElementalBP;
