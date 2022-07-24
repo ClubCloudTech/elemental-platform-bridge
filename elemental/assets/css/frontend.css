@@ -14,7 +14,7 @@
             border-bottom: none;
         }
         
-        .myvideoroom-nav-tab-wrapper {
+        .elemental-nav-tab-wrapper {
             margin-bottom: 4px;
             overflow: hidden;
         }
@@ -37,13 +37,13 @@
             margin-top: 10px;
         }
         
-        .myvideoroom-nav-tab-wrapper ul {
+        .elemental-nav-tab-wrapper ul {
             margin: 0;
             padding: 0;
             white-space: nowrap;
         }
         
-        .myvideoroom-nav-tab-wrapper li {
+        .elemental-nav-tab-wrapper li {
             display: inline-block;
             margin: 0;
             padding: 1px;
@@ -83,7 +83,7 @@
             margin-right: 5px;
         }
         
-        .myvideoroom-nav-tab-wrapper li:after {
+        .elemental-nav-tab-wrapper li:after {
             border-bottom: 1px solid #c3c4c7;
             bottom: 0;
             clear: both;
@@ -95,35 +95,35 @@
             z-index: 1;
         }
         
-        .myvideoroom-nav-tab-wrapper li:last-child:after {
+        .elemental-nav-tab-wrapper li:last-child:after {
             width: 100%;
         }
         
-        .myvideoroom-nav-tab-wrapper li a {
+        .elemental-nav-tab-wrapper li a {
             border: 1px solid #c3c4c7;
             border-radius: 3px 3px 0 0;
             display: inline-block;
             padding: 7px 10px 7px 10px;
         }
         
-        .myvideoroom-nav-tab-wrapper li a.nav-tab-active {
+        .elemental-nav-tab-wrapper li a.nav-tab-active {
             font-weight: 500;
             background: white;
             width: 100%;
         }
         
-        .myvideoroom-nav-tab-wrapper li a:not(.nav-tab-active) {
+        .elemental-nav-tab-wrapper li a:not(.nav-tab-active) {
             background: #dcdcde;
             width: 100%;
         }
         
-        .myvideoroom-nav-tab-wrapper li a.nav-tab-active,
-        .myvideoroom-nav-tab-wrapper li a:not(.nav-tab-active) {
+        .elemental-nav-tab-wrapper li a.nav-tab-active,
+        .elemental-nav-tab-wrapper li a:not(.nav-tab-active) {
             text-decoration: none;
         }
         
-        .myvideoroom-nav-tab-wrapper li a.nav-tab-active:hover,
-        .myvideoroom-nav-tab-wrapper li a:not(.nav-tab-active):hover {
+        .elemental-nav-tab-wrapper li a.nav-tab-active:hover,
+        .elemental-nav-tab-wrapper li a:not(.nav-tab-active):hover {
             text-decoration: underline;
         }
         

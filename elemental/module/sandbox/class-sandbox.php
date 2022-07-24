@@ -9,6 +9,7 @@
 namespace ElementalPlugin\Module\Sandbox;
 
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Module\Sandbox\Library\SandboxRender;
 use ElementalPlugin\Module\Sandbox\Library\SandboxShortCode;
 
 /**
@@ -23,6 +24,7 @@ class Sandbox {
 	public function init(): void {
 
 		add_shortcode( 'the_content_sand', array( Factory::get_instance( SandboxShortCode::class ), 'render_sandbox_shortcode' ) );
+		Factory::get_instance( SandboxRender::class )->init();
 	}
 	/**
 	 * Activate Functions for Sandbox Module.

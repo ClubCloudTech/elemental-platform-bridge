@@ -63,7 +63,7 @@ class Plugin {
 
 		wp_register_style(
 			'elemental',
-			plugins_url( 'assets/css/elemental.css', __FILE__ ),
+			plugins_url( '../assets/css/elemental.css', __FILE__ ),
 			false,
 			$plugin_version
 		);
@@ -75,7 +75,7 @@ class Plugin {
 			function () {
 				\wp_enqueue_style(
 					'myvideoroom-frontend-css',
-					\plugins_url( 'assets/css/frontend.css', __FILE__ ),
+					\plugins_url( '../assets/css/frontend.css', __FILE__ ),
 					false,
 					Factory::get_instance( Version::class )->get_plugin_version(),
 					'(min-width: 640px)'
@@ -89,7 +89,7 @@ class Plugin {
 			function () {
 				\wp_enqueue_style(
 					'myvideoroom-frontend-mobile-css',
-					\plugins_url( 'assets/css/frontend-mobile.css', __FILE__ ),
+					\plugins_url( '../assets/css/frontend-mobile.css', __FILE__ ),
 					false,
 					Factory::get_instance( Version::class )->get_plugin_version(),
 					'(max-width: 640px)'
@@ -99,7 +99,7 @@ class Plugin {
 		// Tabbed Frame Navigation.
 		wp_register_script(
 			'elemental-admin-tabs',
-			plugins_url( 'assets/js/tabbed.js', __FILE__ ),
+			plugins_url( '../assets/js/tabbed.js', __FILE__ ),
 			array( 'jquery' ),
 			$plugin_version,
 			true

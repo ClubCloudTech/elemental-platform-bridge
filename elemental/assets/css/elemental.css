@@ -362,9 +362,7 @@
 	margin-top:10px;
 	margin-bottom:10px;
 }
-.elemental-nav-tab-wrapper{
-	padding: 5px;
-}
+
 #wcfmmp-stores-wrap ul.wcfmmp-store-wrap li .store-wrapper {
 	border: #cdcdcd 2px solid;
 	border-radius: 5px;
@@ -415,17 +413,6 @@ p.wcfm_title strong, span.wcfm_title strong {
 	max-width: 96%;
 	margin: auto;
 	padding: 5px;
-}
-.myvideoroom-nav-tab-wrapper li:after {
-	border-bottom: 0px!important;
-	bottom: 0;
-	clear: both;
-	content: "\00a0";
-	display: inline-block;
-	margin-left: -1px;
-	padding-right: 2px;
-	position: absolute;
-	z-index: 0!important;
 }
 
 .youzify-bbp-topic-head {

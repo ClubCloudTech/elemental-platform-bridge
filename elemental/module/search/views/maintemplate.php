@@ -70,7 +70,7 @@ return function (
 			<?php
 			if ( $count_tabs > 1 ) {
 				?>
-			<nav class="myvideoroom-nav-tab-wrapper elemental-nav-tab-wrapper nav-tab-wrapper  ">
+			<nav class="elemental-nav-tab-wrapper nav-tab-wrapper  ">
 				<ul class="search-menu-header">
 					<?php
 							$active = ' nav-tab-active';

@@ -2,13 +2,13 @@
 /**
  * Search Handling Class for Cross Site Search Handler.
  *
- * @package module/search/library/class-sitesearch.php
+ * @package module/sandbox/library/class-sandboxrender.php
  */
 
  // phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
 
 
-namespace ElementalPlugin\Module\Search\Library;
+namespace ElementalPlugin\Module\Sandbox\Library;
 
 use ElementalPlugin\Module\BBPress\ElementalBBPress;
 use ElementalPlugin\Module\BuddyPress\ElementalBP;
@@ -19,22 +19,23 @@ use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\HttpGet;
 use ElementalPlugin\Module\WCFM\WCFM;
 use ElementalPlugin\Library\TabHelper;
+use ElementalPlugin\Module\Search\Library\ContentSearch;
+use ElementalPlugin\Module\Search\Library\ForumSearch;
+use ElementalPlugin\Module\Search\Library\GroupSearch;
+use ElementalPlugin\Module\Search\Library\MemberSearch;
+use ElementalPlugin\Module\Search\Library\OrganisationSearch;
+use ElementalPlugin\Module\Search\Library\ProductSearch;
 
 /**
  * Class Site Search
  */
-class SiteSearch extends TabHelper {
+class SandboxRender extends TabHelper {
 
 	/**
 	 * Install the shortcode
 	 */
 	public function init() {
-
-		add_shortcode( 'elemental_search', array( $this, 'render_sitesearch_shortcode' ) );
-		add_shortcode( 'elemental_show_stores', array( Factory::get_instance( OrganisationSearch::class ), 'elemental_show_stores' ) );
-		add_shortcode( 'elemental_show_members', array( Factory::get_instance( MemberSearch::class ), 'elemental_members_shortcode' ) );
-		add_shortcode( 'elemental_show_forums', array( Factory::get_instance( ForumSearch::class ), 'elemental_display_search' ) );
-		add_shortcode( 'elemental_show_groups', array( Factory::get_instance( GroupSearch::class ), 'elemental_group_shortcode' ) );
+		add_shortcode( 'elemental_sandbox', array( $this, 'render_sitesearch_shortcode' ) );
 	}
 
 	/**
@@ -82,7 +83,7 @@ class SiteSearch extends TabHelper {
 		$tabs            = $this->tab_sort( $tabs, $tab, $only );
 		$pagination_base = str_replace( $post->ID, '%#%', esc_url( get_pagenum_link( $post->ID ) ) );
 
-		$render = include __DIR__ . '/../views/maintemplate.php';
+		$render = include __DIR__ . '/../views/view-sandbox-main.php';
 		return $render( $header, $pagination_base, $html_library, $tabs, $search_template, $product_template );
 
 	}
@@ -154,7 +155,7 @@ class SiteSearch extends TabHelper {
 		$WCFM->library->load_select2_lib();
 		wp_enqueue_script( 'wc-country-select' );
 		$WCFMmp->library->load_map_lib();
-		wp_register_script( 'wcfmmp_store_list_js', \plugins_url( '/../js/elemental-script-store-lists.js', \realpath( __FILE__ ) ), array( 'jquery' ), $plugin_version . \wp_rand( 1, 2000 ), true );
+		wp_register_script( 'wcfmmp_store_list_js', \plugins_url( '/../js/elemental-script-store-lists.js', \realpath( __FILE__ ) ), array( 'jquery' ), $plugin_version, true );
 
 		wp_enqueue_script( 'wcfmmp_store_list_js' );
 

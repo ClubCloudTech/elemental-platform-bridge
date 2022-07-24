@@ -55,7 +55,7 @@ class Admin {
 		);
 				\wp_enqueue_style(
 					'elemental-admin-css',
-					\plugins_url( 'assets/css/admin.css', __FILE__ ),
+					\plugins_url( '/../assets/css/admin.css', __FILE__ ),
 					false,
 					\wp_rand( 1, 10000 ),
 				);
@@ -63,18 +63,21 @@ class Admin {
 		$tabs = array(
 			'admin-settings-membership' => \esc_html__( 'Membership Settings', 'elementalplugin' ),
 			'admin-settings-plugin'     => \esc_html__( 'Plugin Settings', 'elementalplugin' ),
+			'admin-settings-sandbox'    => \esc_html__( 'Sandbox Settings', 'elementalplugin' ),
 		);
+
+		$tabs = \apply_filters( 'elemental_admin_menu', $tabs );
 
 		if ( ! $active_tab || ! isset( $tabs[ $active_tab ] ) ) {
 			$active_tab = array_key_first( $tabs );
 		}
 
 		$messages      = array();
-		$header_render = include __DIR__ . '/views/admin/header.php';
+		$header_render = include __DIR__ . '/../views/admin/header.php';
 		//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $header_render( $active_tab, $tabs, $messages );
 
-		$render = include __DIR__ . '/views/admin/' . $active_tab . '.php';
+		$render = include __DIR__ . '/../views/admin/' . $active_tab . '.php';
 		//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $render();
 	}
@@ -101,7 +104,7 @@ class Admin {
 			// Enqueue Script Ajax Handling.
 			\wp_register_script(
 				'elemental-admin-ajax-js',
-				\plugins_url( 'assets/js/mvradminajax.js', \realpath( __FILE__ ) ),
+				\plugins_url( '../assets/js/mvradminajax.js', \realpath( __FILE__ ) ),
 				array( 'jquery' ),
 				\wp_rand( 40, 30000 ),
 				true
