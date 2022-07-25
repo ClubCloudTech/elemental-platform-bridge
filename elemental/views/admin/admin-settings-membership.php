@@ -1,8 +1,8 @@
 <?php
 /**
- * Outputs the configuration settings for the video plugin
+ * Outputs the configuration settings for the Membership Area of the plugin
  *
- * @package ElementalPlugin\Views\Admin
+ * @package views/admin/admin-settings-membership.php
  */
 
 use ElementalPlugin\Library\Factory;

@@ -1,58 +1,61 @@
 <?php
 /**
- * Outputs User Membership Levels Table.
+ * Outputs Sandbox Tabs Table.
  *
  * @package module/sandbox/views/admin-table-output.php
  */
 
 /**
- * Render the Membership Levels Table.
+ * Render the Sandbox Tabs Table.
  *
- * @param array   $membership_levels        The list of rooms.
+ * @param array   $sandbox_items        The list of rooms.
  * @param ?string $level_type  Category of Room to Filter.
  *
  * @return string
  */
 return function (
-	array $membership_levels
+	array $sandbox_items
 ): string {
 	ob_start();
 	?>
 
 	<?php
-	if ( $membership_levels ) {
+	if ( $sandbox_items ) {
 		?>
 	<table id="mvr-table-basket-frame" class="wp-list-table widefat plugins myvideoroom-table-adjust">
 		<thead>
 			<tr>
+			<th scope="col" class="manage-column column-name column-primary">
+		<?php esc_html_e( 'Enabled', 'elementalplugin' ); ?>
+				</th>
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Badge', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Tab Name', 'elementalplugin' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Level', 'my-video-room' ); ?>
+		<?php esc_html_e( 'User Name Prepend', 'elementalplugin' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Price', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Destination URL', 'elementalplugin' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Allowed Accounts', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Custom Field 1', 'elementalplugin' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Store Template', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Custom Field 2', 'elementalplugin' ); ?>
 				</th>
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Landing Template', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Private Key', 'elementalplugin' ); ?>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
 		<?php
-		$membership_item_render = include __DIR__ . '/membership-item.php';
-		foreach ( $membership_levels as $level ) {
+		$membership_item_render = include __DIR__ . '/admin-sandbox-item.php';
+		foreach ( $sandbox_items as $level ) {
         //phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
         echo $membership_item_render( $level );
 		}

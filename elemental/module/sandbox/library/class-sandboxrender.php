@@ -1,6 +1,6 @@
 <?php
 /**
- * Search Handling Class for Cross Site Search Handler.
+ * Rendering Controllers for Sandbox.
  *
  * @package module/sandbox/library/class-sandboxrender.php
  */
@@ -189,6 +189,5 @@ class SandboxRender extends TabHelper {
 				'is_rtl'               => is_rtl(),
 			)
 		);
-
 	}
 }

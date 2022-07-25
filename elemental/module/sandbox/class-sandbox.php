@@ -10,6 +10,7 @@ namespace ElementalPlugin\Module\Sandbox;
 
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
+use ElementalPlugin\Module\Sandbox\Library\SandBoxHelpers;
 use ElementalPlugin\Module\Sandbox\Library\SandboxRender;
 use ElementalPlugin\Module\Sandbox\Library\SandboxShortCode;
 
@@ -47,8 +48,7 @@ class Sandbox {
 	 */
 	public function render_sandbox_config_page(): string {
 		\wp_enqueue_script( 'elemental-membership-js' );
-		$items_sandbox = Factory::get_instance( SandBoxDao::class )->get_all_entities();
+		$items_sandbox = Factory::get_instance( SandBoxHelpers::class )->get_sandbox_rooms();
 		return ( include __DIR__ . '/views/admin-table-output.php' )( $items_sandbox );
 	}
-
 }

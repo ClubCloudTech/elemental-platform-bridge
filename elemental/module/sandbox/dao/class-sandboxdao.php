@@ -319,13 +319,13 @@ class SandBoxDao {
 					'
                         SELECT record_id
                         FROM ' . /*phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared*/ $this->get_table_name() . '
-                        ORDER BY room_type ASC
+                        ORDER BY record_id ASC
                     '
 				);
 
 			$result = array_map(
 				function ( $row ) {
-					return (int) $row->post_id;
+					return (int) $row->record_id;
 				},
 				$rows
 			);
