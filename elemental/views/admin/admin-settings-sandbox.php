@@ -7,6 +7,7 @@
 
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Membership\Membership;
+use ElementalPlugin\Module\Sandbox\Sandbox;
 
 /**
  * Render the admin page
@@ -24,7 +25,7 @@ return function (): string {
 <div class="wrap">
 	<?php
 	//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped;
-	echo Factory::get_instance( Membership::class )->render_membership_config_page();
+	echo Factory::get_instance( Sandbox::class )->render_sandbox_config_page();
 
 	?>
 
