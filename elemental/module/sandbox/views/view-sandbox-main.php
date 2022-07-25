@@ -15,8 +15,6 @@ use ElementalPlugin\Module\WCFM\Library\WCFMTools;
  * @param string $header - the header of the template.
  * @param object $html_library - randomizing object class.
  * @param array  $tabs -Inbound object with tabs.
- * @param string $search_template - the templateID of the search template.
- * @param string $product_template - the templateID of the product template.
  *
  * @return string
  */
@@ -24,11 +22,8 @@ use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 
 return function (
 	string $header,
-	string $pagination_base,
 	object $html_library,
-	array $tabs,
-	string $search_template = null,
-	string $product_template = null
+	array $tabs
 ): string {
 	$count_tabs = count( $tabs );
 	if ( $count_tabs <= 1 ) {
@@ -38,10 +33,7 @@ return function (
 	?>
 <div id="elemental-search-base" class="">
 
-	<div id="elemental-pageinfo" data-searchid="<?php echo esc_attr( $search_template ); ?>"
-	data-productid="<?php echo esc_attr( $product_template ); ?>"
-	data-pagination="<?php echo esc_url_raw( $pagination_base ); ?>"
-	></div>
+
 		<div class="mvr-header-section">
 			<?php
 				// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.
@@ -49,24 +41,7 @@ return function (
 
 			?>
 		</div>
-	<div style="<?php echo esc_attr( $display_style ); ?>" class="elemental-header-searchbar elemental-background-item">	
-		<div id="mvr-notification-master" class="mvr-nav-shortcode-outer-wrap-clean mvr-notification-master">
 
-			<div id="mvr-postbutton-notification" class="mvr-notification-align">
-				<div id="notification" class="elemental-search-bar">
-					<button id="elemental-refresh-search" class="mvr-main-button-enabled" style="display:none;">
-					<a  class="mvr-main-button-enabled  myvideoroom-button-link"><span title="Search Again" class="myvideoroom-dashicons dashicons-search"></span><span title="Search Again" class="myvideoroom-dashicons dashicons-update-alt"></span></a>
-					</button>
-					<input id="elemental-search" type="text" placeholder="Search..... (Results will appear in Tabs Below)"  class="myvideoroom-input-restrict-alphanumeric-space mvr-input-box myvideoroom-center">
-					<div id="searchnotification" class="mvr-notification-align"></div>
-					<button class="mvr-main-button-enabled " >
-					<a data-room-name="" class="mvr-main-button-enabled elemental-search-trigger"><span title="Search" class="myvideoroom-dashicons dashicons-search elemental-search-trigger"></span></a>
-					</button>
-					<div id="mvr-postbutton-notification" class="mvr-notification-align"></div>
-				</div>
-			</div>
-		</div>
-			<div><h2 class="elemental-align-centre"><?php esc_html_e( 'Platform Categories', 'myvideoroom' ); ?></h2></div>
 			<?php
 			if ( $count_tabs > 1 ) {
 				?>

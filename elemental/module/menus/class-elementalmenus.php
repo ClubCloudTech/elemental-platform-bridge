@@ -131,7 +131,10 @@ class ElementalMenus {
 		}
 
 		$user                = \get_user_by( 'id', $user_id );
-		$picture_url         = get_avatar_url( $user_id );
+		$attributes          = array(
+			'force_default' => true,
+		);
+		$picture_url         = get_avatar_url( $user, $attributes );
 		$output              = $user->display_name;
 		$profile_control_url = \get_permalink( 12508 );
 
@@ -144,8 +147,7 @@ class ElementalMenus {
 		<div class="elemental-button-primary-nav-area">
 		<a href="<?php echo esc_url( $profile_control_url ); ?>" class="elemental-host-link">
 			<div class="elemental-primary-nav-settings">
-				<div class="elemental-primary-nav-img" style="background-image: url(<?php echo esc_url( $picture_url ); ?> )"></div>
-				<span><?php echo esc_attr( $output ); ?></span>
+				<span><i class="myvideoroom-dashicons mvr-icons dashicons-admin-users"></i><?php echo esc_attr( $output ); ?></span>
 			</div></a>
 		</div>
 		<?php

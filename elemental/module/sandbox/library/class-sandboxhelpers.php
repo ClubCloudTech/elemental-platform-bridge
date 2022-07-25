@@ -7,6 +7,7 @@
 
 namespace ElementalPlugin\Module\Sandbox\Library;
 
+use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
 use ElementalPlugin\Module\Sandbox\Entity\SandboxEntity;
@@ -53,12 +54,76 @@ class SandBoxHelpers {
 	/**
 	 * Get the list of Sandbox Rooms
 	 *
-	 * @param SandboxEntity $record_id - the record ID.
+	 * @param SandboxEntity $sandbox_object - the Object.
 	 * @return ?string
 	 */
-	public function create_sandbox_url( SandboxEntity $sandbox_object ) :?string {
+	public function create_sandbox_iframe( SandboxEntity $sandbox_object = null ) :?string {
+
+		if ( ! $sandbox_object->is_enabled() ) {
+			return \esc_html__( 'Disabled in Database', 'elementalplugin' );
+		}
+
+		$base_url      = $sandbox_object->get_destination_url();
+		$api_path      = $sandbox_object->get_user_name_prepend();
+		$custom_field1 = $sandbox_object->get_customfield1();
+		$custom_field2 = $sandbox_object->get_customfield2();
+		$public_hash   = $sandbox_object->get_private_key();
+		$email_hash = null;
+
+		if ( $custom_field1 ) {
+			$field_1 = $custom_field1;
+		}
+		if ( $custom_field2 ) {
+			$field_2 = '?' . $custom_field2;
+		}
+
+		return '<iframe style="width:100%;height:800px;" src="' . $base_url . '/' . $api_path . '?userid=' . $email_hash . $field_1 . $field_2 . '"></iframe>';
+
+	}
+
+	/**
+	 * Construct All Tabs for Sandbox.
+	 *
+	 * @return array - outbound menu.
+	 */
+	public function render_all_tabs(): array {
+		$tab_objects = array();
+		// Get all Tabs
+		$all_record_ids = Factory::get_instance( SandBoxDao::class )->get_all_entities();
+
+		// Send each Tab item to get Menu item from it.
+
+		foreach ( $all_record_ids as $id ) {
+
+			$object    = Factory::get_instance( SandBoxDao::class )->get_by_id( $id );
+			$menu_item = $this->prepare_sandbox_tab( $object );
+			\array_push( $tab_objects, $menu_item );
+		}
+
+		// Return the Array.
+
+		return $tab_objects;
+	}
 
 
+	/**
+	 * Render Content Search Results Tab.
+	 *
+	 * @param SandboxEntity $sandbox_object - the Sandbox Object to Convert to Menu Item.
+	 *
+	 * @return array - outbound menu.
+	 */
+	private function prepare_sandbox_tab( SandboxEntity $sandbox_object ): MenuTabDisplay {
+
+		$slug      = preg_replace( '/[^a-zA-Z0-9]+/', '', $sandbox_object->get_tab_name() );
+		$host_menu = new MenuTabDisplay(
+			$sandbox_object->get_tab_name(),
+			$slug . '-' . $sandbox_object->get_record_id(),
+			fn() => $this->create_sandbox_iframe( $sandbox_object ),
+			$slug . '1-' . $sandbox_object->get_record_id()
+		);
+
+		return $host_menu;
 	}
 
 }
