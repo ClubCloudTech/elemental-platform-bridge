@@ -20,7 +20,7 @@ class Admin {
 	 */
 	public function init() {
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
-
+		add_action( 'wp_ajax_elemental_admin_ajax', array( Factory::get_instance( Ajax::class ), 'elemental_admin_ajax_handler' ), 10, 2 );
 		add_shortcode( self::SHORTCODE_TAG . 'proxytest', array( $this, 'proxy_test_function' ) );
 		$this->register_scripts();
 	}
@@ -112,12 +112,12 @@ class Admin {
 			// Localize script Ajax Upload.
 			$script_data_array = array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'security' => wp_create_nonce( 'mvr_admin_ajax' ),
+				'security' => wp_create_nonce( 'elemental_admin_ajax' ),
 
 			);
 			wp_localize_script(
 				'elemental-admin-ajax-js',
-				'myvideoroom_admin_ajax',
+				'elemental_admin_ajax',
 				$script_data_array
 			);
 	}

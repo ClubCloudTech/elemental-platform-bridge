@@ -107,4 +107,32 @@ class Ajax {
 		}
 	}
 
+	/** MyVideoRoom Admin Ajax Support.
+	 * Handles ajax calls from backend wp-admin pages
+	 *
+	 * @return mixed
+	 */
+	public function elemental_admin_ajax_handler() {
+		$response            = array();
+		$response['message'] = 'No Change';
+
+		// Security Checks.
+		check_ajax_referer( 'elemental_admin_ajax', 'security', false );
+
+		$action_taken = $this->get_string_parameter( 'action_taken' );
+
+		switch ( $action_taken ) {
+			/*
+			* Update Maintenance Settings.
+			*
+			*/
+			case 'save_maintenance_settings':
+				$template_update = Factory::get_instance( Ajax::class )->get_string_parameter( 'template_update' );
+				// Listeners Hook into this filter to pick up Ajax post and process in own module.
+				$response = \apply_filters( 'myvideoroom_maintenance_result_listener', $response );
+				return \wp_send_json( $response );
+
+		}
+		die();
+	}
 }

@@ -206,7 +206,6 @@ class LoginHandler {
 				\wp_safe_redirect( $url );
 			}
 			die();
-
 		}
 
 		$is_vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();

@@ -78,4 +78,5 @@
 	init($(document));
 
 	window.myvideoroom_tabbed_init = init;
+	
 })(jQuery);

@@ -50,7 +50,7 @@ class WCFMStyling {
 		$protocol = ( ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ) || $_SERVER['SERVER_PORT'] == 443 ) ? 'https://' : 'http://';
 		$url      = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-		if ( get_wcfm_url() !== $url ) {
+		if ( function_exists( 'get_wcfm_url' ) && get_wcfm_url() !== $url ) {
 			return \do_shortcode( '[wc_frontend_manager]' );
 		} else {
 			$template = \do_shortcode( '[elementor-template id="' . \get_option( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID ) . '"]' );

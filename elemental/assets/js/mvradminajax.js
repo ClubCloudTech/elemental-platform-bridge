@@ -214,9 +214,9 @@ window.addEventListener(
                         console.log('initsync settings');
                         var form_data = new FormData();
                         tab_user_profile = $('#group-profile-input').val();
-                        form_data.append('action', 'myvideoroom_admin_ajax');
+                        form_data.append('action', 'elemental_admin_ajax');
                         form_data.append('action_taken', 'save_maintenance_settings');
-                        form_data.append('security', myvideoroom_admin_ajax.security);
+                        form_data.append('security', elemental_admin_ajax.security);
                         if (templateonly) {
                             form_data.append('template_update', true);
                         } else {
@@ -231,7 +231,7 @@ window.addEventListener(
                         $.ajax({
                             type: 'post',
                             dataType: 'html',
-                            url: myvideoroom_admin_ajax.ajax_url,
+                            url: elemental_admin_ajax.ajax_url,
                             contentType: false,
                             processData: false,
                             data: form_data,
@@ -278,15 +278,15 @@ window.addEventListener(
                         }
                         var form_data = new FormData(),
                             frame = $('#module' + module);
-                        form_data.append('action', 'myvideoroom_admin_ajax');
+                        form_data.append('action', 'elemental_admin_ajax');
                         form_data.append('action_taken', 'update_module');
                         form_data.append('state', action);
                         form_data.append('module', module);
-                        form_data.append('security', myvideoroom_admin_ajax.security);
+                        form_data.append('security', elemental_admin_ajax.security);
                         $.ajax({
                             type: 'post',
                             dataType: 'html',
-                            url: myvideoroom_admin_ajax.ajax_url,
+                            url: elemental_admin_ajax.ajax_url,
                             contentType: false,
                             processData: false,
                             data: form_data,
@@ -323,16 +323,16 @@ window.addEventListener(
                         }
                         container.html('<h1 style = "padding:20px" > ' + loading_text + '</h1>');
                         var form_data = new FormData();
-                        form_data.append('action', 'myvideoroom_admin_ajax');
+                        form_data.append('action', 'elemental_admin_ajax');
                         form_data.append('action_taken', 'core');
                         form_data.append('roomId', room_id);
                         form_data.append('inputType', input_type);
-                        form_data.append('security', myvideoroom_admin_ajax.security);
+                        form_data.append('security', elemental_admin_ajax.security);
 
                         $.ajax({
                             type: 'post',
                             dataType: 'html',
-                            url: myvideoroom_admin_ajax.ajax_url,
+                            url: elemental_admin_ajax.ajax_url,
                             contentType: false,
                             processData: false,
                             data: form_data,
@@ -398,14 +398,14 @@ window.addEventListener(
                  */
                 var verifySlug = function(targetid, input) {
                         var form_data = new FormData();
-                        form_data.append('action', 'myvideoroom_admin_ajax');
+                        form_data.append('action', 'elemental_admin_ajax');
                         form_data.append('action_taken', 'check_slug');
                         form_data.append('slug', input);
-                        form_data.append('security', myvideoroom_admin_ajax.security);
+                        form_data.append('security', elemental_admin_ajax.security);
                         $.ajax({
                             type: 'post',
                             dataType: 'html',
-                            url: myvideoroom_admin_ajax.ajax_url,
+                            url: elemental_admin_ajax.ajax_url,
                             contentType: false,
                             processData: false,
                             data: form_data,
@@ -432,15 +432,15 @@ window.addEventListener(
                     var form_data = new FormData();
                     var input = $('#urlinput_' + id + '-' + offset).val(),
                         maintable = $('#mvr-table-basket-frame_main');
-                    form_data.append('action', 'myvideoroom_admin_ajax');
+                    form_data.append('action', 'elemental_admin_ajax');
                     form_data.append('action_taken', 'update_slug');
                     form_data.append('post_id', id);
                     form_data.append('slug', input);
-                    form_data.append('security', myvideoroom_admin_ajax.security);
+                    form_data.append('security', elemental_admin_ajax.security);
                     $.ajax({
                         type: 'post',
                         dataType: 'html',
-                        url: myvideoroom_admin_ajax.ajax_url,
+                        url: elemental_admin_ajax.ajax_url,
                         contentType: false,
                         processData: false,
                         data: form_data,
@@ -481,15 +481,15 @@ window.addEventListener(
                     var form_data = new FormData();
                     var input = $('#nameinput_' + id + '-' + offset).val(),
                         maintable = $('#mvr-table-basket-frame_main');
-                    form_data.append('action', 'myvideoroom_admin_ajax');
+                    form_data.append('action', 'elemental_admin_ajax');
                     form_data.append('action_taken', 'update_name');
                     form_data.append('post_id', id);
                     form_data.append('room_name', input);
-                    form_data.append('security', myvideoroom_admin_ajax.security);
+                    form_data.append('security', elemental_admin_ajax.security);
                     $.ajax({
                         type: 'post',
                         dataType: 'html',
-                        url: myvideoroom_admin_ajax.ajax_url,
+                        url: elemental_admin_ajax.ajax_url,
                         contentType: false,
                         processData: false,
                         data: form_data,
@@ -539,16 +539,16 @@ window.addEventListener(
                             return false;
                         }
 
-                        form_data.append('action', 'myvideoroom_admin_ajax');
+                        form_data.append('action', 'elemental_admin_ajax');
 
                         form_data.append('display_title', display_title);
                         form_data.append('slug', input);
                         form_data.append('type', shortcode);
-                        form_data.append('security', myvideoroom_admin_ajax.security);
+                        form_data.append('security', elemental_admin_ajax.security);
                         $.ajax({
                             type: 'post',
                             dataType: 'html',
-                            url: myvideoroom_admin_ajax.ajax_url,
+                            url: elemental_admin_ajax.ajax_url,
                             contentType: false,
                             processData: false,
                             data: form_data,
@@ -591,7 +591,7 @@ window.addEventListener(
                         $('.myvideoroom-sitevideo-hide-button').show();
 
                         var form_data = new FormData();
-                        form_data.append('action', 'myvideoroom_admin_ajax');
+                        form_data.append('action', 'elemental_admin_ajax');
 
                         if (room_name === 'delete-approved') {
                             form_data.append('action_taken', 'delete_approved');
@@ -605,12 +605,12 @@ window.addEventListener(
                         form_data.append('roomId', room_id);
                         form_data.append('roomName', room_name);
                         form_data.append('nonce', nonce);
-                        form_data.append('security', myvideoroom_admin_ajax.security);
+                        form_data.append('security', elemental_admin_ajax.security);
 
                         $.ajax({
                             type: 'post',
                             dataType: 'html',
-                            url: myvideoroom_admin_ajax.ajax_url,
+                            url: elemental_admin_ajax.ajax_url,
                             contentType: false,
                             processData: false,
                             data: form_data,
@@ -660,13 +660,13 @@ window.addEventListener(
                 var refreshTables = function() {
                     var form_data = new FormData(),
                         maintable = $('#mvr-table-basket-frame_main');
-                    form_data.append('action', 'myvideoroom_admin_ajax');
+                    form_data.append('action', 'elemental_admin_ajax');
                     form_data.append('action_taken', 'refresh_tables');
-                    form_data.append('security', myvideoroom_admin_ajax.security);
+                    form_data.append('security', elemental_admin_ajax.security);
                     $.ajax({
                         type: 'post',
                         dataType: 'html',
-                        url: myvideoroom_admin_ajax.ajax_url,
+                        url: elemental_admin_ajax.ajax_url,
                         contentType: false,
                         processData: false,
                         data: form_data,
@@ -709,14 +709,14 @@ window.addEventListener(
                 var updateUsertab = function() {
                     var form_data = new FormData();
                     tab_user_profile = $('#user-profile-input').val();
-                    form_data.append('action', 'myvideoroom_admin_ajax');
+                    form_data.append('action', 'elemental_admin_ajax');
                     form_data.append('action_taken', 'update_user_tab_name');
                     form_data.append('user_tab_name', tab_user_profile);
-                    form_data.append('security', myvideoroom_admin_ajax.security);
+                    form_data.append('security', elemental_admin_ajax.security);
                     $.ajax({
                         type: 'post',
                         dataType: 'html',
-                        url: myvideoroom_admin_ajax.ajax_url,
+                        url: elemental_admin_ajax.ajax_url,
                         contentType: false,
                         processData: false,
                         data: form_data,
@@ -737,14 +737,14 @@ window.addEventListener(
                 var updateGrouptab = function() {
                         var form_data = new FormData();
                         tab_user_profile = $('#group-profile-input').val();
-                        form_data.append('action', 'myvideoroom_admin_ajax');
+                        form_data.append('action', 'elemental_admin_ajax');
                         form_data.append('action_taken', 'update_group_tab_name');
                         form_data.append('group_tab_name', tab_user_profile);
-                        form_data.append('security', myvideoroom_admin_ajax.security);
+                        form_data.append('security', elemental_admin_ajax.security);
                         $.ajax({
                             type: 'post',
                             dataType: 'html',
-                            url: myvideoroom_admin_ajax.ajax_url,
+                            url: elemental_admin_ajax.ajax_url,
                             contentType: false,
                             processData: false,
                             data: form_data,
