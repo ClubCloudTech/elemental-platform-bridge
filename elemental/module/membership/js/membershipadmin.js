@@ -26,6 +26,7 @@ window.addEventListener(
 					$( '#submit' ).hide();
 					$( '#submit' ).prop( 'disabled', true );
 					$( '.elemental-membership-control' ).on( 'change', dbUpload );
+					$( '.elemental-sandbox-control' ).on( 'change', sandboxUpload );
 					$( '.elemental-membership-template' ).on( 'change', templateUpload );
 					$( '.elemental-membership-landing-template' ).on( 'change', landingTemplateUpload );
 					$( '#elemental-inbound-email' ).on( 'keyup', chkEmail );
@@ -129,6 +130,43 @@ window.addEventListener(
 						}
 					);
 				}
+
+			/**
+			 * Update Account Limits on Database by Subscription Level (used in backend admin page)
+			 */
+								var sandboxUpload = function(event) {
+								event.stopPropagation();
+								var level     = event.target.dataset.level,
+									field     = event.target.dataset.field,
+									value     = event.target.value,
+									form_data = new FormData();
+			
+								form_data.append( 'action', 'elemental_membershipadmin_ajax' );
+								form_data.append( 'action_taken', 'update_sandbox' );
+								form_data.append( 'field', field );
+								form_data.append( 'level', level );
+								form_data.append( 'value', value );
+								form_data.append( 'security', elemental_membershipadmin_ajax.security );
+								$.ajax(
+									{
+										type: 'post',
+										dataType: 'html',
+										url: elemental_membershipadmin_ajax.ajax_url,
+										contentType: false,
+										processData: false,
+										data: form_data,
+										success: function(response) {
+											var state_response = JSON.parse( response );
+											console.log( state_response.feedback );
+											$( '#confirmation_' + level ).html( state_response.feedback );
+			
+										},
+										error: function(response) {
+											console.log( 'Error Uploading Level' );
+										}
+									}
+								);
+							}
 
 				/**
 				 * Update Account Limits on Database by Subscription Level (used in backend admin page)
