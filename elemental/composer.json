@@ -1,0 +1,9 @@
+{
+    "name": "clubcloudtech/elemental-platform-bridge",
+    "type": "project",
+    "description": "Elemental plugin for Coadjute",
+    "require": {
+        "phpseclib/phpseclib": "^3.0",
+        "defuse/php-encryption": "^2.3"
+    }
+}
