@@ -11,7 +11,6 @@ use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
 use ElementalPlugin\Module\Sandbox\Entity\SandboxEntity;
-use ElementalPlugin\Module\Sandbox\Encrypt\SandboxEncrypt;
 
 /**
  * Class Sandbox Helpers
@@ -63,10 +62,6 @@ class SandBoxHelpers {
 		if ( ! $sandbox_object->is_enabled() ) {
 			return \esc_html__( 'Disabled in Database', 'elementalplugin' );
 		}
-		$current_user = wp_get_current_user();
-
-		$user_email = $current_user->user_email;
-
 
 		$base_url      = $sandbox_object->get_destination_url();
 		$api_path      = $sandbox_object->get_user_name_prepend();
@@ -82,9 +77,8 @@ class SandBoxHelpers {
 			$field_2 = '?' . $custom_field2;
 		}
 
-		$encrypted_user =  Factory::get_instance(SandboxEncrypt::class)->rsaEncrypt($user_email, $public_hash);
-		$encoded_url = "$base_url" . $api_path . "?userid=" . urlencode($encrypted_user) . $field_1 . $field_2;
-		return '<iframe style="width:100%;height:700px;" src="' . $encoded_url . '"></iframe>';
+		return '<iframe style="width:100%;height:700px;" src="' . $base_url . '/' . $api_path . '?userid=' . $email_hash . $field_1 . $field_2 . '"></iframe>';
+
 	}
 
 	/**
