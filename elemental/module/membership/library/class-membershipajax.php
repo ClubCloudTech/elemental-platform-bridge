@@ -8,6 +8,7 @@
 namespace ElementalPlugin\Module\Membership\Library;
 
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\MeetingIdGenerator;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
@@ -64,9 +65,9 @@ class MembershipAjax {
 			$update = Factory::get_instance( MembershipDAO::class )->update_membership_limit( \intval( $set_value ), \intval( $membership_level ) );
 
 			if ( $update ) {
-				$response['feedback'] = \esc_html__( 'Limit Updated', 'myvideoroom' );
+				$response['feedback'] = \esc_html__( 'Limit Updated', 'elementalplugin' );
 			} else {
-				$response['feedback'] = \esc_html__( 'Update Failed', 'myvideoroom' ) . $membership_level . '->' . $set_value;
+				$response['feedback'] = \esc_html__( 'Update Failed', 'elementalplugin' ) . $membership_level . '->' . $set_value;
 			}
 			return \wp_send_json( $response );
 		}
@@ -80,9 +81,9 @@ class MembershipAjax {
 			$update = Factory::get_instance( MembershipDAO::class )->update_template( \intval( $set_value ), \intval( $membership_level ) );
 
 			if ( $update ) {
-				$response['feedback'] = \esc_html__( 'Template Updated', 'myvideoroom' );
+				$response['feedback'] = \esc_html__( 'Template Updated', 'elementalplugin' );
 			} else {
-				$response['feedback'] = \esc_html__( 'Update Failed', 'myvideoroom' ) . $membership_level . '->' . $set_value;
+				$response['feedback'] = \esc_html__( 'Update Failed', 'elementalplugin' ) . $membership_level . '->' . $set_value;
 			}
 			return \wp_send_json( $response );
 		}
@@ -96,9 +97,9 @@ class MembershipAjax {
 			$update = Factory::get_instance( MembershipDAO::class )->update_landing_template( \intval( $set_value ), \intval( $membership_level ) );
 
 			if ( $update ) {
-				$response['feedback'] = \esc_html__( 'Landing Template Updated', 'myvideoroom' );
+				$response['feedback'] = \esc_html__( 'Landing Template Updated', 'elementalplugin' );
 			} else {
-				$response['feedback'] = \esc_html__( 'Update Failed', 'myvideoroom' ) . $membership_level . '->' . $set_value;
+				$response['feedback'] = \esc_html__( 'Update Failed', 'elementalplugin' ) . $membership_level . '->' . $set_value;
 			}
 			return \wp_send_json( $response );
 		}
@@ -159,16 +160,16 @@ class MembershipAjax {
 		if ( 'delete_user' === $action_taken ) {
 			$verify = \wp_verify_nonce( $nonce, Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $user_id ) );
 			if ( ! $verify ) {
-				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'myvideoroom' );
+				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
 			$my_user_id  = \get_current_user_id();
 			$user_parent = Factory::get_instance( MemberSyncDAO::class )->get_parent_by_child( $user_id );
 			if ( $user_parent !== $my_user_id ) {
-				$response['feedback'] = \esc_html__( 'You are not the parent of this account, you can not delete it.', 'myvideoroom' );
+				$response['feedback'] = \esc_html__( 'You are not the parent of this account, you can not delete it.', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
-			$message                  = \esc_html__( 'delete this user ? This operation can not be undone', 'myvideoroom' );
+			$message                  = \esc_html__( 'delete this user ? This operation can not be undone', 'elementalplugin' );
 			$approved_nonce           = wp_create_nonce( $user_id . 'approved' );
 			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( Membership::MEMBERSHIP_NONCE_PREFIX_DU, esc_html__( 'Delete User', 'my-video-room' ), null, $approved_nonce, $user_id );
 			$response['confirmation'] = Factory::get_instance( MembershipShortCode::class )->membership_confirmation( $message, $button_approved );
@@ -179,19 +180,34 @@ class MembershipAjax {
 		if ( 'delete_final' === $action_taken ) {
 			$verify = \wp_verify_nonce( $nonce, $user_id . 'approved' );
 			if ( ! $verify ) {
-				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'myvideoroom' );
+				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
 			$delete_user = Factory::get_instance( MembershipUser::class )->delete_wordpress_user( $user_id );
 			$delete_db   = Factory::get_instance( MemberSyncDAO::class )->delete_child_account( $user_id );
 
 			if ( true === $delete_user ) {
-				$response['feedback'] = \esc_html__( 'User Deleted Successfully', 'myvideoroom' );
+				$response['feedback'] = \esc_html__( 'User Deleted Successfully', 'elementalplugin' );
 				$response['table']    = Factory::get_instance( MembershipShortCode::class )->generate_child_account_table();
 				$response['counter']  = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
 			} else {
-				$response['feedback'] = \esc_html__( 'Error Deleting User', 'myvideoroom' );
+				$response['feedback'] = \esc_html__( 'Error Deleting User', 'elementalplugin' );
 			}
+
+			return \wp_send_json( $response );
+		}
+
+		/*
+		* Update Membership Limit section.
+		*
+		*/
+		if ( 'update_sandbox' === $action_taken ) {
+			if ( isset( $_POST['field'] ) ) {
+				$set_field = Factory::get_instance( MeetingIdGenerator::class )->decrypt_string( sanitize_text_field( wp_unslash( $_POST['field'] ) ) );
+			}
+			
+			
+			$response['feedback'] = \esc_html__( 'Success', 'elementalplugin' ) . $set_field;
 
 			return \wp_send_json( $response );
 		}

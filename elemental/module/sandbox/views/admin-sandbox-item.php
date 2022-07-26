@@ -5,6 +5,9 @@
  * @package module/sandbox/views/membership-item.php
  */
 
+use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\MeetingIdGenerator;
+
 /**
  * Render the Membership Items.
  *
@@ -24,7 +27,7 @@ return function (
 		class="elemental-membership-template"	
 		name="status_enabled"
 		id = "status_enabled_<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>"
-		data-field="enabled"
+		data-field="<?php echo esc_attr( Factory::get_instance( MeetingIdGenerator::class )->encrypt_string( 'enabled' ) ); ?>"
 		data-level = "<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
 		<?php echo $sandbox_item && $sandbox_item['enabled'] ? 'checked' : ''; ?>
 	/></input>
@@ -34,7 +37,7 @@ return function (
 	<label for="tab_name">
 		<input type="text" max_length="255"
 		size="25" rows="2" name="tab_name" 
-		data-field="tab_name"
+		data-field="<?php echo esc_attr( Factory::get_instance( MeetingIdGenerator::class )->encrypt_string( 'tab_name' ) ); ?>"
 		value="<?php echo esc_textarea( $sandbox_item['tab_name'] ); ?>" 
 		placeholder="" data-level = "<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
 		id="tab_name_<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 

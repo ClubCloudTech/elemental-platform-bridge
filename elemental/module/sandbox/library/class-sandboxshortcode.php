@@ -23,7 +23,7 @@ class SandboxShortCode {
 	public function render_sandbox_shortcode( $attributes = array() ): ?string {
 		if ( ! \is_user_logged_in() ) {
 
-			$args       = array(
+			$args = array(
 				'echo'     => false,
 				'redirect' => get_permalink( get_the_ID() ),
 				'remember' => true,
@@ -44,10 +44,8 @@ class SandboxShortCode {
 	 * @return ?string
 	 */
 	public function sandbox_shortcode_worker( object $current_user ): ?string {
-		$encryption_key = get_option('northbridge_email_key');
+		$encryption_key = get_option( 'northbridge_email_key' );
 
-
-		
 		$render = ( require __DIR__ . '/../views/view-sandbox-control.php' );
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 		return $render( $current_user );

@@ -243,7 +243,6 @@ class MembershipDAO {
 	public function update_landing_template( int $template, int $membership_level ): ?bool {
 		global $wpdb;
 
-
 		// Check Record Exists.
 		$record_exists = $this->get_limit_info( $membership_level );
 		if ( ! $record_exists ) {

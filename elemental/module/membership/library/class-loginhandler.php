@@ -201,7 +201,7 @@ class LoginHandler {
 			$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
 			$url      = get_permalink( $template );
 			if ( ! $template ) {
-				esc_html_e( 'No Site Template for this subscription, Or subscription invalid', 'my-video-room');
+				esc_html_e( 'No Site Template for this subscription, Or subscription invalid', 'my-video-room' );
 			} else {
 				\wp_safe_redirect( $url );
 			}

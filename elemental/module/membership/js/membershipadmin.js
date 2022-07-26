@@ -131,42 +131,42 @@ window.addEventListener(
 					);
 				}
 
-			/**
-			 * Update Account Limits on Database by Subscription Level (used in backend admin page)
-			 */
+				/**
+				 * Update Account Limits on Database by Subscription Level (used in backend admin page)
+				 */
 								var sandboxUpload = function(event) {
-								event.stopPropagation();
-								var level     = event.target.dataset.level,
+									event.stopPropagation();
+									var level = event.target.dataset.level,
 									field     = event.target.dataset.field,
 									value     = event.target.value,
 									form_data = new FormData();
-			
-								form_data.append( 'action', 'elemental_membershipadmin_ajax' );
-								form_data.append( 'action_taken', 'update_sandbox' );
-								form_data.append( 'field', field );
-								form_data.append( 'level', level );
-								form_data.append( 'value', value );
-								form_data.append( 'security', elemental_membershipadmin_ajax.security );
-								$.ajax(
-									{
-										type: 'post',
-										dataType: 'html',
-										url: elemental_membershipadmin_ajax.ajax_url,
-										contentType: false,
-										processData: false,
-										data: form_data,
-										success: function(response) {
-											var state_response = JSON.parse( response );
-											console.log( state_response.feedback );
-											$( '#confirmation_' + level ).html( state_response.feedback );
-			
-										},
-										error: function(response) {
-											console.log( 'Error Uploading Level' );
+
+									form_data.append( 'action', 'elemental_membershipadmin_ajax' );
+									form_data.append( 'action_taken', 'update_sandbox' );
+									form_data.append( 'field', field );
+									form_data.append( 'level', level );
+									form_data.append( 'value', value );
+									form_data.append( 'security', elemental_membershipadmin_ajax.security );
+									$.ajax(
+										{
+											type: 'post',
+											dataType: 'html',
+											url: elemental_membershipadmin_ajax.ajax_url,
+											contentType: false,
+											processData: false,
+											data: form_data,
+											success: function(response) {
+												var state_response = JSON.parse( response );
+												console.log( state_response.feedback );
+												$( '#confirmation_' + level ).html( state_response.feedback );
+
+											},
+											error: function(response) {
+												console.log( 'Error Uploading Level' );
+											}
 										}
-									}
-								);
-							}
+									);
+								}
 
 				/**
 				 * Update Account Limits on Database by Subscription Level (used in backend admin page)
@@ -211,7 +211,7 @@ window.addEventListener(
 					var level     = event.target.dataset.level,
 						value     = event.target.value,
 						form_data = new FormData();
-console.log(level + value );
+					console.log( level + value );
 					form_data.append( 'action', 'elemental_membershipadmin_ajax' );
 					form_data.append( 'action_taken', 'update_landing_template' );
 					form_data.append( 'level', level );
@@ -344,8 +344,8 @@ console.log(level + value );
 										counter_window.parent().empty();
 										parent_element.html( state_response.counter );
 									}
-									console.log ( 'stat' + state_response.status );
-									if (state_response.status == true ){
+									console.log( 'stat' + state_response.status );
+									if (state_response.status == true ) {
 										$( '#elemental-email-status' ).removeClass( 'elemental-checking' );
 										$( '#elemental-email-status' ).removeClass( 'elemental-invalid' );
 										$( '#elemental-email-status' ).removeClass( 'elemental-email-taken' );
@@ -359,7 +359,7 @@ console.log(level + value );
 										$( '#elemental-email-status' ).attr( 'data-status', '' );
 										$( '#first-name-icon' ).hide();
 										$( '#last-name-icon' ).hide();
-									} 
+									}
 								} else {
 									$( '#elemental-email-status' ).removeClass( 'elemental-email-available' );
 									$( '#elemental-email-status' ).addClass( 'elemental-invalid' );

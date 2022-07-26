@@ -12,7 +12,8 @@ namespace ElementalPlugin\Library;
  */
 class MeetingIdGenerator {
 
-
+	const IV  = '234987432hdsadasdcabasd';
+	const KEY = 'SUOIAJ88098213132DJFhdsdkhjer8';
 
 	/**
 	 * Get 11 digit integer based on WordPress Nonce Salt
@@ -118,4 +119,56 @@ class MeetingIdGenerator {
 
 		return $items;
 	}
+	/**
+	 * Encrypts a plain text string
+	 * initialization vector(IV) has to be the same when encrypting and decrypting
+	 *
+	 * @param string $encrypt_string - string to encrypt or decrypt.
+	 *
+	 * @return string
+	 */
+	public function encrypt_string( string $encrypt_string ) {
+		$output         = false;
+		$encrypt_method = 'AES-256-CBC';
+		$secret_key     = self::KEY;
+		$secret_iv      = self::IV;
+
+		// Hash entry point.
+		$key = hash( 'sha256', $secret_key );
+
+		// iv - encrypt method AES-256-CBC expects 16 bytes.
+
+		$iv     = substr( hash( 'sha256', $secret_iv ), 0, 16 );
+		$output = openssl_encrypt( $encrypt_string, $encrypt_method, $key, 0, $iv );
+		$output = base64_encode( $output );
+
+		return $output;
+	}
+
+	/**
+	 * Decrypts a plain text string
+	 * initialization vector(IV) has to be the same when encrypting and decrypting
+	 *
+	 * @param string $decrypt_string - string to encrypt or decrypt.
+	 *
+	 * @return string
+	 */
+	public function decrypt_string( string $decrypt_string ) {
+		$output         = false;
+		$encrypt_method = 'AES-256-CBC';
+		$secret_key     = self::KEY;
+		$secret_iv      = self::IV;
+
+		// Hash entry point.
+		$key = hash( 'sha256', $secret_key );
+
+		// iv - encrypt method AES-256-CBC expects 16 bytes.
+
+		$iv = substr( hash( 'sha256', $secret_iv ), 0, 16 );
+		$output = openssl_decrypt( base64_decode( $decrypt_string ), $encrypt_method, $key, 0, $iv );
+
+		return $output;
+	}
+
+
 }

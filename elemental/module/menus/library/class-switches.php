@@ -57,9 +57,9 @@ class Switches {
 	public function control_panel_switch(): ?string {
 		$user_id       = \get_current_user_id();
 		$my_membership = Factory::get_instance( ElementalUMPDAO::class )->get_active_user_membership_levels( $user_id );
-		$keys = \array_keys( $my_membership );
+		$keys          = \array_keys( $my_membership );
 
-		if ( 'sandboxlifetime' === $my_membership[$keys[0]]['level_slug'] ) {
+		if ( 'sandboxlifetime' === $my_membership[ $keys[0] ]['level_slug'] ) {
 			return do_shortcode( '[elementor-template id="54888"]' );
 		} else {
 			return do_shortcode( '[elementor-template id="54373"]' );

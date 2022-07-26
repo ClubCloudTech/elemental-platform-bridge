@@ -62,11 +62,11 @@ class SandboxRender extends TabHelper {
 	 */
 	public function sitesearch_shortcode_handler( string $header_template = null, string $search_template = null, string $product_template = null, string $tab = null, bool $only = null ) {
 
-		$header          = \do_shortcode( '[elementor-template id="' . \esc_attr( $header_template ) . '"]' );
-		$html_library    = Factory::get_instance( HTML::class, array( 'view-management' ) );
-		$tabs            = array();
-		$tabs            = Factory::get_instance( SandBoxHelpers::class )->render_all_tabs();
-		$tabs            = $this->tab_sort( $tabs, $tab, $only );
+		$header       = \do_shortcode( '[elementor-template id="' . \esc_attr( $header_template ) . '"]' );
+		$html_library = Factory::get_instance( HTML::class, array( 'view-management' ) );
+		$tabs         = array();
+		$tabs         = Factory::get_instance( SandBoxHelpers::class )->render_all_tabs();
+		$tabs         = $this->tab_sort( $tabs, $tab, $only );
 
 		$render = include __DIR__ . '/../views/view-sandbox-main.php';
 		return $render( $header, $html_library, $tabs );

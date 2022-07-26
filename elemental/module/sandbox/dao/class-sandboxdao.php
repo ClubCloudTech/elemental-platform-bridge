@@ -270,6 +270,61 @@ class SandBoxDao {
 	}
 
 	/**
+	 * Update a field by a value.
+	 *
+	 * @param $value The value to change.
+	 *
+	 * @return SandboxEntity|null
+	 * @throws \Exception When failing to update.
+	 */
+	public function update_by_field( $value, string $field ): bool {
+		global $wpdb;
+
+		$cache_key = $sandbox_entity->get_record_id();
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->update(
+			$this->get_table_name(),
+			array(
+				'tab_name'          => $sandbox_entity->get_tab_name(),
+				'user_name_prepend' => $sandbox_entity->get_user_name_prepend(),
+				'destination_url'   => $sandbox_entity->get_destination_url(),
+				'customfield1'      => $sandbox_entity->get_customfield1(),
+				'customfield2'      => $sandbox_entity->get_customfield2(),
+				'enabled       '    => $sandbox_entity->is_enabled(),
+				'private_key'       => $sandbox_entity->get_private_key(),
+			),
+			array(
+				'record_id' => $sandbox_entity->get_record_id(),
+			)
+		);
+
+		\wp_cache_set(
+			$cache_key,
+			$sandbox_entity->to_json(),
+			implode(
+				'::',
+				array(
+					__CLASS__,
+					'get_by_id',
+				)
+			)
+		);
+		\wp_cache_delete(
+			$sandbox_entity->get_record_id(),
+			implode(
+				'::',
+				array(
+					__CLASS__,
+					'get_by_record_id',
+				)
+			)
+		);
+
+		return $sandbox_entity;
+	}
+
+	/**
 	 * Database Restore and Update
 	 *
 	 * @param string $db_error_message   The Error Message.

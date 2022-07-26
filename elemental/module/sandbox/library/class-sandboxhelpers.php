@@ -68,7 +68,7 @@ class SandBoxHelpers {
 		$custom_field1 = $sandbox_object->get_customfield1();
 		$custom_field2 = $sandbox_object->get_customfield2();
 		$public_hash   = $sandbox_object->get_private_key();
-		$email_hash = null;
+		$email_hash    = null;
 
 		if ( $custom_field1 ) {
 			$field_1 = $custom_field1;
