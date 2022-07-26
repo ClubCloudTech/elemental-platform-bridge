@@ -1,6 +1,5 @@
 <?php
 
-
 //namespace ParagonIE\EasyRSA;
 namespace ElementalPlugin\Module\Sandbox\Encrypt;
 
