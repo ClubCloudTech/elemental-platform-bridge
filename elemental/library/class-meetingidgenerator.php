@@ -12,8 +12,8 @@ namespace ElementalPlugin\Library;
  */
 class MeetingIdGenerator {
 
-	const IV  = '234987432hdsadasdcabasd';
-	const KEY = 'SUOIAJ88098213132DJFhdsdkhjer8';
+	const IV  = '234987432hdh0)D%hfRKiBKjd&4WBj%1dL1sadasdcabasd';
+	const KEY = 'SUOIAJ8809821313gAW!xqPyNp#)kY!5ar2DJFhdsdkhjer8';
 
 	/**
 	 * Get 11 digit integer based on WordPress Nonce Salt

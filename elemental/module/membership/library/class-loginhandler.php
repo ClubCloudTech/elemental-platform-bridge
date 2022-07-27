@@ -14,6 +14,7 @@ use ElementalPlugin\Module\Membership\Onboard;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\HttpGet;
+use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
 
 
@@ -91,9 +92,11 @@ class LoginHandler {
 	 * Renders Login/Out or admin mode buttons and redirects.
 	 * Starts by understanding if there are sufficient staff accounts, if not - forces their creation
 	 *
+	 * @param string $type = the type of shortcode to return, login = login only, role = role switch only, all or null is both.
+	 *
 	 * @return string
 	 */
-	public function elemental_login_out(): string {
+	public function elemental_login_out( string $type ): string {
 		$output = '';
 		// Get Identities.
 		$is_vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
@@ -137,10 +140,18 @@ class LoginHandler {
 		}
 		// Case Normal Staff Member - need to encode user id in cookie so Parent account knows which user to return to.
 		if ( $is_staff ) {
-
+			$atts = array(
+				'type' => 'text',
+			);
+			$org_name = Factory::get_instance( ElementalMenus::class )->render_header_logo_shortcode( $atts );
 			$nonceparent = \wp_create_nonce( 'parent' );
 			$url         = get_site_url() . '/login?action=parent&nonceparent=' . $nonceparent;
-			$output     .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Admin Mode', 'myvideoroom' ) . '</a>';
+			$output     .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Switch to ', 'myvideoroom' ) . $org_name . ' Admin</a>';
+		}
+		if ( 'role' === $type ) {
+			return $output;
+		} elseif ( 'login' === $type ) {
+			$output = null;
 		}
 
 		if ( \is_user_logged_in() ) {

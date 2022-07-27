@@ -36,7 +36,7 @@ return function (
 	}
 	ob_start();
 	?>
-<div id="elemental-search-base" class="">
+<div id="elemental-search-base" class="elemental-search-wrap">
 
 	<div id="elemental-pageinfo" data-searchid="<?php echo esc_attr( $search_template ); ?>"
 	data-productid="<?php echo esc_attr( $product_template ); ?>"
@@ -70,7 +70,7 @@ return function (
 			<?php
 			if ( $count_tabs > 1 ) {
 				?>
-			<nav class="elemental-nav-tab-wrapper nav-tab-wrapper  ">
+			<nav class="elemental-nav-tab-wrapper elemental-search-nav-tab-wrapper">
 				<ul class="search-menu-header">
 					<?php
 							$active = ' nav-tab-active';
@@ -101,7 +101,7 @@ return function (
 				</ul>
 			</nav>
 			<?php } ?>
-	</div>
+
 	<div id="mvr-above-article-notification"></div>
 	<div id="elemental-container-article" class="elemental-article-container elemental-background-item">
 			<?php

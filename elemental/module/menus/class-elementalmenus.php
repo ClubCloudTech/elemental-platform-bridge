@@ -8,6 +8,8 @@
 namespace ElementalPlugin\Module\Menus;
 
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Module\Membership\Library\LoginHandler;
 use ElementalPlugin\Module\Menus\Library\Switches;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 
@@ -134,8 +136,20 @@ class ElementalMenus {
 		$attributes          = array(
 			'force_default' => true,
 		);
-		$picture_url         = get_avatar_url( $user, $attributes );
-		$output              = $user->display_name;
+		if ( 'avatar' === $attributes['image'] ) {
+			$picture_url = get_avatar_url( $user, $attributes );
+		} else {
+			$picture_url = \plugins_url( '../../assets/img/user-icon.png', __FILE__ );
+		}
+		$is_vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
+		if ( $is_vendor ) {
+			$user_id    = \get_current_user_id();
+			$store_name = get_user_meta( $user_id, 'store_name', true );
+			$output     = $store_name;
+		} else {
+			$output = $user->display_name;
+		}
+
 		$profile_control_url = \get_permalink( 12508 );
 
 		if ( 'text' === $attributes['type'] ) {
@@ -144,12 +158,23 @@ class ElementalMenus {
 
 		ob_start();
 		?>
-		<div class="elemental-button-primary-nav-area">
-		<a href="<?php echo esc_url( $profile_control_url ); ?>" class="elemental-host-link">
+		<div class="elemental-button-primary-nav-area dropdown">
+			<a href="<?php echo esc_url( $profile_control_url ); ?>" class="elemental-host-link">
 			<div class="elemental-primary-nav-settings">
-				<span><i class="myvideoroom-dashicons mvr-icons dashicons-admin-users"></i><?php echo esc_attr( $output ); ?></span>
+				<div class="elemental-primary-nav-img" style="background-image: url(<?php echo esc_url( $picture_url ); ?> )"></div>
+				<span><?php echo esc_attr( $output ); ?></span>
+				<span><i class="dropdown myvideoroom-dashicons mvr-icons dashicons-arrow-down-alt2 dropbtn"></i></span>
 			</div></a>
+			<div class="dropdown-content">
+				<?php
+				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'role' );?>
+				<?php
+				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'login' );?>
+			</div>
 		</div>
+	
 		<?php
 		return ob_get_clean();
 

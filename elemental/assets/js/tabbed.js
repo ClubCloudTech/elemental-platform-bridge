@@ -9,16 +9,16 @@
 	/**
 	 * Hide all non active pages
 	 */
-	var hide_all_non_active = function ($nav_section) {
-		var $tabs = $( 'a.nav-tab:not(.nav-tab-active)', $nav_section );
-
-		$tabs.each(
-			function () {
-				var target = $( this ).attr( 'href' );
-				$( target ).hide();
-			}
-		);
-	};
+		 var hide_all_non_active = function ($nav_section) {
+			var $tabs = $( 'a.nav-tab:not(.nav-tab-active)', $nav_section );
+	
+			$tabs.each(
+				function () {
+					var target = $( this ).attr( 'href' );
+					$( target ).hide();
+				}
+			);
+		};
 
 	/**
 	 * Initialise the plugin
@@ -77,6 +77,5 @@
 
 	init( $( document ) );
 
-	window.myvideoroom_tabbed_init = init;
 
 })( jQuery );

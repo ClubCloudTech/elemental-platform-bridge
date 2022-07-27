@@ -350,11 +350,11 @@
 	width: 100%;
 	border-top: none!important;
 }
-.elemental-header-searchbar, .elemental-article-container {
-	margin: 10px;
-	margin-bottom: 25px;
-	margin-top: 25px;
-	border-radius:5px;
+.elemental-header-searchbar {
+	border-style: solid!important;
+	border-width: 2px!important;
+	border-radius: 10px!important;
+	border:#525151!important;
 }
 .elemental-forum-search{
 	width: 97%;

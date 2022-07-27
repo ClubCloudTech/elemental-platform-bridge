@@ -31,7 +31,7 @@ return function (
 	}
 	ob_start();
 	?>
-<div id="elemental-search-base" class="">
+<div id="elemental-sandbox-base" class="elemental-sandbox-wrap">
 
 
 		<div class="mvr-header-section">
@@ -45,8 +45,8 @@ return function (
 			<?php
 			if ( $count_tabs > 1 ) {
 				?>
-			<nav class="elemental-nav-tab-wrapper nav-tab-wrapper  ">
-				<ul class="search-menu-header">
+			<nav class="elemental-nav-tab-wrapper elemental-sandbox-nav-tab-wrapper">
+				<ul class="sandbox-menu-header">
 					<?php
 							$active = ' nav-tab-active';
 					foreach ( $tabs as $menu_output ) {
@@ -76,9 +76,9 @@ return function (
 				</ul>
 			</nav>
 			<?php } ?>
-	</div>
+
 	<div id="mvr-above-article-notification"></div>
-	<div id="elemental-container-article" class="elemental-article-container elemental-background-item">
+	<div id="elemental-container-article" class="elemental-article elemental-article-container elemental-background-item">
 			<?php
 			$roles = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( true );
 
