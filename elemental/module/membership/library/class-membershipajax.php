@@ -12,6 +12,7 @@ use ElementalPlugin\Library\MeetingIdGenerator;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
+use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
 
 /**
  * Class MembershipAjax - Provides the Membership Ajax Control.
@@ -205,8 +206,9 @@ class MembershipAjax {
 			if ( isset( $_POST['field'] ) ) {
 				$set_field = Factory::get_instance( MeetingIdGenerator::class )->decrypt_string( sanitize_text_field( wp_unslash( $_POST['field'] ) ) );
 			}
-			
-			
+			$level  = $membership_level;
+			$update = Factory::get_instance( SandBoxDao::class )->update_by_field( $set_value, $set_field, $level );
+
 			$response['feedback'] = \esc_html__( 'Success', 'elementalplugin' ) . $set_field;
 
 			return \wp_send_json( $response );

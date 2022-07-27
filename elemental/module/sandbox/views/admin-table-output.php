@@ -18,7 +18,10 @@ return function (
 ): string {
 	ob_start();
 	?>
-
+	<button class="button button-primary myvideoroom-sitevideo-add-room-button">
+						<i class="dashicons dashicons-plus-alt"></i>
+						<?php esc_html_e( 'Add new Sandbox', 'elementalplugin' ); ?>
+					</button>
 	<?php
 	if ( $sandbox_items ) {
 		?>
@@ -53,6 +56,7 @@ return function (
 			</tr>
 		</thead>
 		<tbody>
+			
 		<?php
 		$membership_item_render = include __DIR__ . '/admin-sandbox-item.php';
 		foreach ( $sandbox_items as $level ) {

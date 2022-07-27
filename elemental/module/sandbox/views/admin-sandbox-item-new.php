@@ -2,7 +2,7 @@
 /**
  * Shows Membership Room Items
  *
- * @package module/sandbox/views/membership-item.php
+ * @package module/sandbox/views/membership-item-new.php
  */
 
 use ElementalPlugin\Library\Factory;
@@ -16,7 +16,6 @@ use ElementalPlugin\Library\MeetingIdGenerator;
  * @return string
  */
 return function (
-	array $sandbox_item
 ): string {
 	ob_start();
 	?>
