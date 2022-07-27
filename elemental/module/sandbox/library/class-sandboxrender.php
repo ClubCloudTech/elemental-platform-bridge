@@ -24,17 +24,17 @@ class SandboxRender extends TabHelper {
 	 * Install the shortcode
 	 */
 	public function init() {
-		add_shortcode( 'elemental_sandbox', array( $this, 'render_sitesearch_shortcode' ) );
+		add_shortcode( 'elemental_sandbox', array( $this, 'render_sandbox_shortcode' ) );
 	}
 
 	/**
-	 * Render Sitesearch shortcode.
+	 * Render Sandbox shortcode.
 	 *
 	 * @param array|string $attributes List of shortcode params.
 	 *
 	 * @return ?string
 	 */
-	public function render_sitesearch_shortcode( $attributes = array() ): ?string {
+	public function render_sandbox_shortcode( $attributes = array() ): ?string {
 		$header_template  = $attributes['header'] ?? null;
 		$search_template  = $attributes['search'] ?? null;
 		$product_template = $attributes['product'] ?? null;
@@ -48,11 +48,11 @@ class SandboxRender extends TabHelper {
 			$http_get_library = Factory::get_instance( HttpGet::class );
 			$only             = $http_get_library->get_string_parameter( 'only' ) ?? false;
 		}
-		return $this->sitesearch_shortcode_handler( $header_template, $search_template, $product_template, $tab, $only );
+		return $this->sandbox_shortcode_handler( $header_template, $search_template, $product_template, $tab, $only );
 	}
 
 	/**
-	 * Handle Site Search Shortcode Generation.
+	 * Handle Sandbox Shortcode Generation.
 	 *
 	 * @param string $header_template - Header Template.
 	 * @param string $search_template - Search Template.
@@ -60,7 +60,7 @@ class SandboxRender extends TabHelper {
 	 * @param string $tab - starting tab (optional).
 	 * @param bool   $only - return a single tab only in case of tab sort (optional).
 	 */
-	public function sitesearch_shortcode_handler( string $header_template = null, string $search_template = null, string $product_template = null, string $tab = null, bool $only = null ) {
+	public function sandbox_shortcode_handler( string $header_template = null, string $search_template = null, string $product_template = null, string $tab = null, bool $only = null ) {
 
 		$header       = \do_shortcode( '[elementor-template id="' . \esc_attr( $header_template ) . '"]' );
 		$html_library = Factory::get_instance( HTML::class, array( 'view-management' ) );

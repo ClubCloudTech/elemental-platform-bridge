@@ -6,9 +6,6 @@
  * @package module/sandbox/views/view-sandbox-main.php
  */
 
-use ElementalPlugin\Library\Factory;
-use ElementalPlugin\Module\WCFM\Library\WCFMTools;
-
 /**
  * Render the Main Template
  *
@@ -21,7 +18,7 @@ use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 
 
 return function (
-	string $header,
+	string $header = null,
 	object $html_library,
 	array $tabs
 ): string {
@@ -80,9 +77,6 @@ return function (
 	<div id="mvr-above-article-notification"></div>
 	<div id="elemental-container-article" class="elemental-article elemental-article-container elemental-background-item">
 			<?php
-			$roles = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( true );
-
-					$count = 0;
 			foreach ( $tabs as $article_output ) {
 
 				$function_callback = $article_output->get_function_callback();

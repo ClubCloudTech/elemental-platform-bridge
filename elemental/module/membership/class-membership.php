@@ -12,6 +12,7 @@ use ElementalPlugin\Library\Admin;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Membership\Onboard;
 use ElementalPlugin\Library\Version;
+use ElementalPlugin\Module\Membership\Library\AccountShortcode;
 use ElementalPlugin\Module\Membership\Library\LoginHandler;
 use ElementalPlugin\Module\Membership\Library\MembershipAjax;
 use ElementalPlugin\Module\Membership\Library\MembershipSetup;
@@ -25,7 +26,8 @@ class Membership {
 
 	const TABLE_NAME_MEMBERSHIPS      = 'elemental_memberships';
 	const TABLE_NAME_MEMBERSYNC       = 'elemental_membersync';
-	const SHORTCODE_TAG               = Admin::SHORTCODE_TAG . 'membership';
+	const SHORTCODE_TAG               = 'elemental_membership';
+	const ACCOUNT_ADMIN_SHORTCODE     = 'elemental_account_admin';
 	const MEMBERSHIP_ROLE_NAME        = 'Sponsored';
 	const MEMBERSHIP_ROLE_DESCRIPTION = 'Sponsored Account';
 	const MEMBERSHIP_NONCE_PREFIX_DU  = 'delete_user_';
@@ -87,6 +89,7 @@ class Membership {
 		);
 
 		add_shortcode( self::SHORTCODE_TAG, array( Factory::get_instance( MembershipShortCode::class ), 'render_membership_shortcode' ) );
+		add_shortcode( self::ACCOUNT_ADMIN_SHORTCODE, array( Factory::get_instance( AccountShortcode::class ), 'render_account_shortcode' ) );
 
 	}
 	/**
