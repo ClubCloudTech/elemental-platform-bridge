@@ -18,7 +18,7 @@ return function (
 ): string {
 	ob_start();
 	?>
-	<button class="button button-primary myvideoroom-sitevideo-add-room-button">
+	<button class="button button-primary elemental-sandbox-add">
 						<i class="dashicons dashicons-plus-alt"></i>
 						<?php esc_html_e( 'Add new Sandbox', 'elementalplugin' ); ?>
 					</button>
@@ -56,9 +56,13 @@ return function (
 			</tr>
 		</thead>
 		<tbody>
-			
+
 		<?php
-		$membership_item_render = include __DIR__ . '/admin-sandbox-item.php';
+		$membership_item_render_add_new = include __DIR__ . '/admin-sandbox-item-new.php';
+        //phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $membership_item_render_add_new( $level );
+		$membership_item_render     = include __DIR__ . '/admin-sandbox-item.php';
+
 		foreach ( $sandbox_items as $level ) {
         //phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
         echo $membership_item_render( $level );

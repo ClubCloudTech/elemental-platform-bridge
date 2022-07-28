@@ -545,3 +545,7 @@ font-size: 14px;
 	-o-border-radius: 100%;
 	border-radius: 100%;
 }
+
+.site-main{
+	min-height: calc(100vh - 210px);
+}

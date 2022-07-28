@@ -640,6 +640,7 @@
 			z-index: 1;
 			border-radius: 5px;
 			background: #FFFFFF;
+			margin-left: -120px;
 		  }
 		  
 		  .dropdown-content a {
@@ -660,3 +661,31 @@
 		  .dropdown:hover .dropbtn {
 			background-color: #323064;
 		}
+
+		.iump-form-upload_image{
+			display:none!important;
+			}
+			.ihc-register-2 .iump-submit-form input {
+			  color: #fff !important;
+			  width: 100%;
+			  background: none repeat scroll 0 0 #323064 !important;
+			  border: 4px solid #323064;
+				border-top-color: rgb(50, 48, 100);
+				border-top-width: 4px;
+				border-right-color: rgb(50, 48, 100);
+				border-right-width: 4px;
+				border-bottom-color: rgb(50, 48, 100);
+				border-bottom-width: 4px;
+				border-left-color: rgb(50, 48, 100);
+				border-left-width: 4px;
+			  border-width: 3px;
+			  border-color: #323064 !important;
+			  box-shadow: none !important;
+			  -webkit-transition: all .3s linear 0s;
+			  -moz-transition: all .3s linear 0s;
+			  -ms-transition: all .3s linear 0s;
+			  -o-transition: all .3s linear 0s;
+			  transition: all .3s linear 0s;
+			  padding: 16px 22px;
+			  box-sizing: border-box;
+			}

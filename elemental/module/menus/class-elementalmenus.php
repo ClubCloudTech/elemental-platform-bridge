@@ -132,8 +132,8 @@ class ElementalMenus {
 			return null;
 		}
 
-		$user                = \get_user_by( 'id', $user_id );
-		$attributes          = array(
+		$user       = \get_user_by( 'id', $user_id );
+		$attributes = array(
 			'force_default' => true,
 		);
 		if ( 'avatar' === $attributes['image'] ) {
@@ -149,8 +149,8 @@ class ElementalMenus {
 		} else {
 			$output = $user->display_name;
 		}
-
-		$profile_control_url = \get_permalink( 12508 );
+		// @TODO Only whilst in sandbox only mode - as a new control panel page will be built and this url can lose the extension
+		$profile_control_url = \get_permalink( 12508 ) . '/ihc/?ihc_ap_menu=profile';
 
 		if ( 'text' === $attributes['type'] ) {
 			return $output;
@@ -169,12 +169,13 @@ class ElementalMenus {
 				<?php
 				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'role' );?>
+				<a href="/control/account-settings/ihc/?ihc_ap_menu=profile" class="elemental-host-link"><?php echo \esc_html__( 'Account Settings', 'elementalplugin' ); ?></a>
 				<?php
 				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'login' );?>
 			</div>
 		</div>
-	
+
 		<?php
 		return ob_get_clean();
 

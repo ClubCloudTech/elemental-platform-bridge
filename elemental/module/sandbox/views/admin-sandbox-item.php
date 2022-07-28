@@ -24,7 +24,7 @@ return function (
 	<td>
 
 	<input type="checkbox" 
-		class="elemental-membership-template"	
+		class="elemental-sandbox-control"	
 		name="status_enabled"
 		id = "status_enabled_<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>"
 		data-field="<?php echo esc_attr( Factory::get_instance( MeetingIdGenerator::class )->encrypt_string( 'enabled' ) ); ?>"

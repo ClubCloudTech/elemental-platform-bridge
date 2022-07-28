@@ -23,6 +23,15 @@ window.addEventListener(
 						}
 					);
 
+					$( '.elemental-sandbox-add' ).click(
+						function(e) {
+							e.stopPropagation();
+							e.stopImmediatePropagation();
+							e.preventDefault();
+							$( '.elemental-add-new-sandbox' ).slideToggle(600);
+						}
+					);
+
 					$( '#submit' ).hide();
 					$( '#submit' ).prop( 'disabled', true );
 					$( '.elemental-membership-control' ).on( 'change', dbUpload );
@@ -158,7 +167,7 @@ window.addEventListener(
 											success: function(response) {
 												var state_response = JSON.parse( response );
 												console.log( state_response.feedback );
-												$( '#confirmation_' + level ).html( state_response.feedback );
+												$( '#confirmation_' + level ).html( state_response.feedback ).fadeOut(2000);
 
 											},
 											error: function(response) {

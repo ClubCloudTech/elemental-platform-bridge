@@ -35,8 +35,6 @@ class AccountShortcode {
 	/**
 	 * Render Content Search Results Tab.
 	 *
-	 * @param SandboxEntity $sandbox_object - the Sandbox Object to Convert to Menu Item.
-	 *
 	 * @return array - outbound menu.
 	 */
 	private function prepare_admin_tabs(): array {

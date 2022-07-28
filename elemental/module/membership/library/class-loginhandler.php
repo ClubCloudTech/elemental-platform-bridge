@@ -14,6 +14,7 @@ use ElementalPlugin\Module\Membership\Onboard;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\HttpGet;
+use ElementalPlugin\Module\BuddyPress\ElementalBP;
 use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
 
@@ -23,12 +24,13 @@ use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
  */
 class LoginHandler {
 
-	const SHORTCODE_LOGOUT_SWITCH = 'elemental_logout';
-	const SHORTCODE_LOGOUT        = 'elemental_logout_url';
-	const SHORTCODE_LEGACY_LOGOUT = 'cclogout';
-	const SHORTCODE_LEGACY_LOGIN  = 'ccloginswitch';
-	const SHORTCODE_LOGIN_SWITCH  = 'elemental_login';
-	const SHORTCODE_LOGIN_BUTTON  = 'elemental_loginbutton';
+	const SHORTCODE_LOGOUT_SWITCH  = 'elemental_logout';
+	const SHORTCODE_LOGOUT         = 'elemental_logout_url';
+	const SHORTCODE_LEGACY_LOGOUT  = 'cclogout';
+	const SHORTCODE_LEGACY_LOGIN   = 'ccloginswitch';
+	const SHORTCODE_LOGIN_SWITCH   = 'elemental_login';
+	const SHORTCODE_LOGIN_BUTTON   = 'elemental_loginbutton';
+	const SHORTCODE_LOGIN_REDIRECT = 'elemental_profile_redirect';
 
 	const SETTING_LOGIN_SWITCH_TEMPLATE           = 'elemental-login-switch-template';
 	const SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE = 'elemental-checkout-header-template';
@@ -43,6 +45,7 @@ class LoginHandler {
 		add_shortcode( self::SHORTCODE_LOGOUT, array( $this, 'elemental_logout' ) );
 		add_shortcode( self::SHORTCODE_LOGIN_SWITCH, array( $this, 'elemental_loginswitch' ) );
 		add_shortcode( self::SHORTCODE_LOGIN_BUTTON, array( $this, 'elemental_login_out' ) );
+		\add_shortcode( self::SHORTCODE_LOGIN_REDIRECT, array( $this, 'loginland_redirect' ) );
 
 		// Legacy Shortcodes.
 		add_shortcode( self::SHORTCODE_LEGACY_LOGOUT, array( $this, 'elemental_logout' ) );
@@ -143,7 +146,7 @@ class LoginHandler {
 			$atts = array(
 				'type' => 'text',
 			);
-			$org_name = Factory::get_instance( ElementalMenus::class )->render_header_logo_shortcode( $atts );
+			$org_name    = Factory::get_instance( ElementalMenus::class )->render_header_logo_shortcode( $atts );
 			$nonceparent = \wp_create_nonce( 'parent' );
 			$url         = get_site_url() . '/login?action=parent&nonceparent=' . $nonceparent;
 			$output     .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Switch to ', 'myvideoroom' ) . $org_name . ' Admin</a>';
@@ -260,10 +263,9 @@ class LoginHandler {
 	 *
 	 * @return string
 	 */
-	public function elemental_loginswitch() {
+	public function elemental_loginswitch(): string {
 
 		$template_id = intval( get_option( self::SETTING_LOGIN_SWITCH_TEMPLATE ) );
-
 		return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 	}
 
@@ -398,6 +400,29 @@ class LoginHandler {
 			return $user_id;
 		} else {
 			return null;
+		}
+	}
+
+	/**
+	 * BuddyPress Profile Redirect Shortcode for Login Landing Page.
+	 * Redirects a user landing in this page to the Users Buddypress ID.
+	 *
+	 * @return string
+	 */
+	public function loginland_redirect() {
+
+		$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
+		if ( $template ) {
+			$url = get_permalink( $template );
+			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+			die();
+		}
+
+		if ( ! \is_user_logged_in() ) {
+			return null;
+		}
+		if ( Factory::get_instance( ElementalBP::class )->is_buddypress_available() ) {
+			return Factory::get_instance( ElementalBP::class )->bp_profile_redirect();
 		}
 	}
 }
