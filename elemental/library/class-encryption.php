@@ -1,6 +1,6 @@
 <?php
 /**
- * Generate unique ids
+ * Generate Encryption Functions.
  *
  * @package ElementalPlugin\Library
  */
@@ -12,8 +12,8 @@ namespace ElementalPlugin\Library;
  */
 class Encryption {
 
-	const IV  = '234987432hdh0)D%hfRKiBKjd&4WBj%1dL1sadasdcabasd';
-	const KEY = 'SUOIAJ8809821313gAW!xqPyNp#)kY!5ar2DJFhdsdkhjer8';
+	const IV  = 'D%hfRKiBKjd&4WBj';
+	const KEY = '3gAW!xqPyNp#)kY!';
 
 	/**
 	 * Get 11 digit integer based on WordPress Nonce Salt
@@ -170,5 +170,36 @@ class Encryption {
 		return $output;
 	}
 
+	private static $openssl_cipher_name = 'aes-128-cbc'; // Name of OpenSSL Cipher
+	private static $cipher_key_len      = 16; // 128 bits
+
+	/**
+	 * Encrypt data using AES Cipher (CBC) with 128 bit key
+	 *
+	 * @param string $data - data to encrypt.
+	 * @param string $key - key to use should be 16 bytes long (128 bits).
+	 * @param string $iv - initialization vector.
+	 * @return encrypted data in base64 encoding with iv attached at end after a :.
+	 */
+	public static function encrypt( string $data, string $key = null, string $iv = null ) {
+		if ( ! $key ) {
+			$key = self::KEY;
+		}
+		if ( ! $iv ) {
+			$iv = self::IV;
+		}
+		if ( strlen( $key ) < self::$cipher_key_len ) {
+			$key = str_pad( "$key", self::$cipher_key_len, '0' ); // 0 pad to len 16.
+		} elseif ( strlen( $key ) > self::$cipher_key_len ) {
+			$key = substr( $key, 0, self::$cipher_key_len ); // truncate to 16 bytes.
+		}
+
+		$encoded_encrypted_data = base64_encode( openssl_encrypt( $data, self::$openssl_cipher_name, $key, OPENSSL_RAW_DATA, $iv ) );
+		$encoded_iv             = base64_encode( $iv );
+		$encrypted_payload      = $encoded_encrypted_data . ':' . $encoded_iv;
+
+		return urlencode( $encrypted_payload );
+
+	}
 
 }

@@ -26,9 +26,29 @@ class HttpPost {
 	public function get_checkbox_parameter( string $name, bool $default = false ): bool {
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] ?? false ) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Missing --Nonce is verified in parent function
-			return \sanitize_text_field( \wp_unslash( $_POST[ 'myvideoroom_' . $name ] ?? '' ) ) === 'on';
+			return \sanitize_text_field( \wp_unslash( $_POST[ $name ] ?? '' ) ) === 'on';
 		} else {
 			return $default;
+		}
+	}
+
+	/**
+	 * Get a boolean value from a $_POST checkbox
+	 *
+	 * @param string $name    The name of the field.
+	 * @param bool   $default The default value.
+	 *
+	 * @return bool
+	 */
+	public function get_control_checkbox( string $name, bool $default = false ): bool {
+		if ( 'POST' === $_SERVER['REQUEST_METHOD'] ?? false ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing --Nonce is verified in parent function
+			$checkbox = \sanitize_text_field( wp_unslash( $_POST[ $name ] ?? '' ) );
+			if ( 'true' === $checkbox ) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 

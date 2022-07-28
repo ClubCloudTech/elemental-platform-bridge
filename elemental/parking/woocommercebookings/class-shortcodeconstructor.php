@@ -10,7 +10,7 @@ namespace ElementalPlugin\WoocommerceBookings;
 use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Shortcode as Shortcode;
-use ElementalPlugin\Library\MeetingIdGenerator;
+use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Shortcode\MyVideoRoomApp;
 
 
@@ -280,7 +280,7 @@ class ShortCodeConstructor extends Shortcode {
 	public function invite( $invite, $direction, $input ) {
 
 		if ( $input && ! $invite && 'out' === $direction ) {
-			return MeetingIdGenerator::get_meeting_hash_from_user_id( $input );
+			return Encryption::get_meeting_hash_from_user_id( $input );
 		}
 
 		if ( ! $invite && ! $input && 'user' !== $direction ) {
@@ -301,16 +301,16 @@ class ShortCodeConstructor extends Shortcode {
 
 		switch ( $direction ) {
 			case 'in':
-				$user_id = MeetingIdGenerator::get_user_id_from_meeting_hash( $invite );
+				$user_id = Encryption::get_user_id_from_meeting_hash( $invite );
 				break;
 			case 'user':
 				if ( $invite ) {
-					$user_id = MeetingIdGenerator::get_meeting_hash_from_user_id( $invite );
+					$user_id = Encryption::get_meeting_hash_from_user_id( $invite );
 				}
 
 				break;
 			case 'out':
-				$user_id = MeetingIdGenerator::get_meeting_hash_from_user_id( $user_id );
+				$user_id = Encryption::get_meeting_hash_from_user_id( $user_id );
 				break;
 			default:
 				// @TODO @Fred - what should happen here? Throw an error?

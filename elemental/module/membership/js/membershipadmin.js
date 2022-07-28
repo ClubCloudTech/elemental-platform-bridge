@@ -28,7 +28,7 @@ window.addEventListener(
 							e.stopPropagation();
 							e.stopImmediatePropagation();
 							e.preventDefault();
-							$( '.elemental-add-new-sandbox' ).slideToggle(600);
+							$( '.elemental-add-new-sandbox' ).slideToggle( 600 );
 						}
 					);
 
@@ -148,11 +148,13 @@ window.addEventListener(
 									var level = event.target.dataset.level,
 									field     = event.target.dataset.field,
 									value     = event.target.value,
+									checkbox = $( '#status_enabled_'+ level ).prop( 'checked' );
 									form_data = new FormData();
-
+									console.log(checkbox);
 									form_data.append( 'action', 'elemental_membershipadmin_ajax' );
 									form_data.append( 'action_taken', 'update_sandbox' );
 									form_data.append( 'field', field );
+									form_data.append( 'checkbox', checkbox );
 									form_data.append( 'level', level );
 									form_data.append( 'value', value );
 									form_data.append( 'security', elemental_membershipadmin_ajax.security );
@@ -167,7 +169,7 @@ window.addEventListener(
 											success: function(response) {
 												var state_response = JSON.parse( response );
 												console.log( state_response.feedback );
-												$( '#confirmation_' + level ).html( state_response.feedback ).fadeOut(2000);
+												$( '#confirmation_' + level ).html( state_response.feedback ).fadeOut( 2000 );
 
 											},
 											error: function(response) {

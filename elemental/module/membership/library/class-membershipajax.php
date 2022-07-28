@@ -8,7 +8,8 @@
 namespace ElementalPlugin\Module\Membership\Library;
 
 use ElementalPlugin\Library\Factory;
-use ElementalPlugin\Library\MeetingIdGenerator;
+use ElementalPlugin\Library\Encryption;
+use ElementalPlugin\Library\HttpPost;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
@@ -39,7 +40,7 @@ class MembershipAjax {
 			$membership_level = sanitize_text_field( wp_unslash( $_POST['level'] ) );
 		}
 		if ( isset( $_POST['value'] ) ) {
-			$set_value = sanitize_text_field( wp_unslash( $_POST['value'] ) );
+			$set_value =  wp_unslash( $_POST['value'] );
 		}
 		if ( isset( $_POST['email'] ) ) {
 			$email = \sanitize_email( wp_unslash( $_POST['email'] ) );
@@ -199,15 +200,15 @@ class MembershipAjax {
 		}
 
 		/*
-		* Update Membership Limit section.
+		* Update Sandbox section.
 		*
 		*/
 		if ( 'update_sandbox' === $action_taken ) {
 			if ( isset( $_POST['field'] ) ) {
-				$set_field = Factory::get_instance( MeetingIdGenerator::class )->decrypt_string( sanitize_text_field( wp_unslash( $_POST['field'] ) ) );
+				$set_field = Factory::get_instance( Encryption::class )->decrypt_string( $_POST['field'] );
 			}
 			if ( 'enabled' === $set_field ) {
-				$set_value = settype( $set_value, 'bool' );
+				$set_value = Factory::get_instance( HttpPost::class )->get_control_checkbox( 'checkbox' );
 			}
 			$level  = $membership_level;
 			$update = Factory::get_instance( SandBoxDao::class )->update_by_field( $set_value, $set_field, $level );

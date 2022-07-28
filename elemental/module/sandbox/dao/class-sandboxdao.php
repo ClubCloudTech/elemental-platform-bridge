@@ -281,7 +281,7 @@ class SandBoxDao {
 	public function update_by_field( $value, string $field, int $id ): bool {
 
 		global $wpdb;
-
+\error_log('value ' . $value . ' field ' . $field . ' id ' . $id );
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->update(
 			$this->get_table_name(),

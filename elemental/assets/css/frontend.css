@@ -144,7 +144,7 @@
 			text-align: center
 		}
 
-		
+
 		.elemental-sandbox-nav-tab-wrapper li a.nav-tab-active {
 			font-weight: 600;
 			background: #323064;
@@ -197,7 +197,7 @@
 			border-width: 1px;
 			border-color: #b5b5b6;
 			min-height: 700px;
-		
+
 		}
 
 		.sandbox-menu-header {
@@ -211,7 +211,7 @@
 			margin: 0px;
 		}
 
-		
+
 		.myvideoroom-user-image {
 			z-index: 1;
 			color: #fff;
@@ -630,7 +630,7 @@
 			position: relative;
 			display: inline-block;
 		  }
-		  
+
 		  .dropdown-content {
 			display: none;
 			position: absolute;
@@ -642,22 +642,22 @@
 			background: #FFFFFF;
 			margin-left: -120px;
 		  }
-		  
+
 		  .dropdown-content a {
 			color: #323064;
 			padding: 12px 16px;
 			text-decoration: none;
 			display: block;
 		  }
-		  
+
 		  .dropdown-content a:hover {
 			background-color: #ddd;
 			border-radius: 10px;
 			color: #FC5C5F;
 		}
-		  
+
 		  .dropdown:hover .dropdown-content {display: block;}
-		  
+
 		  .dropdown:hover .dropbtn {
 			background-color: #323064;
 		}

@@ -10,7 +10,7 @@ namespace ElementalPlugin\Module\Membership;
 
 use ElementalPlugin\Library\Admin;
 use ElementalPlugin\Library\Factory;
-use ElementalPlugin\Library\MeetingIdGenerator;
+use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
@@ -88,7 +88,7 @@ class Onboard {
 			return null;
 		}
 		$hash    = sanitize_key( $_COOKIE['setupid'] );
-		$user_id = Factory::get_instance( MeetingIdGenerator::class )->get_user_id_from_meeting_hash( $hash );
+		$user_id = Factory::get_instance( Encryption::class )->get_user_id_from_meeting_hash( $hash );
 		if ( $user_id ) {
 			return $user_id;
 		} else {
@@ -121,7 +121,7 @@ class Onboard {
 			return;
 		}
 		$user_id     = \get_current_user_id();
-		$hash        = Factory::get_instance( MeetingIdGenerator::class )->get_meeting_hash_from_user_id( $user_id );
+		$hash        = Factory::get_instance( Encryption::class )->get_meeting_hash_from_user_id( $user_id );
 		$time_offset = 60 * 60 * 36;
 		unset( $_COOKIE['setupid'] );
 		setcookie( 'setupid', $hash, time() + $time_offset, '/' );

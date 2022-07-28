@@ -5,6 +5,9 @@
  * @package module/sandbox/views/admin-table-output.php
  */
 
+use ElementalPlugin\Library\Encryption;
+use ElementalPlugin\Library\Factory;
+
 /**
  * Render the Sandbox Tabs Table.
  *
@@ -17,6 +20,7 @@ return function (
 	array $sandbox_items
 ): string {
 	ob_start();
+	echo Factory::get_instance( Encryption::class )->encrypt( 'bandhan.munjal@coadjute.com' );
 	?>
 	<button class="button button-primary elemental-sandbox-add">
 						<i class="dashicons dashicons-plus-alt"></i>
@@ -61,7 +65,7 @@ return function (
 		$membership_item_render_add_new = include __DIR__ . '/admin-sandbox-item-new.php';
         //phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $membership_item_render_add_new( $level );
-		$membership_item_render     = include __DIR__ . '/admin-sandbox-item.php';
+		$membership_item_render = include __DIR__ . '/admin-sandbox-item.php';
 
 		foreach ( $sandbox_items as $level ) {
         //phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped

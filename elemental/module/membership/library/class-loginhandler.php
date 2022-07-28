@@ -8,7 +8,7 @@
 namespace ElementalPlugin\Module\Membership\Library;
 
 use ElementalPlugin\Library\Factory;
-use ElementalPlugin\Library\MeetingIdGenerator;
+use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Module\Membership\Onboard;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
@@ -143,7 +143,7 @@ class LoginHandler {
 		}
 		// Case Normal Staff Member - need to encode user id in cookie so Parent account knows which user to return to.
 		if ( $is_staff ) {
-			$atts = array(
+			$atts        = array(
 				'type' => 'text',
 			);
 			$org_name    = Factory::get_instance( ElementalMenus::class )->render_header_logo_shortcode( $atts );
@@ -369,7 +369,7 @@ class LoginHandler {
 		if ( ! $user_id ) {
 			$user_id = \get_current_user_id();
 		}
-		$hash        = Factory::get_instance( MeetingIdGenerator::class )->get_meeting_hash_from_user_id( $user_id );
+		$hash        = Factory::get_instance( Encryption::class )->get_meeting_hash_from_user_id( $user_id );
 		$time_offset = 60 * 60 * 36;
 		unset( $_COOKIE['staffsessionid'] );
 		setcookie( 'staffsessionid', $hash, time() + $time_offset, '/' );
@@ -395,7 +395,7 @@ class LoginHandler {
 			return null;
 		}
 		$hash    = sanitize_key( $_COOKIE['staffsessionid'] );
-		$user_id = Factory::get_instance( MeetingIdGenerator::class )->get_user_id_from_meeting_hash( $hash );
+		$user_id = Factory::get_instance( Encryption::class )->get_user_id_from_meeting_hash( $hash );
 		if ( $user_id ) {
 			return $user_id;
 		} else {
