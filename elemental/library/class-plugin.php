@@ -22,6 +22,7 @@ use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\Module\WCFM\WCFM;
 use ElementalPlugin\Module\BuddyPress\XProfile;
 use ElementalPlugin\Library\Admin;
+use ElementalPlugin\Module\Pagemanage\Pagemanage;
 
 /**
  * Class Plugin
@@ -47,6 +48,8 @@ class Plugin {
 		Factory::get_instance( ElementalBP::class )->init();
 		Factory::get_instance( ElementalMenus::class )->init();
 		Factory::get_instance( Sandbox::class )->init();
+		Factory::get_instance(Pagemanage::class)->init();
+
 		$this->styles();
 		add_filter( 'xmlrpc_enabled', '__return_false' );
 
