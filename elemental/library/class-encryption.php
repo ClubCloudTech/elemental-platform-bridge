@@ -12,6 +12,21 @@ namespace ElementalPlugin\Library;
  */
 class Encryption {
 
+	/**
+	 * Cipher Variable.
+	 *
+	 * @var string $openssl_cipher_name - the Cypher Type. OpenSSL Cipher
+	 */
+	private static $openssl_cipher_name = 'aes-128-cbc';
+
+	/**
+	 * Cipher Variable.
+	 *
+	 * @var int $cipher_key_len - the Cypher Key Length.
+	 */
+	private static $cipher_key_len = 16; // 128 bits
+
+
 	const IV  = 'D%hfRKiBKjd&4WBj';
 	const KEY = '3gAW!xqPyNp#)kY!';
 
@@ -169,9 +184,6 @@ class Encryption {
 
 		return $output;
 	}
-
-	private static $openssl_cipher_name = 'aes-128-cbc'; // Name of OpenSSL Cipher
-	private static $cipher_key_len      = 16; // 128 bits
 
 	/**
 	 * Encrypt data using AES Cipher (CBC) with 128 bit key

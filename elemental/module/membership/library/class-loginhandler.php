@@ -29,6 +29,7 @@ class LoginHandler {
 	const SHORTCODE_LEGACY_LOGOUT  = 'cclogout';
 	const SHORTCODE_LEGACY_LOGIN   = 'ccloginswitch';
 	const SHORTCODE_LOGIN_SWITCH   = 'elemental_login';
+	const SHORTCODE_LOGIN_VIEW     = 'elemental_login_view';
 	const SHORTCODE_LOGIN_BUTTON   = 'elemental_loginbutton';
 	const SHORTCODE_LOGIN_REDIRECT = 'elemental_profile_redirect';
 
@@ -44,6 +45,7 @@ class LoginHandler {
 		add_shortcode( self::SHORTCODE_LOGOUT_SWITCH, array( $this, 'render_logout_shortcode' ) );
 		add_shortcode( self::SHORTCODE_LOGOUT, array( $this, 'elemental_logout' ) );
 		add_shortcode( self::SHORTCODE_LOGIN_SWITCH, array( $this, 'elemental_loginswitch' ) );
+		add_shortcode( self::SHORTCODE_LOGIN_VIEW, array( $this, 'elemental_login_view' ) );
 		add_shortcode( self::SHORTCODE_LOGIN_BUTTON, array( $this, 'elemental_login_out' ) );
 		\add_shortcode( self::SHORTCODE_LOGIN_REDIRECT, array( $this, 'loginland_redirect' ) );
 
@@ -263,12 +265,23 @@ class LoginHandler {
 	 *
 	 * @return string
 	 */
+	public function elemental_loginview(): string {
+
+		
+		return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+	}
+
+	/**
+	 * Login Switch
+	 * Renders the shortcode to correctly login and out users, and handle admin/child context switches for vendors.
+	 *
+	 * @return string
+	 */
 	public function elemental_loginswitch(): string {
 
 		$template_id = intval( get_option( self::SETTING_LOGIN_SWITCH_TEMPLATE ) );
 		return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 	}
-
 
 
 
