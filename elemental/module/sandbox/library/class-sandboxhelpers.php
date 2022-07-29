@@ -60,7 +60,7 @@ class SandBoxHelpers {
 	public function create_sandbox_iframe( SandboxEntity $sandbox_object = null ) :?string {
 
 		if ( ! $sandbox_object->is_enabled() ) {
-			return \esc_html__( 'Disabled in Database', 'elementalplugin' );
+			return \esc_html__( 'This Pathway has been disabled in the control panel', 'elementalplugin' );
 		}
 
 		$base_url      = $sandbox_object->get_destination_url();

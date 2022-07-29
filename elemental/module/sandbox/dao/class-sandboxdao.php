@@ -272,16 +272,15 @@ class SandBoxDao {
 	/**
 	 * Update a field by a value.
 	 *
-	 * @param $value The value to change.
-	 * @param string                    $field The field to update.
-	 * @param int                       $id - The record id.
+	 * @param mixed  $value The value to change.
+	 * @param string $field The field to update.
+	 * @param int    $id - The record id.
 	 *
 	 * @return bool
 	 */
 	public function update_by_field( $value, string $field, int $id ): bool {
 
 		global $wpdb;
-\error_log('value ' . $value . ' field ' . $field . ' id ' . $id );
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->update(
 			$this->get_table_name(),

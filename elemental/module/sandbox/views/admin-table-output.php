@@ -20,11 +20,10 @@ return function (
 	array $sandbox_items
 ): string {
 	ob_start();
-	echo Factory::get_instance( Encryption::class )->encrypt( 'bandhan.munjal@coadjute.com' );
 	?>
 	<button class="button button-primary elemental-sandbox-add">
 						<i class="dashicons dashicons-plus-alt"></i>
-						<?php esc_html_e( 'Add new Sandbox', 'elementalplugin' ); ?>
+						<?php esc_html_e( 'Add New Sandbox', 'elementalplugin' ); ?>
 					</button>
 	<?php
 	if ( $sandbox_items ) {

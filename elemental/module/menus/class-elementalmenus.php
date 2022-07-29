@@ -126,31 +126,37 @@ class ElementalMenus {
 			$user_id = \get_current_user_id();
 		}
 
-		// Staff to parent handles sponsored, staff, and Store owner accounts.
-
-		if ( ! $user_id ) {
-			return null;
-		}
-
 		$user       = \get_user_by( 'id', $user_id );
 		$attributes = array(
 			'force_default' => true,
 		);
-		if ( 'avatar' === $attributes['image'] ) {
+		if ( 'avatar' === $attributes['image'] && $user_id ) {
 			$picture_url = get_avatar_url( $user, $attributes );
 		} else {
 			$picture_url = \plugins_url( '../../assets/img/user-icon.png', __FILE__ );
 		}
+
 		$is_vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
+
+			// Case Store Owner.
 		if ( $is_vendor ) {
 			$user_id    = \get_current_user_id();
 			$store_name = get_user_meta( $user_id, 'store_name', true );
 			$output     = $store_name;
-		} else {
+			// @TODO Only whilst in sandbox only mode - as a new control panel page will be built and this url can lose the extension
+			$profile_control_url = \get_permalink( 12508 ) . '/ihc/?ihc_ap_menu=profile';
+
+			// Case Not Org Admin Account but signed in.
+		} elseif ( $user_id ) {
 			$output = $user->display_name;
+			// @TODO Only whilst in sandbox only mode - as a new control panel page will be built and this url can lose the extension
+			$profile_control_url = \get_permalink( 12508 ) . '/ihc/?ihc_ap_menu=profile';
+
+			// Case Logged Out.
+		} else {
+			$output = \esc_html__( 'Sign In', 'elementalplugin' );
+			$profile_control_url = '/login';
 		}
-		// @TODO Only whilst in sandbox only mode - as a new control panel page will be built and this url can lose the extension
-		$profile_control_url = \get_permalink( 12508 ) . '/ihc/?ihc_ap_menu=profile';
 
 		if ( 'text' === $attributes['type'] ) {
 			return $output;
@@ -162,14 +168,22 @@ class ElementalMenus {
 			<a href="<?php echo esc_url( $profile_control_url ); ?>" class="elemental-host-link">
 			<div class="elemental-primary-nav-settings">
 				<div class="elemental-primary-nav-img" style="background-image: url(<?php echo esc_url( $picture_url ); ?> )"></div>
-				<span><?php echo esc_attr( $output ); ?></span>
-				<span><i class="dropdown myvideoroom-dashicons mvr-icons dashicons-arrow-down-alt2 dropbtn"></i></span>
+				<span><?php echo esc_attr( $output ); ?><i class="dropdown myvideoroom-dashicons mvr-icons dashicons-arrow-down-alt2 "></i></span>
+
 			</div></a>
 			<div class="dropdown-content">
 				<?php
-				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'role' );?>
+				if ( $user_id ) {
+						//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'role' );
+
+					?>
 				<a href="/control/account-settings/ihc/?ihc_ap_menu=profile" class="elemental-host-link"><?php echo \esc_html__( 'Account Settings', 'elementalplugin' ); ?></a>
+					<?php
+				}
+				?>
+
+
 				<?php
 				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'login' );?>
