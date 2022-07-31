@@ -5,9 +5,6 @@
  * @package module/sandbox/views/admin-table-output.php
  */
 
-use ElementalPlugin\Library\Encryption;
-use ElementalPlugin\Library\Factory;
-
 /**
  * Render the Sandbox Tabs Table.
  *
@@ -53,8 +50,17 @@ return function (
 				<th scope="col" class="manage-column column-name column-primary">
 		<?php esc_html_e( 'Custom Field 2', 'elementalplugin' ); ?>
 				</th>
+
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Private Key', 'elementalplugin' ); ?>
+		<?php esc_html_e( 'Owner User', 'elementalplugin' ); ?>
+				</th>
+
+				<th scope="col" class="manage-column column-name column-primary">
+		<?php esc_html_e( 'Tab Order', 'elementalplugin' ); ?>
+				</th>
+
+				<th scope="col" class="manage-column column-name column-primary">
+		<?php esc_html_e( 'Admin Enforced', 'elementalplugin' ); ?>
 				</th>
 			</tr>
 		</thead>

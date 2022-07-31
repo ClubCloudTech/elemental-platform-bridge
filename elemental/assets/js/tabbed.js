@@ -1,7 +1,7 @@
 /**
- * Add dynamic tabs to MyVideoRoom admin pages
+ * Add dynamic tabs to Elemental admin pages
  *
- * @package MyVideoRoomPlugin
+ * @package Elemental Plugin assets/js/tabbed.js
  */
 
 (function ($) {
@@ -26,8 +26,9 @@
 	 * @param {JQuery} $parent
 	 */
 	var init = function ($parent) {
-		var $tabbed_sections = $( '.elemental-nav-tab-wrapper', $parent );
 
+		var $tabbed_sections = $( '.elemental-nav-tab-wrapper', $parent );
+	
 		$tabbed_sections.each(
 			function () {
 				var $nav_section = $( this );
@@ -74,7 +75,5 @@
 		);
 
 	};
-
 	init( $( document ) );
-
 })( jQuery );

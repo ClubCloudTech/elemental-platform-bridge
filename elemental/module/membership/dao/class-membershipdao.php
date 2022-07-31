@@ -470,7 +470,8 @@ class MembershipDAO {
 			// Update Database to new Schema.
 			// V2.
 			$update_db = "ALTER TABLE `{$table_name}` ADD `template` BIGINT UNSIGNED NULL AFTER `user_limit`";
-
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
+			$wpdb->query( $wpdb->prepare( $update_db ) );
 			// V3.
 			$update_db = "ALTER TABLE `{$table_name}` ADD `landing_template` BIGINT UNSIGNED NULL AFTER `template`";
 			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery

@@ -69,6 +69,28 @@ class SandboxEntity {
 	private ?int $record_id;
 
 	/**
+	 * Owner User ID
+	 *
+	 * @var ?int $owner_user_id
+	 */
+	private ?int $owner_user_id;
+
+	/**
+	 * Column Priority
+	 *
+	 * @var ?int $column_priority
+	 */
+	private ?int $column_priority;
+
+
+	/**
+	 * Admin Enforced Tab.
+	 *
+	 * @var bool $admin_enforced
+	 */
+	private bool $admin_enforced;
+
+	/**
 	 * SandboxEntity constructor.
 	 *
 	 * @param string  $tab_name                Tab Name.
@@ -79,6 +101,9 @@ class SandboxEntity {
 	 * @param bool    $is_enabled              Is Item Enabled.
 	 * @param string  $private_key             The Private or Public Key Cypher.
 	 * @param ?int    $record_id               The Record ID.
+	 * @param int     $owner_user_id           Owner User ID of the Record.
+	 * @param ?int    $column_priority         Column sort priority.
+	 * @param bool    $admin_enforced          Admin Enforced Record.
 	 */
 	public function __construct(
 		string $tab_name,
@@ -88,7 +113,10 @@ class SandboxEntity {
 		?string $customfield2 = null,
 		bool $is_enabled = false,
 		string $private_key,
-		int $record_id
+		int $record_id,
+		int $owner_user_id,
+		?int $column_priority,
+		bool $admin_enforced = false
 
 	) {
 		$this->tab_name          = $tab_name;
@@ -99,6 +127,9 @@ class SandboxEntity {
 		$this->is_enabled        = $is_enabled;
 		$this->private_key       = $private_key;
 		$this->record_id         = $record_id;
+		$this->owner_user_id     = $owner_user_id;
+		$this->column_priority   = $column_priority;
+		$this->admin_enforced    = $admin_enforced;
 	}
 
 	/**
@@ -107,7 +138,7 @@ class SandboxEntity {
 	 *
 	 * @param string $json The JSON representation of the object.
 	 *
-	 * @return ?\MyVideoRoomPlugin\Entity\SandboxEntity
+	 * @return ?SandboxEntity
 	 */
 	public static function from_json( string $json ): ?self {
 		$data = json_decode( $json );
@@ -122,6 +153,9 @@ class SandboxEntity {
 				$data->is_enabled,
 				$data->private_key,
 				$data->record_id,
+				$data->owner_user_id,
+				$data->column_priority,
+				$data->admin_enforced,
 			);
 		}
 
@@ -146,6 +180,9 @@ class SandboxEntity {
 				'is_enabled'        => $this->is_enabled,
 				'private_key'       => $this->private_key,
 				'record_id'         => $this->record_id,
+				'owner_user_id'     => $this->owner_user_id,
+				'column_priority'   => $this->column_priority,
+				'admin_enforced'    => $this->admin_enforced,
 			)
 		);
 	}
@@ -311,5 +348,71 @@ class SandboxEntity {
 	 */
 	public function get_record_id(): ?int {
 		return $this->record_id;
+	}
+
+	/**
+	 * Gets Owner User_ID.
+	 *
+	 * @return ?int
+	 */
+	public function get_owner_user_id(): ?int {
+		return $this->owner_user_id;
+	}
+
+	/**
+	 * Sets Owner User_ID.
+	 *
+	 * @param int|null $owner_user_id - the private or public key string.
+	 *
+	 * @return SandboxEntity
+	 */
+	public function set_owner_user_id( int $owner_user_id ): SandboxEntity {
+		$this->owner_user_id = $owner_user_id;
+
+		return $this;
+	}
+
+	/**
+	 * Gets Owner User_ID.
+	 *
+	 * @return ?int
+	 */
+	public function get_column_priority(): ?int {
+		return $this->column_priority;
+	}
+
+	/**
+	 * Sets Owner User_ID.
+	 *
+	 * @param int|null $column_priority - the private or public key string.
+	 *
+	 * @return SandboxEntity
+	 */
+	public function set_column_priority( int $column_priority ): SandboxEntity {
+		$this->column_priority = $column_priority;
+
+		return $this;
+	}
+
+	/**
+	 * Checks Item is Enabled in Database.
+	 *
+	 * @return bool
+	 */
+	public function is_admin_enforced(): bool {
+		return $this->admin_enforced;
+	}
+
+	/**
+	 * Sets Enabled Status
+	 *
+	 * @param bool $admin_enforced - Whether this record is enforced by Admins.
+	 *
+	 * @return SandboxEntity
+	 */
+	public function set_admin_enforced( bool $admin_enforced ): SandboxEntity {
+		$this->admin_enforced = $admin_enforced;
+
+		return $this;
 	}
 }

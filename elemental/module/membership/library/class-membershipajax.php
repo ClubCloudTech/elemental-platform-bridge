@@ -207,13 +207,40 @@ class MembershipAjax {
 			if ( isset( $_POST['field'] ) ) {
 				$set_field = Factory::get_instance( Encryption::class )->decrypt_string( $_POST['field'] );
 			}
-			if ( 'enabled' === $set_field ) {
+			if ( 'enabled' === $set_field || 'admin_enforced' === $set_field ) {
 				$set_value = Factory::get_instance( HttpPost::class )->get_control_checkbox( 'checkbox' );
+			}
+			if ( 'owner_user_name' === $set_field || 'column_priority' === $set_field ) {
+				$set_value = \intval( $set_value );
 			}
 			$level  = $membership_level;
 			$update = Factory::get_instance( SandBoxDao::class )->update_by_field( $set_value, $set_field, $level );
 
 			$response['feedback'] = \esc_html__( 'Success ', 'elementalplugin' );
+
+			return \wp_send_json( $response );
+		}
+
+				/*
+		* Update Sandbox section.
+		*
+		*/
+		if ( 'tab_sort' === $action_taken ) {
+			if ( isset( $_POST['user'] ) ) {
+				$user_id = Factory::get_instance( Encryption::class )->decrypt_string( sanitize_text_field( wp_unslash( $_POST['user'] ) ) );
+			}
+			if ( isset( $_POST['levels'] ) ) {
+				$data        = sanitize_text_field( wp_unslash( $_POST['levels'] ) );
+				$place_order = \explode( ',', $data );
+
+				$place_index = 1;
+				foreach ( $place_order as $place ) {
+					$update = Factory::get_instance( SandBoxDao::class )->update_by_field( $place_index, 'column_priority', intval( $place ) );
+					$place_index++;
+				}
+			}
+
+			$response['feedback'] = \esc_html__( 'Success', 'elementalplugin' ) . $user_id;
 
 			return \wp_send_json( $response );
 		}

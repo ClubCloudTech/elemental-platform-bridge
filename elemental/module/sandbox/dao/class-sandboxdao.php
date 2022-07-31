@@ -15,7 +15,8 @@ use ElementalPlugin\Module\Sandbox\Entity\SandboxEntity;
  */
 class SandBoxDao {
 
-	const TABLE_NAME = 'elemental_sandbox';
+	const TABLE_NAME  = 'elemental_sandbox';
+	const USER_ID_ALL = -1;
 
 	/**
 	 * Install Membership Table -
@@ -36,7 +37,10 @@ class SandBoxDao {
 			`customfield1` VARCHAR(512) NULL,
 			`customfield2` VARCHAR(512) NULL,
 			`enabled` BOOLEAN,
-			`private_key` VARCHAR(8192) NOT NULL,
+			`private_key` VARCHAR(512) NOT NULL,
+			`owner_user_id` INT NOT NULL,
+			`column_priority` INT UNSIGNED NOT NULL,
+			`admin_enforced` BOOLEAN,
 			PRIMARY KEY (`record_id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
 
@@ -70,6 +74,9 @@ class SandBoxDao {
 				'customfield2'      => $sandbox_entity->get_customfield2(),
 				'enabled       '    => $sandbox_entity->is_enabled(),
 				'private_key'       => $sandbox_entity->get_private_key(),
+				'owner_user_id'     => $sandbox_entity->get_owner_user_id(),
+				'column_priority'   => $sandbox_entity->get_column_priority(),
+				'admin_enforced'    => $sandbox_entity->is_admin_enforced(),
 			)
 		);
 
@@ -167,7 +174,7 @@ class SandBoxDao {
 		$row = $wpdb->get_row(
 			$wpdb->prepare(
 				'
-				SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, enabled, private_key, record_id
+				SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, enabled, private_key, record_id, owner_user_id, column_priority, admin_enforced 
 				FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
 				WHERE record_id = %d;
 			',
@@ -181,7 +188,7 @@ class SandBoxDao {
 			$row = $wpdb->get_row(
 				$wpdb->prepare(
 					'
-					SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, enabled, private_key, record_id
+					SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, enabled, private_key, record_id, owner_user_id, column_priority, admin_enforced
 					FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
 					WHERE record_id = %d;
 				',
@@ -202,6 +209,9 @@ class SandBoxDao {
 				(bool) $row->enabled,
 				$row->private_key,
 				(int) $row->record_id,
+				$row->owner_user_id,
+				$row->column_priority,
+				(bool) $row->admin_enforced,
 			);
 
 			wp_cache_set( $cache_key, __METHOD__, $result->to_json() );
@@ -238,6 +248,9 @@ class SandBoxDao {
 				'customfield2'      => $sandbox_entity->get_customfield2(),
 				'enabled       '    => $sandbox_entity->is_enabled(),
 				'private_key'       => $sandbox_entity->get_private_key(),
+				'owner_user_id'     => $sandbox_entity->get_owner_user_id(),
+				'column_priority'   => $sandbox_entity->get_column_priority(),
+				'admin_enforced'    => $sandbox_entity->is_admin_enforced(),
 			),
 			array(
 				'record_id' => $sandbox_entity->get_record_id(),
@@ -306,11 +319,11 @@ class SandBoxDao {
 		if ( strpos( $db_error_message, 'Unknown column' ) !== false ) {
 			// Update Database to new Schema.
 
-			// $table_name           = $this->get_table_name();
-			// $add_timestamp_column = "ALTER TABLE `{$table_name}` ADD `timestamp` BIGINT UNSIGNED NULL AFTER `show_floorplan`; ";
+			//$table_name           = $this->get_table_name();
+			//$add_timestamp_column = "ALTER TABLE `{$table_name}` ADD `timestamp` BIGINT UNSIGNED NULL AFTER `show_floorplan`; ";
 			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
-			// $wpdb->query( $wpdb->prepare( $add_timestamp_column ) );
-			return true;
+			//$wpdb->query( $wpdb->prepare( $add_timestamp_column ) );
+			//return true;
 		}
 
 		// Case Table Delete.
@@ -357,5 +370,72 @@ class SandBoxDao {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Get Entity Pathways by a user id.
+	 *
+	 * @param int  $user_id The user_id to retrieve.
+	 * @param bool $only -only retrieves the User_id and not the all user (-1).
+	 *
+	 * @return array
+	 */
+	public function get_entities_by_id( int $user_id, bool $only = false ): array {
+		global $wpdb;
+
+		$result = \wp_cache_get( $user_id . strval( $only ), __METHOD__ );
+
+		if ( false === $result ) {
+         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			$rows = $wpdb->get_results(
+				$wpdb->prepare(
+					'
+						SELECT record_id
+						FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
+						WHERE owner_user_id = %d
+						ORDER BY record_id ASC
+					',
+					$user_id,
+				)
+			);
+
+			$result = array_map(
+				function ( $row ) {
+					return (int) $row->record_id;
+				},
+				$rows
+			);
+
+			if ( ! $only ) {
+				$user_id = self::USER_ID_ALL;
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+					$rows2 = $wpdb->get_results(
+						$wpdb->prepare(
+							'
+								SELECT record_id
+								FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
+								WHERE owner_user_id = %d
+								ORDER BY record_id ASC
+							',
+							$user_id,
+						)
+					);
+
+				$result_all = array_map(
+					function ( $row2 ) {
+						return (int) $row2->record_id;
+					},
+					$rows2
+				);
+				$result_final = \array_merge( $result, $result_all );
+			}
+		}
+		if ( $result_final ) {
+			\wp_cache_set( $user_id . strval( $only ), $result_final, __METHOD__ );
+			return $result_final;
+		} else {
+			\wp_cache_set( $user_id . strval( $only ), $result, __METHOD__ );
+			return $result;
+		}
 	}
 }

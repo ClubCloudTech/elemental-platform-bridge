@@ -75,6 +75,7 @@ class SiteSearch extends TabHelper {
 		global $post;
 		$this->enqueue_organisation_wcfm_dependencies();
 		\wp_enqueue_script( 'elemental-search-js' );
+		\wp_enqueue_script( 'elemental-admin-tabs' );
 		$header          = \do_shortcode( '[elementor-template id="' . \esc_attr( $header_template ) . '"]' );
 		$html_library    = Factory::get_instance( HTML::class, array( 'view-management' ) );
 		$tabs            = array();

@@ -12,37 +12,28 @@
  * @param string $header - the header of the template.
  * @param object $html_library - randomizing object class.
  * @param array  $tabs -Inbound object with tabs.
+ * @param string $user_id - the encoded userid to use.
  *
  * @return string
  */
 
 
 return function (
-	string $header = null,
 	object $html_library,
-	array $tabs
+	array $tabs,
+	string $user_id
 ): string {
 	$count_tabs = count( $tabs );
-	if ( $count_tabs <= 1 ) {
-		$display_style = 'display:none;';
-	}
 	ob_start();
 	?>
-<div id="elemental-sandbox-base" class="elemental-sandbox-wrap">
-
-
-		<div class="mvr-header-section">
-			<?php
-				// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.
-				echo $header;
-
-			?>
-		</div>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<div id="elemental-sandbox-base" class="elemental-sandbox-wrap" data-user=<?php echo esc_attr( $user_id ); ?>>
 
 			<?php
 			if ( $count_tabs > 1 ) {
 				?>
-			<nav class="elemental-nav-tab-wrapper elemental-sandbox-nav-tab-wrapper">
+			<nav id="tabs" class="elemental-nav-tab-wrapper elemental-sandbox-nav-tab-wrapper">
 				<ul class="sandbox-menu-header">
 					<?php
 							$active = ' nav-tab-active';
@@ -51,7 +42,7 @@ return function (
 						$tab_slug         = $menu_output->get_tab_slug();
 						$object_id        = $menu_output->get_element_id();
 						?>
-					<li>
+					<li data-elementid=<?php echo esc_attr( $object_id ); ?>>
 						<a class="nav-tab<?php echo esc_attr( $active ); ?>" 
 													<?php
 													if ( $object_id ) {
@@ -71,7 +62,7 @@ return function (
 					}
 					?>
 				</ul>
-			</nav>
+				</nav>
 			<?php } ?>
 
 	<div id="mvr-above-article-notification"></div>

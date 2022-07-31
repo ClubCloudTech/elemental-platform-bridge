@@ -267,7 +267,6 @@ class LoginHandler {
 	 */
 	public function elemental_loginview(): string {
 
-		
 		return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 	}
 

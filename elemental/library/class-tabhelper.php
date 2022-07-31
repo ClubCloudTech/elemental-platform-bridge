@@ -36,4 +36,21 @@ class TabHelper {
 		}
 		return $return_array;
 	}
+
+	/**
+	 * Sort Global Directory Tabs.
+	 *
+	 * @param array $inputs - the tabs to sort.
+	 * @return array - a sorted array.
+	 */
+	public function tab_priority_sort( array $inputs ) {
+
+		usort(
+			$inputs,
+			function( $a, $b ) {
+				return strcmp( strval( $a->get_sort_order() ), strval( $b->get_sort_order() ) );
+			}
+		);
+		return $inputs;
+	}
 }

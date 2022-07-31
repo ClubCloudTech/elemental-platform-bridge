@@ -91,7 +91,8 @@ return function (
 		size="25" rows="2" name="customfield1" 
 		data-field="<?php echo esc_attr( Factory::get_instance( Encryption::class )->encrypt_string( 'customfield2' ) ); ?>"
 		value="<?php echo esc_textarea( $sandbox_item['customfield2'] ); ?>" 
-		placeholder="" data-level = "<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
+		placeholder=""
+		data-level = "<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
 		id="customfield2<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
 		class="elemental-sandbox-control" />
 	</label>
@@ -99,19 +100,45 @@ return function (
 	</td>
 
 	<td class="plugin-title column-primary">
-	<label for="private_key">
-		<input type="text" max_length="255"
-		size="25" rows="2" name="private_key"
-		data-field="<?php echo esc_attr( Factory::get_instance( Encryption::class )->encrypt_string( 'private_key' ) ); ?>"
-		value="<?php echo esc_textarea( $sandbox_item['private_key'] ); ?>" 
-		placeholder="" data-level = "<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
-		id="private_key<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
+	<label for="owner_user_id">
+		<input type="number" max_length="6"
+		size="6" name="owner_user_id"
+		data-field="<?php echo esc_attr( Factory::get_instance( Encryption::class )->encrypt_string( 'owner_user_id' ) ); ?>"
+		value="<?php echo esc_textarea( $sandbox_item['owner_user_id'] ); ?>" 
+		placeholder=""
+		data-level = "<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
+		id="owner_user_id<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
+		class="elemental-sandbox-control" />
+	</label><br>
+	<?php echo esc_textarea( $sandbox_item['owner_user_name'] ); ?>
+	<div id="confirmation_<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" class = "elemental-membership-displayconf"></div>
+	</td>
+
+	<td class="plugin-title column-primary">
+	<label for="column_priority">
+		<input type="number" max_length="3"
+		size="5" name="column_priority"
+		data-field="<?php echo esc_attr( Factory::get_instance( Encryption::class )->encrypt_string( 'column_priority' ) ); ?>"
+		value="<?php echo esc_textarea( $sandbox_item['column_priority'] ); ?>" 
+		placeholder=""
+		data-level = "<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
+		id="column_priority<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
 		class="elemental-sandbox-control" />
 	</label>
 	<div id="confirmation_<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" class = "elemental-membership-displayconf"></div>
 	</td>
 
+	<td>
 
+	<input type="checkbox" 
+		class="elemental-sandbox-control"	
+		name="admin_enforced"
+		id = "admin_enforced_<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>"
+		data-field="<?php echo esc_attr( Factory::get_instance( Encryption::class )->encrypt_string( 'admin_enforced' ) ); ?>"
+		data-level = "<?php echo esc_textarea( $sandbox_item['record_id'] ); ?>" 
+		<?php echo $sandbox_item && $sandbox_item['admin_enforced'] ? 'checked' : ''; ?>
+	/></input>
+		</td>
 
 
 	</tr>

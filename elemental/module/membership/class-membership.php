@@ -46,7 +46,7 @@ class Membership {
 			'elemental-membership-js',
 			\plugins_url( '/js/membershipadmin.js', \realpath( __FILE__ ) ),
 			array( 'jquery' ),
-			$plugin_version . \wp_rand( 40, 30000 ),
+			$plugin_version,
 			true
 		);
 		// Localize script Ajax Upload.

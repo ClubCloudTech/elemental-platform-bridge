@@ -143,41 +143,40 @@ window.addEventListener(
 				/**
 				 * Update Account Limits on Database by Subscription Level (used in backend admin page)
 				 */
-								var sandboxUpload = function(event) {
-									event.stopPropagation();
-									var level = event.target.dataset.level,
-									field     = event.target.dataset.field,
-									value     = event.target.value,
-									checkbox = $( '#status_enabled_'+ level ).prop( 'checked' );
-									form_data = new FormData();
-									console.log(checkbox);
-									form_data.append( 'action', 'elemental_membershipadmin_ajax' );
-									form_data.append( 'action_taken', 'update_sandbox' );
-									form_data.append( 'field', field );
-									form_data.append( 'checkbox', checkbox );
-									form_data.append( 'level', level );
-									form_data.append( 'value', value );
-									form_data.append( 'security', elemental_membershipadmin_ajax.security );
-									$.ajax(
-										{
-											type: 'post',
-											dataType: 'html',
-											url: elemental_membershipadmin_ajax.ajax_url,
-											contentType: false,
-											processData: false,
-											data: form_data,
-											success: function(response) {
-												var state_response = JSON.parse( response );
-												console.log( state_response.feedback );
-												$( '#confirmation_' + level ).html( state_response.feedback ).fadeOut( 2000 );
+					var sandboxUpload = function(event) {
+						event.stopPropagation();
+						var level = event.target.dataset.level,
+						field     = event.target.dataset.field,
+						value     = event.target.value,
+						checkbox = $( '#' + event.target.name + '_' + level ).prop( 'checked' );
+						form_data = new FormData();
+						form_data.append( 'action', 'elemental_membershipadmin_ajax' );
+						form_data.append( 'action_taken', 'update_sandbox' );
+						form_data.append( 'field', field );
+						form_data.append( 'checkbox', checkbox );
+						form_data.append( 'level', level );
+						form_data.append( 'value', value );
+						form_data.append( 'security', elemental_membershipadmin_ajax.security );
+						$.ajax(
+							{
+								type: 'post',
+								dataType: 'html',
+								url: elemental_membershipadmin_ajax.ajax_url,
+								contentType: false,
+								processData: false,
+								data: form_data,
+								success: function(response) {
+									var state_response = JSON.parse( response );
+									console.log( state_response.feedback );
+									$( '#confirmation_' + level ).html( state_response.feedback ).fadeOut( 2000 );
 
-											},
-											error: function(response) {
-												console.log( 'Error Uploading Level' );
-											}
-										}
-									);
+								},
+								error: function(response) {
+									console.log( 'Error Uploading Level' );
 								}
+							}
+						);
+					}
 
 				/**
 				 * Update Account Limits on Database by Subscription Level (used in backend admin page)

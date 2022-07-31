@@ -9,8 +9,10 @@ namespace ElementalPlugin\Module\Sandbox\Library;
 
 use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
 use ElementalPlugin\Module\Sandbox\Entity\SandboxEntity;
+use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 
 /**
  * Class Sandbox Helpers
@@ -38,6 +40,7 @@ class SandBoxHelpers {
 
 				$record_data                       = Factory::get_instance( SandBoxDao::class )->get_by_id( intval( $value ) );
 				$record_array                      = array();
+				$record_array['column_priority']   = $record_data->get_column_priority();
 				$record_array['record_id']         = $value;
 				$record_array['tab_name']          = $record_data->get_tab_name();
 				$record_array['user_name_prepend'] = $record_data->get_user_name_prepend();
@@ -46,6 +49,14 @@ class SandBoxHelpers {
 				$record_array['customfield2']      = $record_data->get_customfield2();
 				$record_array['enabled']           = $record_data->is_enabled();
 				$record_array['private_key']       = $record_data->get_private_key();
+				$record_array['owner_user_id']     = $record_data->get_owner_user_id();
+				$record_array['admin_enforced']    = $record_data->is_admin_enforced();
+				$record_array['owner_user_name']   = Factory::get_instance( ElementalMenus::class )->render_header_logo_shortcode(
+					array(
+						'type'    => 'text',
+						'user_id' => $record_array['owner_user_id'],
+					)
+				);
 				\array_push( $return_array, $record_array );
 		}
 		return $return_array;
@@ -82,24 +93,25 @@ class SandBoxHelpers {
 	}
 
 	/**
-	 * Construct All Tabs for Sandbox.
+	 * Construct All Tabs for Sandbox. Used in display in frontend.
 	 *
 	 * @return array - outbound menu.
 	 */
 	public function render_all_tabs(): array {
 		$tab_objects = array();
-		// Get all Tabs
-		$all_record_ids = Factory::get_instance( SandBoxDao::class )->get_all_entities();
+
+		// Get Parent ID of Organisation to search from.
+		$parent_id = Factory::get_instance( WCFMTools::class )->staff_to_parent( \get_current_user_id() );
+
+		// Get all Tabs for Parent Org plus mandatory tabs.
+		$all_record_ids = Factory::get_instance( SandBoxDao::class )->get_entities_by_id( $parent_id );
 
 		// Send each Tab item to get Menu item from it.
-
 		foreach ( $all_record_ids as $id ) {
-
 			$object    = Factory::get_instance( SandBoxDao::class )->get_by_id( $id );
 			$menu_item = $this->prepare_sandbox_tab( $object );
 			\array_push( $tab_objects, $menu_item );
 		}
-
 		// Return the Array.
 
 		return $tab_objects;
@@ -120,10 +132,39 @@ class SandBoxHelpers {
 			$sandbox_object->get_tab_name(),
 			$slug . '-' . $sandbox_object->get_record_id(),
 			fn() => $this->create_sandbox_iframe( $sandbox_object ),
-			$slug . '1-' . $sandbox_object->get_record_id()
+			$sandbox_object->get_record_id(),
+			strval( $sandbox_object->get_column_priority() ),
 		);
 
 		return $host_menu;
+	}
+
+	/**
+	 * Sort Global Directory Tabs.
+	 *
+	 * @param array $inputs - the tabs to sort.
+	 * @return array - a sorted array.
+	 */
+	public function sort_sandbox_rooms( array $inputs ) {
+		usort(
+			$inputs,
+			function (
+				$a,
+				$b ) {
+				$a_val = (int) $a['column_priority'];
+				$b_val = (int) $b['column_priority'];
+
+				if ( $a_val > $b_val ) {
+					return 1;
+				}
+				if ( $a_val < $b_val ) {
+					return -1;
+				}
+				return 0;
+			}
+		);
+
+		return $inputs;
 	}
 
 }

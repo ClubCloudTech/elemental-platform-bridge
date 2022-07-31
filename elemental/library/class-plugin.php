@@ -107,8 +107,6 @@ class Plugin {
 			$plugin_version,
 			true
 		);
-
-		\wp_enqueue_script( 'elemental-admin-tabs' );
 	}
 
 	/**

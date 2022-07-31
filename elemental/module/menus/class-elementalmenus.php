@@ -80,8 +80,15 @@ class ElementalMenus {
 	 * @return string
 	 */
 	private function render_header_logo_worker( array $attributes = null ): ?string {
+		if ( $attributes['user_id'] && intval( $attributes['user_id'] ) > 1 ) {
+			$user_id = intval( $attributes['user_id'] );
+		} elseif ( $attributes['user_id'] && intval( $attributes['user_id'] ) < 0 ) {
+			return esc_html__( 'All', 'elementalplugin' );
+		} else {
+			$user_id = \get_current_user_id();
+		}
 
-		$store_id = Factory::get_instance( WCFMTools::class )->staff_to_parent( \get_current_user_id() );
+		$store_id = Factory::get_instance( WCFMTools::class )->staff_to_parent( $user_id );
 
 		// Staff to parent handles sponsored, staff, and Store owner accounts.
 
