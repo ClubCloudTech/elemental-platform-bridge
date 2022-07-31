@@ -26,7 +26,7 @@ class PagemanageShortCode
     {
         $current_user = wp_get_current_user();
 
-        return $this->Pagemanage_shortcode_test($current_user);
+      //  return $this->Pagemanage_shortcode_test($current_user);
     }
 
     public function re_endpoint(){
@@ -41,10 +41,14 @@ class PagemanageShortCode
         }
 
         public function template_redirect($template)
-    {
+        {
+            echo 'this is here ';
+            die();
+            return null;
         $file_name = 'signup.php';
-
-        if ($machinesUrl = get_query_var('sid_test')) 
+       // echo       $template = dirname(__FILE__) . '/templates/' . $file_name;
+       // die();
+        if ($machinesUrl = get_query_var('sid_route')) 
          {
             if (locate_template($file_name)) {
                 // var_dump($machinesUrl, $_GET);
@@ -57,16 +61,27 @@ class PagemanageShortCode
 
                 // then stop processing
                 $template = locate_template($file_name, TRUE, TRUE);
+                echo ' Something went wrong  1 if ' . $template;
                 die();
              
             } else {
                 // Template not found in theme's folder, use plugin's template as a fallback
-                $template = dirname(__FILE__) . '/templates/' . $file_name;
+                  $template = dirname(__FILE__) . '/templates/' . $file_name;
+              //  die();
+               // $template = locate_template($file_name);
+                echo ' Something went wrong 1 else' . $template;
+              //  die();
             }
+
         }else{
-            $template = locate_template( get_template_directory_uri(). '/templates/' . $file_name);//.' Something went wrong ';
-            echo ' Something went wrong ';
-            die();
+            $template = locate_template($file_name, TRUE, TRUE);
+            // $template = locate_template( get_template_directory_uri(). '/templates/' . $file_name); //.' Something went wrong ';
+            //  return  $template = get_template_directory_uri() . '/templates/' . $file_name;//.' Something went wrong ';
+           echo  get_query_var('sid_route');
+          echo ' Something went wrong  2 else '. $template;
+           die;
+          //  $template = 'https://wordpress.test/control';
+          //  die();
       
         }
         // $current_user = wp_get_current_user();
@@ -78,8 +93,8 @@ class PagemanageShortCode
      
         public function request_filter($vars = []){
                
-                    if (isset($vars['sid_test']) && empty($vars['sid_test'])) {
-                        $vars['sid_test'] = 'default';
+                    if (isset($vars['sid_route']) && empty($vars['sid_route'])) {
+                        $vars['sid_route'] = 'default';
                     }
                     return $vars;
                 
@@ -91,14 +106,19 @@ class PagemanageShortCode
         global $wp;
         // Check if we're on the correct url
         $current_slug = add_query_arg(array(), $wp->request);
-        if ($current_slug !== 'custom-url') {
+        if ($current_slug !== 'sid_route') {
             return false;
         }
 
         // Check if it's a valid request.
         $nonce = filter_input(INPUT_GET, '_wpnonce', FILTER_SANITIZE_STRING);
         if (!wp_verify_nonce($nonce,  'NONCE_KEY')) {
-            die(__('Security check', 'textdomain'));
+            //$a = wp_verify_nonce($nonce,  'NONCE_KEY');
+           // echo $nonce .' -- ';
+            $file_name = 'login.php';
+         // $template = locate_template($file_name, TRUE, TRUE);
+            $template2 = dirname(__FILE__) . '/templates/' . $file_name;
+            die(__('Security check ! '.$template2, 'textdomain'));
         }
 
         // Do your stuff here
@@ -133,6 +153,6 @@ class PagemanageShortCode
     
         $render = (require __DIR__ . '/../views/view-admin-login.php');
         // phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
-        return $render($current_user);
+    //    return $render($current_user);
     }
 }

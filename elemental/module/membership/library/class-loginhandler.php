@@ -33,6 +33,8 @@ class LoginHandler {
 	const SHORTCODE_LOGIN_BUTTON   = 'elemental_loginbutton';
 	const SHORTCODE_LOGIN_REDIRECT = 'elemental_profile_redirect';
 
+	const SHORTCODE_ADMIN_LAYOUT = 'elemental_admin_layout';
+
 	const SETTING_LOGIN_SWITCH_TEMPLATE           = 'elemental-login-switch-template';
 	const SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE = 'elemental-checkout-header-template';
 
@@ -48,6 +50,8 @@ class LoginHandler {
 		add_shortcode( self::SHORTCODE_LOGIN_VIEW, array( $this, 'elemental_login_view' ) );
 		add_shortcode( self::SHORTCODE_LOGIN_BUTTON, array( $this, 'elemental_login_out' ) );
 		\add_shortcode( self::SHORTCODE_LOGIN_REDIRECT, array( $this, 'loginland_redirect' ) );
+
+		add_shortcode(self::SHORTCODE_ADMIN_LAYOUT, array($this, 'elemental_admin_layout'));
 
 		// Legacy Shortcodes.
 		add_shortcode( self::SHORTCODE_LEGACY_LOGOUT, array( $this, 'elemental_logout' ) );
@@ -265,9 +269,27 @@ class LoginHandler {
 	 *
 	 * @return string
 	 */
-	public function elemental_loginview(): string {
+	public function elemental_login_view(): string {
+		$current_user = wp_get_current_user();
+		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+		$render = (require __DIR__ . '/../views/loginviews/view-loginadmin.php');
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+		return $render($current_user);
+	}
 
-		return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+	/**
+	 * Admin Layout
+	 * Renders the shortcode to correctly login and out users, and handle admin/child context switches for Users.
+	 *
+	 * @return string
+	 */
+	public function elemental_admin_layout(): string
+	{
+		$current_user = wp_get_current_user();
+		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+		$render = (require __DIR__ . '/../views/loginviews/view-adminlayout.php');
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+		return $render($current_user);
 	}
 
 	/**
