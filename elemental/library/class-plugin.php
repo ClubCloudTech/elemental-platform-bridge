@@ -48,7 +48,7 @@ class Plugin {
 		Factory::get_instance( ElementalBP::class )->init();
 		Factory::get_instance( ElementalMenus::class )->init();
 		Factory::get_instance( Sandbox::class )->init();
-		Factory::get_instance(Pagemanage::class)->init();
+		Factory::get_instance( Pagemanage::class )->init();
 
 		$this->styles();
 		add_filter( 'xmlrpc_enabled', '__return_false' );
@@ -103,7 +103,7 @@ class Plugin {
 		wp_register_script(
 			'elemental-admin-tabs',
 			plugins_url( '../assets/js/tabbed.js', __FILE__ ),
-			array( 'jquery' ),
+			array( 'jquery-ui' ),
 			$plugin_version,
 			true
 		);

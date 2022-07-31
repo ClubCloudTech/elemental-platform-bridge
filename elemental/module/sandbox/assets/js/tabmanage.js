@@ -27,7 +27,6 @@ window.addEventListener(
 					$( '.elemental-membership-template' ).on( 'change', templateUpload );
 					$( '.elemental-membership-landing-template' ).on( 'change', landingTemplateUpload );
 
-
 				}
 
 				$( function() {
@@ -63,18 +62,18 @@ window.addEventListener(
 						value     = event.target.value,
 						checkbox = $( '#' + event.target.name + '_' + level ).prop( 'checked' );
 						form_data = new FormData();
-						form_data.append( 'action', 'elemental_membershipadmin_ajax' );
+						form_data.append( 'action', 'elemental_sandboxadmin_ajax' );
 						form_data.append( 'action_taken', 'update_sandbox' );
 						form_data.append( 'field', field );
 						form_data.append( 'checkbox', checkbox );
 						form_data.append( 'level', level );
 						form_data.append( 'value', value );
-						form_data.append( 'security', elemental_membershipadmin_ajax.security );
+						form_data.append( 'security', elemental_sandboxadmin_ajax.security );
 						$.ajax(
 							{
 								type: 'post',
 								dataType: 'html',
-								url: elemental_membershipadmin_ajax.ajax_url,
+								url: elemental_sandboxadmin_ajax.ajax_url,
 								contentType: false,
 								processData: false,
 								data: form_data,
@@ -98,16 +97,16 @@ window.addEventListener(
 
 						var user = $('#elemental-sandbox-base').attr( 'data-user' ),
 						form_data = new FormData();
-						form_data.append( 'action', 'elemental_membershipadmin_ajax' );
+						form_data.append( 'action', 'elemental_sandboxadmin_ajax' );
 						form_data.append( 'action_taken', 'tab_sort' );
 						form_data.append( 'levels', tab_array);
 						form_data.append( 'user', user );
-						form_data.append( 'security', elemental_membershipadmin_ajax.security );
+						form_data.append( 'security', elemental_sandboxadmin_ajax.security );
 						$.ajax(
 							{
 								type: 'post',
 								dataType: 'html',
-								url: elemental_membershipadmin_ajax.ajax_url,
+								url: elemental_sandboxadmin_ajax.ajax_url,
 								contentType: false,
 								processData: false,
 								data: form_data,
@@ -132,16 +131,16 @@ window.addEventListener(
 						value     = event.target.value,
 						form_data = new FormData();
 
-					form_data.append( 'action', 'elemental_membershipadmin_ajax' );
+					form_data.append( 'action', 'elemental_sandboxadmin_ajax' );
 					form_data.append( 'action_taken', 'update_template' );
 					form_data.append( 'level', level );
 					form_data.append( 'value', value );
-					form_data.append( 'security', elemental_membershipadmin_ajax.security );
+					form_data.append( 'security', elemental_sandboxadmin_ajax.security );
 					$.ajax(
 						{
 							type: 'post',
 							dataType: 'html',
-							url: elemental_membershipadmin_ajax.ajax_url,
+							url: elemental_sandboxadmin_ajax.ajax_url,
 							contentType: false,
 							processData: false,
 							data: form_data,
@@ -168,17 +167,17 @@ window.addEventListener(
 						user      = $('#elemental-sandbox-base').attr( 'data-user' ),
 						form_data = new FormData();
 					console.log( level + value );
-					form_data.append( 'action', 'elemental_membershipadmin_ajax' );
+					form_data.append( 'action', 'elemental_sandboxadmin_ajax' );
 					form_data.append( 'action_taken', 'update_landing_template' );
 					form_data.append( 'level', level );
 					form_data.append( 'user', user );
 					form_data.append( 'value', value );
-					form_data.append( 'security', elemental_membershipadmin_ajax.security );
+					form_data.append( 'security', elemental_sandboxadmin_ajax.security );
 					$.ajax(
 						{
 							type: 'post',
 							dataType: 'html',
-							url: elemental_membershipadmin_ajax.ajax_url,
+							url: elemental_sandboxadmin_ajax.ajax_url,
 							contentType: false,
 							processData: false,
 							data: form_data,

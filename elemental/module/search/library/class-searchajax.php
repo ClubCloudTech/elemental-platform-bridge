@@ -18,7 +18,7 @@ class SearchAjax {
 
 	/**
 	 * Elemental Ajax Support.
-	 * Handles membership function related calls and Ajax.
+	 * Handles Search function related calls and Ajax.
 	 *
 	 * @return mixed
 	 */
@@ -31,7 +31,6 @@ class SearchAjax {
 		$response = \apply_filters( 'elemental_search_ajax_response', $response, $search_term );
 
 		return \wp_send_json( $response );
-		die();
 	}
 
 	/**
@@ -47,7 +46,7 @@ class SearchAjax {
 			'elemental-search-js',
 			\plugins_url( '/../js/searchadmin.js', \realpath( __FILE__ ) ),
 			array( 'jquery' ),
-			$plugin_version . \wp_rand( 40, 30000 ),
+			$plugin_version,
 			true
 		);
 		// Localize script Ajax Upload.

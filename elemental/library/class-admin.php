@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace ElementalPlugin\Library;
 
+use ElementalPlugin\Module\Sandbox\Sandbox;
+
 /**
  * Class Admin
  */
@@ -23,6 +25,7 @@ class Admin {
 		add_action( 'wp_ajax_elemental_admin_ajax', array( Factory::get_instance( Ajax::class ), 'elemental_admin_ajax_handler' ), 10, 2 );
 		add_shortcode( self::SHORTCODE_TAG . 'proxytest', array( $this, 'proxy_test_function' ) );
 		$this->register_scripts();
+		Factory::get_instance( Sandbox::class )->initialise_sandbox_ajax();
 	}
 
 	/**
@@ -46,7 +49,12 @@ class Admin {
 	public function create_elemental_admin_page(): void {
      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Not required
 		$active_tab = $_GET['tab'] ?? null;
+		Factory::get_instance( Sandbox::class )->initialise_sandbox_ajax();
+
 		\wp_enqueue_script( 'elemental-admin-ajax-js' );
+		\wp_enqueue_script( 'elemental-advanced-tabs' );
+		\wp_enqueue_script( 'jquery-ui' );
+
 		add_action(
 			'wp_enqueue_scripts',
 			function() {
@@ -57,7 +65,7 @@ class Admin {
 					'elemental-admin-css',
 					\plugins_url( '/../assets/css/admin.css', __FILE__ ),
 					false,
-					\wp_rand( 1, 10000 ),
+					Factory::get_instance( Version::class )->get_plugin_version(),
 				);
 
 		$tabs = array(
@@ -106,7 +114,7 @@ class Admin {
 				'elemental-admin-ajax-js',
 				\plugins_url( '../assets/js/mvradminajax.js', \realpath( __FILE__ ) ),
 				array( 'jquery' ),
-				\wp_rand( 40, 30000 ),
+				Factory::get_instance( Version::class )->get_plugin_version(),
 				true
 			);
 			// Localize script Ajax Upload.

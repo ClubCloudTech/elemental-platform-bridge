@@ -38,6 +38,19 @@ class Ajax {
 	}
 
 	/**
+	 * Get Decrypt a Field Name from the $_POST
+	 *
+	 * @param string $name The name of the field to decode.
+	 *
+	 * @return string
+	 */
+	public function get_decrypted_parameter( string $name ): ?string {
+		// phpcs:ignore -- not sanitized as upstream function will sanitize automatically on the decrypt call and sanitize will remove encoded special characters.
+		$field = $_POST[ $name ] ?? '';
+		return Factory::get_instance( Encryption::class )->decrypt_string( $field );
+	}
+
+	/**
 	 * Get a integer from the $_POST
 	 *
 	 * @param string   $name    The name of the field.

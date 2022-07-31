@@ -11,9 +11,9 @@ namespace ElementalPlugin\Module\Sandbox;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
+use ElementalPlugin\Module\Sandbox\Library\SandBoxAjaxFilters;
 use ElementalPlugin\Module\Sandbox\Library\SandBoxHelpers;
 use ElementalPlugin\Module\Sandbox\Library\SandboxRender;
-use ElementalPlugin\Module\Sandbox\Library\SandboxShortCode;
 
 /**
  * Class Sandbox - Main Control Function Class for Sandbox.
@@ -26,10 +26,20 @@ class Sandbox {
 	 */
 	public function init(): void {
 
-		add_shortcode( 'the_content_sand', array( Factory::get_instance( SandboxShortCode::class ), 'render_sandbox_shortcode' ) );
 		Factory::get_instance( SandboxRender::class )->init();
 		$this->register_scripts();
+		$this->initialise_sandbox_ajax();
+
 	}
+	/**
+	 * Initialise Sandbox Ajax.
+	 */
+	public function initialise_sandbox_ajax(): void {
+
+		\add_action( 'wp_ajax_elemental_sandboxadmin_ajax', array( Factory::get_instance( SandBoxAjaxFilters::class ), 'sandbox_ajax_handler' ), 10, 2 );
+		add_filter( 'elemental_sandbox_ajax_response', array( Factory::get_instance( SandBoxAjaxFilters::class ), 'ajax_tab_sort' ), 10, 2 );
+	}
+
 	/**
 	 * Activate Functions for Sandbox Module.
 	 */
@@ -73,14 +83,22 @@ class Sandbox {
 		// Localize script Ajax Upload.
 		$script_data_array = array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'security' => wp_create_nonce( 'elemental_membership' ),
+			'security' => wp_create_nonce( 'elemental_sandbox' ),
 
 		);
 
 		wp_localize_script(
 			'elemental-advanced-tabs',
-			'elemental_membershipadmin_ajax',
+			'elemental_sandboxadmin_ajax',
 			$script_data_array
+		);
+
+		wp_register_script(
+			'jquery-ui',
+			'https://code.jquery.com/ui/1.13.2/jquery-ui.js',
+			array( 'jquery' ),
+			Factory::get_instance( Version::class )->get_plugin_version(),
+			true
 		);
 	}
 

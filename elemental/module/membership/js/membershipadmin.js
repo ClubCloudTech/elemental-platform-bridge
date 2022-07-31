@@ -22,20 +22,9 @@ window.addEventListener(
 							$( '#elemental-adduser-frame' ).slideToggle();
 						}
 					);
-
-					$( '.elemental-sandbox-add' ).click(
-						function(e) {
-							e.stopPropagation();
-							e.stopImmediatePropagation();
-							e.preventDefault();
-							$( '.elemental-add-new-sandbox' ).slideToggle( 600 );
-						}
-					);
-
 					$( '#submit' ).hide();
 					$( '#submit' ).prop( 'disabled', true );
 					$( '.elemental-membership-control' ).on( 'change', dbUpload );
-					$( '.elemental-sandbox-control' ).on( 'change', sandboxUpload );
 					$( '.elemental-membership-template' ).on( 'change', templateUpload );
 					$( '.elemental-membership-landing-template' ).on( 'change', landingTemplateUpload );
 					$( '#elemental-inbound-email' ).on( 'keyup', chkEmail );

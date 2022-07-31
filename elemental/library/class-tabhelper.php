@@ -38,13 +38,12 @@ class TabHelper {
 	}
 
 	/**
-	 * Sort Global Directory Tabs.
+	 * Sort Tabs by Default Directory Tab Order.
 	 *
 	 * @param array $inputs - the tabs to sort.
 	 * @return array - a sorted array.
 	 */
 	public function tab_priority_sort( array $inputs ) {
-
 		usort(
 			$inputs,
 			function( $a, $b ) {
@@ -53,4 +52,6 @@ class TabHelper {
 		);
 		return $inputs;
 	}
+
+
 }

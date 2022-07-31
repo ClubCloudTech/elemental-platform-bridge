@@ -36,7 +36,7 @@ class MembershipUser {
 	 *
 	 * @return string
 	 */
-	public function create_wordpress_user( string $first_name, string $last_name, string $email ): string {
+	public function create_wordpress_user( string $first_name, string $last_name, string $email ): ?string {
 		$quota_available = Factory::get_instance( MembershipUMP::class )->child_account_available_number();
 		if ( 0 === $quota_available ) {
 			return 'Insufficient Quota';

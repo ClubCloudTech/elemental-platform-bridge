@@ -23,13 +23,14 @@ class AccountShortcode {
 	 * @return ?string
 	 */
 	public function render_account_shortcode(): string {
-		$header       = null;
+		wp_enqueue_script( 'elemental-admin-tabs' );
 		$html_library = Factory::get_instance( HTML::class, array( 'view-management' ) );
 		$tabs         = array();
 		$tabs         = $this->prepare_admin_tabs();
+		$user_id      = \get_current_user_id();
 
 		$render = ( include __DIR__ . '/../../sandbox/views/view-sandbox-main.php' );
-		return $render( $header, $html_library, $tabs );
+		return $render( $html_library, $tabs, $user_id );
 	}
 
 	/**

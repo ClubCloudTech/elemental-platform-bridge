@@ -7,13 +7,11 @@
 
 namespace ElementalPlugin\Module\Membership\Library;
 
+use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\Factory;
-use ElementalPlugin\Library\Encryption;
-use ElementalPlugin\Library\HttpPost;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
-use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
 
 /**
  * Class MembershipAjax - Provides the Membership Ajax Control.
@@ -33,30 +31,14 @@ class MembershipAjax {
 		// Security Checks.
 		check_ajax_referer( 'elemental_membership', 'security', false );
 
-		if ( isset( $_POST['action_taken'] ) ) {
-			$action_taken = sanitize_text_field( wp_unslash( $_POST['action_taken'] ) );
-		}
-		if ( isset( $_POST['level'] ) ) {
-			$membership_level = sanitize_text_field( wp_unslash( $_POST['level'] ) );
-		}
-		if ( isset( $_POST['value'] ) ) {
-			$set_value =  wp_unslash( $_POST['value'] );
-		}
-		if ( isset( $_POST['email'] ) ) {
-			$email = \sanitize_email( wp_unslash( $_POST['email'] ) );
-		}
-		if ( isset( $_POST['first_name'] ) ) {
-			$first_name = sanitize_text_field( wp_unslash( $_POST['first_name'] ) );
-		}
-		if ( isset( $_POST['last_name'] ) ) {
-			$last_name = sanitize_text_field( wp_unslash( $_POST['last_name'] ) );
-		}
-		if ( isset( $_POST['userid'] ) ) {
-			$user_id = sanitize_text_field( wp_unslash( $_POST['userid'] ) );
-		}
-		if ( isset( $_POST['nonce'] ) ) {
-			$nonce = sanitize_text_field( wp_unslash( $_POST['nonce'] ) );
-		}
+		$action_taken     = Factory::get_instance( Ajax::class )->get_string_parameter( 'action_taken' );
+		$membership_level = Factory::get_instance( Ajax::class )->get_string_parameter( 'level' );
+		$set_value        = Factory::get_instance( Ajax::class )->get_string_parameter( 'value' );
+		$email            = Factory::get_instance( Ajax::class )->get_string_parameter( 'email' );
+		$first_name       = Factory::get_instance( Ajax::class )->get_string_parameter( 'first_name' );
+		$last_name        = Factory::get_instance( Ajax::class )->get_string_parameter( 'last_name' );
+		$user_id          = Factory::get_instance( Ajax::class )->get_string_parameter( 'userid' );
+		$nonce            = Factory::get_instance( Ajax::class )->get_string_parameter( 'nonce' );
 
 		/*
 		* Update Membership Limit section.
@@ -199,51 +181,8 @@ class MembershipAjax {
 			return \wp_send_json( $response );
 		}
 
-		/*
-		* Update Sandbox section.
-		*
-		*/
-		if ( 'update_sandbox' === $action_taken ) {
-			if ( isset( $_POST['field'] ) ) {
-				$set_field = Factory::get_instance( Encryption::class )->decrypt_string( $_POST['field'] );
-			}
-			if ( 'enabled' === $set_field || 'admin_enforced' === $set_field ) {
-				$set_value = Factory::get_instance( HttpPost::class )->get_control_checkbox( 'checkbox' );
-			}
-			if ( 'owner_user_name' === $set_field || 'column_priority' === $set_field ) {
-				$set_value = \intval( $set_value );
-			}
-			$level  = $membership_level;
-			$update = Factory::get_instance( SandBoxDao::class )->update_by_field( $set_value, $set_field, $level );
+		$response = \apply_filters( 'elemental_membership_ajax_response', $response );
 
-			$response['feedback'] = \esc_html__( 'Success ', 'elementalplugin' );
-
-			return \wp_send_json( $response );
-		}
-
-				/*
-		* Update Sandbox section.
-		*
-		*/
-		if ( 'tab_sort' === $action_taken ) {
-			if ( isset( $_POST['user'] ) ) {
-				$user_id = Factory::get_instance( Encryption::class )->decrypt_string( sanitize_text_field( wp_unslash( $_POST['user'] ) ) );
-			}
-			if ( isset( $_POST['levels'] ) ) {
-				$data        = sanitize_text_field( wp_unslash( $_POST['levels'] ) );
-				$place_order = \explode( ',', $data );
-
-				$place_index = 1;
-				foreach ( $place_order as $place ) {
-					$update = Factory::get_instance( SandBoxDao::class )->update_by_field( $place_index, 'column_priority', intval( $place ) );
-					$place_index++;
-				}
-			}
-
-			$response['feedback'] = \esc_html__( 'Success', 'elementalplugin' ) . $user_id;
-
-			return \wp_send_json( $response );
-		}
-		die();
+		return \wp_send_json( $response );
 	}
 }
