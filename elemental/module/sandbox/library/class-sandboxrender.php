@@ -51,7 +51,6 @@ class SandboxRender extends TabHelper {
 		$html_library = Factory::get_instance( HTML::class, array( 'view-management' ) );
 		$tabs         = array();
 		$tabs         = Factory::get_instance( SandBoxHelpers::class )->render_all_tabs();
-		$tabs         = Factory::get_instance( TabHelper::class )->tab_priority_sort( $tabs );
 		$render       = include __DIR__ . '/../views/view-sandbox-main.php';
 		return $render( $html_library, $tabs, $user_id );
 

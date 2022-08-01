@@ -27,6 +27,14 @@ window.addEventListener(
 					$( '.elemental-membership-template' ).on( 'change', templateUpload );
 					$( '.elemental-membership-landing-template' ).on( 'change', landingTemplateUpload );
 
+
+					$(document).on("dblclick", ".nav-tab", function(e){
+
+						alert('nbma');
+						e.stopPropagation();
+						e.preventDefault();
+					
+					})
 				}
 
 				$( function() {

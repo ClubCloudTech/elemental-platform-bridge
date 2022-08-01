@@ -15,6 +15,7 @@
 			$tabs.each(
 				function () {
 					var target = $( this ).attr( 'href' );
+					console.log (this);
 					$( target ).hide();
 				}
 			);

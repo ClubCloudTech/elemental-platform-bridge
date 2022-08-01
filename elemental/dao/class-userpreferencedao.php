@@ -201,8 +201,6 @@ class UserPreferenceDAO {
 	public function get_by_pathway_id( int $user_id ): array {
 		global $wpdb;
 
-		$results = array();
-
 		$tab_display_names = \wp_cache_get( $user_id, __METHOD__ );
 
 		if ( false === $tab_display_names ) {
@@ -212,7 +210,8 @@ class UserPreferenceDAO {
 					'
 						SELECT pathway_id
 						FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
-						WHERE user_id = %d;
+						WHERE user_id = %d
+						ORDER BY column_priority ASC;
 					',
 					$user_id,
 				)
@@ -221,11 +220,7 @@ class UserPreferenceDAO {
 			\wp_cache_set( $user_id, __METHOD__, $tab_display_names );
 		}
 
-		foreach ( $tab_display_names as $tab_display_name ) {
-			$results[] = $this->get_by_id( $user_id, $tab_display_name );
-		}
-
-		return $results;
+		return $tab_display_names;
 	}
 
 	/**
