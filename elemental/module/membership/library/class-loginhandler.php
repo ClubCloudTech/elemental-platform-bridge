@@ -33,6 +33,8 @@ class LoginHandler {
 	const SHORTCODE_LOGIN_BUTTON   = 'elemental_loginbutton';
 	const SHORTCODE_LOGIN_REDIRECT = 'elemental_profile_redirect';
 
+	const SHORTCODE_EDIT_USER= 'elemental_useredit_layout';
+
 	const SHORTCODE_ADMIN_LAYOUT = 'elemental_admin_layout';
 
 	const SETTING_LOGIN_SWITCH_TEMPLATE           = 'elemental-login-switch-template';
@@ -52,6 +54,7 @@ class LoginHandler {
 		\add_shortcode( self::SHORTCODE_LOGIN_REDIRECT, array( $this, 'loginland_redirect' ) );
 
 		add_shortcode(self::SHORTCODE_ADMIN_LAYOUT, array($this, 'elemental_admin_layout'));
+		add_shortcode(self::SHORTCODE_EDIT_USER, array($this, 'elemental_useredit_layout'));
 
 		// Legacy Shortcodes.
 		add_shortcode( self::SHORTCODE_LEGACY_LOGOUT, array( $this, 'elemental_logout' ) );
@@ -291,6 +294,22 @@ class LoginHandler {
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 		return $render($current_user);
 	}
+
+	/**
+	 * Edit User Layout
+	 * Renders the shortcode to correctly login and out users, and handle admin/child context edits for Users.
+	 *
+	 * @return string
+	 */
+	public function elemental_useredit_layout(): string
+	{
+		$current_user = wp_get_current_user();
+		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+		$render = (require __DIR__ . '/../views/loginviews/view-edit-userlayout.php');
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+		return $render($current_user);
+	}
+	
 
 	/**
 	 * Login Switch
