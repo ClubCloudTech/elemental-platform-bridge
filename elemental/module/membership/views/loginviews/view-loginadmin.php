@@ -13,17 +13,6 @@ return function (
 ): string {
     ob_start();
    
-    wp_dequeue_style('login-form-min.css');
-    wp_enqueue_style('login-adminstyle', plugin_dir_url(__FILE__) . '../../css/login-adminstyle.css', false);
-    wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
-    wp_enqueue_style('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css', false);
-
-    
-
-    // echo get_bloginfo('template_directory');
-
-    // echo '<br>';
-    //echo get_template_directory_uri() . '/assets/css/login-style.css';
 ?>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <div id="primary" class="site-content">

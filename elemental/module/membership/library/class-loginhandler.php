@@ -273,6 +273,12 @@ class LoginHandler {
 	 * @return string
 	 */
 	public function elemental_login_view(): string {
+
+		wp_dequeue_style('login-form-min.css');
+		wp_enqueue_style('login-adminstyle', plugin_dir_url(__FILE__) . '../css/login-adminstyle.css', false);
+		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
+		wp_enqueue_style('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css', false);
+
 		$current_user = wp_get_current_user();
 		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 		$render = (require __DIR__ . '/../views/loginviews/view-loginadmin.php');
@@ -288,6 +294,12 @@ class LoginHandler {
 	 */
 	public function elemental_admin_layout(): string
 	{
+
+		wp_dequeue_style('login-form-min.css');
+		wp_enqueue_style('login-adminstyle', plugin_dir_url(__FILE__) . '../css/login-adminstyle.css', false);
+		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
+		wp_enqueue_style('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css', false);
+		
 		$current_user = wp_get_current_user();
 		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 		$render = (require __DIR__ . '/../views/loginviews/view-adminlayout.php');
@@ -303,6 +315,12 @@ class LoginHandler {
 	 */
 	public function elemental_useredit_layout(): string
 	{
+		wp_dequeue_style('login-form-min.css');
+		wp_enqueue_style('login-adminstyle', plugin_dir_url(__FILE__) . '../css/login-adminstyle.css', false);
+		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
+		wp_enqueue_style('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false);
+  
+
 		$current_user = wp_get_current_user();
 		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 		$render = (require __DIR__ . '/../views/loginviews/view-edit-userlayout.php');
