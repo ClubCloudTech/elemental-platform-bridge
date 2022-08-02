@@ -8,6 +8,7 @@
 namespace ElementalPlugin\Module\Membership\Library;
 
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\Version;
 use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Module\Membership\Onboard;
@@ -67,7 +68,12 @@ class LoginHandler {
 		// Option for Checkout Header Template.
 		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_checkout_header_template_settings' ), 5, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_checkout_header_template_setting' ), 5, 2 );
+		$this->register_scripts();
+		$this->initialise_sandbox_ajax();
 	}
+
+
+
 	/**
 	 * Render shortcode to allow user to update their settings
 	 *
@@ -316,6 +322,7 @@ class LoginHandler {
 	public function elemental_useredit_layout(): string
 	{
 		wp_dequeue_style('login-form-min.css');
+		wp_enqueue_script('elemental-loginhandler');
 		wp_enqueue_style('login-adminstyle', plugin_dir_url(__FILE__) . '../css/login-adminstyle.css', false);
 		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
 		wp_enqueue_style('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false);
@@ -327,7 +334,42 @@ class LoginHandler {
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 		return $render($current_user);
 	}
-	
+
+	/**
+	 * Initialise Sandbox Ajax.
+	 */
+	public function initialise_sandbox_ajax(): void
+	{
+
+		\add_action('wp_ajax_elemental_edituser_ajax', array(Factory::get_instance(LoginAjaxHandler::class), 'login_ajax_handler'), 10, 2);
+		//add_filter('elemental_sandbox_ajax_response', array(Factory::get_instance(SandBoxAjaxFilters::class), 'ajax_tab_sort'), 10, 2);
+	}
+
+	private function register_scripts(): void
+	{
+
+		// Login user handler.
+		wp_register_script(
+			'elemental-loginhandler',
+			plugins_url('../js/loginhandler.js', __FILE__),
+			array('jquery'),
+			false,//Factory::get_instance(Version::class)->get_plugin_version(),
+			true
+		);
+
+		// Localize script Ajax Upload.
+		$script_data_array = array(
+			'ajax_url' => admin_url('admin-ajax.php'),
+			'security' => wp_create_nonce('elemental_membership'),
+
+		);
+
+		wp_localize_script(
+			'elemental-loginhandler',
+			'elemental_edituser_ajax',
+			$script_data_array
+		);
+	}
 
 	/**
 	 * Login Switch

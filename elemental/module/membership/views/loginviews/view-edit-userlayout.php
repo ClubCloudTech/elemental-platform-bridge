@@ -10,20 +10,11 @@
 
 use ElementalPlugin\Module\Membership\Library\Edituser;
 use ElementalPlugin\Library\Factory;
-  
+
 return function (
     object $current_user
 ): string {
     ob_start();
-
-    /* If profile was saved, update profile. */
-    if ('POST' == $_SERVER['REQUEST_METHOD']  && $_POST['update-user'] == 'update-user') {
-        global $wp;
-        $current_url = home_url(add_query_arg(array(), $wp->request));
-
-            Factory::get_instance( Edituser::class )->edit_user_handler($_POST,$current_user, $current_url);
-  
-    }
 
     if (user_can($current_user, 'administrator')) {
 ?>
@@ -38,7 +29,7 @@ return function (
                     </div>
                     <div class="row erow">
                         <div class="col-xs-12" id="demoContainer">
-                            <form id="registrationForm" action="" method="post" class="form-horizontal fv-form fv-form-bootstrap" novalidate="novalidate">
+                            <form id="registrationForm" action="elemental_edituser_ajax" method="post" class="form-horizontal fv-form fv-form-bootstrap ajax" novalidate="novalidate">
                                 <button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
 
 
@@ -103,10 +94,10 @@ return function (
                                         </select>
                                     </div>
                                 </div>
-
+                                <input type="hidden" name="userid" value="<?php echo $current_user->ID;?>">
                                 <div class="form-group">
                                     <div class="col-xs-9 col-xs-offset-3">
-                                        <input type="submit" class="btn btn-primary" name="update-user" value="update-user">
+                                        <button type="button" id="update_user1" class="btn btn-primary" name="update-user" value="update-user">Update User </button>
                                     </div>
                                 </div>
                             </form>
