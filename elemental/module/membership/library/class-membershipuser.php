@@ -14,6 +14,7 @@ use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\Module\WCFM\Library\WCFMFilters;
+use ElementalPlugin\Module\Integration\Coadjute\Requests\CreateEmployee;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
