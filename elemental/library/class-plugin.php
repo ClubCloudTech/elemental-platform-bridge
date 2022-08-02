@@ -17,6 +17,7 @@ use ElementalPlugin\Module\Membership\Library\LoginHandler;
 use ElementalPlugin\Module\Membership\Membership;
 use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\Sandbox\Sandbox;
+use ElementalPlugin\Module\Integration\Integration;
 use ElementalPlugin\Module\Search\Search;
 use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\Module\WCFM\WCFM;
@@ -48,8 +49,8 @@ class Plugin {
 		Factory::get_instance( ElementalBP::class )->init();
 		Factory::get_instance( ElementalMenus::class )->init();
 		Factory::get_instance( Sandbox::class )->init();
+		Factory::get_instance( Integration::class )->init();
 		Factory::get_instance( Pagemanage::class )->init();
-
 		$this->styles();
 		add_filter( 'xmlrpc_enabled', '__return_false' );
 

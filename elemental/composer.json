@@ -1,0 +1,6 @@
+{
+    "name": "coadjute/elemental-plugin",
+    "require": {
+        "sammyjo20/saloon": "^1.4"
+    }
+}
