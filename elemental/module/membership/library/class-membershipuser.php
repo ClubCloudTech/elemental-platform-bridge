@@ -12,6 +12,7 @@ use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
+use ElementalPlugin\Module\Integration\Coadjute\Requests\CreateEmployee;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -45,6 +46,23 @@ class MembershipUser {
 		if ( strlen( $first_name ) < 3 || strlen( $last_name ) < 3 || ! \sanitize_email( $email ) || \username_exists( $email ) ) {
 			return null;
 		}
+
+		// Start Sync Engine Call
+		try {
+            $request = new CreateEmployee();
+            $request->setData([
+            	'sandbox' => true,
+            	'first_name' => $first_name,
+            	'last_name' => $last_name,
+            	'email' => $email,
+            ]);
+            $employeeResponse = $request->send();
+        } catch (Exception $e) {}
+
+        if ($employeeResponse->failed()) {
+            return 'User could not be created. Error: ' . $employeeResponse->body();
+        }
+		// End Sync Engine Call
 
 		$password = wp_generate_password( 12, false );
 		$user_id  = wp_create_user( $email, $password, $email );
