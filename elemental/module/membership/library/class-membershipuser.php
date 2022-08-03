@@ -46,6 +46,25 @@ class MembershipUser {
 			return null;
 		}
 
+		do_action( 'elemental_pre_user_add' );
+
+		// Start Sync Engine Call
+		try {
+            $request = new CreateEmployee();
+            $request->setData([
+            	'sandbox' => true,
+            	'first_name' => $first_name,
+            	'last_name' => $last_name,
+            	'email' => $email,
+            ]);
+            $employeeResponse = $request->send();
+        } catch (Exception $e) {}
+
+        if ($employeeResponse->failed()) {
+            return 'User could not be created. Error: ' . $employeeResponse->body();
+        }
+		// End Sync Engine Call
+
 		$password = wp_generate_password( 12, false );
 		$user_id  = wp_create_user( $email, $password, $email );
 		if ( ! $user_id ) {
@@ -64,8 +83,11 @@ class MembershipUser {
 				'role'         => Membership::MEMBERSHIP_ROLE_NAME,
 			)
 		);
+
 		// Update Parent/Sponsor Database.
 		$parent_id = \get_current_user_id();
+
+		do_action( 'elemental_post_user_add', $user_id, $parent_id );
 		Factory::get_instance( MemberSyncDAO::class )->register_child_account( $user_id, $parent_id );
 
 		return 'Success';
