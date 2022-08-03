@@ -63,7 +63,7 @@ class Onboard {
 					'elemental-onboard-css',
 					plugins_url( '/css/onboardadmin.css', __FILE__ ),
 					false,
-					Factory::get_instance( Version::class )->get_plugin_version() . \wp_rand( 40, 30000 )
+					Factory::get_instance( Version::class )->get_plugin_version()
 				);
 
 				\add_action( 'wp_ajax_elemental_onboardadmin_ajax', array( Factory::get_instance( OnboardAjax::class ), 'onboard_ajax_handler' ), 10, 2 );

@@ -108,7 +108,7 @@ class MembershipUser {
 		// Check with the Sync Engine that this does not exist in a node already.
 		$pre_check = \apply_filters( 'elemental_pre_tenant_add', $first_name, $email );
 
-		if ( ! $pre_check ) {
+		if ( false === $pre_check ) {
 			return false;
 		}
 
