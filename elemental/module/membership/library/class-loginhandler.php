@@ -309,7 +309,7 @@ class LoginHandler {
 	public function add_login_template_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Login Template Setting', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'Login Template Setting', 'elementalplugin' ) . '</span>
 		</td>
 		<td>
 		<input type="number" size="12"

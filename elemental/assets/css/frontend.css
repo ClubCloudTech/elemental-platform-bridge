@@ -127,6 +127,9 @@
 
 		.elemental-sandbox-nav-tab-wrapper {
 			overflow: hidden;
+			margin-top: 1%;
+			margin-bottom: 1%;
+			min-height: 500px;
 		}
 
 		.elemental-sandbox-nav-tab-wrapper ul {
@@ -193,7 +196,6 @@
 		}
 
 		.elemental-article {
-			border-style: solid;
 			border-width: 1px;
 			border-color: #b5b5b6;
 			min-height: 700px;

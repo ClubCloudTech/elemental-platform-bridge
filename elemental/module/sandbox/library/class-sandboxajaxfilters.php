@@ -98,4 +98,31 @@ class SandBoxAjaxFilters {
 		return $response;
 	}
 
+	/**
+	 * Ajax Handler for Sort Tabs
+	 *
+	 * @param array $response - the Response Object for Ajax return to Frontend.
+	 * @return array - $response - the Response Object for Ajax return to Frontend
+	 */
+	public function ajax_login_process( array $response ) {
+		/*
+		* Update Sandbox section.
+		*
+		*/
+
+		$set_value      = Factory::get_instance( Ajax::class )->get_string_parameter( 'value' );
+		$pathway_record = Factory::get_instance( Ajax::class )->get_integer_parameter( 'level' );
+		$action_taken   = Factory::get_instance( Ajax::class )->get_string_parameter( 'action_taken' );
+		$user           = Factory::get_instance( Ajax::class )->get_string_parameter( 'user' );
+		$levels         = Factory::get_instance( Ajax::class )->get_string_parameter( 'levels' );
+
+		if ( 'login' === $action_taken ) {
+			$response['feedback'] = 'Login';
+		}
+
+
+			return $response;
+		}
 }
+
+

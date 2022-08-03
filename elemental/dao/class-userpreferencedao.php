@@ -50,7 +50,7 @@ class UserPreferenceDAO {
 
 
 	/**
-	 * Save a User Video Preference into the database
+	 * Save a User Preference into the database
 	 *
 	 * @param UserPreferenceEntity $user_video_preference The video preference to save.
 	 *
@@ -134,7 +134,7 @@ class UserPreferenceDAO {
 	/**
 	 * Delete a User Preference from the database
 	 *
-	 * @param UserPreferenceEntity $user_video_preference The user video preference to delete.
+	 * @param UserPreferenceEntity $user_video_preference The user preference to delete.
 	 *
 	 * @return null
 	 * @throws \Exception When failing to delete.
@@ -192,7 +192,7 @@ class UserPreferenceDAO {
 	}
 
 	/**
-	 * Get a User Video Preference from the database
+	 * Get a User Preference from the database
 	 *
 	 * @param int $user_id The user id.
 	 *
@@ -224,7 +224,7 @@ class UserPreferenceDAO {
 	}
 
 	/**
-	 * Get a User Video Preference from the database
+	 * Get a User Preference from the database
 	 *
 	 * @param int $user_id   The user id.
 	 * @param int $pathway_id The Pathway.
@@ -298,9 +298,9 @@ class UserPreferenceDAO {
 	// ---
 
 	/**
-	 * Update a User Video Preference into the database
+	 * Update a User Preference into the database
 	 *
-	 * @param UserPreferenceEntity $user_video_preference The updated user video preference.
+	 * @param UserPreferenceEntity $user_video_preference The updated user preference.
 	 *
 	 * @return UserPreferenceEntity|null
 	 * @throws \Exception When failing to update.

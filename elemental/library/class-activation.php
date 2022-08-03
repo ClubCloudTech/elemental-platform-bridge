@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace ElementalPlugin\Library;
 
+use ElementalPlugin\DAO\TokenDAO;
+use ElementalPlugin\DAO\UserPreferenceDAO;
 use ElementalPlugin\Module\Membership\Membership;
 use ElementalPlugin\Module\Sandbox\Sandbox;
 use ElementalPlugin\Module\WCFM\WCFM;
@@ -21,10 +23,11 @@ class Activation {
 	/**
 	 * Activate the plugin, and related modules.
 	 */
-	public static function activate() {
+	public function activate() {
 		Factory::get_instance( Membership::class )->activate();
 		Factory::get_instance( WCFM::class )->activate();
 		Factory::get_instance( Sandbox::class )->activate();
+		$this->install_main_plugin_tables();
 	}
 
 	/**
@@ -32,6 +35,15 @@ class Activation {
 	 */
 	public static function uninstall() {
 		Factory::get_instance( WCFM::class )->de_activate();
+	}
+
+	/**
+	 * Activate the plugin, and related modules.
+	 */
+	private function install_main_plugin_tables() {
+		Factory::get_instance( TokenDAO::class )->install_user_tokens_table();
+		Factory::get_instance( UserPreferenceDAO::class )->install_user_preference_table();
+
 	}
 
 }

@@ -48,9 +48,9 @@ class SandBoxDao {
 	}
 
 	/**
-	 * Save a User Video Preference into the database
+	 * Save a Sandbox entity in the databas
 	 *
-	 * @param SandboxEntity $sandbox_entity The video preference to save.
+	 * @param SandboxEntity $sandbox_entity The Sandbox to save.
 	 *
 	 * @return SandboxEntity|null
 	 * @throws \Exception When failing to insert, most likely a duplicate key.
@@ -123,9 +123,9 @@ class SandBoxDao {
 	}
 
 	/**
-	 * Delete a User Video Preference from the database
+	 * Delete a User Preference from the database
 	 *
-	 * @param SandboxEntity $sandbox_entity The user video preference to delete.
+	 * @param SandboxEntity $sandbox_entity The Sandbox to delete.
 	 *
 	 * @return null
 	 * @throws \Exception When failing to delete.
@@ -153,7 +153,7 @@ class SandBoxDao {
 
 
 	/**
-	 * Get a User Video Preference from the database
+	 * Get a Sandbox from the database
 	 *
 	 * @param int $record_id The Record ID to retrieve.
 	 *
@@ -225,9 +225,9 @@ class SandBoxDao {
 	// ---
 
 	/**
-	 * Update a User Video Preference into the database
+	 * Update a Sandbox into the database
 	 *
-	 * @param SandboxEntity $sandbox_entity The updated user video preference.
+	 * @param SandboxEntity $sandbox_entity The updated Sandbox Object.
 	 *
 	 * @return SandboxEntity|null
 	 * @throws \Exception When failing to update.

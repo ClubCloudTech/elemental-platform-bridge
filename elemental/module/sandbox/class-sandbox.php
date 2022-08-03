@@ -36,8 +36,11 @@ class Sandbox {
 	 */
 	public function initialise_sandbox_ajax(): void {
 
-		\add_action( 'wp_ajax_elemental_sandboxadmin_ajax', array( Factory::get_instance( SandBoxAjaxFilters::class ), 'sandbox_ajax_handler' ), 10, 2 );
+		// Ajax Handling Function.
+		\add_action( 'wp_ajax_elemental_sandbox_script_object', array( Factory::get_instance( SandBoxAjaxFilters::class ), 'sandbox_ajax_handler' ), 10, 2 );
+		// Hooks from Ajax Handling Function.
 		add_filter( 'elemental_sandbox_ajax_response', array( Factory::get_instance( SandBoxAjaxFilters::class ), 'ajax_tab_sort' ), 10, 2 );
+		add_filter( 'elemental_sandbox_ajax_response', array( Factory::get_instance( SandBoxAjaxFilters::class ), 'ajax_login_process' ), 10, 2 );
 	}
 
 	/**
@@ -89,7 +92,7 @@ class Sandbox {
 
 		wp_localize_script(
 			'elemental-advanced-tabs',
-			'elemental_sandboxadmin_ajax',
+			'elemental_sandbox_script_object',
 			$script_data_array
 		);
 

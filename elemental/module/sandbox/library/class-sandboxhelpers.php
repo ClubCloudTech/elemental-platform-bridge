@@ -10,6 +10,7 @@ namespace ElementalPlugin\Module\Sandbox\Library;
 use ElementalPlugin\DAO\UserPreferenceDAO;
 use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\TabHelper;
 use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
 use ElementalPlugin\Module\Sandbox\Entity\SandboxEntity;
@@ -106,11 +107,12 @@ class SandBoxHelpers {
 		$parent_id = Factory::get_instance( WCFMTools::class )->staff_to_parent( $user_id );
 
 		// Get all Tabs for Parent Org plus mandatory tabs.
-		$all_record_ids = Factory::get_instance( SandBoxDao::class )->get_entities_by_id( $parent_id );
-
+		if ( $parent_id ) {
+			$all_record_ids = Factory::get_instance( SandBoxDao::class )->get_entities_by_id( $parent_id );
+		}
 		// Check Setup Config.
 		$user_config_record_ids = Factory::get_instance( UserPreferenceDAO::class )->get_by_pathway_id( $user_id );
-		if ( count( $all_record_ids ) <= count( $user_config_record_ids ) ) {
+		if ( count( $all_record_ids ) >= count( $user_config_record_ids ) ) {
 			$sortable_ids = $user_config_record_ids;
 			$sort         = false;
 		} else {

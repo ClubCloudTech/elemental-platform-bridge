@@ -6,6 +6,9 @@
  * @package module/sandbox/views/view-sandbox-main.php
  */
 
+use ElementalPlugin\Library\Encryption;
+use ElementalPlugin\Library\Factory;
+
 /**
  * Render the Main Template
  *
@@ -39,8 +42,9 @@ return function (
 						$tab_slug         = $menu_output->get_tab_slug();
 						$object_id        = $menu_output->get_element_id();
 						?>
+
 					<li data-elementid=<?php echo esc_attr( $object_id ); ?>>
-						<a class="nav-tab<?php echo esc_attr( $active ); ?>" 
+					<a class="nav-tab<?php echo esc_attr( $active ); ?>" 
 													<?php
 													if ( $object_id ) {
 														echo 'id = "' . esc_attr( $object_id ) . '" ';
@@ -51,6 +55,7 @@ return function (
 							//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Icon is created by escaped function.
 							echo $tab_display_name;
 							?>
+
 						</a>
 					</li>
 
@@ -59,7 +64,6 @@ return function (
 					}
 					?>
 				</ul>
-				</nav>
 			<?php } ?>
 
 	<div id="mvr-above-article-notification"></div>
@@ -81,6 +85,7 @@ return function (
 				<?php
 			}
 			?>
+			</nav>
 	</div><!-- elemental-container-article -->
 </div><!-- #elemental-search-base -->
 

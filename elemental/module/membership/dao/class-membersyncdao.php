@@ -292,7 +292,7 @@ class MemberSyncDAO {
 			$rowcount = $wpdb->num_rows;
 			\wp_cache_set( $parent_id, $rowcount, __METHOD__ );
 			if ( $rowcount ) {
-				   return $rowcount;
+				return $rowcount;
 			} else {
 				return 0;
 			}
