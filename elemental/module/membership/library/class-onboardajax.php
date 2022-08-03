@@ -11,6 +11,7 @@ use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Membership\Onboard;
 use ElementalPlugin\Module\WooCommerceSubscriptions\Library\SubscriptionHelpers;
 use ElementalPlugin\Library\Ajax;
+use ElementalPlugin\Library\UserHelpers;
 
 /**
  * Class OnboardAjax - Provides the Onboard Ajax Control.
@@ -74,14 +75,7 @@ class OnboardAjax {
 		*
 		*/
 		if ( 'check_email' === $action_taken ) {
-
-			$email_exists = get_user_by( 'email', $email );
-
-			if ( $email_exists ) {
-				$response['available'] = false;
-			} else {
-				$response['available'] = true;
-			}
+			$response['available'] = Factory::get_instance( UserHelpers::class )->verify_user_by_email_ajax( $email );
 			return \wp_send_json( $response );
 		}
 

@@ -34,41 +34,39 @@ class MembershipUser {
 	 * @param string $last_name  - User Last Name.
 	 * @param string $email      - User Email.
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function create_wordpress_user( string $first_name, string $last_name, string $email ): ?string {
+	public function create_wordpress_user( string $first_name, string $last_name, string $email ): array {
 		$quota_available = Factory::get_instance( MembershipUMP::class )->child_account_available_number();
+		$return_array    = array();
+
 		if ( 0 === $quota_available ) {
-			return 'Insufficient Quota';
+			$return_array['status']   = false;
+			$return_array['feedback'] = \esc_html__( 'Insufficient Quota for Assignment', 'elementalplugin' );
+			return $return_array;
 		}
 
 		if ( strlen( $first_name ) < 3 || strlen( $last_name ) < 3 || ! \sanitize_email( $email ) || \username_exists( $email ) ) {
-			return null;
+			$return_array['status']   = false;
+			$return_array['feedback'] = \esc_html__( 'Incorrect Validation, First Name, Last Name, or Email', 'elementalplugin' );
+			return $return_array;
 		}
 
-		do_action( 'elemental_pre_user_add' );
+		// Check with the Sync Engine that this does not exist in a node already.
+		$pre_check = \apply_filters( 'elemental_pre_user_add', $first_name, $last_name, $email );
 
-		// Start Sync Engine Call
-		try {
-            $request = new CreateEmployee();
-            $request->setData([
-            	'sandbox' => true,
-            	'first_name' => $first_name,
-            	'last_name' => $last_name,
-            	'email' => $email,
-            ]);
-            $employeeResponse = $request->send();
-        } catch (Exception $e) {}
-
-        if ($employeeResponse->failed()) {
-            return 'User could not be created. Error: ' . $employeeResponse->body();
-        }
-		// End Sync Engine Call
+		if ( ! $pre_check ) {
+			$return_array['feedback'] = \esc_html__( 'Sync Engine Validation Error', 'elementalplugin' );
+			$return_array['status']   = false;
+			return $return_array;
+		}
 
 		$password = wp_generate_password( 12, false );
 		$user_id  = wp_create_user( $email, $password, $email );
 		if ( ! $user_id ) {
-			return null;
+			$return_array['feedback'] = \esc_html__( 'WordPress User Account Creation Error', 'elementalplugin' );
+			$return_array['status']   = false;
+			return $return_array;
 		}
 		// Notify User of Password.
 		$this->notify_new_child_user( $password, $email, $first_name );
@@ -87,10 +85,11 @@ class MembershipUser {
 		// Update Parent/Sponsor Database.
 		$parent_id = \get_current_user_id();
 
-		do_action( 'elemental_post_user_add', $user_id, $parent_id );
-		Factory::get_instance( MemberSyncDAO::class )->register_child_account( $user_id, $parent_id );
+		\do_action( 'elemental_post_user_add', $user_id, $parent_id );
 
-		return 'Success';
+		Factory::get_instance( MemberSyncDAO::class )->register_child_account( $user_id, $parent_id );
+		$return_array['feedback'] = \esc_html__( 'User Created as ', 'elementalplugin' ) . $user_id;
+		return $return_array;
 	}
 
 	/**
@@ -103,6 +102,13 @@ class MembershipUser {
 	 */
 	public function create_organisation_wordpress_user( string $first_name, string $email ): ?int {
 		if ( strlen( $first_name ) < 5 || ! \sanitize_email( $email ) || \username_exists( $email ) ) {
+			return false;
+		}
+
+		// Check with the Sync Engine that this does not exist in a node already.
+		$pre_check = \apply_filters( 'elemental_pre_tenant_add', $first_name, $email );
+
+		if ( ! $pre_check ) {
 			return false;
 		}
 
@@ -129,6 +135,9 @@ class MembershipUser {
 			$meta_key,
 			$meta_value
 		);
+
+		// Check with the Sync Engine that this does not exist in a node already.
+		\apply_filters( 'elemental_post_tenant_add', $first_name, $email, $password );
 
 		return $user_id;
 	}

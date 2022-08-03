@@ -9,6 +9,7 @@ namespace ElementalPlugin\Module\Membership\Library;
 
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
@@ -107,14 +108,7 @@ class MembershipAjax {
 		*
 		*/
 		if ( 'check_email' === $action_taken ) {
-
-			$email_exists = get_user_by( 'email', $email );
-
-			if ( $email_exists ) {
-				$response['available'] = false;
-			} else {
-				$response['available'] = true;
-			}
+			$response['available'] = Factory::get_instance( UserHelpers::class )->verify_user_by_email_ajax( $email );
 			return \wp_send_json( $response );
 		}
 
@@ -124,9 +118,9 @@ class MembershipAjax {
 		*/
 		if ( 'create_user' === $action_taken ) {
 
-			$success_state        = Factory::get_instance( MembershipUser::class )->create_wordpress_user( $first_name, $last_name, $email );
-			$response['feedback'] = $success_state;
-			if ( 'Success' === $success_state ) {
+			$success_state = Factory::get_instance( MembershipUser::class )->create_wordpress_user( $first_name, $last_name, $email );
+			$response['feedback'] = $success_state['feedback'];
+			if ( true === $success_state['status'] ) {
 				$response['status']  = true;
 				$response['table']   = Factory::get_instance( MembershipShortCode::class )->generate_child_account_table();
 				$response['counter'] = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
