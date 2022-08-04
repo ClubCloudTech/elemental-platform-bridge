@@ -48,8 +48,8 @@ class WCFMFilters {
 	 * Add UMP Subscription to WCFM Staff add.
 	 * Automatically adds staff subscription.
 	 *
-	 * @param int $atts - the shortcode attributes.
-	 * @return string
+	 * @param int $staff_id - the user ID to add.
+	 * @return void
 	 */
 	public function add_staff_ump_subscription( int $staff_id ): void {
 
@@ -58,5 +58,21 @@ class WCFMFilters {
 		UserSubscriptions::makeComplete( $staff_id, $level_id, false );
 
 	}
+
+	/**
+	 * Add UMP Subscription to a user Account.
+	 *
+	 * @param int $user_id - the user ID to add.
+	 * @param int $subscription_id - the UMP subscription ID to add.
+	 * @return void
+	 */
+	public function add_user_ump_subscription( int $user_id, int $subscription_id ): void {
+\error_log( $user_id. $subscription_id);
+		UserSubscriptions::assign( $user_id, $subscription_id );
+		UserSubscriptions::makeComplete( $user_id, $subscription_id, false );
+
+	}
+
+
 
 }

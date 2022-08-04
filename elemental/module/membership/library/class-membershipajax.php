@@ -118,7 +118,7 @@ class MembershipAjax {
 		*/
 		if ( 'create_user' === $action_taken ) {
 
-			$success_state = Factory::get_instance( MembershipUser::class )->create_wordpress_user( $first_name, $last_name, $email );
+			$success_state        = Factory::get_instance( MembershipUser::class )->create_sponsored_account_user( $first_name, $last_name, $email );
 			$response['feedback'] = $success_state['feedback'];
 			if ( true === $success_state['status'] ) {
 				$response['status']  = true;

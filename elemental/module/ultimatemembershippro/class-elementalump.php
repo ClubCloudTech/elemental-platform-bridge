@@ -18,7 +18,8 @@ use ElementalPlugin\Library\Ajax;
  */
 class ElementalUMP {
 
-	const SETTING_UMP_STAFF_SUBSCRIPTION_ID = 'elemental-ump-staff-subscription-id';
+	const SETTING_UMP_STAFF_SUBSCRIPTION_ID     = 'elemental-ump-staff-subscription-id';
+	const SETTING_UMP_SPONSORED_SUBSCRIPTION_ID = 'elemental-ump-sponsored-subscription-id';
 
 	/**
 	 * Runtime Shortcodes and Setup
@@ -27,9 +28,13 @@ class ElementalUMP {
 	public function init() {
 		\add_shortcode( 'elemental_ump', array( Factory::get_instance( ShortCodesUMP::class ), 'render_level_name' ) );
 
-		// Option for WCFM Store Template.
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_ump_staffid_settings' ), 10, 2 );
+		// Option for Staff ID Setting.
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_ump_staffid_settings' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_ump_staffid_setting' ), 10, 2 );
+
+		// Option for Sponsored Account Setting.
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_ump_sponsored_id_settings' ), 10, 2 );
+		\add_filter( 'elemental_page_option', array( $this, 'add_ump_sponsored_id_setting' ), 10, 2 );
 	}
 	/**
 	 * Activate Functions for Membership.
@@ -46,7 +51,7 @@ class ElementalUMP {
 	}
 
 	/**
-	 * Add WCFM Archive Setting to Plugin Menu
+	 * AddUMP Staff ID Setting to Plugin Menu
 	 *
 	 * @param array $input - the filter input.
 	 * @return array
@@ -54,21 +59,21 @@ class ElementalUMP {
 	public function add_ump_staffid_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'UMP Staff Subscription ID', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'UMP Tenant Admin Subscription ID', 'elementalplugin' ) . '</span>
 		</td>
 		<td>
 		<input type="number" size="32"
-		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_UMP_STAFF_SUBSCRIPTION_ID ) . '"
 		value="' . get_option( self::SETTING_UMP_STAFF_SUBSCRIPTION_ID ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'UMP Subscription ID for the Staff subscription (used to auto assign it to new staff)', 'myvideoroom' ) . '"></i>
+			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'UMP Subscription ID for the Staff subscription (used to auto assign it to new staff)', 'elementalplugin' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
 	}
 
 	/**
-	 * Process Update Result. WCFM Update Setting.
+	 * Process Update Result. UMP staff ID Setting.
 	 *
 	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
 	 * @return array
@@ -76,7 +81,42 @@ class ElementalUMP {
 	public function update_ump_staffid_settings( array $response ): array {
 		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_UMP_STAFF_SUBSCRIPTION_ID );
 		\update_option( self::SETTING_UMP_STAFF_SUBSCRIPTION_ID, $field );
-		$response['feedback'] = \esc_html__( 'Staff Subscription ID Saved', 'myvideoroom' );
+		$response['feedback'] = \esc_html__( 'Staff Subscription ID Saved', 'elementalplugin' );
+		return $response;
+	}
+
+	/**
+	 * AddUMP Staff ID Setting to Plugin Menu
+	 *
+	 * @param array $input - the filter input.
+	 * @return array
+	 */
+	public function add_ump_sponsored_id_setting( array $input ): array {
+		$input_add = ' 
+		<td>
+		<span>' . esc_html__( 'UMP Sponsored (Regular User) Subscription ID', 'elementalplugin' ) . '</span>
+		</td>
+		<td>
+		<input type="number" size="8"
+		class="mvr-main-button-enabled elemental-maintenance-setting"
+		id="' . esc_attr( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID ) . '"
+		value="' . get_option( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID ) . '">
+			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'UMP Sponsored Account (regular user) ID for the Staff subscription (used to auto assign it to new users)', 'elementalplugin' ) . '"></i>
+		</td>';
+		\array_push( $input, $input_add );
+		return $input;
+	}
+
+	/**
+	 * Process Update Result. UMP staff ID Setting.
+	 *
+	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
+	 * @return array
+	 */
+	public function update_ump_sponsored_id_settings( array $response ): array {
+		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID );
+		\update_option( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID, $field );
+		$response['feedback'] = \esc_html__( 'Sponsored Account Subscription ID Saved', 'elementalplugin' );
 		return $response;
 	}
 }

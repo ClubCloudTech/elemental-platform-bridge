@@ -112,19 +112,25 @@ class SandBoxHelpers {
 		}
 		// Check Setup Config.
 		$user_config_record_ids = Factory::get_instance( UserPreferenceDAO::class )->get_by_pathway_id( $user_id );
+
 		if ( count( $all_record_ids ) >= count( $user_config_record_ids ) ) {
 			$sortable_ids = $user_config_record_ids;
 			$sort         = false;
 		} else {
 			$sortable_ids = $all_record_ids;
 			$sort         = true;
+
 		}
 
 		// Send each Tab item to get Menu item from it.
 		foreach ( $sortable_ids as $id ) {
-			$object    = Factory::get_instance( SandBoxDao::class )->get_by_id( $id );
-			$menu_item = $this->prepare_sandbox_tab( $object );
-			\array_push( $tab_objects, $menu_item );
+
+			$object = Factory::get_instance( SandBoxDao::class )->get_by_id( $id );
+			if ( $object ) {
+				$menu_item = $this->prepare_sandbox_tab( $object );
+				\array_push( $tab_objects, $menu_item );
+			}
+			echo ' No Oject found';
 		}
 		// Return the Array, and Sort if unset by User preference.
 		if ( $sort ) {
@@ -132,7 +138,6 @@ class SandBoxHelpers {
 		} else {
 			return $tab_objects;
 		}
-
 	}
 
 

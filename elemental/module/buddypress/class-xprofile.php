@@ -26,9 +26,9 @@ class XProfile {
 	 */
 	public function init() {
 		// Listeners to results Admin Page.
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'add_country_filter' ), 10, 2 );
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'add_city_filter' ), 10, 2 );
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'add_company_filter' ), 10, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'add_country_filter' ), 10, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'add_city_filter' ), 10, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'add_company_filter' ), 10, 2 );
 
 		// Add Buttons to Admin Page.
 		\add_filter( 'elemental_page_option', array( $this, 'add_country_setting' ), 10, 2 );
@@ -88,7 +88,7 @@ class XProfile {
 		<span>' . esc_html__( 'Xprofile Field Countries', 'myvideoroom' ) . '</span>
 		</td>
 		<td>
-		<input type="number" class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		<input type="number" class="mvr-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( Xprofile::SETTING_XPROFILE_COUNTRY ) . '" value="' . get_option( self::SETTING_XPROFILE_COUNTRY ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Field Name for XProfile Countries', 'myvideoroom' ) . '"></i>
 		</td>';
@@ -107,7 +107,7 @@ class XProfile {
 		<span>' . esc_html__( 'Xprofile Field City', 'myvideoroom' ) . '</span>
 		</td>
 		<td>
-		<input type="number" class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		<input type="number" class="mvr-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( Xprofile::SETTING_XPROFILE_CITY ) . '" value="' . get_option( self::SETTING_XPROFILE_CITY ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Field Name for XProfile City', 'myvideoroom' ) . '"></i>
 		</td>';
@@ -127,7 +127,7 @@ class XProfile {
 		<span>' . esc_html__( 'Xprofile Field Company', 'myvideoroom' ) . '</span>
 		</td>
 		<td>
-		<input type="number" class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		<input type="number" class="mvr-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( self::SETTING_XPROFILE_COMPANY ) . '" value="' . get_option( self::SETTING_XPROFILE_COMPANY ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Field Name for XProfile Company', 'myvideoroom' ) . '"></i>
 		</td>';

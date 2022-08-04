@@ -54,11 +54,11 @@ class LoginHandler {
 		add_shortcode( self::SHORTCODE_LEGACY_LOGIN, array( $this, 'elemental_loginswitch' ) );
 
 		// Option for Login Switch Plugin Setting.
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_login_template_settings' ), 5, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_login_template_settings' ), 5, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_login_template_setting' ), 5, 2 );
 
 		// Option for Checkout Header Template.
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_checkout_header_template_settings' ), 5, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_checkout_header_template_settings' ), 5, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_checkout_header_template_setting' ), 5, 2 );
 	}
 	/**
@@ -313,7 +313,7 @@ class LoginHandler {
 		</td>
 		<td>
 		<input type="number" size="12"
-		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_LOGIN_SWITCH_TEMPLATE ) . '"
 		value="' . get_option( self::SETTING_LOGIN_SWITCH_TEMPLATE ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'The Template ID of the Login Template', 'myvideoroom' ) . '"></i>
@@ -348,7 +348,7 @@ class LoginHandler {
 		</td>
 		<td>
 		<input type="number" size="12"
-		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE ) . '"
 		value="' . get_option( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'The Template ID of the Login Template', 'myvideoroom' ) . '"></i>
@@ -416,7 +416,7 @@ class LoginHandler {
 	}
 
 	/**
-	 * BuddyPress Profile Redirect Shortcode for Login Landing Page.
+	 * Profile Redirect Shortcode for Login Landing Page.
 	 * Redirects a user landing in this page to the Users Buddypress ID.
 	 *
 	 * @return string

@@ -35,19 +35,19 @@ class WooCommerceHelpers {
 		add_action( 'woocommerce_thankyou', array( $this, 'post_subs_thankyou' ), 10, 2 );
 
 		// Option for Onboarding Slug in Config Page (settings).
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_onboard_slug_settings' ), 10, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_onboard_slug_settings' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_onboard_slug_setting' ), 10, 2 );
 
 		// Option for Post Onboarding Ind Subs Landing Page  in Config Page (settings).
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_indv_subs_landing_settings' ), 10, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_indv_subs_landing_settings' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_indv_post_subs_setting' ), 10, 2 );
 
 		// Option for Product Archive Template.
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_product_archive_settings' ), 10, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_product_archive_settings' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_product_archive_setting' ), 10, 2 );
 
 		// Option for Staff Control Panel PostID.
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_staffuser_cp_settings' ), 9, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_staffuser_cp_settings' ), 9, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_staffuser_cp_setting' ), 9, 2 );
 	}
 
@@ -137,7 +137,7 @@ class WooCommerceHelpers {
 		<span>' . esc_html__( 'Onboarding Slug', 'myvideoroom' ) . '</span>
 		</td>
 		<td>
-		<input type="text" class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		<input type="text" class="mvr-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( self::SETTING_ONBOARD_SLUG ) . '" value="' . get_option( self::SETTING_ONBOARD_SLUG ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Location of the Onboarding Center Shortcode (slug is path after www.sitename.com/ )', 'myvideoroom' ) . '"></i>
 		</td>';
@@ -171,7 +171,7 @@ class WooCommerceHelpers {
 		</td>
 		<td>
 		<input type="number" size="32"
-		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID ) . '"
 		value="' . get_option( self::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID Template Switch to Call for a Product Archive', 'myvideoroom' ) . '"></i>
@@ -205,7 +205,7 @@ class WooCommerceHelpers {
 		<span>' . esc_html__( 'Post Payment Individual Sub Slug', 'myvideoroom' ) . '</span>
 		</td>
 		<td>
-		<input type="text" class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		<input type="text" class="mvr-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( self::SETTING_ONBOARD_POST_SUB_SLUG ) . '" value="' . get_option( self::SETTING_ONBOARD_POST_SUB_SLUG ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Onboard Post Subscription Thank You Page. This is the page to send a successful individual subscription to (slug is path after www.sitename.com/ )', 'myvideoroom' ) . '"></i>
 		</td>';
@@ -287,7 +287,7 @@ class WooCommerceHelpers {
 		</td>
 		<td>
 		<input type="number" size="32"
-		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_STAFF_USER_CONTROL ) . '"
 		value="' . get_option( self::SETTING_WCFM_STAFF_USER_CONTROL ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID that holds the staff and user add and manage page (use page ID and not slug)', 'myvideoroom' ) . '"></i>

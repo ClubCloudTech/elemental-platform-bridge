@@ -25,7 +25,7 @@ class WCFMStyling {
 		\add_shortcode( 'elemental_wcfm_dashboard_switch', array( $this, 'elemental_wcfm_dashboard_switch_worker' ) );
 
 		// Option for WCFM Dashboard Template.
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_wcfm_dashboard_settings' ), 10, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_wcfm_dashboard_settings' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_wcfm_dashboard_setting' ), 10, 2 );
 
 	}
@@ -75,7 +75,7 @@ class WCFMStyling {
 		</td>
 		<td>
 		<input type="number" size="32"
-		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID ) . '"
 		value="' . get_option( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID of Template to Call for a WCFM Store Dashboard in the main page- this will be used in main page', 'myvideoroom' ) . '"></i>

@@ -34,11 +34,11 @@ class WCFMHelpers {
 		add_shortcode( self::SHORTCODE_MYSTORE, array( $this, 'render_mystore_button' ) );
 		add_shortcode( self::SHORTCODE_MYPROFILE, array( $this, 'render_myprofile_button' ) );
 		// Option for Premium Memberships Setting.
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_wcfm_premium_settings' ), 10, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_wcfm_premium_settings' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_wcfm_premium_setting' ), 10, 2 );
 
 		// Option for WCFM Store Template.
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_wcfm_archive_settings' ), 10, 2 );
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_wcfm_archive_settings' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_wcfm_archive_setting' ), 10, 2 );
 
 	}
@@ -183,7 +183,7 @@ class WCFMHelpers {
 		</td>
 		<td>
 		<input type="text" size="32"
-		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS ) . '"
 		value="' . get_option( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Comma separated list of what accounts site considers Premium (use numeric ID of WCFM Membership ID)', 'myvideoroom' ) . '"></i>
@@ -218,7 +218,7 @@ class WCFMHelpers {
 		</td>
 		<td>
 		<input type="number" size="32"
-		class="mvr-main-button-enabled myvideoroom-maintenance-setting"
+		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '"
 		value="' . get_option( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '">
 			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Shortcode Post ID Template Switch to Call for a WCFM Store in case a membership level has no setting', 'myvideoroom' ) . '"></i>

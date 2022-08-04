@@ -179,7 +179,7 @@ window.addEventListener(
 						}
 					);
 					// Refresh Room Templates and Receptions.
-					$( '.myvideoroom-maintenance-setting' ).click(
+					$( '.elemental-maintenance-setting' ).click(
 						function(e) {
 							e.stopPropagation();
 							e.stopImmediatePropagation();
@@ -221,7 +221,7 @@ window.addEventListener(
 						form_data.append( 'template_update', true );
 					} else {
 						form_data.append( 'group_tab_name', tab_user_profile );
-						$( '.myvideoroom-maintenance-setting' ).each(
+						$( '.elemental-maintenance-setting' ).each(
 							function(index) {
 								form_data.append( $( this ).attr( 'id' ), $( this ).val() );
 							}

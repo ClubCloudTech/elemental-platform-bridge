@@ -20,7 +20,7 @@ return function (): string {
 	<div class="myvideoroom-menu-settings elemental-top-margin">
 		<div class="myvideoroom-header-table-left">
 			<h1><i
-					class="myvideoroom-header-dashicons dashicons-database-view"></i><?php esc_html_e( 'Plugin Parameter Configuration', 'myvideoroom' ); ?>
+					class="myvideoroom-header-dashicons dashicons-database-view"></i><?php esc_html_e( 'Plugin David Configuration', 'myvideoroom' ); ?>
 			</h1>
 		</div>
 		<div class="myvideoroom-header-table-right">

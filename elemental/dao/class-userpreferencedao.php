@@ -216,7 +216,6 @@ class UserPreferenceDAO {
 					$user_id,
 				)
 			);
-
 			\wp_cache_set( $user_id, __METHOD__, $tab_display_names );
 		}
 

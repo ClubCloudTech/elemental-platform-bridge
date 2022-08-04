@@ -142,7 +142,7 @@ class Ajax {
 			case 'save_maintenance_settings':
 				$template_update = Factory::get_instance( self::class )->get_string_parameter( 'template_update' );
 				// Listeners Hook into this filter to pick up Ajax post and process in own module.
-				$response = \apply_filters( 'myvideoroom_maintenance_result_listener', $response );
+				$response = \apply_filters( 'elemental_maintenance_result_listener', $response );
 				return \wp_send_json( $response );
 
 		}

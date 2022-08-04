@@ -12,6 +12,8 @@ use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
+use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
+use ElementalPlugin\Module\WCFM\Library\WCFMFilters;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -36,7 +38,7 @@ class MembershipUser {
 	 *
 	 * @return array
 	 */
-	public function create_wordpress_user( string $first_name, string $last_name, string $email ): array {
+	public function create_sponsored_account_user( string $first_name, string $last_name, string $email ): array {
 		$quota_available = Factory::get_instance( MembershipUMP::class )->child_account_available_number();
 		$return_array    = array();
 
@@ -69,7 +71,80 @@ class MembershipUser {
 			return $return_array;
 		}
 		// Notify User of Password.
-		$this->notify_new_child_user( $password, $email, $first_name );
+		$this->notify_user_credential( $password, $email, $first_name );
+		// Update Additional User Parameters.
+		wp_update_user(
+			array(
+				'ID'           => $user_id,
+				'nickname'     => $first_name,
+				'display_name' => $first_name . ' ' . $last_name,
+				'first_name'   => $first_name,
+				'last_name'    => $last_name,
+				'role'         => Membership::MEMBERSHIP_ROLE_NAME,
+			)
+		);
+
+		// Add Subscription- User Sponsor account class.
+		$subscription_id = intval( ElementalUMP::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID );
+		Factory::get_instance( WCFMFilters::class )->add_user_ump_subscription( $user_id, $subscription_id );
+
+		// Update Parent/Sponsor Database.
+		$parent_id = \get_current_user_id();
+
+		\do_action( 'elemental_post_sponsored_user_add', $user_id, $parent_id );
+
+		Factory::get_instance( MemberSyncDAO::class )->register_child_account( $user_id, $parent_id );
+
+		// Return Ajax Call.
+		$return_array['feedback'] = \esc_html__( 'User Created as ', 'elementalplugin' ) . $user_id;
+		$return_array['status']   = true;
+		return $return_array;
+	}
+
+	/**
+	 * Create Admin Account WordPress user from Membership form Ajax call.
+	 *
+	 *  TODO - NOT YET IMPLEMENTED FOR ADMINs - use for WCFM refactor.
+	 * @param string $first_name - User First Name.
+	 * @param string $last_name  - User Last Name.
+	 * @param string $email      - User Email.
+	 *
+	 * @return array
+	 */
+	public function create_admin_account_user( string $first_name, string $last_name, string $email ): array {
+		$quota_available = Factory::get_instance( MembershipUMP::class )->child_account_available_number();
+		$return_array    = array();
+
+		if ( 0 === $quota_available ) {
+			$return_array['status']   = false;
+			$return_array['feedback'] = \esc_html__( 'Insufficient Quota for Assignment', 'elementalplugin' );
+			return $return_array;
+		}
+
+		if ( strlen( $first_name ) < 3 || strlen( $last_name ) < 3 || ! \sanitize_email( $email ) || \username_exists( $email ) ) {
+			$return_array['status']   = false;
+			$return_array['feedback'] = \esc_html__( 'Incorrect Validation, First Name, Last Name, or Email', 'elementalplugin' );
+			return $return_array;
+		}
+
+		// Check with the Sync Engine that this does not exist in a node already.
+		$pre_check = \apply_filters( 'elemental_pre_user_add', $first_name, $last_name, $email );
+
+		if ( ! $pre_check ) {
+			$return_array['feedback'] = \esc_html__( 'Sync Engine Validation Error', 'elementalplugin' );
+			$return_array['status']   = false;
+			return $return_array;
+		}
+
+		$password = wp_generate_password( 12, false );
+		$user_id  = wp_create_user( $email, $password, $email );
+		if ( ! $user_id ) {
+			$return_array['feedback'] = \esc_html__( 'WordPress User Account Creation Error', 'elementalplugin' );
+			$return_array['status']   = false;
+			return $return_array;
+		}
+		// Notify User of Password.
+		$this->notify_user_credential( $password, $email, $first_name );
 		// Update Additional User Parameters.
 		wp_update_user(
 			array(
@@ -118,7 +193,7 @@ class MembershipUser {
 			return false;
 		}
 		// Notify User of Password.
-		$this->notify_new_child_user( $password, $email, $first_name );
+		$this->notify_user_credential( $password, $email, $first_name );
 		// Update Additional User Parameters.
 		wp_update_user(
 			array(
@@ -169,7 +244,7 @@ class MembershipUser {
 			return false;
 		}
 		// Notify User of Password.
-		$this->notify_new_child_user( $password, $email, $first_name );
+		$this->notify_user_credential( $password, $email, $first_name );
 		// Update Additional User Parameters.
 		wp_update_user(
 			array(
@@ -209,14 +284,14 @@ class MembershipUser {
 	 *
 	 * @return bool
 	 */
-	public function notify_new_child_user( string $password, string $email_address, string $first_name ) {
+	public function notify_user_credential( string $password, string $email_address, string $first_name ) {
 
 		$template = include __DIR__ . '/../views/email-template.php';
 		$headers  = array( 'Content-Type: text/html; charset=UTF-8' );
 
 		$status = wp_mail(
 			$email_address,
-			\esc_html__( ' Welcome to ', 'myvideoroom' ) . get_bloginfo( 'name' ),
+			\esc_html__( ' Welcome to ', 'elementalplugin' ) . get_bloginfo( 'name' ),
 			$template( $password, $email_address, $first_name ),
 			$headers
 		);

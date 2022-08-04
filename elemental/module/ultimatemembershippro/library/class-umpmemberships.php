@@ -9,6 +9,8 @@ namespace ElementalPlugin\Module\UltimateMembershipPro\Library;
 
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
+use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
+use ElementalPlugin\Module\Membership\Library\MembershipUser;
 use ElementalPlugin\Module\UltimateMembershipPro\DAO\ElementalUMPDAO;
 
 /**
@@ -68,6 +70,10 @@ class UMPMemberships {
 		}
 
 		$my_membership = Factory::get_instance( ElementalUMPDAO::class )->get_active_user_membership_levels( $user_id );
+
+		if ( Factory::get_instance( MembershipUser::class )->is_sponsored_account( $user_id ) ) {
+			$parent_info = Factory::get_instance( MemberSyncDAO::class )->get_parent_by_child( $user_id );
+		}
 
 		return $this->get_landing_template_by_ump_membership( intval( array_key_first( $my_membership ) ) );
 
