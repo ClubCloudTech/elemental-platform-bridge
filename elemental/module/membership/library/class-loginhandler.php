@@ -35,6 +35,7 @@ class LoginHandler {
 	const SHORTCODE_LOGIN_REDIRECT = 'elemental_profile_redirect';
 
 	const SHORTCODE_EDIT_USER= 'elemental_useredit_layout';
+	const SHORTCODE_RESET_PASSWORD = 'elemental_reset_password';
 
 	const SHORTCODE_ADMIN_LAYOUT = 'elemental_admin_layout';
 
@@ -56,6 +57,7 @@ class LoginHandler {
 
 		add_shortcode(self::SHORTCODE_ADMIN_LAYOUT, array($this, 'elemental_admin_layout'));
 		add_shortcode(self::SHORTCODE_EDIT_USER, array($this, 'elemental_useredit_layout'));
+		add_shortcode(self::SHORTCODE_RESET_PASSWORD, array($this, 'elemental_forgot_password'));
 
 		// Legacy Shortcodes.
 		add_shortcode( self::SHORTCODE_LEGACY_LOGOUT, array( $this, 'elemental_logout' ) );
@@ -69,8 +71,11 @@ class LoginHandler {
 		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_checkout_header_template_settings' ), 5, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_checkout_header_template_setting' ), 5, 2 );
 		$this->register_scripts();
-		$this->initialise_sandbox_ajax();
+		$this->initialise_loginhandler_ajax();
+	
 	}
+
+	
 
 
 
@@ -281,6 +286,7 @@ class LoginHandler {
 	public function elemental_login_view(): string {
 
 		wp_dequeue_style('login-form-min.css');
+		wp_enqueue_script('elemental_loginhandler');
 		wp_enqueue_style('login-adminstyle', plugin_dir_url(__FILE__) . '../css/login-adminstyle.css', false);
 		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
 		wp_enqueue_style('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css', false);
@@ -291,7 +297,28 @@ class LoginHandler {
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 		return $render($current_user);
 	}
+	
+	/**
+	 * Forgot Password Layout
+	 * Renders the shortcode to correctly login and out users, and handle admin/child context switches for Users.
+	 *
+	 * @return string
+	 */
+	public function elemental_forgot_password(): string
+	{
 
+		wp_dequeue_style('login-form-min.css');
+		wp_enqueue_script('elemental_loginhandler');
+		wp_enqueue_style('login-adminstyle', plugin_dir_url(__FILE__) . '../css/login-adminstyle.css', false);
+		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
+		wp_enqueue_style('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css', false);
+
+		$current_user = wp_get_current_user();
+		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+		$render = (require __DIR__ . '/../views/loginviews/view-forgotpassword.php');
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+		return $render($current_user);
+	}
 	/**
 	 * Admin Layout
 	 * Renders the shortcode to correctly login and out users, and handle admin/child context switches for Users.
@@ -322,7 +349,7 @@ class LoginHandler {
 	public function elemental_useredit_layout(): string
 	{
 		wp_dequeue_style('login-form-min.css');
-		wp_enqueue_script('elemental-loginhandler');
+		wp_enqueue_script('elemental_loginhandler');
 		wp_enqueue_style('login-adminstyle', plugin_dir_url(__FILE__) . '../css/login-adminstyle.css', false);
 		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
 		wp_enqueue_style('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false);
@@ -336,13 +363,16 @@ class LoginHandler {
 	}
 
 	/**
-	 * Initialise Sandbox Ajax.
+	 * Initialise LoginHandler Ajax.
 	 */
-	public function initialise_sandbox_ajax(): void
+	public function initialise_loginhandler_ajax(): void
 	{
 
 		\add_action('wp_ajax_elemental_edituser_ajax', array(Factory::get_instance(LoginAjaxHandler::class), 'login_ajax_handler'), 10, 2);
-		//add_filter('elemental_sandbox_ajax_response', array(Factory::get_instance(SandBoxAjaxFilters::class), 'ajax_tab_sort'), 10, 2);
+		// \add_action('wp_ajax_nopriv_send_contact',array(Factory::get_instance(LoginAjaxHandler::class), 'smtp_ajax_handler'), 10, 2);
+		// \add_action('wp_ajax_sunset_send_contact',array(Factory::get_instance(LoginAjaxHandler::class), 'smtp_ajax_handler'), 10, 2);
+
+		add_filter('wp_ajax_nopriv_elemental_edituser_ajax', array(Factory::get_instance(LoginAjaxHandler::class), 'login_ajax_handler'), 10, 2);
 	}
 
 	private function register_scripts(): void
@@ -350,7 +380,7 @@ class LoginHandler {
 
 		// Login user handler.
 		wp_register_script(
-			'elemental-loginhandler',
+			'elemental_loginhandler',
 			plugins_url('../js/loginhandler.js', __FILE__),
 			array('jquery'),
 			false,//Factory::get_instance(Version::class)->get_plugin_version(),
@@ -365,7 +395,7 @@ class LoginHandler {
 		);
 
 		wp_localize_script(
-			'elemental-loginhandler',
+			'elemental_loginhandler',
 			'elemental_edituser_ajax',
 			$script_data_array
 		);

@@ -8,13 +8,17 @@
  * @param int    $membership_id - membership ID requested to Join.
  */
 
-use ElementalPlugin\Module\Membership\Library\Edituser;
-use ElementalPlugin\Library\Factory;
 
 return function (
     object $current_user
 ): string {
     ob_start();
+
+   // print_r($current_user);
+//    echo $current_user->user_pass;
+//    echo '<br>';
+//    $password = '#ktXxL7&fHd4HZon';
+//    echo wp_check_password($password, $current_user->user_pass, $current_user->ID).' -- ';
 
     if (user_can($current_user, 'administrator')) {
 ?>
@@ -63,7 +67,12 @@ return function (
                                     </div>
                                 </div>
 
-
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">Password</label>
+                                    <div class="col-xs-5">
+                                        <input type="password" class="form-control" name="user_password" value="" />
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Status</label>
@@ -94,7 +103,7 @@ return function (
                                         </select>
                                     </div>
                                 </div>
-                                <input type="hidden" name="userid" value="<?php echo $current_user->ID;?>">
+                                <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>">
                                 <div class="form-group">
                                     <div class="col-xs-9 col-xs-offset-3">
                                         <button type="button" id="update_user1" class="btn btn-primary" name="update-user" value="update-user">Update User </button>

@@ -12,7 +12,7 @@ return function (
     object $current_user
 ): string {
     ob_start();
-    if (!is_user_logged_in()) {
+
 ?>
     <div id="primary" class="site-content">
         <div id="content" role="main">
@@ -23,7 +23,6 @@ return function (
                         <div class="col-xl-4 col-lg-5 col-md-12 bg" style="background-image:url('https://img.freepik.com/free-photo/abstract-luxury-gradient-blue-background-smooth-dark-blue-with-black-vignette-studio-banner_1258-52393.jpg?w=2000&t=st=1659290640~exp=1659291240~hmac=4fa2bd0af4efcd78bf8daf1d9f13af5488908ee295ce798a5931d502bae1ea71')">
                             <div class="info">
                                 <h1>Coadjute</h1>
-
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-7 col-md-12 login">
@@ -33,35 +32,24 @@ return function (
                                         Welcome Back !
                                     </a>
                                 </div>
-                
+                                <p>Enter Your Email To Reset Password</p>
                                 <div class="or-login clearfix">
                                     <span>-</span>
                                 </div>
                                 <div class="form-container">
-                                    <form id="adminLoginForm" action="elemental_edituser_ajax" method="post" class="form-horizontal fv-form fv-form-bootstrap ajax" novalidate="novalidate">
+                                    <form id="forgotEmailForm" action="elemental_edituser_ajax" method="post" class="form-horizontal fv-form fv-form-bootstrap ajax" novalidate="novalidate">
+
                                         <div class="form-group form-fg">
-                                            <input type="email" name="user_email" class="input-text" placeholder="Email Address">
-                                            <i class="fa fa-envelope"></i>
+                                            <input type="email" name="user_email" id="pass_email" class="input-text" placeholder="Email Address">
+                                            <i class="fa fa-envelope signCheck"></i>
                                         </div>
-                                        <div class="form-group form-fg">
-                                            <input type="password" name="user_password" class="input-text" placeholder="Password">
-                                            <i class="fa fa-unlock-alt"></i>
-                                        </div>
-                                        <div class="checkbox clearfix">
-                                            <div class="form-check checkbox-fg">
-                                                <input class="form-check-input" type="checkbox" value="" id="remember">
-                                                <label class="form-check-label" for="remember">
-                                                    Keep Me Signed In
-                                                </label>
-                                            </div>
-                                            <a href="#">Forgot Password ?</a>
-                                        </div>
+
                                         <div class="form-group mt-2">
-                                            <button type="button" id="admin_login" class="btn-md btn-fg btn-block">Login</button>
+                                            <button type="button" class="btn-md btn-fg btn-block" id="mailSent">Login</button>
                                         </div>
                                     </form>
                                 </div>
-                                <p>Don't have an account? <a href="#" class="linkButton"> Register</a></p>
+                                <p>Know Your Account ? <a href="#" class="linkButton"> Login</a></p>
                             </div>
                         </div>
                     </div>
@@ -72,9 +60,5 @@ return function (
         </div><!-- #content -->
     </div><!-- #primary -->
 <?php
-    }else{
-        echo "Already Logged IN";
-        // redirect URL to dashboard
-    }
     return ob_get_clean();
 };
