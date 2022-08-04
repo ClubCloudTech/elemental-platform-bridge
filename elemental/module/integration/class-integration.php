@@ -8,6 +8,7 @@
 
 namespace ElementalPlugin\Module\Integration;
 
+use ElementalPlugin\Module\Integration\Actions;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\Ajax;
 
@@ -24,9 +25,18 @@ class Integration {
 	 * Required for Normal Runtime.
 	 */
 	public function init(): void {
+		
+		// Apply action hooks
+		$actions = Factory::get_instance( Actions::class );
+		\add_filter( 'elemental_pre_user_add', array( $actions, 'sync_employee' ), 10, 4 );
+		// \add_filter( 'elemental_pre_tenant_add', array( $actions, 'sync_user' ), 10, 3 );
+		// \add_filter( 'elemental_pre_company_add', array( $actions, 'sync_company' ), 10, 3 );
+
+		// Add setting handlers
 		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_integration_api_key' ), 10, 2 );
 		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_integration_api_baseurl' ), 10, 2 );
 
+		// Add settings to Elemental settings tab
 		\add_filter( 'elemental_page_option', array( $this, 'add_integration_api_key_setting' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_integration_api_baseurl_setting' ), 10, 2 );
 	}
