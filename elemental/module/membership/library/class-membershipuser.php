@@ -55,33 +55,17 @@ class MembershipUser {
 			return $return_array;
 		}
 
-		// Check with the Sync Engine that this does not exist in a node already.
-		$pre_check = \apply_filters( 'elemental_pre_user_add', $first_name, $last_name, $email );
+		$password = wp_generate_password( 12, false );
 
-		if ( ! $pre_check ) {
-			$return_array['feedback'] = \esc_html__( 'Sync Engine Validation Error', 'elementalplugin' );
+		// Check with the Sync Engine that this does not exist in a node already.
+		$sync_result = \apply_filters( 'elemental_pre_user_add', $first_name, $last_name, $email, $password );
+
+		if ( ! $sync_result['status'] ) {
+			$return_array['feedback'] = $sync_result['error'];
 			$return_array['status']   = false;
 			return $return_array;
 		}
 
-		// Start Sync Engine Call
-		try {
-            $request = new CreateEmployee();
-            $request->setData([
-            	'sandbox' => true,
-            	'first_name' => $first_name,
-            	'last_name' => $last_name,
-            	'email' => $email,
-            ]);
-            $employeeResponse = $request->send();
-        } catch (Exception $e) {}
-
-        if ($employeeResponse->failed()) {
-            return 'User could not be created. Error: ' . $employeeResponse->body();
-        }
-		// End Sync Engine Call
-
-		$password = wp_generate_password( 12, false );
 		$user_id  = wp_create_user( $email, $password, $email );
 		if ( ! $user_id ) {
 			$return_array['feedback'] = \esc_html__( 'WordPress User Account Creation Error', 'elementalplugin' );
