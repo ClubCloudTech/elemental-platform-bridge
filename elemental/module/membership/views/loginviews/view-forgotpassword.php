@@ -9,10 +9,10 @@
  */
 
 return function (
-    object $current_user
+    object $redirect
 ): string {
     ob_start();
-
+    if ( is_user_logged_in()) {
 ?>
     <div id="primary" class="site-content">
         <div id="content" role="main">
@@ -20,9 +20,9 @@ return function (
             <div class="login-fg">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xl-4 col-lg-5 col-md-12 bg" style="background-image:url('https://img.freepik.com/free-photo/abstract-luxury-gradient-blue-background-smooth-dark-blue-with-black-vignette-studio-banner_1258-52393.jpg?w=2000&t=st=1659290640~exp=1659291240~hmac=4fa2bd0af4efcd78bf8daf1d9f13af5488908ee295ce798a5931d502bae1ea71')">
+                        <div class="col-xl-4 col-lg-5 col-md-12 bg" style="background-size: cover;background-image:url('https://coadjute.app/wp-content/uploads/2022/06/Login.png');background-repeat: no-repeat;">
                             <div class="info">
-                                <h1>Coadjute</h1>
+                                <h1></h1>
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-7 col-md-12 login">
@@ -45,7 +45,7 @@ return function (
                                         </div>
 
                                         <div class="form-group mt-2">
-                                            <button type="button" class="btn-md btn-fg btn-block" id="mailSent">Login</button>
+                                            <button type="button" class="btn-md btn-fg btn-block" id="mailSent" disabled>Reset</button>
                                         </div>
                                     </form>
                                 </div>
@@ -60,5 +60,9 @@ return function (
         </div><!-- #content -->
     </div><!-- #primary -->
 <?php
+    }else{
+        $redirect;
+    }
+// use wordpress object
     return ob_get_clean();
 };

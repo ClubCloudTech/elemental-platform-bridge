@@ -4,7 +4,7 @@
 }
 
 .login-fg .login {
-    min-height: 100vh;
+    min-height: 70vh;
     position: relative;
     display: -webkit-box;
     display: -moz-box;
@@ -91,7 +91,7 @@
     bottom: 0;
     opacity: 1;
     z-index: 999;
-    min-height: 100vh;
+    min-height: 70vh;
     position: relative;
     display: flex;
     justify-content: center;

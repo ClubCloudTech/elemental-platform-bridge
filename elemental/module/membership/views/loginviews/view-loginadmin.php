@@ -20,7 +20,7 @@ return function (
             <div class="login-fg">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xl-4 col-lg-5 col-md-12 bg" style="background-image:url('https://img.freepik.com/free-photo/abstract-luxury-gradient-blue-background-smooth-dark-blue-with-black-vignette-studio-banner_1258-52393.jpg?w=2000&t=st=1659290640~exp=1659291240~hmac=4fa2bd0af4efcd78bf8daf1d9f13af5488908ee295ce798a5931d502bae1ea71')">
+                        <div class="col-xl-4 col-lg-5 col-md-12 bg" style="background-size: cover;background-image:url('https://coadjute.app/wp-content/uploads/2022/06/Login.png');background-repeat: no-repeat;">
                             <div class="info">
                                 <h1>Coadjute</h1>
 
@@ -75,6 +75,7 @@ return function (
     }else{
         echo "Already Logged IN";
         // redirect URL to dashboard
+        // loginLanding 
     }
     return ob_get_clean();
 };

@@ -72,6 +72,8 @@ class LoginAjaxHandler
                     $creds['user_password'] = $user_password;
                     $creds['remember'] = false;
                     $user = wp_signon($creds, false);
+
+
                     if (is_wp_error($user)) {
                         $errors_login = $user->get_error_message();
                     } else {
@@ -105,6 +107,28 @@ class LoginAjaxHandler
             }
 
         }
+       
+        if ('reset_password' === $action_taken) {
+            $verify = \wp_verify_nonce($nonce, 'elemental_membership');
+            if (!$verify) {
+                $response['feedback'] = \esc_html__('Invalid Security Nonce received', 'elementalplugin');
+                return \wp_send_json($response);
+            }
+                                 wp_set_password($user_password, $user_id);
+                                 $userID = get_userdata($user_id);
+                                wp_set_auth_cookie($userID);
+                                wp_set_current_user($userID);
+                         
+                    exit();
+       
+            if ($exists) {
+                $response['feedback'] = \esc_html__('Email Found', 'elementalplugin');
+            } else {
+                $response['feedback'] = \esc_html__('Email NotFound', 'elementalplugin');
+            }
+        }
+
+
         if ('update_edituser' === $action_taken) {
             $verify = \wp_verify_nonce($nonce, 'elemental_membership');
             if (!$verify) {
@@ -120,14 +144,7 @@ class LoginAjaxHandler
        
                 update_user_meta($user_id, 'first_name', esc_attr($firstname));
                 update_user_meta($user_id, 'last_name', esc_attr($lastname));
-                    //      wp_set_password($user_password, $user_id);
-                    // $userID = get_userdata($user_id);
-                    //             wp_set_auth_cookie($userID);
-                    //             wp_set_current_user($userID);
-                    //          //    do_action('wp_login', $userID->user_login, $user_id);
-                    //         $redirect_to = "https://wordpress.test/sand-2/";
-                    //             wp_safe_redirect($redirect_to);
-                    //exit();
+                
                   
                if($update){
                 $response['feedback'] = \esc_html__('User Updated', 'elementalplugin');
@@ -136,13 +153,20 @@ class LoginAjaxHandler
                }
            
         }
-        if ('reset_mail' === $action_taken) {
+
+        if ('forgot_password' === $action_taken) {
             $verify = \wp_verify_nonce($nonce, 'elemental_membership');
             if (!$verify) {
                 $response['feedback'] = \esc_html__('Invalid Security Nonce received', 'elementalplugin');
                 return \wp_send_json($response);
             }
-            print_r($_POST);
+        
+            $user = get_user_by('email', $user_email);
+            $user_id = $user->ID;
+            $user_info = get_userdata($user_id);
+            $unique = get_password_reset_key($user_info);
+            $unique_url = network_site_url("reset-password?action=rp&key=$unique&login=" . rawurlencode($user_info->user_login)."un=".$user_id, 'login');
+     
            $message = '    <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
         style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700);" font-family: "Open Sans, sans-serif;">
         <tr>
@@ -180,7 +204,7 @@ class LoginAjaxHandler
                                             password has been generated for you. To reset your password, click the
                                             following link and follow the instructions.
                                         </p>
-                                        <a href="javascript:void(0);"
+                                        <a href="'.$unique_url.'"
                                             style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
                                             Password</a>
                                     </td>
@@ -205,85 +229,28 @@ class LoginAjaxHandler
             </td>
         </tr>
     </table>';
-            $title = 'Sid Test1'; // send here from contact form
-            // $email = 'demo@demo.com'; // send here from contact form
-            //init
-           // $message = wp_strip_all_tags("Hi message");
-            $to = "siddharth@coadjute.com"; //get_bloginfo('admin_email');
-            $subject = 'My Password Reset Form - ' . $title;
+            $title = 'Reset Password'; // send here from contact form
+            $subject = 'Password Reset Form - ' . $title;
             //set headers
-            $headers[] = 'From: Sid <' . $to . '>'; // 'From: Alex <me@alecaddd.com>'
-            $headers[] = 'Reply-To: ' . $title . ' <' . $user_email . '>';
+            $headers[] = 'From: Coadjute No-Reply <' . $user_email . '>'; // 
+           // $headers[] = 'Reply-To: ' . $title . ' <' . $user_email . '>';
             $headers[] = 'Content-Type: text/html: charset=UTF-8';
 
-            print_r($headers);
-            //send email
-            // wp_mail($to, $subject, $message, $headers);
-            // echo "Done";
+       
             $mailResult = false;
             $mailResult = wp_mail($user_email, $subject, $message, $headers);
-            var_dump($mailResult);
-            if (\wp_mail($user_email, $subject, $message, $headers)) {
-                echo "sending mail test - ".$mailResult;
+          
+            if ($mailResult) {
+                $response['feedback'] = \esc_html__('Email Sent', 'elementalplugin');
             } else {
-                echo "not";
+                $response['feedback'] = \esc_html__('Something Went Wrong', 'elementalplugin');
             }
-            //exit
-          //  exit(1);
+    
         }
 
         return \wp_send_json($response);
            
        
     }
-    public function randomPassword() {
-            $alphabet = "abcdefghijklmnopqrs)-(@&!tuwxyzABCDEFGHIJKLM)-(@&!tNOPQRSTUWXYZ01234)-(@&!t56789";
-            $pass = array(); 
-            $alphaLength = strlen($alphabet) - 1; 
-            for ($i = 0; $i < 12; $i++) {
-                $n = rand(0, $alphaLength);
-                $pass[] = $alphabet[$n];
-            }
-            return implode($pass);
-        }
-
-    // public function smtp_ajax_handler()
-    // {
-    //     $response    = array();
-    //     $response['feedback'] = 'No Change';
-
-    //     // Security Checks.
-    //     check_ajax_referer('elemental_membership', 'security', false);
-
-    //     if (isset($_POST['action_taken'])) {
-    //         $action_taken = sanitize_text_field(wp_unslash($_POST['action_taken']));
-    //     }
-
-    //     if (isset($_POST['user_email'])) {
-    //         $user_email = \sanitize_email(wp_unslash($_POST['user_email']));
-    //     }
-    //     if (isset($_POST['nonce'])) {
-    //         $nonce = sanitize_text_field(wp_unslash($_POST['nonce']));
-    //     }
-    //     if ('reset_mail' === $action_taken) {
-
-    //     $title = 'Test user'; // send here from contact form
-    //    // $email = 'demo@demo.com'; // send here from contact form
-    //     //init
-    //     $message = wp_strip_all_tags("Hi message");
-    //     $to = "siddharth@coadjute.com";//get_bloginfo('admin_email');
-    //     $subject = 'My Contact Form - ' . $title;
-    //     //set headers
-    //     $headers[] = 'From: Sid <' . $to . '>'; // 'From: Alex <me@alecaddd.com>'
-    //     $headers[] = 'Reply-To: ' . $title . ' <' . $user_email . '>';
-    //     $headers[] = 'Content-Type: text/html: charset=UTF-8';
-
-    //     //send email
-    //     wp_mail($to, $subject, $message, $headers);
-    //     //exit
-    //     exit(1);
-    //     }
-
-    // }
-
+   
 }
