@@ -68,13 +68,6 @@ return function (
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">Password</label>
-                                    <div class="col-xs-5">
-                                        <input type="password" class="form-control" name="user_password" value="" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
                                     <label class="col-xs-3 control-label">Status</label>
                                     <div class="col-xs-5">
                                         <select class="form-control" name="user_status">

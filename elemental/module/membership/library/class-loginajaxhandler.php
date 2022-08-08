@@ -179,7 +179,7 @@ class LoginAjaxHandler
                     <tr>
                        <td style="text-align:center;">
                           <a href="https://coadjute.com" title="logo" target="_blank">
-                            <img width="260" src="https://www.reapit.com/wp-content/uploads/Coadjute-Masterbrand-Logo-Full-Colour-Landscape-RTM.png" title="logo" alt="logo">
+                            <img width="260" src="https://coadjute.app/wp-content/uploads/2022/06/Coadjute-Masterbrand-Logo-updated.png" title="logo" alt="logo">
                           </a>
                         </td>
                     </tr>

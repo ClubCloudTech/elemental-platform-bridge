@@ -37,8 +37,6 @@ window.addEventListener("load", function() {
                 $(".signCheck").removeClass("fa-envelope");
                 $(".signCheck").addClass("fa-exclamation-triangle");
                 $(".signCheck").css("color", "#dc143c");
-
-                //  $("#pass_email").append('<i class = "fa fa-check" style = "color:green;" aria-hidden = "true" ></i>');
             }
             return;
 
@@ -58,11 +56,6 @@ window.addEventListener("load", function() {
 
                 form_data.append(input.name, input.value);
             });
-
-            console.log(
-                elemental_edituser_ajax.security +
-                " update user : "
-            );
             form_data.append("security", elemental_edituser_ajax.security);
             $.ajax({
                 type: "post",
@@ -97,12 +90,6 @@ window.addEventListener("load", function() {
 
                 form_data.append(input.name, input.value);
             });
-
-            console.log(
-                elemental_edituser_ajax.ajax_url +
-                " update user : " +
-                JSON.stringify(event.target)
-            );
             form_data.append(
                 "security",
                 elemental_edituser_ajax.security
@@ -229,7 +216,6 @@ window.addEventListener("load", function() {
                 },
             });
         };
-
         init();
     });
 });

@@ -12,7 +12,7 @@ return function (
     object $current_user
 ): string {
     ob_start();
-    if (!is_user_logged_in()) {
+    if (is_user_logged_in()) {
 ?>
     <div id="primary" class="site-content">
         <div id="content" role="main">
