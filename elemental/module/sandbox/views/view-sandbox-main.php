@@ -6,9 +6,6 @@
  * @package module/sandbox/views/view-sandbox-main.php
  */
 
-use ElementalPlugin\Library\Encryption;
-use ElementalPlugin\Library\Factory;
-
 /**
  * Render the Main Template
  *

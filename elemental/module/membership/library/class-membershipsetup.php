@@ -8,6 +8,7 @@
 namespace ElementalPlugin\Module\Membership\Library;
 
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Module\BuddyPress\ElementalBP;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
@@ -27,8 +28,9 @@ class MembershipSetup {
 		Factory::get_instance( MembershipDAO::class )->install_membership_mapping_table();
 		Factory::get_instance( MemberSyncDAO::class )->install_membership_sync_table();
 		$this->create_membership_role();
-		$this->create_registration_bpgroup();
-
+		if ( Factory::get_instance( ElementalBP::class )->is_buddypress_available() ) {
+			$this->create_registration_bpgroup();
+		}
 	}
 
 

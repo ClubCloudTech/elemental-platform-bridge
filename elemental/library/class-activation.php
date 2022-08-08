@@ -27,7 +27,7 @@ class Activation {
 		Factory::get_instance( Membership::class )->activate();
 		Factory::get_instance( WCFM::class )->activate();
 		Factory::get_instance( Sandbox::class )->activate();
-		$this->install_main_plugin_tables();
+		self::install_main_plugin_tables();
 	}
 
 	/**

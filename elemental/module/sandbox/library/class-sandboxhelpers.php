@@ -129,8 +129,9 @@ class SandBoxHelpers {
 			if ( $object ) {
 				$menu_item = $this->prepare_sandbox_tab( $object );
 				\array_push( $tab_objects, $menu_item );
+			} else {
+				echo ' No Oject found';
 			}
-			echo ' No Oject found';
 		}
 		// Return the Array, and Sort if unset by User preference.
 		if ( $sort ) {

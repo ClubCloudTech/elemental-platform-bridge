@@ -85,7 +85,7 @@ class MembershipUser {
 		);
 
 		// Add Subscription- User Sponsor account class.
-		$subscription_id = intval( ElementalUMP::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID );
+		$subscription_id = intval( get_option( ElementalUMP::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID ) );
 		Factory::get_instance( WCFMFilters::class )->add_user_ump_subscription( $user_id, $subscription_id );
 
 		// Update Parent/Sponsor Database.
@@ -105,6 +105,7 @@ class MembershipUser {
 	 * Create Admin Account WordPress user from Membership form Ajax call.
 	 *
 	 *  TODO - NOT YET IMPLEMENTED FOR ADMINs - use for WCFM refactor.
+	 *
 	 * @param string $first_name - User First Name.
 	 * @param string $last_name  - User Last Name.
 	 * @param string $email      - User Email.
