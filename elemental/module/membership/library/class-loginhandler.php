@@ -38,6 +38,8 @@ class LoginHandler {
 	const SHORTCODE_RESET_PASSWORD = 'elemental_reset_password';
 	const SHORTCODE_FORGOT_PASSWORD = 'elemental_forgot_password';
 
+	const SHORTCODE_HEADER_LAYOUT = 'elemental_header_layout';
+
 
 	const SHORTCODE_ADMIN_LAYOUT = 'elemental_admin_layout';
 
@@ -61,6 +63,7 @@ class LoginHandler {
 		add_shortcode(self::SHORTCODE_EDIT_USER, array($this, 'elemental_useredit_layout'));
 		add_shortcode(self::SHORTCODE_FORGOT_PASSWORD, array($this, 'elemental_forgot_password'));
 		add_shortcode(self::SHORTCODE_RESET_PASSWORD, array($this, 'elemental_reset_password'));
+		add_shortcode(self::SHORTCODE_HEADER_LAYOUT, array($this, 'elemental_header_layout'));
 
 		// Legacy Shortcodes.
 		add_shortcode( self::SHORTCODE_LEGACY_LOGOUT, array( $this, 'elemental_logout' ) );
@@ -342,11 +345,20 @@ class LoginHandler {
 	 *
 	 * @return string
 	 */
+
 	public function elemental_forgot_password(): string
 	{
 
 		wp_dequeue_style('login-form-min.css');
 		wp_enqueue_script('elemental_loginhandler');
+		wp_enqueue_script(
+			'elemental_recaptchav3',
+			'https://www.google.com/recaptcha/api.js?render=6LcnlF0hAAAAAB2_PyHZ12mP_laQlIvO2AMzkU3I',
+			array('jquery'),
+			false,
+			true
+		);
+		
 		wp_enqueue_style('login-adminstyle', plugin_dir_url(__FILE__) . '../css/login-adminstyle.css', false);
 		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
 		wp_enqueue_style('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css', false);
@@ -398,6 +410,30 @@ class LoginHandler {
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 		return $render($current_user);
 	}
+
+
+	/**
+	 * Header User Layout
+	 * Renders the shortcode to correctly show Header.
+	 *
+	 * @return string
+	 */
+	public function elemental_header_layout(): string
+	{
+		wp_dequeue_style('login-form-min.css');
+		wp_enqueue_script('elemental_loginhandler');
+		wp_enqueue_style('login-adminstyle', plugin_dir_url(__FILE__) . '../css/login-adminstyle.css', false);
+		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
+		wp_enqueue_style('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false);
+
+
+		$current_user = wp_get_current_user();
+		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+		$render = (require __DIR__ . '/../views/loginviews/view-headermain.php');
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+		return $render($current_user);
+	}
+	
 
 	/**
 	 * Initialise LoginHandler Ajax.

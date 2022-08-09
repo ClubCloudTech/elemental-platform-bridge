@@ -40,7 +40,7 @@ return function (
     </div><!-- #primary -->
 <?php
     }else{
-        echo 'Login as admin ';
+       // Redirect something
     }
     return ob_get_clean();
 };
