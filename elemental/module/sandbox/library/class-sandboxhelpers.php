@@ -90,7 +90,7 @@ class SandBoxHelpers {
 			$field_2 = '?' . $custom_field2;
 		}
 
-		return '<iframe style="width:100%;height:900px;" src="' . $base_url . '/' . $api_path . '?userid=' . $email_hash . $field_1 . $field_2 . '"></iframe>';
+		return '<iframe style="width:100%;height:900px;" src="' . $base_url . '/' . $api_path . '?userid=' . urlencode($email_hash . $field_1 . $field_2) . '"></iframe>';
 
 	}
 
