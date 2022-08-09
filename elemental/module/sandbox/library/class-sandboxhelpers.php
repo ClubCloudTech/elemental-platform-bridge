@@ -113,13 +113,12 @@ class SandBoxHelpers {
 		// Check Setup Config.
 		$user_config_record_ids = Factory::get_instance( UserPreferenceDAO::class )->get_by_pathway_id( $user_id );
 
-		if ( count( $all_record_ids ) >= count( $user_config_record_ids ) ) {
-			$sortable_ids = $user_config_record_ids;
-			$sort         = false;
-		} else {
+		if ( 0 === count( $user_config_record_ids ) || count( $all_record_ids ) < count( $user_config_record_ids ) ) {
 			$sortable_ids = $all_record_ids;
 			$sort         = true;
-
+		} else {
+			$sortable_ids = $user_config_record_ids;
+			$sort         = false;
 		}
 
 		// Send each Tab item to get Menu item from it.

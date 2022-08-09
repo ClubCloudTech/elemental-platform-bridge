@@ -13,7 +13,6 @@ namespace ElementalPlugin\Module\Sandbox\Library;
 use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\HTML;
-use ElementalPlugin\Library\HttpGet;
 use ElementalPlugin\Library\TabHelper;
 
 /**
