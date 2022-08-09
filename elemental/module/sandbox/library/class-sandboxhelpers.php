@@ -11,6 +11,7 @@ use ElementalPlugin\DAO\UserPreferenceDAO;
 use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\TabHelper;
+use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
 use ElementalPlugin\Module\Sandbox\Entity\SandboxEntity;
@@ -78,19 +79,11 @@ class SandBoxHelpers {
 
 		$base_url      = $sandbox_object->get_destination_url();
 		$api_path      = $sandbox_object->get_user_name_prepend();
+		$record_id     = $sandbox_object->get_record_id();
 		$custom_field1 = $sandbox_object->get_customfield1();
 		$custom_field2 = $sandbox_object->get_customfield2();
-		$public_hash   = $sandbox_object->get_private_key();
-		$email_hash    = null;
-
-		if ( $custom_field1 ) {
-			$field_1 = $custom_field1;
-		}
-		if ( $custom_field2 ) {
-			$field_2 = '?' . $custom_field2;
-		}
-
-		return '<iframe style="width:100%;height:900px;" src="' . $base_url . '/' . $api_path . '?userid=' . urlencode($email_hash . $field_1 . $field_2) . '"></iframe>';
+		$email_hash    = Factory::get_instance( UserHelpers::class )->construct_user_email_request( $api_path, $record_id );
+		return '<iframe style="width:100%;height:900px;" src="' . $base_url . '/' . $api_path . '__' . $record_id . '?userid=' . urlencode( $email_hash ) . $custom_field1 . $custom_field2 . '"></iframe>';
 
 	}
 

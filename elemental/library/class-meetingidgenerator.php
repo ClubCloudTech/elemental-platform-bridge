@@ -169,6 +169,4 @@ class Encryption {
 
 		return $output;
 	}
-
-
 }

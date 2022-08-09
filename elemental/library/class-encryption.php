@@ -210,7 +210,7 @@ class Encryption {
 		$encoded_iv             = base64_encode( $iv );
 		$encrypted_payload      = $encoded_encrypted_data . ':' . $encoded_iv;
 
-		return urlencode( $encrypted_payload );
+		return $encrypted_payload;
 
 	}
 
