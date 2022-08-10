@@ -42,7 +42,7 @@ class UserHelpers {
 		$user  = \wp_get_current_user();
 		$email = $user->user_email;
 
-		return Factory::get_instance( Encryption::class )->encrypt( $api_path . '+' . strval( $record_id ) . '+' . $email );
+		return Factory::get_instance( Encryption::class )->encrypt( $api_path . '_' . strval( $record_id ) . '_' . $email );
 
 	}
 
