@@ -38,8 +38,8 @@ class Actions {
 		    ]);
 		    $employee_response = $request->send();
 		} catch (\Exception $e) {
-		$result['status'] = false;
-		$result['error'] = 'User could not be created. Error: ' . $e->getMessage();
+			$result['status'] = false;
+			$result['error'] = 'User could not be created. Error: ' . $e->getMessage();
 		}
 
 		if ($employee_response->failed()) {
