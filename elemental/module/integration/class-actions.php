@@ -27,28 +27,27 @@ class Actions {
 	 */
 	public function sync_employee($first_name, $last_name, $email, $password): array {
 		$result = array('status' => true);
-
 		try {
-            $request = new CreateEmployee();
-            $request->setData([
-            	'sandbox' => true,
-            	'first_name' => $first_name,
-            	'last_name' => $last_name,
-            	'email' => $email,
-            	'password' => $password
-            ]);
-            $employee_response = $request->send();
-        } catch (\Exception $e) {
-        	$result['status'] = false;
-            $result['error'] = 'User could not be created. Error: ' . $e->getMessage();
-        }
+		    $request = new CreateEmployee();
+		    $request->setData([
+		    	'sandbox' => true,
+		    	'first_name' => $first_name,
+		    	'last_name' => $last_name,
+		    	'email' => $email,
+		    	'password' => $password
+		    ]);
+		    $employee_response = $request->send();
+		} catch (\Exception $e) {
+		$result['status'] = false;
+		$result['error'] = 'User could not be created. Error: ' . $e->getMessage();
+		}
 
-        if ($employee_response->failed()) {
-            $result['status'] = false;
-            $result['error'] = 'User could not be created. Error: ' . $employee_response->body();
-        }
-        
-        return $result;
+		if ($employee_response->failed()) {
+		    $result['status'] = false;
+		    $result['error'] = 'User could not be created. Error: ' . $employee_response->body();
+		}
+
+		return $result;
 	}
 
 	/**
@@ -64,25 +63,25 @@ class Actions {
 		$result = array('status' => true);
 
 		try {
-            $request = new CreateCompany();
-            $request->setData([
-            	'sandbox' => true,
-            	'first_name' => $first_name,
-            	'last_name' => $last_name,
-            	'email' => $email,
-            ]);
-            $company_response = $request->send();
-        } catch (\Exception $e) {
-        	$result['status'] = false;
-            $result['error'] = 'User could not be created. Error: ' . $e->getMessage();
-        }
+		    $request = new CreateCompany();
+		    $request->setData([
+		    	'sandbox' => true,
+		    	'first_name' => $first_name,
+		    	'last_name' => $last_name,
+		    	'email' => $email,
+		    ]);
+		    $company_response = $request->send();
+		} catch (\Exception $e) {
+			$result['status'] = false;
+		    $result['error'] = 'User could not be created. Error: ' . $e->getMessage();
+		}
 
-        if ($company_response->failed()) {
-            $result['status'] = false;
-            $result['error'] = 'Company could not be created. Error: ' . $company_response->body();
-        }
+		if ($company_response->failed()) {
+		    $result['status'] = false;
+		    $result['error'] = 'Company could not be created. Error: ' . $company_response->body();
+		}
 
-        return $result;
+		return $result;
 	}
 
 	/**
@@ -97,26 +96,25 @@ class Actions {
 	 */
 	public function sync_user($first_name, $last_name, $email, $password): array {
 		$result = array('status' => true);
-
 		try {
-            $request = new CreateUser();
-            $request->setData([
-            	'first_name' => $first_name,
-            	'last_name' => $last_name,
-            	'email' => $email,
-            	'password' => $password
-            ]);
-            $user_response = $request->send();
-        } catch (\Exception $e) {
-        	$result['status'] = false;
-            $result['error'] = 'User could not be created. Error: ' . $e->getMessage();
-        }
+		    $request = new CreateUser();
+		    $request->setData([
+		    	'first_name' => $first_name,
+		    	'last_name' => $last_name,
+		    	'email' => $email,
+		    	'password' => $password
+		    ]);
+		    $user_response = $request->send();
+		} catch (\Exception $e) {
+			$result['status'] = false;
+		    $result['error'] = 'User could not be created. Error: ' . $e->getMessage();
+		}
 
-        if ($user_response->failed()) {
-            $result['status'] = false;
-            $result['error'] = 'Account could not be created. Error: ' . $user_response->body();
-        }
-        
-        return $result;
+		if ($user_response->failed()) {
+		    $result['status'] = false;
+		    $result['error'] = 'Account could not be created. Error: ' . $user_response->body();
+		}
+
+		return $result;
 	}
 }

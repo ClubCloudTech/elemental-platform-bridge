@@ -3,6 +3,7 @@
 namespace ElementalPlugin\Module\Integration\Coadjute;
 
 use ElementalPlugin\Module\Integration\Integration;
+
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\DAO\TokenDAO;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
