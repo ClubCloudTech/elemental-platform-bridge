@@ -33,11 +33,11 @@ class Integration {
 		// \add_filter( 'elemental_pre_company_add', array( $actions, 'sync_company' ), 10, 3 );
 
 		// Add setting handlers
-		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_integration_api_key' ), 10, 2 );
+		// \add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_integration_api_key' ), 10, 2 );
 		\add_filter( 'myvideoroom_maintenance_result_listener', array( $this, 'update_integration_api_baseurl' ), 10, 2 );
 
 		// Add settings to Elemental settings tab
-		\add_filter( 'elemental_page_option', array( $this, 'add_integration_api_key_setting' ), 10, 2 );
+		// \add_filter( 'elemental_page_option', array( $this, 'add_integration_api_key_setting' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_integration_api_baseurl_setting' ), 10, 2 );
 	}
 
