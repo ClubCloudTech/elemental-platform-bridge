@@ -3,6 +3,9 @@
 namespace ElementalPlugin\Module\Integration\Coadjute;
 
 use ElementalPlugin\Module\Integration\Integration;
+use ElementalPlugin\Library\Factory;
+use ElementalPlugin\DAO\TokenDAO;
+use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 
 use Sammyjo20\Saloon\Http\Auth\TokenAuthenticator;
 use Sammyjo20\Saloon\Interfaces\AuthenticatorInterface;
@@ -37,6 +40,9 @@ class CoadjuteConnector extends SaloonConnector
 
     public function defaultAuth(): ?AuthenticatorInterface
     {
-        return new TokenAuthenticator( get_option( Integration::SETTING_INTEGRATION_API_KEY ) ); // TODO: token needs to be saved on per user (admin account) basis
+        $user_id        = \get_current_user_id();
+        $token_object   = Factory::get_instance( TokenDAO::class )->get_by_id( $user_id );
+        
+        return new TokenAuthenticator( $token_object->get_user_token() );
     }
 }

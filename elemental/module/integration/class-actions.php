@@ -26,6 +26,8 @@ class Actions {
 	 * @return array
 	 */
 	public function sync_employee($first_name, $last_name, $email, $password): array {
+		$result = array('status' => true);
+
 		try {
             $request = new CreateEmployee();
             $request->setData([
@@ -36,9 +38,10 @@ class Actions {
             	'password' => $password
             ]);
             $employee_response = $request->send();
-        } catch (\Exception $e) {}
-
-        $result = array('status' => true);
+        } catch (\Exception $e) {
+        	$result['status'] = false;
+            $result['error'] = 'User could not be created. Error: ' . $e->getMessage();
+        }
 
         if ($employee_response->failed()) {
             $result['status'] = false;
@@ -58,6 +61,8 @@ class Actions {
 	 * @return array
 	 */
 	public function sync_company($first_name, $last_name, $email): array {
+		$result = array('status' => true);
+
 		try {
             $request = new CreateCompany();
             $request->setData([
@@ -67,9 +72,10 @@ class Actions {
             	'email' => $email,
             ]);
             $company_response = $request->send();
-        } catch (\Exception $e) {}
-
-        $result = array('status' => true);
+        } catch (\Exception $e) {
+        	$result['status'] = false;
+            $result['error'] = 'User could not be created. Error: ' . $e->getMessage();
+        }
 
         if ($company_response->failed()) {
             $result['status'] = false;
@@ -90,6 +96,8 @@ class Actions {
 	 * @return array
 	 */
 	public function sync_user($first_name, $last_name, $email, $password): array {
+		$result = array('status' => true);
+
 		try {
             $request = new CreateUser();
             $request->setData([
@@ -99,9 +107,10 @@ class Actions {
             	'password' => $password
             ]);
             $user_response = $request->send();
-        } catch (\Exception $e) {}
-
-        $result = array('status' => true);
+        } catch (\Exception $e) {
+        	$result['status'] = false;
+            $result['error'] = 'User could not be created. Error: ' . $e->getMessage();
+        }
 
         if ($user_response->failed()) {
             $result['status'] = false;
