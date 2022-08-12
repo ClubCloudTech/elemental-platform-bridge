@@ -1,3 +1,34 @@
+.elementor-column-gap-default>.elementor-column>.elementor-element-populated {
+    padding: 0 ! important;
+}
+
+.elementor-54320 .elementor-element.elementor-element-1517006a {
+    padding: 0 ! important;
+}
+
+.elementor-54320 .elementor-element.elementor-element-1517006a>.elementor-container {
+    max-width: 100%;
+}
+
+.elementor-54320 .elementor-element.elementor-element-6c36e33d>.elementor-element-populated {
+    border: none;
+    border-style: unset ! important;
+}
+
+.elemental-primary-nav-img {
+    margin-right: 8px;
+}
+
+.myvideoroom-dashicons,
+.myvideoroom-dashicons-before:before {
+    line-height: 1.2 ! important;
+}
+
+.dropdown-content a:hover {
+    background-color: #323064 ! important;
+    color: white ! important;
+}
+
 .ui-tabs .ui-tabs-nav {
     margin: 0;
     padding: 0.2em 0.2em 0;

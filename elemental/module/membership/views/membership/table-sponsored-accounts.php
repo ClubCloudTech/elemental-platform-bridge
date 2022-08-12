@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Outputs User Membership Levels Table.
  *
@@ -13,57 +14,71 @@
  * @return string
  */
 return function (
-	array $user_accounts = null
+	array $user_accounts = null,
+	string $accounts_remaining = null,
 ): string {
 	ob_start();
-	?>
+?>
 
 	<?php
-	if ( $user_accounts ) {
-		?>
-<div class="wcfm-container">
-	<div id="wwcfm_shop_staffsesc_html_expander" class="wcfm-content">
-		<table id="elemental-membership-table" class="display" cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<th><?php esc_html_e( 'Account', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Created', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Name', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Actions', 'myvideoroom' ); ?></th>
-				</tr>
-			</thead>
-			<tbody>
-		<?php
-		$child_account_table_render = include __DIR__ . '/child-account-items.php';
-		foreach ( $user_accounts as $level ) {
-       //phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
-       echo $child_account_table_render( $level );
-		}
-		?>
-			</tbody>
-			<tfoot>
-				<tr>
-					<th><?php esc_html_e( 'Account', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Created', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Name', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Actions', 'myvideoroom' ); ?></th>
-				</tr>
-			</tfoot>
-		</table>
-		<div class="wcfm-clearfix"></div>
-	</div>
-</div>
-		<?php
+	if ($user_accounts) {
+	?>
+		<div class="wcfm-container">
+			<div id="wwcfm_shop_staffsesc_html_expander" class="wcfm-content">
+				<table id="elemental-membership-table" class="display" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th><?php esc_html_e('Account', 'myvideoroom'); ?></th>
+							<th><?php esc_html_e('Created', 'myvideoroom'); ?></th>
+							<th><?php esc_html_e('Name', 'myvideoroom'); ?></th>
+							<th><?php esc_html_e('Actions', 'myvideoroom'); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$child_account_table_render = include __DIR__ . '/child-account-items.php';
+						foreach ($user_accounts as $level) {
+							//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
+							echo $child_account_table_render($level);
+						}
+						?>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th><?php esc_html_e('Account', 'myvideoroom'); ?></th>
+							<th><?php esc_html_e('Created', 'myvideoroom'); ?></th>
+							<th><?php esc_html_e('Name', 'myvideoroom'); ?></th>
+							<th><?php esc_html_e('Actions', 'myvideoroom'); ?></th>
+						</tr>
+					</tfoot>
+				</table>
+				<div class="wcfm-clearfix"></div>
+				<div class="wcfm-container wcfm-top-element-container" style="box-shadow: none;display: inline;">
+
+					<?php
+					echo '<a id="add-new-button" class="add_new_wcfmesc_html_ele_dashboard text_tip" href="' . esc_url(get_wcfm_shop_staffs_manage_url()) . '" data-tip="' . esc_html__('Add New Account', 'myvideoroom') . '"><button class="text" style="  background-color: #dc143c; border: none;  color: white;  padding: 1%;  text-align: center;  text-decoration: none;  display: inline-block;  font-size: 13px;  margin: 2px 2px;  cursor: pointer;border-radius: 8px;">' . esc_html__('Add New', 'wc-frontend-manager') . '</button></a>';
+					?>
+
+					<?php
+					// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
+					echo $accounts_remaining;
+					?>
+
+					<div class="wcfm-clearfix"></div>
+				</div>
+			</div>
+		</div>
+	<?php
 	} else {
-		?>
-<div class="elemental-align-left wcfm-container wcfm-top-element-container">
-<p>
-		<?php
-		esc_html_e( 'You don\'t currently have any User Accounts Created.', 'myvideoroom' );
-		?>
-</p>
-</div>
-		<?php
+	?>
+		<div class="elemental-align-left wcfm-container wcfm-top-element-container">
+			<p>
+				<?php
+				esc_html_e('You don\'t currently have any User Accounts Created.', 'myvideoroom');
+				?>
+			</p>
+		</div>
+<?php
 	}
 	return ob_get_clean();
 };
