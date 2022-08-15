@@ -14,12 +14,6 @@ return function (
 ): string {
     ob_start();
 
-   // print_r($current_user);
-//    echo $current_user->user_pass;
-//    echo '<br>';
-//    $password = '#ktXxL7&fHd4HZon';
-//    echo wp_check_password($password, $current_user->user_pass, $current_user->ID).' -- ';
-
     if (user_can($current_user, 'administrator')) {
 ?>
         <div id="primary" class="site-content">
@@ -40,7 +34,7 @@ return function (
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Company Name</label>
                                     <div class="col-xs-5">
-                                        <input type="text" class="form-control" name="cName" value="<?php echo $current_user->display_name; ?>" />
+                                        <input type="text" class="form-control" name="company_name" value="<?php echo $current_user->display_name; ?>" />
                                     </div>
                                 </div>
 
@@ -48,13 +42,13 @@ return function (
                                   <div class="form-group">
                                     <label class="col-xs-3 control-label">Company Slug</label>
                                     <div class="col-xs-5">
-                                        <input type="text" class="form-control" name="cSlug" value="<?php echo $current_user->user_firstname; ?>" />
+                                        <input type="text" class="form-control" name="company_slug" value="<?php echo $current_user->user_firstname; ?>" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Email address</label>
                                     <div class="col-xs-5">
-                                        <input type="text" class="form-control" name="cEmail" value="<?php echo $current_user->user_email; ?>" />
+                                        <input type="text" class="form-control" name="email" value="<?php echo $current_user->user_email; ?>" />
                                     </div>
                                 </div>
 
@@ -63,7 +57,7 @@ return function (
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Company Phone</label>
                                     <div class="col-xs-5">
-                                        <input type="text" class="form-control" name="cPhone" value="<?php echo $current_user->user_lastname; ?>" />
+                                        <input type="text" class="form-control" name="company_phone" value="<?php echo $current_user->user_lastname; ?>" />
                                     </div>
                                 </div>
                                 <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>">
