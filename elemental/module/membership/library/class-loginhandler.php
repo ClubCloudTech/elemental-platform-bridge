@@ -33,6 +33,9 @@ class LoginHandler {
 	const SHORTCODE_LOGIN_BUTTON   = 'elemental_loginbutton';
 	const SHORTCODE_LOGIN_REDIRECT = 'elemental_profile_redirect';
 
+	const SHORTCODE_COMPANY_EDIT = 'elemental_compant_edit';
+	const SHORTCODE_ADD_USER = 'elemental_add_user';
+
 	const SETTING_LOGIN_SWITCH_TEMPLATE           = 'elemental-login-switch-template';
 	const SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE = 'elemental-checkout-header-template';
 
@@ -60,7 +63,28 @@ class LoginHandler {
 		// Option for Checkout Header Template.
 		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_checkout_header_template_settings' ), 5, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_checkout_header_template_setting' ), 5, 2 );
+
+		//Edit Company Profile 
+		add_shortcode( self::SHORTCODE_COMPANY_EDIT, array( $this, 'elemental_compant_edit' ) );
+
+		add_shortcode( self::SHORTCODE_ADD_USER, array( $this, 'elemental_add_user' ) );
+		
+		$this->register_scripts();
+		$this->initialise_loginhandler_ajax();
 	}
+
+	/**
+	 * Initialise LoginHandler Ajax.
+	 */
+	public function initialise_loginhandler_ajax(): void
+	{
+
+		\add_action('wp_ajax_elemental_editcompany_ajax', array(Factory::get_instance(CompanyAjax::class), 'company_ajax_handler'), 10, 2);
+		// \add_action('wp_ajax_nopriv_send_contact',array(Factory::get_instance(LoginAjaxHandler::class), 'smtp_ajax_handler'), 10, 2);
+		// \add_action('wp_ajax_sunset_send_contact',array(Factory::get_instance(LoginAjaxHandler::class), 'smtp_ajax_handler'), 10, 2);
+		\add_filter('wp_ajax_nopriv_elemental_editcompany_ajax', array(Factory::get_instance(companyAjax::class), 'company_ajax_handler'), 10, 2);
+	}
+
 	/**
 	 * Render shortcode to allow user to update their settings
 	 *
@@ -439,5 +463,80 @@ class LoginHandler {
 		if ( Factory::get_instance( ElementalBP::class )->is_buddypress_available() ) {
 			return Factory::get_instance( ElementalBP::class )->bp_profile_redirect();
 		}
+	}
+
+
+	//Registering Script
+	private function register_scripts(): void
+	{
+
+		// Company Profile  handler.
+		wp_register_script(
+			'elemental_companyhandler',
+			plugins_url('../js/companyhandler.js', __FILE__),
+			array('jquery'),
+			false,//Factory::get_instance(Version::class)->get_plugin_version(),
+			true
+		);
+
+		// Localize script Ajax Upload.
+		$script_data_array = array(
+			'ajax_url' => admin_url('admin-ajax.php'),
+			'security' => wp_create_nonce('elemental_membership'),
+
+		);
+
+
+		wp_localize_script(
+			'elemental_companyhandler',
+			'elemental_editcompany_ajax',
+			$script_data_array
+		);
+	}
+
+
+	/**
+	 * Edit Organistation Layout
+	 * Renders the shortcode to correctly login and out users, and handle admin/child context edits for Users.
+	 *
+	 * @return string
+	 */
+	public function elemental_compant_edit(): string
+	{
+		wp_dequeue_style('login-form-min.css');
+		wp_enqueue_script('elemental_companyhandler');
+		wp_enqueue_style('company-companyEdit', plugin_dir_url(__FILE__) . '../css/companyEdit.css', false);
+		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
+		wp_enqueue_style('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false);
+  
+
+		$current_user = wp_get_current_user();
+		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+		$render = (require __DIR__ . '/../views/membership/view-companyedit.php');
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+		return $render($current_user);
+	}
+
+
+		/**
+	 * Add User Layout
+	 * Renders the shortcode to correctly login and out users, and handle admin/child context edits for Users.
+	 *
+	 * @return string
+	 */
+	public function elemental_add_user(): string
+	{
+		wp_dequeue_style('login-form-min.css');
+		wp_enqueue_script('elemental_companyhandler');
+		wp_enqueue_style('company-companyEdit', plugin_dir_url(__FILE__) . '../css/companyEdit.css', false);
+		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
+		wp_enqueue_style('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false);
+  
+
+		$current_user = wp_get_current_user();
+		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+		$render = (require __DIR__ . '/../views/membership/view-adduser.php');
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+		return $render($current_user);
 	}
 }
