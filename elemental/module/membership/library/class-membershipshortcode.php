@@ -59,7 +59,7 @@ class MembershipShortCode {
 		$render              = ( require __DIR__ . '/../views/membership/manage-child.php' );
 		$manage_account_form = ( require __DIR__ . '/../views/membership/add-new-user.php' );
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
-		return $render( $manage_account_form(), $accounts_remaining, $child_account_table, $login_form );
+		return $render( $manage_account_form(), $child_account_table, $login_form );
 	}
 
 	/**
@@ -73,10 +73,11 @@ class MembershipShortCode {
 		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}
+		$accounts_remaining  = $this->render_remaining_account_count($user_id);
 		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
 		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
 
-		return $render( $sponsored_accounts );
+		return $render( $sponsored_accounts, $accounts_remaining );
 
 	}
 
