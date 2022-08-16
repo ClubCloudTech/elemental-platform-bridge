@@ -76,7 +76,7 @@ class CompanyAjax
                       //  $result = wp_create_user($user_name,$this->randomPassword(),$user_email);
                  $user_details=   array(
                     'user_login' => $display_name,
-                    'user_pass' =>'some',// $this->randomPassword(),
+                    'user_pass' =>wp_generate_password( 12, true, true ),
                     'user_email' => $email,
                     'first_name' => $firstname,
                     'last_name' => $lastname,
@@ -95,22 +95,6 @@ class CompanyAjax
             }
         
         }
-
-        //    public function randomPassword() {
-        //     $alphabet = "abcdefghijklmnopqrs)-(@&!tuwxyzABCDEFGHIJKLM)-(@&!tNOPQRSTUWXYZ01234)-(@&!t56789";
-        //     $pass = array(); 
-        //     $alphaLength = strlen($alphabet) - 1; 
-        //     for ($i = 0; $i < 12; $i++) {
-        //         $n = rand(0, $alphaLength);
-        //         $pass[] = $alphabet[$n];
-        //     }
-        //     return implode($pass);
-        // }
-
-
-
-
-
       echo json_encode($response);
     }  
   

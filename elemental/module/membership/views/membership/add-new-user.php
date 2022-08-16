@@ -21,15 +21,7 @@ return function (): string {
 	$html_library = Factory::get_instance(HTML::class, array('site-conference-center-new-room'));
 
 ?>
-	<div class="row erow headrow" style="
-    text-align: center;
-    background: #323064;
-	color:white;
-	font-size:15px;
-	padding:1%;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-">
+	<div class="row erow headrow" style=" text-align: center; background: #323064;color:white;font-size:15px;padding:1%; border-top-left-radius: 10px; border-top-right-radius: 10px;">
 		<div class="col-xs-6" id="demoContainer">
 			Add User
 		</div>

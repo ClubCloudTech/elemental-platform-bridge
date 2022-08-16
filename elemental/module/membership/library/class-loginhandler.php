@@ -33,7 +33,7 @@ class LoginHandler {
 	const SHORTCODE_LOGIN_BUTTON   = 'elemental_loginbutton';
 	const SHORTCODE_LOGIN_REDIRECT = 'elemental_profile_redirect';
 
-	const SHORTCODE_COMPANY_EDIT = 'elemental_compant_edit';
+	const SHORTCODE_COMPANY_EDIT = 'elemental_company_edit';
 	const SHORTCODE_ADD_USER = 'elemental_add_user';
 
 	const SETTING_LOGIN_SWITCH_TEMPLATE           = 'elemental-login-switch-template';
@@ -65,7 +65,7 @@ class LoginHandler {
 		\add_filter( 'elemental_page_option', array( $this, 'add_checkout_header_template_setting' ), 5, 2 );
 
 		//Edit Company Profile 
-		add_shortcode( self::SHORTCODE_COMPANY_EDIT, array( $this, 'elemental_compant_edit' ) );
+		add_shortcode( self::SHORTCODE_COMPANY_EDIT, array( $this, 'elemental_company_edit' ) );
 
 		add_shortcode( self::SHORTCODE_ADD_USER, array( $this, 'elemental_add_user' ) );
 		
@@ -80,8 +80,6 @@ class LoginHandler {
 	{
 
 		\add_action('wp_ajax_elemental_editcompany_ajax', array(Factory::get_instance(CompanyAjax::class), 'company_ajax_handler'), 10, 2);
-		// \add_action('wp_ajax_nopriv_send_contact',array(Factory::get_instance(LoginAjaxHandler::class), 'smtp_ajax_handler'), 10, 2);
-		// \add_action('wp_ajax_sunset_send_contact',array(Factory::get_instance(LoginAjaxHandler::class), 'smtp_ajax_handler'), 10, 2);
 		\add_filter('wp_ajax_nopriv_elemental_editcompany_ajax', array(Factory::get_instance(companyAjax::class), 'company_ajax_handler'), 10, 2);
 	}
 
@@ -466,7 +464,11 @@ class LoginHandler {
 	}
 
 
-	//Registering Script
+	/**
+	 * Register Script  for Ajax Handling Page.
+	 * 
+	 *  @return void
+	 */
 	private function register_scripts(): void
 	{
 
@@ -475,7 +477,7 @@ class LoginHandler {
 			'elemental_companyhandler',
 			plugins_url('../js/companyhandler.js', __FILE__),
 			array('jquery'),
-			false,//Factory::get_instance(Version::class)->get_plugin_version(),
+			false,
 			true
 		);
 
@@ -485,7 +487,6 @@ class LoginHandler {
 			'security' => wp_create_nonce('elemental_membership'),
 
 		);
-
 
 		wp_localize_script(
 			'elemental_companyhandler',
@@ -497,11 +498,11 @@ class LoginHandler {
 
 	/**
 	 * Edit Organistation Layout
-	 * Renders the shortcode to correctly login and out users, and handle admin/child context edits for Users.
+	 * Renders the shortcode to correctly show company context edits for Admin.
 	 *
 	 * @return string
 	 */
-	public function elemental_compant_edit(): string
+	public function elemental_company_edit(): string
 	{
 		wp_dequeue_style('login-form-min.css');
 		wp_enqueue_script('elemental_companyhandler');
@@ -511,16 +512,14 @@ class LoginHandler {
   
 
 		$current_user = wp_get_current_user();
-		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 		$render = (require __DIR__ . '/../views/membership/view-companyedit.php');
-		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 		return $render($current_user);
 	}
 
 
-		/**
+	/**
 	 * Add User Layout
-	 * Renders the shortcode to correctly login and out users, and handle admin/child context edits for Users.
+	 * Renders the shortcode to Page Add user under Manage users for Admin.
 	 *
 	 * @return string
 	 */
@@ -532,11 +531,9 @@ class LoginHandler {
 		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
 		wp_enqueue_style('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false);
   
-
 		$current_user = wp_get_current_user();
-		//return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 		$render = (require __DIR__ . '/../views/membership/view-adduser.php');
-		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+	
 		return $render($current_user);
 	}
 }

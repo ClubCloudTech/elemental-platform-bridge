@@ -3,7 +3,7 @@
 /**
  * Add user for Managing Users details
  *
- * @package module/Admin Users/views/view-Admin Users-control.php
+ * @package module/membership/views/view-adduser.php
  * @param string $add_account_form - add an account form
  * @param int    $membership_id - membership ID requested to Join.
  */
