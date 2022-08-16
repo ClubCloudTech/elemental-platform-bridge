@@ -21,7 +21,7 @@ return function (
 
                 <div class="container editcontainer">
                     <div class="row erow headrow">
-                        <div class="col-xs-12" id="demoContainer">
+                        <div class="col-xs-12" id="formHeader">
                             Edit Organistation
                         </div>
                     </div>
@@ -33,7 +33,7 @@ return function (
 
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Company Name</label>
-                                    <div class="col-xs-5">
+                                    <div class="col-xs-8">
                                         <input type="text" class="form-control" name="company_name" value="<?php echo $current_user->display_name; ?>" />
                                     </div>
                                 </div>
@@ -41,13 +41,13 @@ return function (
 
                                   <div class="form-group">
                                     <label class="col-xs-3 control-label">Company Slug</label>
-                                    <div class="col-xs-5">
+                                    <div class="col-xs-8">
                                         <input type="text" class="form-control" name="company_slug" value="<?php echo $current_user->user_firstname; ?>" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Email address</label>
-                                    <div class="col-xs-5">
+                                    <div class="col-xs-8">
                                         <input type="text" class="form-control" name="email" value="<?php echo $current_user->user_email; ?>" />
                                     </div>
                                 </div>
@@ -56,14 +56,14 @@ return function (
 
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Company Phone</label>
-                                    <div class="col-xs-5">
+                                    <div class="col-xs-8">
                                         <input type="text" class="form-control" name="company_phone" value="<?php echo $current_user->user_lastname; ?>" />
                                     </div>
                                 </div>
                                 <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>">
                                 <div class="form-group">
-                                    <div class="col-xs-9 col-xs-offset-3">
-                                        <button type="button" id="update_user1" class="btn btn-primary" name="update-user" value="update-user">Update User </button>
+                                    <div class="col-xs-9 col-xs-offset-3 lastButtonForm">
+                                        <button type="button" id="update_profile" class="btn btn-primary profilebtn" name="update-user" value="update-user">Update </button>
                                     </div>
                                 </div>
                             </form>

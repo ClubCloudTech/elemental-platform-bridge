@@ -9,11 +9,9 @@ window.addEventListener("load", function() {
          * Initialise Functions on Load
          */
         function init() {;
-            $("#update_user1").on("click", edit_companyForm);
-              $("#addUser").on("click", edit_companyForm);
-    
+            $("#update_profile").on("click", edit_companyForm);
+              $("#addUser").on("click", edit_companyForm);    
         }
-
 
         /**
          * Update company details on Database by companyID (used in backend admin page)

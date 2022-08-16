@@ -435,13 +435,25 @@ input[type=radio] {
         width: 70%;
     }
 }
-
-
+.lastButtonForm{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+.profilebtn{
+    
+    padding: 2% ! important;
+    color: #fff;
+    background-color: #FC5C5F ! important;
+    border-color: #FC5C5F ! important;
+    width:30%;
+}
 /* Edit User CSS */
 
 .editcontainer {
     border-radius: 5px;
-    box-shadow: 8px 8px 8px 6px rgb(0 0 0 / 35%);
+    box-shadow: 5px 5px 5px 5px rgb(0 0 0 / 25%);
+    max-width: 70% ! important;
     margin: 20px;
     vertical-align: middle;
     padding-left: 0% ! important;
@@ -458,13 +470,26 @@ input[type=radio] {
 }
 
 .erow {
-    padding-top: 30px;
+    padding: 3%;
     margin-left: 0% ! important;
     margin-right: 0% ! important;
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
 }
 
+#formHeader{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.control-label{
+        font-style: normal ! important;
+    font-weight: normal ! important;
+}
+
+.form-horizontal .form-group{
+    padding:.4% ! important;
+}
 
 /* NavBar Header Styling */
 
