@@ -22,7 +22,7 @@ return function (
 	string $login_form = null
 ): string {
 	ob_start();
-?>
+	?>
 	<style>
 		.elemental-sandbox-wrap {
 			border: none ! important;
@@ -34,8 +34,8 @@ return function (
 			<div id="wcfm_page_load "></div>
 			<?php
 
-			if (is_user_logged_in()) {
-			?>
+			if ( is_user_logged_in() ) {
+				?>
 
 
 				<div id="elemental-notification-frame"></div>
@@ -49,7 +49,7 @@ return function (
 
 				</div>
 				<div id="elemental-adduser-frame" class="wcfm-container wcfm-top-element-container" style="display:none;">
-					<h3 class="elemental-align-left"><?php esc_html_e('Add a User Account to your Organisation', 'myvideoroom'); ?></h3>
+					<h3 class="elemental-align-left"><?php esc_html_e( 'Add a User Account to your Organisation', 'myvideoroom' ); ?></h3>
 					<?php
 					// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
 					echo $add_account_form;
@@ -58,7 +58,7 @@ return function (
 				</div>
 		</div>
 
-<?php
+				<?php
 			}
 			return ob_get_clean();
-		};
+};

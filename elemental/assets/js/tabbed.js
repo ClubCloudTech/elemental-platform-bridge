@@ -28,7 +28,7 @@
 	var init = function ($parent) {
 
 		var $tabbed_sections = $( '.elemental-nav-tab-wrapper', $parent );
-	
+
 		$tabbed_sections.each(
 			function () {
 				var $nav_section = $( this );

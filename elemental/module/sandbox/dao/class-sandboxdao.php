@@ -319,11 +319,11 @@ class SandBoxDao {
 		if ( strpos( $db_error_message, 'Unknown column' ) !== false ) {
 			// Update Database to new Schema.
 
-			//$table_name           = $this->get_table_name();
-			//$add_timestamp_column = "ALTER TABLE `{$table_name}` ADD `timestamp` BIGINT UNSIGNED NULL AFTER `show_floorplan`; ";
+			// $table_name           = $this->get_table_name();
+			// $add_timestamp_column = "ALTER TABLE `{$table_name}` ADD `timestamp` BIGINT UNSIGNED NULL AFTER `show_floorplan`; ";
 			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
-			//$wpdb->query( $wpdb->prepare( $add_timestamp_column ) );
-			//return true;
+			// $wpdb->query( $wpdb->prepare( $add_timestamp_column ) );
+			// return true;
 		}
 
 		// Case Table Delete.
@@ -421,7 +421,7 @@ class SandBoxDao {
 						)
 					);
 
-				$result_all = array_map(
+				$result_all   = array_map(
 					function ( $row2 ) {
 						return (int) $row2->record_id;
 					},

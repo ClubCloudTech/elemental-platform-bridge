@@ -137,7 +137,7 @@ window.addEventListener(
 						var level = event.target.dataset.level,
 						field     = event.target.dataset.field,
 						value     = event.target.value,
-						checkbox = $( '#' + event.target.name + '_' + level ).prop( 'checked' );
+						checkbox  = $( '#' + event.target.name + '_' + level ).prop( 'checked' );
 						form_data = new FormData();
 						form_data.append( 'action', 'elemental_membershipadmin_ajax' );
 						form_data.append( 'action_taken', 'update_sandbox' );
