@@ -3,11 +3,10 @@
 /**
  * Edit Organisation for Managing  details
  *
- * @package module/Admin Organisation/views/view-Admin
- * @param string $add_account_form - add an account form
- * @param int    $membership_id - membership ID requested to Join.
- */
+ * @package  module/membership/views/view-companyedit.php
+ * @param string $current_user - get Orgainsation details
 
+ */
 
 return function (
     object $current_user
@@ -25,7 +24,7 @@ return function (
                             Edit Organistation
                         </div>
                     </div>
-                    <div class="row erow">
+                    <div class="row erow contentRow">
                         <div class="col-xs-12" id="demoContainer">
                             <form id="companyForm" action="elemental_editcompany_ajax" method="post" class="form-horizontal fv-form fv-form-bootstrap ajax" novalidate="novalidate">
                                 <button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
@@ -62,7 +61,8 @@ return function (
                                 </div>
                                 <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>">
                                 <div class="form-group">
-                                    <div class="col-xs-9 col-xs-offset-3 lastButtonForm">
+                                     <label class="col-xs-3 control-label"></label>
+                                    <div class="col-xs-8 col-xs-offset-3 lastButtonForm">
                                         <button type="button" id="update_profile" class="btn btn-primary profilebtn" name="update-user" value="update-user">Update </button>
                                     </div>
                                 </div>

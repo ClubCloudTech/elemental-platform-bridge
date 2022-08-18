@@ -35,6 +35,7 @@ class LoginHandler {
 
 	const SHORTCODE_COMPANY_EDIT = 'elemental_company_edit';
 	const SHORTCODE_ADD_USER = 'elemental_add_user';
+	const SHORTCODE_FORGOT_PASSWORD = 'elemental_forgot_password';
 
 	const SETTING_LOGIN_SWITCH_TEMPLATE           = 'elemental-login-switch-template';
 	const SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE = 'elemental-checkout-header-template';
@@ -68,6 +69,7 @@ class LoginHandler {
 		add_shortcode( self::SHORTCODE_COMPANY_EDIT, array( $this, 'elemental_company_edit' ) );
 
 		add_shortcode( self::SHORTCODE_ADD_USER, array( $this, 'elemental_add_user' ) );
+		add_shortcode(self::SHORTCODE_FORGOT_PASSWORD, array($this, 'elemental_forgot_password'));
 		
 		$this->register_scripts();
 		$this->initialise_loginhandler_ajax();
@@ -535,5 +537,33 @@ class LoginHandler {
 		$render = (require __DIR__ . '/../views/membership/view-adduser.php');
 	
 		return $render($current_user);
+	}
+
+
+	/**
+	 * Forgot Password Layout
+	 * Renders the shortcode to correctly show user reset password layout.
+	 *
+	 * @return string
+	 */
+
+	public function elemental_forgot_password(): string
+	{
+
+		wp_dequeue_style('login-form-min.css');
+		wp_enqueue_script('elemental_companyhandler');
+			wp_enqueue_script(
+			'elemental_recaptchav3',
+			'https://www.google.com/recaptcha/api.js?render=6LcnlF0hAAAAAB2_PyHZ12mP_laQlIvO2AMzkU3I',
+			array('jquery'),
+			false,
+			true
+		);
+		wp_enqueue_style('company-companyEdit', plugin_dir_url(__FILE__) . '../css/companyEdit.css', false);
+		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
+		wp_enqueue_style('bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css', false);
+
+		$render = (require __DIR__ . '/../views/membership/view-forgetpassword.php');
+		return $render();
 	}
 }

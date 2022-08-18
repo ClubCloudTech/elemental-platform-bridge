@@ -61,7 +61,7 @@ class CompanyAjax
          
         }
 
-                if ('add_user' === $action_taken) {
+        if ('add_user' === $action_taken) {
             $verify = \wp_verify_nonce($nonce, 'elemental_membership');
             if (!$verify) {
                 $response['feedback'] = \esc_html__('Invalid Security Nonce received', 'elementalplugin');
@@ -73,17 +73,18 @@ class CompanyAjax
                 $response['feedback'] = \esc_html__('Email already used', 'elementalplugin');
                   
             } else {
-                      //  $result = wp_create_user($user_name,$this->randomPassword(),$user_email);
+                
                  $user_details=   array(
                     'user_login' => $display_name,
                     'user_pass' =>wp_generate_password( 12, true, true ),
-                    'user_email' => $email,
+                    'email' => $email,
                     'first_name' => $firstname,
                     'last_name' => $lastname,
                     'display_name' => $display_name,
                     'role' => 'editor' //$user_role
                  );
-                      $result = wp_insert_user( $user_details);
+                    $result = wp_insert_user( $user_details);
+                    // Add invitation Mail Function here -
                     if(is_wp_error($result)){
                      $response['feedback'] = $result->get_error_message();
                     //handle error here
@@ -95,7 +96,64 @@ class CompanyAjax
             }
         
         }
-      echo json_encode($response);
+
+           if ('forgot_password' === $action_taken) {
+                $verify = \wp_verify_nonce($nonce, 'elemental_membership');
+                if (!$verify) {
+                    $response['feedback'] = \esc_html__('Invalid Security Nonce received', 'elementalplugin');
+                    return \wp_send_json($response);
+                }
+
+                $exists = email_exists($email);
+                if ($exists) {
+                    $url = 'https://www.google.com/recaptcha/api/siteverify';
+                    $secret = '6LcnlF0hAAAAAJXHOIy0mXZUEhOfcqNb9p3AV3nh';
+                    $recaptcha_response = $_POST['token_response'];
+
+
+                $request = file_get_contents($url . '?secret=' . $secret . '&response=' . $recaptcha_response);
+                $recaptcha = json_decode($request);
+
+                if ($recaptcha->success == true && $recaptcha->score >= 0.5)
+                    {
+                    $user = get_user_by('email', $email);
+                    $user_id = $user->ID;
+                    $user_info = get_userdata($user_id);
+                    $unique = get_password_reset_key($user_info);
+                    $unique_url = network_site_url("reset-password?action=rp&key=$unique&login=" . rawurlencode($user_info->user_login) . "un=" . $user_id, 'login');
+
+                    ob_start();
+                    require __DIR__ . '/../views/emailTemplate/resetPassword.php';
+                    $message = ob_get_clean();
+        
+                    $title = 'Reset Password'; // send here from contact form
+                    $subject = 'Password Reset Form - ' . $title;
+                    //set headers
+                    $headers[] = 'From: Coadjute No-Reply <' . $email . '>'; // 
+                    // $headers[] = 'Reply-To: ' . $title . ' <' . $email . '>';
+                    $headers[] = 'Content-Type: text/html: charset=UTF-8';
+
+                    $mailResult = false;
+                    $mailResult = wp_mail($email, $subject,$message, $headers);
+
+                    if ($mailResult) {
+                        $response['feedback'] = \esc_html__('Email Sent', 'elementalplugin');
+                    } else {
+                        $response['feedback'] = \esc_html__('Something Went Wrong', 'elementalplugin');
+                    }    
+                } else {
+                
+                    // Score less than 0.5 indicates suspicious activity. Return an error
+                    $response['feedback'] = "Something went wrong. Please try again later";
+                }
+
+                }else{
+                    $response['feedback'] = \esc_html__('Email Does Not Exist', 'elementalplugin');
+                }
+       
+            }
+
+        return \wp_send_json($response);
     }  
   
 }

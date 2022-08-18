@@ -1,3 +1,7 @@
+.no-header-border #site-header {
+    display: none;
+    border-bottom: none;
+}
 .elementor-column-gap-default>.elementor-column>.elementor-element-populated {
     padding: 0 ! important;
 }
@@ -15,6 +19,10 @@
     border-style: unset ! important;
 }
 
+
+.elementor-54166 .elementor-element.elementor-element-ac14621 {
+    padding: .5%;
+}
 .elemental-primary-nav-img {
     margin-right: 8px;
 }
@@ -54,7 +62,7 @@
 }
 
 .elemental-sandbox-wrap {
-    border: 1px solid #c3c4c7;
+    border: none;
     clear: both;
     margin-top: 1%;
     border-radius: 1%;
@@ -90,7 +98,10 @@
 }
 
 .elemental-article {
-    border: none ! important;
+	    margin-top: 1%;
+    border: 1px solid #c3c4c7 !important;
+	border-radius: 1%;
+
 }
 
 .elemental-sandbox-nav-tab-wrapper li a {

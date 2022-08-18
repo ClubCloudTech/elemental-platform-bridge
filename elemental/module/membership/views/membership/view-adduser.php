@@ -24,14 +24,14 @@ return function (
                             Add User
                         </div>
                     </div>
-                    <div class="row erow">
+                    <div class="row erow contentRow">
                         <div class="col-xs-12" id="demoContainer">
                             <form id="registrationForm" action="elemental_adduser_ajax" method="post" class="form-horizontal fv-form fv-form-bootstrap ajax" novalidate="novalidate">
                                 <button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
 
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">Username</label>
+                                    <label class="col-xs-3 control-label">UserName</label>
                                     <div class="col-xs-8">
                                         <input type="text" class="form-control" name="display_name" value="" />
                                     </div>
@@ -40,21 +40,21 @@ return function (
 
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">Email address</label>
+                                    <label class="col-xs-3 control-label">Email Address</label>
                                     <div class="col-xs-8">
                                         <input type="text" class="form-control" name="user_email" value="" />
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">Firstname</label>
+                                    <label class="col-xs-3 control-label">FirstName</label>
                                     <div class="col-xs-8">
                                         <input type="text" class="form-control" name="firstname" value="" />
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">Lastname</label>
+                                    <label class="col-xs-3 control-label">LastName</label>
                                     <div class="col-xs-8">
                                         <input type="text" class="form-control" name="lastname" value="" />
                                     </div>
@@ -77,7 +77,8 @@ return function (
                                 </div>
                                 <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>">
                                 <div class="form-group">
-                                    <div class="col-xs-9 col-xs-offset-3 lastButtonForm">
+                                     <label class="col-xs-3 control-label"></label>
+                                    <div class="col-xs-8 col-xs-offset-3 lastButtonForm">
                                         <button type="button" id="addUser" class="btn btn-primary profilebtn" name="add-user" value="add-user">Add User </button>
                                     </div>
                                 </div>
