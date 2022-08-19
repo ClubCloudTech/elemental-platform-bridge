@@ -52,6 +52,14 @@ return function (
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
+		<?php esc_html_e( 'Employee Name', 'elementalplugin' ); ?>
+				</th>
+
+				<th scope="col" class="manage-column column-name column-primary">
+		<?php esc_html_e( 'Company Domain', 'elementalplugin' ); ?>
+				</th>
+
+				<th scope="col" class="manage-column column-name column-primary">
 		<?php esc_html_e( 'Owner User', 'elementalplugin' ); ?>
 				</th>
 

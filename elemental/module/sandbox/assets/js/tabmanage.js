@@ -31,7 +31,6 @@ window.addEventListener(
 						"dblclick",
 						".nav-tab",
 						function (e) {
-
 							logintest( e );
 							e.stopPropagation();
 							e.preventDefault();

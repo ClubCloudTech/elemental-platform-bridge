@@ -19,7 +19,7 @@ class SandBoxDao {
 	const USER_ID_ALL = -1;
 
 	/**
-	 * Install Membership Table -
+	 * Install Sandbox Control Table -
 	 *
 	 * @return bool
 	 */
@@ -36,6 +36,8 @@ class SandBoxDao {
 			`destination_url` VARCHAR(512) NOT NULL,
 			`customfield1` VARCHAR(512) NULL,
 			`customfield2` VARCHAR(512) NULL,
+			`employee_name` VARCHAR(512) NULL,
+			`company_domain` VARCHAR(512) NULL,
 			`enabled` BOOLEAN,
 			`private_key` VARCHAR(512) NOT NULL,
 			`owner_user_id` INT NOT NULL,
@@ -72,6 +74,8 @@ class SandBoxDao {
 				'destination_url'   => $sandbox_entity->get_destination_url(),
 				'customfield1'      => $sandbox_entity->get_customfield1(),
 				'customfield2'      => $sandbox_entity->get_customfield2(),
+				'employee_name'     => $sandbox_entity->get_employee_name(),
+				'company_domain'    => $sandbox_entity->get_company_domain(),
 				'enabled       '    => $sandbox_entity->is_enabled(),
 				'private_key'       => $sandbox_entity->get_private_key(),
 				'owner_user_id'     => $sandbox_entity->get_owner_user_id(),
@@ -174,7 +178,7 @@ class SandBoxDao {
 		$row = $wpdb->get_row(
 			$wpdb->prepare(
 				'
-				SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, enabled, private_key, record_id, owner_user_id, column_priority, admin_enforced 
+				SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, employee_name, company_domain, enabled, private_key, record_id, owner_user_id, column_priority, admin_enforced 
 				FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
 				WHERE record_id = %d;
 			',
@@ -188,7 +192,7 @@ class SandBoxDao {
 			$row = $wpdb->get_row(
 				$wpdb->prepare(
 					'
-					SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, enabled, private_key, record_id, owner_user_id, column_priority, admin_enforced
+					SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, employee_name, company_domain, enabled, private_key, record_id, owner_user_id, column_priority, admin_enforced
 					FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
 					WHERE record_id = %d;
 				',
@@ -206,6 +210,8 @@ class SandBoxDao {
 				$row->destination_url,
 				$row->customfield1,
 				$row->customfield2,
+				$row->employee_name,
+				$row->company_domain,
 				(bool) $row->enabled,
 				$row->private_key,
 				(int) $row->record_id,
@@ -246,6 +252,8 @@ class SandBoxDao {
 				'destination_url'   => $sandbox_entity->get_destination_url(),
 				'customfield1'      => $sandbox_entity->get_customfield1(),
 				'customfield2'      => $sandbox_entity->get_customfield2(),
+				'employee_name'     => $sandbox_entity->get_employee_name(),
+				'company_domain'    => $sandbox_entity->get_company_domain(),
 				'enabled       '    => $sandbox_entity->is_enabled(),
 				'private_key'       => $sandbox_entity->get_private_key(),
 				'owner_user_id'     => $sandbox_entity->get_owner_user_id(),
@@ -300,9 +308,7 @@ class SandBoxDao {
 			array( $field => $value ),
 			array( 'record_id' => (int) $id )
 		);
-
 		return true;
-
 	}
 
 	/**
@@ -319,11 +325,12 @@ class SandBoxDao {
 		if ( strpos( $db_error_message, 'Unknown column' ) !== false ) {
 			// Update Database to new Schema.
 
-			// $table_name           = $this->get_table_name();
-			// $add_timestamp_column = "ALTER TABLE `{$table_name}` ADD `timestamp` BIGINT UNSIGNED NULL AFTER `show_floorplan`; ";
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
-			// $wpdb->query( $wpdb->prepare( $add_timestamp_column ) );
-			// return true;
+			$table_name           = $this->get_table_name();
+			$add_employee_company = "ALTER TABLE `{$table_name}` ADD `company_domain` VARCHAR(512) NULL AFTER `customfield2`, ADD `employee_name` VARCHAR(512) NULL AFTER `customfield2` ;
+			 ";
+			//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
+			$wpdb->query( $wpdb->prepare( $add_employee_company ) );
+			return true;
 		}
 
 		// Case Table Delete.
