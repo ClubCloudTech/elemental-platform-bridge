@@ -138,7 +138,7 @@
 	letter-spacing: 1px;
 	font-size: 14px;
 	font-weight: 400;
-	font-family: 'Open Sans', sans-serif;
+	font-family: "Montserrat", Sans-serif!important;
 	border-radius: 50px;
 	color: #d6d6d6
 }
@@ -249,7 +249,7 @@ input[type=radio] {
 .login-fg .login-section h3 {
 	font-size: 20px;
 	margin-bottom: 40px;
-	font-family: 'Open Sans', sans-serif;
+	font-family: "Montserrat", Sans-serif!important;
 	font-weight: 400;
 	color: #505050
 }

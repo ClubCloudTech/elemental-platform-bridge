@@ -732,6 +732,9 @@ span.wcfm_title strong {
 
 }
 
+ div.elementor-element-5c0d5315{
+	top:-4% ;
+ } 
 
 div#elemental-membership-table{
 	box-shadow: 2px 2px 2px 2px rgb(0 0 0 / 25%);
@@ -783,4 +786,16 @@ a{
 #wcfm-main-contentainer .wcfm-collapse{
 
 	padding-bottom:0 ! important;
+}
+
+#main{
+    /* background-position: top; */
+    background-repeat: no-repeat;
+    background-size: cover ! important; 
+    background: url(https://coadjute.app/wp-content/uploads/2022/08/Backgr_.jpg);
+}
+.elementor-12499 .elementor-element.elementor-element-a864663 > .elementor-background-overlay{
+	background:none ! important;
+	background-color:none ! important;
+
 }

@@ -9,7 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <style type="text/css">
     body, p, div {
-      font-family: arial,helvetica,sans-serif;
+   font-family: "Montserrat", Sans-serif!important;
+
       font-size: 14px;
     }
     body {
