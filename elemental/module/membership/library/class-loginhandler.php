@@ -213,8 +213,6 @@ class LoginHandler {
 			return;
 		}
 
-		$is_staff = Factory::get_instance( UserRoles::class )->is_wcfm_shop_staff();
-
 		if ( 'logout' === $action && \wp_verify_nonce( $nonce, 'logout' ) ) {
 			add_filter( 'wp_redirect', array( $this, 'logout_filter_redirect' ), 99, 1 );
 			$url = \get_site_url() . '/logout/';
@@ -245,8 +243,8 @@ class LoginHandler {
 			die();
 		}
 
-		$is_vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
-		if ( $is_vendor ) {
+		$is_tenant_account = Factory::get_instance( UserRoles::class )->is_tenant_account();
+		if ( $is_tenant_account ) {
 			// Decide Correct Redirect Path based on Staff Account Count.
 			$staff_count = Factory::get_instance( WCFMTools::class )->elemental_get_staff_member_count();
 			if ( $staff_count >= 1 ) {
@@ -278,17 +276,6 @@ class LoginHandler {
 			$this->create_user_child_cookie( $user_object->ID );
 		}
 
-	}
-
-	/**
-	 * Login Switch
-	 * Renders the shortcode to correctly login and out users, and handle admin/child context switches for vendors.
-	 *
-	 * @return string
-	 */
-	public function elemental_loginview(): string {
-
-		return do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 	}
 
 	/**
@@ -444,8 +431,6 @@ class LoginHandler {
 	 */
 	public function loginland_redirect() {
 
-		$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
-
 		if ( Factory::get_instance( UserRoles::class )->is_wordpress_administrator() ) {
 			$url = \get_site_url() . '/wp-admin/admin.php?page=elemental';
 			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
@@ -453,6 +438,20 @@ class LoginHandler {
 			die();
 		}
 
+		$is_tenant_account = Factory::get_instance( UserRoles::class )->is_tenant_account();
+		if ( $is_tenant_account ) {
+			// Decide Correct Redirect Path based on Staff Account Count.
+			$staff_count = Factory::get_instance( WCFMTools::class )->elemental_get_staff_member_count();
+			if ( $staff_count >= 1 ) {
+				$url = \get_site_url() . '/control/';
+			} else {
+				$url = \get_site_url() . '/control/manage-accounts/firstadmin/';
+			}
+			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+			die();
+
+		}
+		$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
 		if ( $template ) {
 			$url = get_permalink( $template );
 			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';

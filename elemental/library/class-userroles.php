@@ -7,6 +7,8 @@
 
 namespace ElementalPlugin\Library;
 
+use ElementalPlugin\Module\Membership\Membership;
+
 /**
  * Class UserRoles
  */
@@ -48,17 +50,41 @@ class UserRoles {
 	}
 
 	/**
+	 * Is the current WordPress user a Tenant Account or WCFM Vendor?
+	 *
+	 * @param int $user_id - the user_id.
+	 * @return bool
+	 */
+	public function is_tenant_account( int $user_id = null ): bool {
+
+		if ( $user_id ) {
+			$user       = \get_user_by( 'id', $user_id );
+			$this->user = $user;
+		}
+		$wcfm_vendor = $this->is_wcfm_vendor();
+		$tenant_user = $this->user_has_role( Membership::MEMBERSHIP_ROLE_TENANT );
+
+		if ( $wcfm_vendor || $tenant_user ) {
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
 	 * Is the current WordPress user a WCFM Vendor?
 	 *
 	 * @param int $user_id - the user_id.
 	 * @return bool
 	 */
 	public function is_wcfm_vendor( int $user_id = null ): bool {
+
 		if ( $user_id ) {
 			$user       = \get_user_by( 'id', $user_id );
 			$this->user = $user;
 		}
 		return $this->user_has_role( 'wcfm_vendor' );
+
 	}
 
 	/**
