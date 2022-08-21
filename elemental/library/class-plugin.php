@@ -41,7 +41,6 @@ class Plugin {
 		Factory::get_instance( Admin::class )->init();
 		Factory::get_instance( Membership::class )->init();
 		Factory::get_instance( ElementalUMP::class )->init();
-		Factory::get_instance( XProfile::class )->init();
 		Factory::get_instance( WCFM::class )->init();
 		Factory::get_instance( FiltersUtilities::class )->init();
 		Factory::get_instance( Search::class )->init();

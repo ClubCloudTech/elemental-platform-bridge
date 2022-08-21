@@ -27,7 +27,10 @@ class MembershipSetup {
 
 		Factory::get_instance( MembershipDAO::class )->install_membership_mapping_table();
 		Factory::get_instance( MemberSyncDAO::class )->install_membership_sync_table();
-		$this->create_membership_role();
+		$this->create_sponsored_membership_role();
+		$this->create_tenant_account_role();
+		$this->create_tenant_admin_role();
+
 		if ( Factory::get_instance( ElementalBP::class )->is_buddypress_available() ) {
 			$this->create_registration_bpgroup();
 		}
@@ -35,12 +38,30 @@ class MembershipSetup {
 
 
 	/**
-	 * Create Membership Role for Sponsored Account
+	 * Create Membership Role for Tenant Sponsored Account
 	 */
-	public function create_membership_role(): void {
+	public function create_sponsored_membership_role(): void {
 		global $wp_roles;
-		$edr = $wp_roles->get_role( 'Subscriber' );
-		add_role( Membership::MEMBERSHIP_ROLE_NAME, Membership::MEMBERSHIP_ROLE_DESCRIPTION, $edr->capabilities );
+		$roles_change = $wp_roles->get_role( 'Subscriber' );
+		add_role( Membership::MEMBERSHIP_ROLE_SPONSORED, Membership::MEMBERSHIP_ROLE_SPONSORED_DESCRIPTION, $roles_change->capabilities );
+	}
+
+	/**
+	 * Create Membership Role for Tenant Main Account
+	 */
+	public function create_tenant_account_role(): void {
+		global $wp_roles;
+		$roles_change = $wp_roles->get_role( 'Subscriber' );
+		add_role( Membership::MEMBERSHIP_ROLE_TENANT, Membership::MEMBERSHIP_ROLE_TENANT_DESCRIPTION, $roles_change->capabilities );
+	}
+
+	/**
+	 * Create Membership Role for Tenant Main Account
+	 */
+	public function create_tenant_admin_role(): void {
+		global $wp_roles;
+		$roles_change = $wp_roles->get_role( 'Subscriber' );
+		add_role( Membership::MEMBERSHIP_ROLE_TENANT_ADMIN, Membership::MEMBERSHIP_ROLE_TENANT_ADMIN_DESCRIPTION, $roles_change->capabilities );
 	}
 
 	/**

@@ -114,9 +114,9 @@ class OnboardAjax {
 		* Create User.
 		*
 		*/
-		if ( 'create_user' === $action_taken ) {
+		if ( 'create_tenant' === $action_taken ) {
 			$membership = Factory::get_instance( Ajax::class )->get_string_parameter( 'membership' );
-			$user_id    = Factory::get_instance( MembershipUser::class )->create_indvsubs_wordpress_user( $membership );
+			$user_id    = Factory::get_instance( MembershipUser::class )->create_tenant_user( $membership );
 			if ( $user_id ) {
 				if ( ! is_user_logged_in() ) {
 					$user_obj = \get_user_by( 'id', $user_id );

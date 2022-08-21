@@ -29,6 +29,7 @@ class ElementalBP {
 		}
 		\add_action( 'bp_template_redirect', array( $this, 'redirect_profile' ) );
 		\add_shortcode( self::SHORTCODE_PROFILE_URL, array( $this, 'get_buddypress_profile_url_shortcode' ) );
+		Factory::get_instance( XProfile::class )->init();
 	}
 	/**
 	 * Activate Functions for Membership.
