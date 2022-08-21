@@ -446,6 +446,13 @@ class LoginHandler {
 
 		$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
 
+		if ( Factory::get_instance( UserRoles::class )->is_wordpress_administrator() ) {
+			$url = \get_site_url() . '/wp-admin/admin.php?page=elemental';
+			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
+			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+			die();
+		}
+
 		if ( $template ) {
 			$url = get_permalink( $template );
 			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';

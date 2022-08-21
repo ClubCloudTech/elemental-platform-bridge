@@ -7,8 +7,8 @@
 
 namespace ElementalPlugin\Module\WCFM\Library;
 
-use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
-use \Indeed\Ihc\UserSubscriptions;
+use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
 
 /**
  * Filters to Modify Default WCFM Behaviour.
@@ -39,39 +39,7 @@ class WCFMFilters {
 			99,
 			2
 		);
-		add_action( 'wcfm_staffs_manage', array( $this, 'add_staff_ump_subscription' ), 10, 1 );
+		add_action( 'wcfm_staffs_manage', array( Factory::get_instance( UMPMemberships::class ), 'add_tenant_admin_ump_subscription' ), 10, 1 );
 
 	}
-
-
-	/**
-	 * Add UMP Subscription to WCFM Staff add.
-	 * Automatically adds staff subscription.
-	 *
-	 * @param int $staff_id - the user ID to add.
-	 * @return void
-	 */
-	public function add_staff_ump_subscription( int $staff_id ): void {
-
-		$level_id = get_option( ElementalUMP::SETTING_UMP_STAFF_SUBSCRIPTION_ID );
-		UserSubscriptions::assign( $staff_id, $level_id );
-		UserSubscriptions::makeComplete( $staff_id, $level_id, false );
-
-	}
-
-	/**
-	 * Add UMP Subscription to a user Account.
-	 *
-	 * @param int $user_id - the user ID to add.
-	 * @param int $subscription_id - the UMP subscription ID to add.
-	 * @return void
-	 */
-	public function add_user_ump_subscription( int $user_id, int $subscription_id ): void {
-
-		UserSubscriptions::assign( $user_id, $subscription_id );
-		UserSubscriptions::makeComplete( $user_id, $subscription_id, false );
-	}
-
-
-
 }

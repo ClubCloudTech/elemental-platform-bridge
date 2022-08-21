@@ -13,7 +13,7 @@ use ElementalPlugin\Module\Membership\Membership;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
-use ElementalPlugin\Module\WCFM\Library\WCFMFilters;
+use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -26,8 +26,7 @@ class MembershipUser {
 	const USERSUBS_META_KEY_PENDING                = 'elemental_usersubs_pending';
 	const USERSUBS_META_VALUE_PENDING              = 'elemental_onboardsubs_pending';
 	const USERSUBS_META_VALUE_ONBOARD_DATA_PENDING = 'elemental_onboardsubs_data_pending';
-
-	const USERSUBS_META_KEY_MEMBERSHIP_PRODUCT = 'elemental_membership_product';
+	const USERSUBS_META_KEY_MEMBERSHIP_PRODUCT     = 'elemental_membership_product';
 
 	/**
 	 * Create WordPress user from Membership form Ajax call.
@@ -90,13 +89,13 @@ class MembershipUser {
 				'display_name' => $first_name . ' ' . $last_name,
 				'first_name'   => $first_name,
 				'last_name'    => $last_name,
-				'role'         => Membership::MEMBERSHIP_ROLE_NAME,
+				'role'         => Membership::MEMBERSHIP_ROLE_SPONSORED,
 			)
 		);
 
 		// Add Subscription- User Sponsor account class.
 		$subscription_id = intval( get_option( ElementalUMP::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID ) );
-		Factory::get_instance( WCFMFilters::class )->add_user_ump_subscription( $user_id, $subscription_id );
+		Factory::get_instance( UMPMemberships::class )->add_user_ump_subscription( $user_id, $subscription_id );
 
 		// Update Parent/Sponsor Database.
 		$parent_id = \get_current_user_id();
@@ -173,7 +172,7 @@ class MembershipUser {
 				'display_name' => $first_name . ' ' . $last_name,
 				'first_name'   => $first_name,
 				'last_name'    => $last_name,
-				'role'         => Membership::MEMBERSHIP_ROLE_NAME,
+				'role'         => Membership::MEMBERSHIP_ROLE_TENANT_ADMIN,
 			)
 		);
 
@@ -243,10 +242,11 @@ class MembershipUser {
 	 * @param int $membership - the membership ID if exists.
 	 * @return integer|null
 	 */
-	public function create_indvsubs_wordpress_user( int $membership = null ): ?int {
+	public function create_tenant_user( int $membership = null ): ?int {
 		$first_name = Factory::get_instance( Ajax::class )->get_string_parameter( 'first_name' );
 		$last_name  = Factory::get_instance( Ajax::class )->get_string_parameter( 'last_name' );
 		$email      = Factory::get_instance( Ajax::class )->get_string_parameter( 'email' );
+		$company    = Factory::get_instance( Ajax::class )->get_string_parameter( 'company' );
 
 		// Validations.
 		if (
@@ -269,10 +269,11 @@ class MembershipUser {
 		wp_update_user(
 			array(
 				'ID'           => $user_id,
-				'nickname'     => $first_name,
-				'display_name' => $first_name . ' ' . $last_name,
+				'nickname'     => $company,
+				'display_name' => $company,
 				'first_name'   => $first_name,
 				'last_name'    => $last_name,
+				'role'         => Membership::MEMBERSHIP_ROLE_TENANT,
 			)
 		);
 		$meta_key   = self::USERSUBS_META_KEY_PENDING;

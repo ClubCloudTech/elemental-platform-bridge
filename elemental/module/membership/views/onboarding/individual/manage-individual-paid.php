@@ -27,16 +27,16 @@ return function (
 	}
 	?>
 
-<div class="elemental-container" id="elemental-onboard-listing">
+<div class="elemental-container elemental-onboard-page" id="elemental-onboard-listing">
 	<div class="elemental-container">
 		<div id="wcfm_page_load" class="elemental-container"></div>
-			<h2 class="elemental-onboard-header">
+			<h3 class="elemental-onboard-header">
 				<?php
 				echo \sprintf(
 					/* translators: %s is the text "Modules" and links to the Module Section */
 					\esc_html__(
-						'Create a New %s Account.',
-						'myvideoroom'
+						'Create a New %s Account',
+						'elementalplugin'
 					),
 					esc_textarea( Factory::get_instance( ShortCodesUMP::class )->render_level_name() ),
 				);
