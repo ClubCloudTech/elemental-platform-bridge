@@ -25,7 +25,7 @@ return function (
 	ob_start();
 	?>
 
-<div id="mvr-basket-section-confirmation" class=" mvr-woocommerce-basket mvr-nav-settingstabs-outer-wrap mvr-table-row myvideoroom-welcome-page">
+<div id="mvr-basket-section-confirmation" class=" mvr-woocommerce-basket mvr-nav-settingstabs-outer-wrap mvr-table-row elemental-welcome-page">
 	<?php
 	echo sprintf(
 	/* translators: %s is the message variant translated above */

@@ -387,7 +387,7 @@ window.addEventListener(
 						form_data   = new FormData();
 
 					form_data.append( 'action', 'elemental_onboardadmin_ajax' );
-					form_data.append( 'action_taken', 'create_user' );
+					form_data.append( 'action_taken', 'create_tenant' );
 					form_data.append( 'email', email );
 					form_data.append( 'first_name', first_name );
 					form_data.append( 'last_name', last_name );
@@ -415,7 +415,7 @@ window.addEventListener(
 								}
 							},
 							error: function(response) {
-								console.log( 'Error Create Individual Subscription' );
+								console.log( 'Error Creating Tenant User' );
 							}
 						}
 					);
