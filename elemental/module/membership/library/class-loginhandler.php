@@ -431,8 +431,6 @@ class LoginHandler {
 	 */
 	public function loginland_redirect() {
 
-		$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
-
 		if ( Factory::get_instance( UserRoles::class )->is_wordpress_administrator() ) {
 			$url = \get_site_url() . '/wp-admin/admin.php?page=elemental';
 			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
@@ -440,6 +438,20 @@ class LoginHandler {
 			die();
 		}
 
+		$is_tenant_account = Factory::get_instance( UserRoles::class )->is_tenant_account();
+		if ( $is_tenant_account ) {
+			// Decide Correct Redirect Path based on Staff Account Count.
+			$staff_count = Factory::get_instance( WCFMTools::class )->elemental_get_staff_member_count();
+			if ( $staff_count >= 1 ) {
+				$url = \get_site_url() . '/control/';
+			} else {
+				$url = \get_site_url() . '/control/manage-accounts/firstadmin/';
+			}
+			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+			die();
+
+		}
+		$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
 		if ( $template ) {
 			$url = get_permalink( $template );
 			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
