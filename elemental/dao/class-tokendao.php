@@ -32,6 +32,7 @@ class TokenDAO {
 			`record_id` int NOT NULL AUTO_INCREMENT,
 			`user_id` BIGINT NOT NULL,
 			`user_token` VARCHAR(255) NULL,
+			`timestamp` BIGINT UNSIGNED NOT NULL,
 			PRIMARY KEY (`record_id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
 

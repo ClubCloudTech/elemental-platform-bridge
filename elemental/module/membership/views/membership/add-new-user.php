@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Handles the Add New User Procedure for Membership Management.
  *
@@ -57,7 +56,7 @@ return function (): string {
 					<i id="first-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
 				</label>
 				<div class="col-xs-5">
-					<input type="text" class="form-control" id=" first_name" name="<?php echo esc_attr( $html_library->get_field_name( 'slug' ) ); ?>" aria-describedby="<?php echo \esc_attr( $html_library->get_description_id( 'slug' ) ); ?>" minlength="3" maxlength="64" value="" style="border: 1px solid black; width:60%;">
+					<input type="text" class="form-control" id="first_name" name="<?php echo esc_attr( $html_library->get_field_name( 'slug' ) ); ?>" aria-describedby="<?php echo \esc_attr( $html_library->get_description_id( 'slug' ) ); ?>" minlength="3" maxlength="64" value="" style="border: 1px solid black; width:60%;">
 				</div>
 			</div>
 			<div class="form-group">
@@ -66,7 +65,7 @@ return function (): string {
 					<i id="last-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved " title="Last Name Ready to Go" style="display:none"></i>
 				</label>
 				<div class="col-xs-5">
-					<input type="text" class="form-control" id=" last_name" name="<?php echo esc_attr( $html_library->get_field_name( 'slug' ) ); ?>" aria-describedby="<?php echo \esc_attr( $html_library->get_description_id( 'slug' ) ); ?>" minlength="3" maxlength="64" value="" style="border: 1px solid black; width:60%;">
+					<input type="text" class="form-control" id="last_name" name="<?php echo esc_attr( $html_library->get_field_name( 'slug' ) ); ?>" aria-describedby="<?php echo \esc_attr( $html_library->get_description_id( 'slug' ) ); ?>" minlength="3" maxlength="64" value="" style="border: 1px solid black; width:60%;">
 				</div>
 			</div>
 			<hr />

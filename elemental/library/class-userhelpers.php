@@ -29,22 +29,4 @@ class UserHelpers {
 		}
 		return apply_filters( 'elemental_email_available_check', $available );
 	}
-
-	/**
-	 * Verify User Exists by Email
-	 *
-	 * @param string $api_path - the email to append.
-	 * @param int    $record_id - the record id to append.
-	 * @return string
-	 */
-	public function construct_user_email_request( string $api_path, int $record_id ): string {
-
-		$user  = \wp_get_current_user();
-		$email = $user->user_email;
-
-		return Factory::get_instance( Encryption::class )->encrypt( $api_path . '_' . strval( $record_id ) . '_' . $email );
-
-	}
-
-
 }
