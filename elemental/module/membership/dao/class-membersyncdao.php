@@ -73,7 +73,7 @@ class MemberSyncDAO {
 
 		if ( $wpdb->last_error ) {
 			$this->repair_update_database( $wpdb->last_error );
-
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$result = $wpdb->insert(
 				$this->get_table_name(),
 				array(
@@ -158,7 +158,7 @@ class MemberSyncDAO {
 	/**
 	 * Delete Child Account in the Database
 	 *
-	 * @param int $child_id The user limit.
+	 * @param int $child_id The user id of child account to delete.
 	 *
 	 * @return bool|null
 	 */
@@ -189,21 +189,26 @@ class MemberSyncDAO {
 	 * Delete all accounts from a Parent.
 	 * This function will delete all child account entries for a given parent.
 	 *
-	 * @param int $parent_id The Parent ID.
+	 * @param int    $parent_id The Parent ID.
+	 * @param string $account_type Type of account to register - defaults to Sponsored.
 	 *
 	 * @return bool
 	 */
-	public function delete_parent_account_mappings( int $parent_id ): bool {
+	public function delete_parent_account_mappings( int $parent_id, string $account_type = null ): bool {
 		global $wpdb;
+		if ( ! $account_type ) {
+			$account_type = Membership::MEMBERSHIP_ROLE_SPONSORED;
+		}
 
      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$wpdb->query(
 			$wpdb->prepare(
 				'
 					DELETE FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
-				    WHERE parent_id = %d
+				    WHERE parent_id = %d AND account_type = %s
 			    ',
 				$parent_id,
+				$account_type,
 			)
 		);
 
@@ -253,12 +258,16 @@ class MemberSyncDAO {
 	/**
 	 * Get All Child Accounts from Database by Parent.
 	 *
-	 * @param int $child_id The Parent ID to query.
+	 * @param int    $child_id The Parent ID to query.
+	 * @param string $account_type Type of account to register - defaults to Sponsored.
 	 *
 	 * @return ?\stdClass
 	 */
-	public function get_child_account_info( int $child_id ): ?\stdClass {
+	public function get_child_account_info( int $child_id, string $account_type = null ): ?\stdClass {
 		global $wpdb;
+		if ( ! $account_type ) {
+			$account_type = Membership::MEMBERSHIP_ROLE_SPONSORED;
+		}
 
 		$result = \wp_cache_get( $child_id, __METHOD__ );
 
@@ -267,7 +276,7 @@ class MemberSyncDAO {
 			$return = $wpdb->get_row(
 				$wpdb->prepare(
 					'
-						SELECT timestamp, parent_id, user_id
+						SELECT timestamp, parent_id, user_id, account_type
 						FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
 						WHERE user_id = %d
 					',
@@ -275,14 +284,33 @@ class MemberSyncDAO {
 				),
 				'ARRAY_A'
 			);
-			\wp_cache_set( $child_id, $result, __METHOD__ );
+			\wp_cache_set( $child_id, $return, __METHOD__ );
+		}
+
+		if ( $wpdb->last_error ) {
+			$this->repair_update_database( $wpdb->last_error );
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			$return = $wpdb->get_row(
+				$wpdb->prepare(
+					'
+						SELECT timestamp, parent_id, user_id, account_type
+						FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
+						WHERE user_id = %d
+					',
+					$child_id,
+				),
+				'ARRAY_A'
+			);
+			\wp_cache_set( $child_id, $return, __METHOD__ );
 		}
 
 		if ( $return ) {
-			$result            = new stdClass();
-			$result->parent_id = $return->parent_id;
-			$result->child_id  = $return->user_id;
-			$result->timestamp = $return->timestamp;
+			$result               = new stdClass();
+			$result->parent_id    = $return->parent_id;
+			$result->child_id     = $return->user_id;
+			$result->timestamp    = $return->timestamp;
+			$result->account_type = $return->account_type;
 		} else {
 			$result = null;
 		}
@@ -292,12 +320,16 @@ class MemberSyncDAO {
 	/**
 	 * Get All Child Accounts from Database by Parent.
 	 *
-	 * @param int $parent_id The Parent ID to query.
+	 * @param int    $parent_id The Parent ID to query.
+	 * @param string $account_type Type of account to register - defaults to Sponsored.
 	 *
 	 * @return ?int
 	 */
-	public function get_child_count( int $parent_id ): ?int {
+	public function get_child_count( int $parent_id, string $account_type = null ): ?int {
 		global $wpdb;
+		if ( ! $account_type ) {
+			$account_type = Membership::MEMBERSHIP_ROLE_SPONSORED;
+		}
 
 		$result = \wp_cache_get( $parent_id, __METHOD__ );
 
@@ -308,11 +340,29 @@ class MemberSyncDAO {
 					'
 						SELECT user_id
 						FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
-						WHERE parent_id = %d
+						WHERE parent_id = %d AND account_type = %s
 					',
 					$parent_id,
+					$account_type,
 				)
 			);
+
+			if ( $wpdb->last_error ) {
+				$this->repair_update_database( $wpdb->last_error );
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				$wpdb->get_results(
+					$wpdb->prepare(
+						'
+							SELECT user_id
+							FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
+							WHERE parent_id = %d AND account_type = %s
+						',
+						$parent_id,
+						$account_type,
+					)
+				);
+			}
+
 			$rowcount = $wpdb->num_rows;
 			\wp_cache_set( $parent_id, $rowcount, __METHOD__ );
 			if ( $rowcount ) {
@@ -328,12 +378,16 @@ class MemberSyncDAO {
 	/**
 	 * Get All Child Accounts, either for a given parent or for all parents.
 	 *
-	 * @param int $parent_id parent ID to filter on (null for all parents).
+	 * @param int    $parent_id parent ID to filter on (null for all parents).
+	 * @param string $account_type Type of account to register - defaults to Sponsored.
 	 *
 	 * @return array
 	 */
-	public function get_all_child_accounts( int $parent_id = null ): array {
+	public function get_all_child_accounts( int $parent_id = null, string $account_type = null ): array {
 		global $wpdb;
+		if ( ! $account_type ) {
+			$account_type = Membership::MEMBERSHIP_ROLE_SPONSORED;
+		}
 
 		$cache_key = $parent_id;
 		if ( ! $parent_id ) {
@@ -348,19 +402,20 @@ class MemberSyncDAO {
 				$rows = $wpdb->get_results(
 					$wpdb->prepare(
 						'
-							SELECT user_id, timestamp, parent_id
+							SELECT user_id, timestamp, parent_id, account_type
 							FROM ' . /*phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared*/ $this->get_table_name() . '
-							WHERE parent_id = %d
+							WHERE parent_id = %d AND account_type = %s
 							ORDER BY parent_id ASC
 						',
-						$parent_id
+						$parent_id,
+						$account_type
 					)
 				);
 			} else {
              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$rows = $wpdb->get_results(
 					'
-                        SELECT user_id, timestamp, parent_id
+                        SELECT user_id, timestamp, parent_id, account_type
                         FROM ' . /*phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared*/ $this->get_table_name() . '
                         ORDER BY parent_id ASC
                     '
@@ -369,10 +424,11 @@ class MemberSyncDAO {
 
 			$result = array_map(
 				function ( $row ) {
-					$item              = array();
-					$item['user_id']   = (int) $row->user_id;
-					$item['timestamp'] = (int) $row->timestamp;
-					$item['parent_id'] = (int) $row->parent_id;
+					$item                 = array();
+					$item['user_id']      = (int) $row->user_id;
+					$item['timestamp']    = (int) $row->timestamp;
+					$item['parent_id']    = (int) $row->parent_id;
+					$item['account_type'] = (int) $row->account_type;
 					return $item;
 				},
 				$rows
@@ -396,12 +452,23 @@ class MemberSyncDAO {
 
 		// Case Table Mising Column.
 		if ( strpos( $db_error_message, 'Unknown column' ) !== false ) {
-			// Update Database to new Schema.
+			$sponsored = Membership::MEMBERSHIP_ROLE_SPONSORED;
 
 			$table_name       = $this->get_table_name();
 			$add_account_type = "ALTER TABLE `{$table_name}` ADD `account_type` VARCHAR(255) NOT NULL AFTER `user_id`;";
 			//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
 			$wpdb->query( $wpdb->prepare( $add_account_type ) );
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$success = $wpdb->query(
+				$wpdb->prepare(
+					'
+						UPDATE ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
+						SET account_type = %s
+					',
+					$sponsored,
+				)
+			);
 			return true;
 		}
 
