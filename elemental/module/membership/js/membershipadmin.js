@@ -137,7 +137,7 @@ window.addEventListener(
 						var level = event.target.dataset.level,
 						field     = event.target.dataset.field,
 						value     = event.target.value,
-						checkbox = $( '#' + event.target.name + '_' + level ).prop( 'checked' );
+						checkbox  = $( '#' + event.target.name + '_' + level ).prop( 'checked' );
 						form_data = new FormData();
 						form_data.append( 'action', 'elemental_membershipadmin_ajax' );
 						form_data.append( 'action_taken', 'update_sandbox' );
@@ -437,9 +437,15 @@ window.addEventListener(
 				 * Check if Name and Email conditions are met in main form
 				 */
 				function checkShow(status) {
-					var first_name = $( '#first_name' ).val().length,
-						last_name  = $( '#last_name' ).val().length,
-						status     = $( '#elemental-email-status' ).data( 'status' );
+					
+					if ($('#first_name').length){
+						var first_name = $( '#first_name' ).val().length
+					}
+					if ($('#last_name').length){
+						var last_name = $( '#last_name' ).val().length
+					}
+					
+					var status = $( '#elemental-email-status' ).data( 'status' );
 
 					if (first_name >= 3) {
 						$( '#first-name-icon' ).show();

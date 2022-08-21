@@ -58,12 +58,12 @@ class SandBoxAjaxFilters {
 				$user_id = Factory::get_instance( Encryption::class )->decrypt_string( $user );
 			}
 			if ( $levels && $user ) {
-				$pathway_order            = \explode( ',', $levels );
+				$pathway_order = \explode( ',', $levels );
 
 				$place_index = 1;
 				foreach ( $pathway_order as $pathway ) {
 					$update_user_preference = Factory::get_instance( UserPreferenceHelpers::class )->update_user_preference_object_from_ajax( intval( $user_id ), intval( $pathway ), $place_index );
-					//$update                 = Factory::get_instance( SandBoxDao::class )->update_by_field( $place_index, 'column_priority', intval( $pathway ) );
+					// $update                 = Factory::get_instance( SandBoxDao::class )->update_by_field( $place_index, 'column_priority', intval( $pathway ) );
 					$place_index++;
 				}
 			}
@@ -120,9 +120,8 @@ class SandBoxAjaxFilters {
 			$response['feedback'] = 'Login';
 		}
 
-
 			return $response;
-		}
+	}
 }
 
 

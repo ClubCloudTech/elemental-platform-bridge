@@ -1,3 +1,124 @@
+.elementor-column-gap-default>.elementor-column>.elementor-element-populated {
+	padding: 0 ! important;
+}
+
+.elementor-54320 .elementor-element.elementor-element-1517006a {
+	padding: 0 ! important;
+}
+
+.elementor-54320 .elementor-element.elementor-element-1517006a>.elementor-container {
+	max-width: 100%;
+}
+
+.elementor-54320 .elementor-element.elementor-element-6c36e33d>.elementor-element-populated {
+	border: none;
+	border-style: unset ! important;
+}
+
+.elemental-primary-nav-img {
+	margin-right: 8px;
+}
+
+.myvideoroom-dashicons,
+.myvideoroom-dashicons-before:before {
+	line-height: 1.2 ! important;
+}
+
+.dropdown-content a:hover {
+	background-color: #323064 ! important;
+	color: white ! important;
+}
+
+.ui-tabs .ui-tabs-nav {
+	margin: 0;
+	padding: 0.2em 0.2em 0;
+}
+
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-right,
+.ui-corner-br {
+	/* border-radius: 10px; */
+	border: none ! important;
+}
+
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+	float: left;
+	border-radius: 14px;
+	padding: 0.5em 1em;
+	text-decoration: none;
+}
+
+.ui-widget-header {
+	background: white ! important;
+}
+
+.elemental-sandbox-wrap {
+	border: 1px solid #c3c4c7;
+	clear: both;
+	margin-top: 1%;
+	border-radius: 1%;
+}
+
+.ui-widget-content {
+	background: none ! important;
+}
+
+.sandbox-menu-header {
+	display: flex;
+	box-sizing: border-box;
+	background-color: white ! important;
+	color: #525151;
+	font-size: 16px;
+	line-height: initial;
+	text-decoration: none;
+	margin: 0px;
+}
+
+.ui-tabs .ui-tabs-nav {
+	border: 0;
+	margin: 0;
+	/* padding: 0.2em 0.2em 0; */
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+	border: none ! important;
+	font-weight: normal;
+	color: #555;
+}
+
+.elemental-article {
+	border: none ! important;
+}
+
+.elemental-sandbox-nav-tab-wrapper li a {
+	border: 1px solid #c3c4c7;
+	border-radius: 10px 10px 0 0;
+	border-bottom: 1px solid #c3c4c7 ! important;
+	display: inline-block;
+	font-size: 18px;
+	font-family: montserrat;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	font-weight: 600;
+}
+
+.ui-tabs .ui-tabs-nav li {
+	list-style: none;
+	float: left;
+	position: relative;
+	top: 0;
+	margin: 1px 0.2em 0 0;
+	border-bottom-width: 0;
+	padding: 0;
+	white-space: nowrap;
+	background: white;
+	border-radius: 14px;
+	/*this stays 14px for round */
+}
+
 .elemental-membership-displayconf {
 	display: inline;
 }
@@ -5,6 +126,7 @@
 .elemental-align-left {
 	text-align: start;
 }
+
 .elemental-align-centre {
 	text-align: center;
 }
@@ -25,8 +147,8 @@
 	padding-bottom: 6px;
 	border-radius: 3px 3px 3px 3px;
 }
-.elemental-thankyou-logo {
 
+.elemental-thankyou-logo {
 	width: 50%;
 	padding: 20px;
 	border-radius: 3px 3px 3px 3px;
@@ -79,9 +201,10 @@
 	width: 74px;
 }
 
-#members-order-by{
-	min-width:150px;
+#members-order-by {
+	min-width: 150px;
 }
+
 #youzify .elemental-directory-filter .item-list-tabs li select {
 	text-transform: none!important;
 }
@@ -115,7 +238,7 @@
 
 .elemental-thankyou-box {
 	width: 60%;
-	color:white;
+	color: white;
 	padding: 10px;
 }
 
@@ -222,11 +345,12 @@
 	font-size: 20px;
 	color: #fff;
 }
-.elemental-thankyou-next{
+
+.elemental-thankyou-next {
 	font-weight: 200;
 	line-height: 1.2em;
 	font-size: 18px;
-	color:white;
+	color: white;
 }
 
 .elemental-container h2 {
@@ -235,9 +359,10 @@
 	font-size: 30px;
 	color: #55595c;
 }
-.elemental-title-card{
-	font-size:22px!important;
-	text-transform:capitalize;
+
+.elemental-title-card {
+	font-size: 22px!important;
+	text-transform: capitalize;
 }
 
 #elemental-extra,
@@ -277,7 +402,9 @@
 	padding: 2% 2% 0 2%!important;
 }
 
-.left_sidebar, .youzify-widget-head, .elemental-hide {
+.left_sidebar,
+.youzify-widget-head,
+.elemental-hide {
 	display: none!important;
 }
 
@@ -291,7 +418,8 @@
 	text-decoration: none;
 	padding-left: 3px;
 }
-#wcfm-main-contentainer{
+
+#wcfm-main-contentainer {
 	background: white;
 }
 
@@ -318,6 +446,7 @@
 	-o-transition: all .3s;
 	transition: all .3s;
 }
+
 .elemental-header-loginout {
 	display: inline-block;
 	background-color: #00529C00;
@@ -333,14 +462,17 @@
 	-o-transition: all .3s;
 	transition: all .3s;
 }
-.elemental-thankyou-link{
+
+.elemental-thankyou-link {
 	color: #f3882c;
 	font-size: 16px;
 	padding: 5px;
 }
+
 .elementor-location-footer {
 	margin-top: 0px!important;
 }
+
 .youzify-page {
 	background-color: #fff!important;
 }
@@ -350,24 +482,27 @@
 	width: 100%;
 	border-top: none!important;
 }
+
 .elemental-header-searchbar {
 	border-style: solid!important;
 	border-width: 2px!important;
 	border-radius: 10px!important;
-	border:#525151!important;
+	border: #525151!important;
 }
-.elemental-forum-search{
+
+.elemental-forum-search {
 	width: 97%;
 	margin: auto;
-	margin-top:10px;
-	margin-bottom:10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 #wcfmmp-stores-wrap ul.wcfmmp-store-wrap li .store-wrapper {
 	border: #cdcdcd 2px solid;
 	border-radius: 5px;
 }
-.wcfmmp-store-rating{
+
+.wcfmmp-store-rating {
 	display: none;
 }
 
@@ -383,24 +518,26 @@ div.wcfm-collapse-content h2 {
 	width: auto;
 	padding: 0;
 	clear: none;
-	font-family: var( --e-global-typography-primary-font-family ), Sans-serif;
+	font-family: var( --e-global-typography-primary-font-family), Sans-serif;
 	font-style: inherit!important;
 }
-p.wcfm_title strong, span.wcfm_title strong {
+
+p.wcfm_title strong,
+span.wcfm_title strong {
 	font-style: inherit!important;
 	font-weight: 300 !important;
-	font-family: var( --e-global-typography-primary-font-family ), Sans-serif;
+	font-family: var( --e-global-typography-primary-font-family), Sans-serif;
 }
+
 .elemental-host-link {
 	fill: #FFFFFF;
 	font-family: "Montserrat", Sans-serif;
-font-weight: 600;
-font-size: 14px;
-
-
-	font-family: var( --e-global-typography-primary-font-family ), Sans-serif;
+	font-weight: 600;
+	font-size: 14px;
+	font-family: var( --e-global-typography-primary-font-family), Sans-serif;
 }
-.elemental-buttonlink-border{
+
+.elemental-buttonlink-border {
 	border: 2px solid rgb(158, 158, 158);
 	padding: 5px!important;
 	border-radius: 5px;
@@ -408,10 +545,11 @@ font-size: 14px;
 	margin-right: 5px;
 }
 
-.iump-register-form{
-	background:#FFFFFF00!important;
+.iump-register-form {
+	background: #FFFFFF00!important;
 }
-.elemental-forumsearch-outer-wrap{
+
+.elemental-forumsearch-outer-wrap {
 	max-width: 96%;
 	margin: auto;
 	padding: 5px;
@@ -424,6 +562,7 @@ font-size: 14px;
 	background-color: #fff;
 	border-left: 5px solid #03a9f4;
 }
+
 .youzify-my-account-widget {
 	border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -431,44 +570,71 @@ font-size: 14px;
 	background: #ffffff4d!important;
 	-ms-border-radius: 4px;
 	-o-border-radius: 4px;
-	padding:0px!important;
+	padding: 0px!important;
 }
-.youzify-button-item.youzify-home-button a, .youzify-my-account-widget .youzify-menu-icon-colorful .youzify-link-inbox i {
+
+.youzify-button-item.youzify-home-button a,
+.youzify-my-account-widget .youzify-menu-icon-colorful .youzify-link-inbox i {
 	background-color: #02293a!important;
 }
 
 .youzify-button-item a {
 	background-image: none!important;
 }
+
 .youzify-button-item.youzify-profile-button a {
 	background-color: #5e4909!important;
 }
+
 .youzify-button-item.youzify-networks-button a {
 	background-color: #280762!important;
 }
-.youzify-button-item.youzify-avatar-button a, .youzify-my-account-widget .youzify-menu-icon-colorful .youzify-link-profile-settings i {
+
+.youzify-button-item.youzify-avatar-button a,
+.youzify-my-account-widget .youzify-menu-icon-colorful .youzify-link-profile-settings i {
 	background-color: #182c01!important;
 }
-.youzify-button-item.youzify-cover-button a, .youzify-my-account-widget .youzify-menu-icon-colorful .youzify-link-widgets-settings i {
-	background-color:  #02293a!important;
+
+.youzify-button-item.youzify-cover-button a,
+.youzify-my-account-widget .youzify-menu-icon-colorful .youzify-link-widgets-settings i {
+	background-color: #02293a!important;
 }
-.youzify-button-item.youzify-logout-button a, .youzify-my-account-widget .youzify-menu-icon-colorful .youzify-link-account-settings i {
+
+.youzify-button-item.youzify-logout-button a,
+.youzify-my-account-widget .youzify-menu-icon-colorful .youzify-link-account-settings i {
 	background: #02293a!important;
 }
-.youzify .editfield label[for*=adminsonly] .field-visibility-text:before, .youzify-account-profile-settings {
+
+.youzify .editfield label[for*=adminsonly] .field-visibility-text:before,
+.youzify-account-profile-settings {
 	background: #02293a!important;
 }
-.youzify .editfield label[for*=loggedin] .field-visibility-text:before, .youzify-account-account-settings {
+
+.youzify .editfield label[for*=loggedin] .field-visibility-text:before,
+.youzify-account-account-settings {
 	background: #02293a!important;
 }
+
 .youzify-account-widgets-settings {
 	background: #02293a!important;
 }
-.youzify-reset-options, .youzify-save-options button, #youzify-profile-picture > div.options-section-title > div > button, #youzify-profile-picture > div.youzify-settings-actions > button,
-#youzify-change-password > div.options-section-title > div > button, #youzify-change-password > div.youzify-settings-actions > button, #youzify-notifications-settings > div.options-section-title > div > button,
-#youzify-notifications-settings > div.youzify-settings-actions > button, #youzify-about_me > div.youzify-settings-actions > button, #youzify-about_me > div.options-section-title > div > button,
-#youzify-skills > div.options-section-title > div > button, #youzify-skills > div.youzify-settings-actions > button, #youzify-services > div.options-section-title > div > button,
-#youzify-services > div.youzify-settings-actions > button,#youzify-post > div.options-section-title > div > button,#youzify-post > div.youzify-settings-actions > button{
+
+.youzify-reset-options,
+.youzify-save-options button,
+#youzify-profile-picture>div.options-section-title>div>button,
+#youzify-profile-picture>div.youzify-settings-actions>button,
+#youzify-change-password>div.options-section-title>div>button,
+#youzify-change-password>div.youzify-settings-actions>button,
+#youzify-notifications-settings>div.options-section-title>div>button,
+#youzify-notifications-settings>div.youzify-settings-actions>button,
+#youzify-about_me>div.youzify-settings-actions>button,
+#youzify-about_me>div.options-section-title>div>button,
+#youzify-skills>div.options-section-title>div>button,
+#youzify-skills>div.youzify-settings-actions>button,
+#youzify-services>div.options-section-title>div>button,
+#youzify-services>div.youzify-settings-actions>button,
+#youzify-post>div.options-section-title>div>button,
+#youzify-post>div.youzify-settings-actions>button {
 	color: #fff;
 	border: none;
 	cursor: pointer;
@@ -492,6 +658,7 @@ font-size: 14px;
 	color: #7c838a!important;
 	display: inline-block!important;
 }
+
 .youzify * {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -509,22 +676,26 @@ font-size: 14px;
 	display: flex;
 }
 
-#elemental-store-phone, .elemental-title-background{
-	background: linear-gradient(90deg,rgb(255 255 255) 50%,rgba(0,0,0,0) 100%)!important;
+#elemental-store-phone,
+.elemental-title-background {
+	background: linear-gradient(90deg, rgb(255 255 255) 50%, rgba(0, 0, 0, 0) 100%)!important;
 	border-radius: 10px;
 	margin-bottom: 10px!important;
 }
-.elemental-premium-banner-description{
-	background:#00529c;
-	color:white;
-	text-align:center;
+
+.elemental-premium-banner-description {
+	background: #00529c;
+	color: white;
+	text-align: center;
 }
-#friendship-button-3, {
-	background:#00529c;
+
+#friendship-button-3,
+{
+	background: #00529c;
 }
 
 .elementor-menu-cart__toggle .elementor-button {
-	border:none!important;
+	border: none!important;
 }
 
 .elemental-button-primary-nav-area {
@@ -546,6 +717,6 @@ font-size: 14px;
 	border-radius: 100%;
 }
 
-.site-main{
+.site-main {
 	min-height: calc(100vh - 210px);
 }

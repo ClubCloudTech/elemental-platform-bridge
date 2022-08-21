@@ -12,6 +12,7 @@ use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\TabHelper;
 use ElementalPlugin\Library\UserHelpers;
+use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
 use ElementalPlugin\Module\Sandbox\Entity\SandboxEntity;
@@ -94,10 +95,12 @@ class SandBoxHelpers {
 	 */
 	public function render_all_tabs(): array {
 		$tab_objects = array();
-
+//TODO FRED FIX THIS
 		// Get Parent ID of Organisation to search from.
 		$user_id   = \get_current_user_id();
+		$is_user_admin = Factory::get_instance( UserRoles::class )->is_wordpress_administrator();
 		$parent_id = Factory::get_instance( WCFMTools::class )->staff_to_parent( $user_id );
+
 
 		// Get all Tabs for Parent Org plus mandatory tabs.
 		if ( $parent_id ) {

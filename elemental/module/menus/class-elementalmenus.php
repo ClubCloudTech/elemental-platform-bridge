@@ -161,7 +161,7 @@ class ElementalMenus {
 
 			// Case Logged Out.
 		} else {
-			$output = \esc_html__( 'Sign In', 'elementalplugin' );
+			$output              = \esc_html__( 'Sign In', 'elementalplugin' );
 			$profile_control_url = '/login';
 		}
 
