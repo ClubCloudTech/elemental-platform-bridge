@@ -23,18 +23,13 @@ use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
  */
 class Membership {
 
-	const TABLE_NAME_MEMBERSHIPS                   = 'elemental_memberships';
-	const TABLE_NAME_MEMBERSYNC                    = 'elemental_membersync';
-	const SHORTCODE_TAG                            = 'elemental_membership';
-	const ACCOUNT_TENANT_ADMIN_SHORTCODE           = 'elemental_tenant_admin';
-	const ACCOUNT_ADMIN_SHORTCODE                  = 'elemental_account_admin';
-	const MEMBERSHIP_ROLE_SPONSORED                = 'Sponsored';
-	const MEMBERSHIP_ROLE_SPONSORED_DESCRIPTION    = 'Regular User';
-	const MEMBERSHIP_ROLE_TENANT                   = 'Tenant';
-	const MEMBERSHIP_ROLE_TENANT_DESCRIPTION       = 'Tenant Account';
-	const MEMBERSHIP_ROLE_TENANT_ADMIN             = 'TenantAdmin';
-	const MEMBERSHIP_ROLE_TENANT_ADMIN_DESCRIPTION = 'Tenant Admin Account';
-	const MEMBERSHIP_NONCE_PREFIX_DU               = 'delete_user_';
+	const TABLE_NAME_MEMBERSHIPS      = 'elemental_memberships';
+	const TABLE_NAME_MEMBERSYNC       = 'elemental_membersync';
+	const SHORTCODE_TAG               = 'elemental_membership';
+	const ACCOUNT_ADMIN_SHORTCODE     = 'elemental_account_admin';
+	const MEMBERSHIP_ROLE_NAME        = 'Sponsored';
+	const MEMBERSHIP_ROLE_DESCRIPTION = 'Sponsored Account';
+	const MEMBERSHIP_NONCE_PREFIX_DU  = 'delete_user_';
 
 	/**
 	 * Runtime Shortcodes and Setup

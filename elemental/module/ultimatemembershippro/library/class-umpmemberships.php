@@ -81,33 +81,6 @@ class UMPMemberships {
 
 	}
 
-	/**
-	 * Add UMP Subscription to a user Account.
-	 *
-	 * @param int $user_id - the user ID to add.
-	 * @param int $subscription_id - the UMP subscription ID to add.
-	 * @return void
-	 */
-	public function add_user_ump_subscription( int $user_id, int $subscription_id ): void {
-
-		UserSubscriptions::assign( $user_id, $subscription_id );
-		UserSubscriptions::makeComplete( $user_id, $subscription_id, false );
-	}
-
-	/**
-	 * Add UMP Subscription to WCFM Staff/ Elemental Tenant Admin account.
-	 * Automatically adds staff subscription.
-	 *
-	 * @param int $staff_id - the user ID to add.
-	 * @return void
-	 */
-	public function add_tenant_admin_ump_subscription( int $staff_id ): void {
-
-		$level_id = get_option( ElementalUMP::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID );
-		UserSubscriptions::assign( $staff_id, $level_id );
-		UserSubscriptions::makeComplete( $staff_id, $level_id, false );
-
-	}
 
 
 }

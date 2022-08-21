@@ -33,7 +33,7 @@ return function (
 		<input type="email"
 			id="elemental-inbound-email"
 			name="elemental-inbound-email"
-			class="wcfm-text wcfm_ele elemental-email elemental-input-form">
+			class="wcfm-text wcfm_ele elemental-email elemental-input-form elemental-input-form">
 
 	<p class="city wcfm_title wcfm_ele"><strong><?php esc_html_e( 'Registrant First Name ', 'elementalplugin' ); ?></strong><br><?php esc_html_e( 'Your First Name', 'elementalplugin' ); ?></p>
 		<label for="first_name" class="screen-reader-text">
@@ -42,7 +42,7 @@ return function (
 
 		<input type="text"
 			id="first_name"
-			class="wcfm-text wcfm_ele elemental-input-form"
+			class="wcfm-text wcfm_ele elemental-input-form elemental-input-form"
 			name="<?php echo esc_attr( $html_library->get_field_name( 'first_name' ) ); ?>"
 			aria-describedby="<?php echo \esc_attr( $html_library->get_description_id( 'last_name' ) ); ?>"
 			minlength="3"
@@ -57,7 +57,7 @@ return function (
 
 		<input type="text"
 			id="last_name"
-			class="wcfm-text wcfm_ele elemental-input-form"
+			class="wcfm-text wcfm_ele elemental-input-form elemental-input-form"
 			name="<?php echo esc_attr( $html_library->get_field_name( 'last_name' ) ); ?>"
 			aria-describedby="<?php echo \esc_attr( $html_library->get_description_id( 'last_name' ) ); ?>"
 			minlength="3"
@@ -72,7 +72,7 @@ return function (
 
 		<input type="text"
 			id="company"
-			class="wcfm-text wcfm_ele elemental-input-form"
+			class="wcfm-text wcfm_ele elemental-input-form elemental-input-form"
 			name="<?php echo esc_attr( $html_library->get_field_name( 'company' ) ); ?>"
 			aria-describedby="<?php echo \esc_attr( $html_library->get_description_id( 'company' ) ); ?>"
 			maxlength="64"
