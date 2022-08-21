@@ -10,6 +10,7 @@ namespace ElementalPlugin\Module\Sandbox\Library;
 use ElementalPlugin\DAO\UserPreferenceDAO;
 use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\TabHelper;
 use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Library\UserRoles;
@@ -78,13 +79,27 @@ class SandBoxHelpers {
 			return \esc_html__( 'This Pathway has been disabled in the control panel', 'elementalplugin' );
 		}
 
-		$base_url      = $sandbox_object->get_destination_url();
-		$api_path      = $sandbox_object->get_user_name_prepend();
-		$record_id     = $sandbox_object->get_record_id();
-		$custom_field1 = $sandbox_object->get_customfield1();
-		$custom_field2 = $sandbox_object->get_customfield2();
-		$email_hash    = Factory::get_instance( UserHelpers::class )->construct_user_email_request( $api_path, $record_id );
-		return '<iframe style="width:100%;height:900px;" src="' . $base_url . '/' . $api_path . '__' . $record_id . '?userid=' . urlencode( $email_hash ) . $custom_field1 . $custom_field2 . '"></iframe>';
+		$user = \wp_get_current_user();
+
+		$base_url       = $sandbox_object->get_destination_url();
+		$api_path       = $sandbox_object->get_user_name_prepend();
+		$record_id      = $sandbox_object->get_record_id();
+		$custom_field1  = $sandbox_object->get_customfield1();
+		$custom_field2  = $sandbox_object->get_customfield2();
+		$employee_name  = $sandbox_object->get_employee_name();
+		$company_domain = $sandbox_object->get_company_domain();
+
+		if ($record_id == 4) { // TODO: should be based on company type, hard-coded for lender as sandbox id = 4
+			$email     = $user->user_email;
+			$full_name = $user->first_name . ' ' . $user->last_name;
+		} else {
+			$email     = strtolower($employee_name . '.' . $user->last_name) . $user->id . '@' . $company_domain;
+			$full_name = $employee_name . ' ' . $user->last_name;
+		}
+
+		$email_hash = Factory::get_instance( Encryption::class )->encrypt( $email );
+
+		return '<div>' . $full_name . '</div><div>' . $email .  '</div><iframe style="width:100%;height:900px;" src="' . $base_url . '/' . $api_path . '__' . $record_id . '?userid=' . urlencode( $email_hash ) . $custom_field1 . $custom_field2 . '"></iframe>';
 
 	}
 
@@ -95,7 +110,7 @@ class SandBoxHelpers {
 	 */
 	public function render_all_tabs(): array {
 		$tab_objects = array();
-//TODO FRED FIX THIS
+		//TODO FRED FIX THIS
 		// Get Parent ID of Organisation to search from.
 		$user_id   = \get_current_user_id();
 		$is_user_admin = Factory::get_instance( UserRoles::class )->is_wordpress_administrator();

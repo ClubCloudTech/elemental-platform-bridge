@@ -8,29 +8,58 @@
 
 namespace ElementalPlugin\Module\Integration;
 
-use ElementalPlugin\Module\Integration\Coadjute\Requests\CreateUser;
-use ElementalPlugin\Module\Integration\Coadjute\Requests\CreateCompany;
 use ElementalPlugin\Module\Integration\Coadjute\Requests\CreateEmployee;
+use ElementalPlugin\Module\Integration\Coadjute\Requests\GetEmployees;
 
 /**
  * Class Actions - NMP Engine Sync actions
  */
 class Actions {
 	/**
+	 * Verify if employee with email exists on NMP Sync Engine.
+	 *
+	 * @param string $email - User Email.
+	 *
+	 * @return boolean
+	 */
+	public function employee_exists($email): array {
+		try {
+		    $request = new GetEmployees();
+		    $request->setQuery([
+		    	'environment' => 'sandbox',
+		    	'email' => $email,
+		    ]);
+		    $employee_response = $request->send();
+		} catch (\Exception $e) {
+			$result['status'] = false;
+			$result['error'] = 'Employee can not be verified. Error: ' . $e->getMessage();
+		}
+
+		if ($employee_response->failed()) {
+		    $result['status'] = false;
+		    $result['error'] = 'Employee can not be verified. Error: ' . $employee_response->body();
+		}
+
+		return array('status' => $employee_response->json()['success']);
+	}
+
+	/**
 	 * Synchronize created employee with NMP Sync Engine.
 	 *
-	 * @param string $first_name - User First Name.
-	 * @param string $last_name  - User Last Name.
-	 * @param string $email      - User Email.
+	 * @param string $user_id 		- User Id.
+	 * @param string $first_name 	- User First Name.
+	 * @param string $last_name  	- User Last Name.
+	 * @param string $email      	- User Email.
 	 *
 	 * @return array
 	 */
-	public function sync_employee($first_name, $last_name, $email, $password): array {
+	public function sync_employee($user_id, $first_name, $last_name, $email, $password): array {
 		$result = array('status' => true);
 		try {
 		    $request = new CreateEmployee();
 		    $request->setData([
-		    	'sandbox' => true,
+		    	'environment' => 'sandbox',
+		    	'user_id' => $user_id,
 		    	'first_name' => $first_name,
 		    	'last_name' => $last_name,
 		    	'email' => $email,
@@ -45,74 +74,6 @@ class Actions {
 		if ($employee_response->failed()) {
 		    $result['status'] = false;
 		    $result['error'] = 'User could not be created. Error: ' . $employee_response->body();
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Synchronize created employee with NMP Sync Engine.
-	 *
-	 * @param string $first_name - User First Name.
-	 * @param string $last_name  - User Last Name.
-	 * @param string $email      - User Email.
-	 *
-	 * @return array
-	 */
-	public function sync_company($first_name, $last_name, $email): array {
-		$result = array('status' => true);
-
-		try {
-		    $request = new CreateCompany();
-		    $request->setData([
-		    	'sandbox' => true,
-		    	'first_name' => $first_name,
-		    	'last_name' => $last_name,
-		    	'email' => $email,
-		    ]);
-		    $company_response = $request->send();
-		} catch (\Exception $e) {
-			$result['status'] = false;
-		    $result['error'] = 'User could not be created. Error: ' . $e->getMessage();
-		}
-
-		if ($company_response->failed()) {
-		    $result['status'] = false;
-		    $result['error'] = 'Company could not be created. Error: ' . $company_response->body();
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Synchronize created employee with NMP Sync Engine.
-	 *
-	 * @param string $first_name - User First Name.
-	 * @param string $last_name  - User Last Name.
-	 * @param string $email      - User Email.
-	 * @param string $password	 - User Password.
-	 *
-	 * @return array
-	 */
-	public function sync_user($first_name, $last_name, $email, $password): array {
-		$result = array('status' => true);
-		try {
-		    $request = new CreateUser();
-		    $request->setData([
-		    	'first_name' => $first_name,
-		    	'last_name' => $last_name,
-		    	'email' => $email,
-		    	'password' => $password
-		    ]);
-		    $user_response = $request->send();
-		} catch (\Exception $e) {
-			$result['status'] = false;
-		    $result['error'] = 'User could not be created. Error: ' . $e->getMessage();
-		}
-
-		if ($user_response->failed()) {
-		    $result['status'] = false;
-		    $result['error'] = 'Account could not be created. Error: ' . $user_response->body();
 		}
 
 		return $result;

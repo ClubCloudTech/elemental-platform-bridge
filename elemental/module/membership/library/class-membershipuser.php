@@ -58,10 +58,10 @@ class MembershipUser {
 		$password = wp_generate_password( 12, false );
 
 		// Check with the Sync Engine that this does not exist in a node already.
-		$sync_result = \apply_filters( 'elemental_pre_user_add', $first_name, $last_name, $email, $password );
+		$check_result = \apply_filters( 'elemental_pre_user_add', $email );
 
-		if ( ! $sync_result['status'] ) {
-			$return_array['feedback'] = $sync_result['error'];
+		if ( $check_result['status'] ) {
+			$return_array['feedback'] = \esc_html__( 'Employee with ' . $email . 'already exists.', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
 		}
@@ -72,6 +72,15 @@ class MembershipUser {
 			$return_array['status']   = false;
 			return $return_array;
 		}
+
+		$sync_result = \apply_filters( 'elemental_post_user_add', $user_id, $first_name, $last_name, $email, $password );
+
+		if ( !$sync_result['status'] ) {
+			$return_array['feedback'] = "Employee synchronization error";
+			$return_array['status']   = false;
+			return $return_array;
+		}
+
 		// Notify User of Password.
 		$this->notify_user_credential( $password, $email, $first_name );
 		// Update Additional User Parameters.
@@ -131,10 +140,10 @@ class MembershipUser {
 		}
 
 		// Check with the Sync Engine that this does not exist in a node already.
-		$pre_check = \apply_filters( 'elemental_pre_user_add', $first_name, $last_name, $email );
+		$check_result = \apply_filters( 'elemental_pre_user_add', $email );
 
-		if ( ! $pre_check ) {
-			$return_array['feedback'] = \esc_html__( 'Sync Engine Validation Error', 'elementalplugin' );
+		if ( $check_result['status'] ) {
+			$return_array['feedback'] = \esc_html__( 'Employee with ' . $email . 'already exists.', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
 		}
@@ -146,6 +155,15 @@ class MembershipUser {
 			$return_array['status']   = false;
 			return $return_array;
 		}
+
+		$sync_result = \apply_filters( 'elemental_post_user_add', $user_id, $first_name, $last_name, $email, $password );
+
+		if ( !$sync_result['status'] ) {
+			$return_array['feedback'] = "Employee synchronization error";
+			$return_array['status']   = false;
+			return $return_array;
+		}
+
 		// Notify User of Password.
 		$this->notify_user_credential( $password, $email, $first_name );
 		// Update Additional User Parameters.

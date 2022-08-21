@@ -29,7 +29,8 @@ class Integration {
 
 		// Apply action hooks
 		$actions = Factory::get_instance( Actions::class );
-		\add_filter( 'elemental_pre_user_add', array( $actions, 'sync_employee' ), 10, 4 );
+		\add_filter( 'elemental_pre_user_add', array( $actions, 'employee_exists' ), 10, 4 );
+		\add_filter( 'elemental_post_user_add', array( $actions, 'sync_employee' ), 10, 5 );
 		// \add_filter( 'elemental_pre_tenant_add', array( $actions, 'sync_user' ), 10, 3 );
 		// \add_filter( 'elemental_pre_company_add', array( $actions, 'sync_company' ), 10, 3 );
 	}
