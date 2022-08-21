@@ -46,9 +46,7 @@ class AccountShortcode {
 			esc_html__( 'Manage User Accounts', 'elementalplugin' ),
 			'useraccounts',
 			fn() => Factory::get_instance( MembershipShortCode::class )->render_membership_shortcode(),
-			'useraccounts',
-			null,
-			null
+			'useraccounts'
 		);
 		\array_push( $return_array, $user_accounts );
 

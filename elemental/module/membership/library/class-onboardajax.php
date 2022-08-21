@@ -31,30 +31,10 @@ class OnboardAjax {
 		// Security Checks.
 		check_ajax_referer( 'elemental_onboard', 'security', false );
 
-		if ( isset( $_POST['action_taken'] ) ) {
-			$action_taken = sanitize_text_field( wp_unslash( $_POST['action_taken'] ) );
-		}
-		if ( isset( $_POST['level'] ) ) {
-			$membership_level = sanitize_text_field( wp_unslash( $_POST['level'] ) );
-		}
-		if ( isset( $_POST['value'] ) ) {
-			$set_value = sanitize_text_field( wp_unslash( $_POST['value'] ) );
-		}
-		if ( isset( $_POST['email'] ) ) {
-			$email = \sanitize_email( wp_unslash( $_POST['email'] ) );
-		}
-		if ( isset( $_POST['first_name'] ) ) {
-			$first_name = sanitize_text_field( wp_unslash( $_POST['first_name'] ) );
-		}
-		if ( isset( $_POST['last_name'] ) ) {
-			$last_name = sanitize_text_field( wp_unslash( $_POST['last_name'] ) );
-		}
-		if ( isset( $_POST['userid'] ) ) {
-			$user_id = sanitize_text_field( wp_unslash( $_POST['userid'] ) );
-		}
-		if ( isset( $_POST['nonce'] ) ) {
-			$nonce = sanitize_text_field( wp_unslash( $_POST['nonce'] ) );
-		}
+		$action_taken = Factory::get_instance( Ajax::class )->get_string_parameter( 'action_taken' );
+		$email        = Factory::get_instance( Ajax::class )->get_string_parameter( 'email' );
+		$first_name   = Factory::get_instance( Ajax::class )->get_string_parameter( 'first_name' );
+		$user_id      = Factory::get_instance( Ajax::class )->get_string_parameter( 'userid' );
 
 		/*
 		* Check Login.

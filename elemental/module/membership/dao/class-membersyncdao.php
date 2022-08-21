@@ -34,6 +34,7 @@ class MemberSyncDAO {
 			`record_id` int NOT NULL AUTO_INCREMENT,
 			`parent_id` BIGINT UNSIGNED NOT NULL,
 			`user_id` BIGINT UNSIGNED NOT NULL,
+			`account_type` VARCHAR(255) NOT NULL,
 			`timestamp` BIGINT UNSIGNED NOT NULL,
 			PRIMARY KEY (`record_id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
@@ -42,15 +43,19 @@ class MemberSyncDAO {
 	}
 
 	/**
-	 * Register a given room in the Database, and ensure it does not already exist
+	 * Register a Child Account.
 	 *
-	 * @param int $child_id  The User ID of the child account to store.
-	 * @param int $parent_id The Parent ID.
+	 * @param int    $child_id  The User ID of the child account to store.
+	 * @param int    $parent_id The Parent ID.
+	 * @param string $account_type Type of account to register - defaults to Sponsored.
 	 *
 	 * @return string|int|false
 	 */
-	public function register_child_account( int $child_id, int $parent_id ) {
+	public function register_child_account( int $child_id, int $parent_id, string $account_type = null ) {
 		global $wpdb;
+		if ( ! $account_type ) {
+			$account_type = Membership::MEMBERSHIP_ROLE_SPONSORED;
+		}
 
      //phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 		$timestamp = current_time( 'timestamp' );
@@ -59,11 +64,26 @@ class MemberSyncDAO {
 		$result = $wpdb->insert(
 			$this->get_table_name(),
 			array(
-				'parent_id' => $parent_id,
-				'user_id'   => $child_id,
-				'timestamp' => $timestamp,
+				'parent_id'    => $parent_id,
+				'user_id'      => $child_id,
+				'account_type' => $account_type,
+				'timestamp'    => $timestamp,
 			)
 		);
+
+		if ( $wpdb->last_error ) {
+			$this->repair_update_database( $wpdb->last_error );
+
+			$result = $wpdb->insert(
+				$this->get_table_name(),
+				array(
+					'parent_id'    => $parent_id,
+					'user_id'      => $child_id,
+					'account_type' => $account_type,
+					'timestamp'    => $timestamp,
+				)
+			);
+		}
 
 		\wp_cache_delete( $child_id, __CLASS__ . '::get_parent_by_child' );
 		\wp_cache_delete( $parent_id, __CLASS__ . '::get_all_child_accounts' );
@@ -92,18 +112,22 @@ class MemberSyncDAO {
 	 * Update Room Post ID in Database
 	 * This plugin will update the room name in the database with the parameter
 	 *
-	 * @param int $child_id  The user limit.
-	 * @param int $parent_id Membership level to update.
+	 * @param int    $child_id  The user limit.
+	 * @param int    $parent_id Membership level to update.
+	 * @param string $account_type Type of account to update - defaults to Sponsored.
 	 *
 	 * @return bool|null
 	 */
-	public function update_child_account( int $child_id, int $parent_id ): ?bool {
+	public function update_child_account( int $child_id, int $parent_id, string $account_type = null ): ?bool {
 		global $wpdb;
+		if ( ! $account_type ) {
+			$account_type = Membership::MEMBERSHIP_ROLE_SPONSORED;
+		}
 
 		// Check Record Exists.
 		$record_exists = $this->get_parent_by_child( $child_id );
 		if ( ! $record_exists ) {
-			$success = $this->register_child_account( $child_id, $parent_id );
+			$success = $this->register_child_account( $child_id, $parent_id, $account_type );
 			if ( $success ) {
 				return true;
 			} else {
@@ -117,10 +141,11 @@ class MemberSyncDAO {
 				'
 					UPDATE ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
 					SET parent_id = %d
-					WHERE user_id = %d
+					WHERE user_id = %d AND account_type = %s
 				',
 				$parent_id,
 				$child_id,
+				$account_type,
 			)
 		);
 
@@ -131,8 +156,7 @@ class MemberSyncDAO {
 	}
 
 	/**
-	 * Update Room Post ID in Database
-	 * This plugin will update the room name in the database with the parameter
+	 * Delete Child Account in the Database
 	 *
 	 * @param int $child_id The user limit.
 	 *
@@ -358,5 +382,36 @@ class MemberSyncDAO {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Database Restore and Update
+	 *
+	 * @param string $db_error_message   The Error Message.
+	 *
+	 * @return bool
+	 */
+	private function repair_update_database( string $db_error_message = null ): bool {
+		global $wpdb;
+
+		// Case Table Mising Column.
+		if ( strpos( $db_error_message, 'Unknown column' ) !== false ) {
+			// Update Database to new Schema.
+
+			$table_name       = $this->get_table_name();
+			$add_account_type = "ALTER TABLE `{$table_name}` ADD `account_type` VARCHAR(255) NOT NULL AFTER `user_id`;";
+			//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
+			$wpdb->query( $wpdb->prepare( $add_account_type ) );
+			return true;
+		}
+
+		// Case Table Delete.
+		$table_message = $this->get_table_name() . '\' doesn\'t exist';
+		if ( strpos( $db_error_message, $table_message ) !== false ) {
+			// Recreate Table.
+			$this->install_membership_sync_table();
+
+			return true;
+		}
 	}
 }
