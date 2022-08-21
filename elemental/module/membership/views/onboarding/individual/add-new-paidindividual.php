@@ -130,7 +130,7 @@ return function (
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo Factory::get_instance( HttpPost::class )->create_form_submit(
 				'add_room',
-				esc_html__( 'Next Step', 'elementalplugin' )
+				esc_html__( 'Activate Subscription', 'elementalplugin' )
 			);
 			?>
 

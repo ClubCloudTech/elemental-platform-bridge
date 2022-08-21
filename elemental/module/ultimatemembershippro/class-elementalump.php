@@ -18,8 +18,9 @@ use ElementalPlugin\Library\Ajax;
  */
 class ElementalUMP {
 
-	const SETTING_UMP_STAFF_SUBSCRIPTION_ID     = 'elemental-ump-staff-subscription-id';
-	const SETTING_UMP_SPONSORED_SUBSCRIPTION_ID = 'elemental-ump-sponsored-subscription-id';
+	const SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID = 'elemental-ump-staff-subscription-id';
+	const SETTING_UMP_TENANT_SUBSCRIPTION_ID       = 'elemental-ump-tenant-subscription-id';
+	const SETTING_UMP_SPONSORED_SUBSCRIPTION_ID    = 'elemental-ump-sponsored-subscription-id';
 
 	/**
 	 * Runtime Shortcodes and Setup
@@ -64,9 +65,9 @@ class ElementalUMP {
 		<td>
 		<input type="number" size="32"
 		class="mvr-main-button-enabled elemental-maintenance-setting"
-		id="' . esc_attr( self::SETTING_UMP_STAFF_SUBSCRIPTION_ID ) . '"
-		value="' . get_option( self::SETTING_UMP_STAFF_SUBSCRIPTION_ID ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'UMP Subscription ID for the Staff subscription (used to auto assign it to new staff)', 'elementalplugin' ) . '"></i>
+		id="' . esc_attr( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID ) . '"
+		value="' . get_option( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID ) . '">
+			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'UMP Subscription ID for the Tenant Admin subscription (used to auto assign it to new Admins)', 'elementalplugin' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -79,9 +80,9 @@ class ElementalUMP {
 	 * @return array
 	 */
 	public function update_ump_staffid_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_UMP_STAFF_SUBSCRIPTION_ID );
-		\update_option( self::SETTING_UMP_STAFF_SUBSCRIPTION_ID, $field );
-		$response['feedback'] = \esc_html__( 'Staff Subscription ID Saved', 'elementalplugin' );
+		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID );
+		\update_option( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID, $field );
+		$response['feedback'] = \esc_html__( 'Tenant Admin Subscription ID Saved', 'elementalplugin' );
 		return $response;
 	}
 
@@ -101,14 +102,14 @@ class ElementalUMP {
 		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID ) . '"
 		value="' . get_option( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'UMP Sponsored Account (regular user) ID for the Staff subscription (used to auto assign it to new users)', 'elementalplugin' ) . '"></i>
+			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Normal User Account Subscription  (used to auto assign it to new users)', 'elementalplugin' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
 	}
 
 	/**
-	 * Process Update Result. UMP staff ID Setting.
+	 * Process Update Result. UMP Sponsored (Normal User) ID Setting.
 	 *
 	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
 	 * @return array

@@ -103,7 +103,7 @@ class UMPMemberships {
 	 */
 	public function add_tenant_admin_ump_subscription( int $staff_id ): void {
 
-		$level_id = get_option( ElementalUMP::SETTING_UMP_STAFF_SUBSCRIPTION_ID );
+		$level_id = get_option( ElementalUMP::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID );
 		UserSubscriptions::assign( $staff_id, $level_id );
 		UserSubscriptions::makeComplete( $staff_id, $level_id, false );
 

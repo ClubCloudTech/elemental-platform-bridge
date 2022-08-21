@@ -17,35 +17,33 @@ class MembershipShortCode {
 
 
 	/**
-	 * Render shortcode to allow user to update their settings
+	 * Render shortcode to Manage Sponsored Accounts
 	 *
 	 * @param array|string $attributes List of shortcode params.
 	 *
 	 * @return ?string
 	 */
-	public function render_membership_shortcode( $attributes = array() ): ?string {
+	public function render_sponsored_account_shortcode( $attributes = array() ): ?string {
 		$user_id = $attributes['user'] ?? null;
 
 		if ( ! $user_id ) {
 			$user_id = \get_current_user_id();
 		}
 
-		return $this->membership_shortcode_worker( $user_id );
+		return $this->sponsored_account_shortcode_worker( $user_id );
 	}
 
 
 	/**
-	 * Membership Shortcode Worker Function
+	 * Sponsored Account Shortcode Worker Function
 	 * Handles the rendering of the shortcode for membership management.
 	 *
 	 * @param  int $user_id The WP User ID.
 	 * @return ?string
 	 */
-	public function membership_shortcode_worker( int $user_id = null ): ?string {
+	public function sponsored_account_shortcode_worker( int $user_id = null ): ?string {
 
 		$this->enqueue_style_scripts();
-		$user_id             = get_current_user_id();
-		$accounts_remaining  = $this->render_remaining_account_count( $user_id );
 		$child_account_table = $this->generate_child_account_table();
 		if ( ! \is_user_logged_in() ) {
 
@@ -80,6 +78,53 @@ class MembershipShortCode {
 		return $render( $sponsored_accounts, $accounts_remaining );
 
 	}
+
+	/**
+	 * Render shortcode for Tenant Admin Accounts
+	 *
+	 * @param array|string $attributes List of shortcode params.
+	 *
+	 * @return ?string
+	 */
+	public function render_tenant_admin_account_shortcode( $attributes = array() ): ?string {
+		$user_id = $attributes['user'] ?? null;
+
+		if ( ! $user_id ) {
+			$user_id = \get_current_user_id();
+		}
+
+		return $this->tenant_admin_account_shortcode_worker( $user_id );
+	}
+
+
+	/**
+	 * Tenant Admin Account Shortcode Worker Function
+	 * Handles the rendering of the shortcode for membership management for Tenant Admin Accounts.
+	 *
+	 * @param  int $user_id The WP User ID.
+	 * @return ?string
+	 */
+	public function tenant_admin_account_shortcode_worker( int $user_id = null ): ?string {
+
+		$this->enqueue_style_scripts();
+		$child_account_table = $this->generate_child_account_table();
+		if ( ! \is_user_logged_in() ) {
+
+			$args       = array(
+				'echo'     => false,
+				'redirect' => get_permalink( get_the_ID() ),
+				'remember' => true,
+			);
+			$login_form = wp_login_form( $args );
+		}
+		$render              = ( require __DIR__ . '/../views/membership/manage-child.php' );
+		$manage_account_form = ( require __DIR__ . '/../views/membership/add-new-user.php' );
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+		return $render( $manage_account_form(), $child_account_table, $login_form );
+	}
+
+
+
 
 	/**
 	 * Enqueue Styles and Scripts
