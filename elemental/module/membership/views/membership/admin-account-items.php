@@ -1,8 +1,8 @@
 <?php
 /**
- * Shows Child/Sponsored Account Room Items
+ * Shows Tenant Admin/ Account Room Items
  *
- * @package ElementalPlugin\Module\Membership\Views\child-account-items.php
+ * @package module/membership/views/membership/admin-account-items.php
  */
 
 use ElementalPlugin\Module\Membership\Membership;
@@ -37,7 +37,6 @@ return function (
 
 	?>
 		</td>
-
 		<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
 	<?php
 

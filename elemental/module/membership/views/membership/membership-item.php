@@ -19,7 +19,7 @@ return function (
 
 	?>
 	<tr class="active mvr-table-mobile" data-room-id="<?php echo esc_attr( $memberships['level'] ); ?>">
-		<td class="plugin-title column-primary myvideoroom-mobile-table-row-adjust">
+		<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
 	<?php
 	if ( $memberships['badge_url'] ) {
 		?>
@@ -28,7 +28,7 @@ return function (
 	}
 	?>
 		</td>
-		<td class="column-description myvideoroom-mobile-table-row-adjust">
+		<td class="column-description elemental-mobile-table-row-adjust">
 	<?php
 	if ( $memberships['wcfm_level'] ) {
 		$output = ' WCFM (' . esc_textarea( $memberships['wcfm_level'] ) . ')';

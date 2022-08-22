@@ -169,7 +169,7 @@ class OnboardShortcode {
 	 * @param  int $user_id The WP User ID.
 	 * @return ?string
 	 */
-	public function generate_child_account_table( int $user_id = null ): ?string {
+	public function generate_sponsored_account_table( int $user_id = null ): ?string {
 		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}
