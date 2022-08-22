@@ -26,26 +26,26 @@ return function (
 		<thead>
 			<tr>
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Badge', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Badge', 'elementalplugin' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Level', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Level', 'elementalplugin' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Price', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Price', 'elementalplugin' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Allowed Accounts', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Allowed Accounts', 'elementalplugin' ); ?>
 				</th>
 
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Store Template', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Store Template', 'elementalplugin' ); ?>
 				</th>
 				<th scope="col" class="manage-column column-name column-primary">
-		<?php esc_html_e( 'Landing Template', 'my-video-room' ); ?>
+		<?php esc_html_e( 'Landing Template', 'elementalplugin' ); ?>
 				</th>
 			</tr>
 		</thead>

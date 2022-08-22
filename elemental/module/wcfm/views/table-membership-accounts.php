@@ -2,7 +2,7 @@
 /**
  * Outputs User Membership Levels Table.
  *
- * @package ElementalPlugin\Module\WCFM\Views\table-membership-settings.php
+ * @package module/wcfm/views/table-membership-accounts.php
  */
 
 /**
@@ -26,10 +26,11 @@ return function (
 		<table id="elemental-membership-table" class="display" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th><?php esc_html_e( 'Account', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Created', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Name', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Actions', 'myvideoroom' ); ?></th>
+					<th><?php esc_html_e( 'Account', 'elementalplugin' ); ?></th>
+					<th><?php esc_html_e( 'Type', 'elementalplugin' ); ?></th>
+					<th><?php esc_html_e( 'Created', 'elementalplugin' ); ?></th>
+					<th><?php esc_html_e( 'Name', 'elementalplugin' ); ?></th>
+					<th><?php esc_html_e( 'Actions', 'elementalplugin' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -43,10 +44,11 @@ return function (
 			</tbody>
 			<tfoot>
 				<tr>
-					<th><?php esc_html_e( 'Account', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Created', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Name', 'myvideoroom' ); ?></th>
-					<th><?php esc_html_e( 'Actions', 'myvideoroom' ); ?></th>
+					<th><?php esc_html_e( 'Account', 'elementalplugin' ); ?></th>
+					<th><?php esc_html_e( 'Type', 'elementalplugin' ); ?></th>
+					<th><?php esc_html_e( 'Created', 'elementalplugin' ); ?></th>
+					<th><?php esc_html_e( 'Name', 'elementalplugin' ); ?></th>
+					<th><?php esc_html_e( 'Actions', 'elementalplugin' ); ?></th>
 				</tr>
 			</tfoot>
 		</table>
@@ -59,7 +61,7 @@ return function (
 <div class="elemental-align-left wcfm-container wcfm-top-element-container">
 <p>
 		<?php
-			esc_html_e( 'You don\'t currently have any User Accounts Created.', 'myvideoroom' );
+			esc_html_e( 'You don\'t currently have any User Accounts Created.', 'elementalplugin' );
 		?>
 </p>
 </div>
