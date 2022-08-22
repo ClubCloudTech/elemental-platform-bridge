@@ -30,14 +30,14 @@ return function (
 
 		?>
 	<tr class="active mvr-table-mobile" data-room-id="<?php echo esc_attr( $child_account_object['level'] ); ?>">
-		<td class="plugin-title column-primary myvideoroom-mobile-table-row-adjust">
+		<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
 		<?php
 
 			echo esc_textarea( $child_account_object['email'] );
 
 		?>
 		</td>
-		<td class="column-description myvideoroom-mobile-table-row-adjust">
+		<td class="column-description elemental-mobile-table-row-adjust">
 			<?php
 				echo esc_textarea( $child_account_object['created'] );
 			?>

@@ -9,6 +9,7 @@ namespace ElementalPlugin\Module\Membership\Library;
 
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Module\Membership\Membership;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -44,7 +45,7 @@ class MembershipShortCode {
 	public function sponsored_account_shortcode_worker( int $user_id = null ): ?string {
 
 		$this->enqueue_style_scripts();
-		$child_account_table = $this->generate_child_account_table();
+		$child_account_table = $this->generate_sponsored_account_table();
 		if ( ! \is_user_logged_in() ) {
 
 			$args       = array(
@@ -61,13 +62,13 @@ class MembershipShortCode {
 	}
 
 	/**
-	 * Child Account User Table
-	 * Handles the rendering of the User tables for Child Accounts.
+	 * Sponsored Account User Table
+	 * Handles the rendering of the User tables for Sponsored Child Accounts.
 	 *
 	 * @param  int $user_id The WP User ID.
 	 * @return ?string
 	 */
-	public function generate_child_account_table( int $user_id = null ): ?string {
+	public function generate_sponsored_account_table( int $user_id = null ): ?string {
 		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}
@@ -107,7 +108,7 @@ class MembershipShortCode {
 	public function tenant_admin_account_shortcode_worker( int $user_id = null ): ?string {
 
 		$this->enqueue_style_scripts();
-		$child_account_table = $this->generate_child_account_table();
+		$admin_account_table = $this->generate_tenant_admin_account_table();
 		if ( ! \is_user_logged_in() ) {
 
 			$args       = array(
@@ -120,10 +121,27 @@ class MembershipShortCode {
 		$render              = ( require __DIR__ . '/../views/membership/manage-child.php' );
 		$manage_account_form = ( require __DIR__ . '/../views/membership/add-new-user.php' );
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
-		return $render( $manage_account_form(), $child_account_table, $login_form );
+		return $render( $manage_account_form(), $admin_account_table, $login_form );
 	}
 
+	/**
+	 * Tenant Admin Account User Table
+	 * Handles the rendering of the User tables for Sponsored Child Accounts.
+	 *
+	 * @param  int $user_id The WP User ID.
+	 * @return ?string
+	 */
+	public function generate_tenant_admin_account_table( int $user_id = null ): ?string {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+		$accounts_remaining = $this->render_remaining_account_count( $user_id, Membership::MEMBERSHIP_ROLE_TENANT_ADMIN, Membership::MEMBERSHIP_ROLE_TENANT_ADMIN_DESCRIPTION );
+		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
+		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
 
+		return $render( $sponsored_accounts, $accounts_remaining );
+
+	}
 
 
 	/**
@@ -137,7 +155,7 @@ class MembershipShortCode {
 		$css_lib_url       = $WCFM->plugin_url . 'assets/css/';
 		$upload_dir        = wp_upload_dir();
 		$wcfm_style_custom = get_option( 'wcfm_style_custom' );
-		\wp_enqueue_script( 'myvideoroom-iframe-handler' );
+		\wp_enqueue_script( 'elementalplugin-iframe-handler' );
 		wp_enqueue_style( 'wcfm_capability_css', $WCFM->library->css_lib_url . 'capability/wcfm-style-capability.css', false, 1 );
 		wp_enqueue_style( 'collapsible_css', $WCFM->library->css_lib_url . 'wcfm-style-collapsible.css', false, $WCFMgs->version );
 		wp_enqueue_style( 'wcfmgs_staffs_manage_css', $WCFMgs->plugin_url . 'assets/css/wcfmgs-style-staffs-manage.css', false, $WCFMgs->version );
@@ -153,7 +171,7 @@ class MembershipShortCode {
 		wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'min/menu/wcfm-style-menu.css', array(), $WCFM->version );
 		wp_enqueue_style( 'wcfm_products_manage_css', $css_lib_url . 'products-manager/wcfm-style-products-manage.css', array(), $WCFM->version );
 		wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
-		wp_enqueue_style( 'myvideoroom-menutab-header' );
+		wp_enqueue_style( 'elementalplugin-menutab-header' );
 
 		\wp_enqueue_script( 'elemental-membership-js' );
 		// Localize script Ajax Upload.
@@ -175,20 +193,35 @@ class MembershipShortCode {
 	 * Enqueue Styles and Scripts
 	 * Handles the Styles and Scripts needed for Membership Form front end to look like WCFM.
 	 *
-	 * @param  int $user_id The WP User ID.
+	 * @param  int    $user_id The WP User ID.
+	 * @param  string $account_type - The Account type to query.
+	 * @param  string $account_description - The Description to show the user of account type.
 	 * @return string
 	 */
-	public function render_remaining_account_count( int $user_id = null ): ?string {
+	public function render_remaining_account_count( int $user_id = null, string $account_type = null, string $account_description = null ): ?string {
 		if ( ! $user_id ) {
 			$user_id = \get_current_user_id();
 		}
+		if ( ! $account_type ) {
+			$account_type = Membership::MEMBERSHIP_ROLE_SPONSORED;
+		}
+		if ( ! $account_description ) {
+			$account_description = Membership::MEMBERSHIP_ROLE_SPONSORED_DESCRIPTION;
+		}
 
-		$accounts_remaining = Factory::get_instance( MembershipUMP::class )->child_account_available_number( $user_id );
+		$accounts_remaining = Factory::get_instance( MembershipUMP::class )->child_account_available_number( $user_id, $account_type );
+		if ( $accounts_remaining > 999 ) {
+			$accounts_remaining_display = \esc_html__( 'unlimited ', 'elementalplugin' );
+		} else {
+			$accounts_remaining_display = $accounts_remaining;
+		}
 
 		if ( current_user_can( 'editor' ) || current_user_can( 'administrator' ) ) {
-			return '<div id="div-holder-temp" class="elemental-initial"> <div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have Unlimited Accounts Remaining ', 'myvideoroom' ) . '</div></div>';
+			return '<div id="div-holder-temp" class="elemental-initial"> <div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You have unlimited accounts remaining ', 'elementalplugin' ) . '</div></div>';
 		} elseif ( $accounts_remaining > 0 ) {
-			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have ', 'myvideoroom' ) . esc_textarea( $accounts_remaining ) . esc_html__( ' user accounts remaining', 'myvideoroom' ) . '</div></div>';
+			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You have ', 'elementalplugin' ) . esc_textarea( $accounts_remaining_display ) . ' ' . esc_textarea( $account_description ) . esc_html__( ' accounts remaining', 'elementalplugin' ) . '</div></div>';
+		} elseif ( 0 === $accounts_remaining ) {
+			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You have No ', 'elementalplugin' ) . esc_textarea( $account_description ) . esc_html__( ' accounts remaining', 'elementalplugin' ) . '</div></div>';
 		}
 		return null;
 	}
@@ -268,8 +301,8 @@ class MembershipShortCode {
 		}
 
 		return '
-		<button  class="' . $style . ' myvideoroom-woocommerce-basket-ajax" data-target="' . $target_id . '">
-		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' class="' . $style . ' myvideoroom-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
+		<button  class="' . $style . ' elementalplugin-woocommerce-basket-ajax" data-target="' . $target_id . '">
+		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' class="' . $style . ' elementalplugin-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
 		</button>
 		';
 	}

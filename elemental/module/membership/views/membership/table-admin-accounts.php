@@ -29,15 +29,15 @@ return function (
 					<thead>
 						<tr>
 							<th><?php esc_html_e( 'Account', 'elementalplugin' ); ?></th>
-							<th><?php esc_html_e( 'Type', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Created', 'elementalplugin' ); ?></th>
+							<th><?php esc_html_e( 'Type', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Name', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Actions', 'elementalplugin' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php
-						$child_account_table_render = include __DIR__ . '/child-account-items.php';
+						$child_account_table_render = include __DIR__ . '/admin-account-items.php';
 						foreach ( $user_accounts as $level ) {
 							//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
 							echo $child_account_table_render($level);
@@ -47,8 +47,8 @@ return function (
 					<tfoot>
 						<tr>
 							<th><?php esc_html_e( 'Account', 'elementalplugin' ); ?></th>
-							<th><?php esc_html_e( 'Type', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Created', 'elementalplugin' ); ?></th>
+							<th><?php esc_html_e( 'Type', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Name', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Actions', 'elementalplugin' ); ?></th>
 						</tr>

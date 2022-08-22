@@ -122,7 +122,7 @@ class MembershipAjax {
 			$response['feedback'] = $success_state['feedback'];
 			if ( true === $success_state['status'] ) {
 				$response['status']  = true;
-				$response['table']   = Factory::get_instance( MembershipShortCode::class )->generate_child_account_table();
+				$response['table']   = Factory::get_instance( MembershipShortCode::class )->generate_sponsored_account_table();
 				$response['counter'] = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
 			} else {
 				$response['status'] = false;
@@ -166,7 +166,7 @@ class MembershipAjax {
 
 			if ( true === $delete_user ) {
 				$response['feedback'] = \esc_html__( 'User Deleted Successfully', 'elementalplugin' );
-				$response['table']    = Factory::get_instance( MembershipShortCode::class )->generate_child_account_table();
+				$response['table']    = Factory::get_instance( MembershipShortCode::class )->generate_sponsored_account_table();
 				$response['counter']  = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
 			} else {
 				$response['feedback'] = \esc_html__( 'Error Deleting User', 'elementalplugin' );
