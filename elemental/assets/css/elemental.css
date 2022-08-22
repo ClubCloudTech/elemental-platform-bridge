@@ -799,3 +799,26 @@ a{
 	background-color:none ! important;
 
 }
+
+
+.elementor-54888 .elementor-element.elementor-element-825e134 .elementor-cta__content {
+    display: flex;
+    min-height: 10vh;
+    text-align: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.elementor-54888 .elementor-element.elementor-element-6b519a1 .elementor-cta__content {
+    display: flex;
+    min-height: 10vh;
+    text-align: center;
+    flex-wrap: nowrap;
+}
+
+.elementor-54888 .elementor-element.elementor-element-ff6f55a .elementor-cta__content {
+    display: flex;
+    min-height: 10vh;
+    text-align: center;
+    flex-wrap: nowrap;
+}
