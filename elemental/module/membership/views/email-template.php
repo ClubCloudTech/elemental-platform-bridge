@@ -16,7 +16,8 @@
 return function (
 	string $password,
 	string $email,
-	string $first_name
+	string $first_name,
+	array $data
 ): string {
 	ob_start();
 	?>
@@ -101,35 +102,44 @@ return function (
 									echo esc_html__( 'To begin, you can access your account ', 'myvideoroom' ) .
 									'<a href="' . esc_url( \get_site_url() ) . '">' . \esc_html__( ' Here ', 'myvideoroom' ) . '<a>';
 									?>
-								</p>
-								<p class="signature"
-									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; font-size: 14px; line-height: 140%; text-align: left; margin: 20px 0 0 0; Margin: 20px 0 0 0;">
-									<thead>
+									<div>
 										<table id="mvr-table-basket-frame"
 											class="wp-list-table widefat plugins myvideoroom-table-adjust">
-											<thead>
-												<tr>
-													<th scope="col" style="width:40%">
-														<?php esc_html_e( 'Username', 'my-video-room' ); ?>
-													</th>
-
-													<th scope="col" style="width:40%">
-														<?php esc_html_e( 'Password', 'my-video-room' ); ?>
-													</th>
-												</tr>
-											</thead>
 											<tbody>
 												<tr>
-													<td scope="col" style="width:40%">
+													<td align="left" scope="col" style="width:40%">
+														<strong>
+															<?php esc_html_e( 'Username', 'my-video-room' ); ?>
+														</strong>
+													</td>
+												</tr>
+												<tr>
+													<td align="left" scope="col" style="width:40%">
 														<?php echo esc_textarea( $email ); ?>
 													</td>
-
-													<td scope="col" style="width:40%">
+												</tr>
+												<tr>
+													<td align="left" scope="col" style="width:40%">
+														<strong>
+															<?php esc_html_e( 'Password', 'my-video-room' ); ?>
+														</strong>
+													</td>
+												</tr>
+												<tr>
+													<td align="left" scope="col" style="width:40%">
 														<?php echo esc_textarea( $password ); ?>
 													</td>
 												</tr>
+													<?php
+														if (count($data)) {
+															foreach ($data as $user) {
+																echo '<tr><td align="left" scope="col" style="width:40%"><strong>' . $user['first_name'] . ' ' . $user['last_name'] . '</strong></td></tr><tr><td align="left" scope="col" style="width:40%">' . $user['email'] . '</td></tr>';
+															}
+														}
+													?>
 											</tbody>
 										</table>
+									</div>
 								</p>
 								<p
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; font-size: 14px; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0;">
