@@ -10,13 +10,12 @@ window.addEventListener("load", function() {
          */
         function init() {;
             $("#update_profile").on("click", edit_companyForm);
-              $("#addUser").on("click", edit_companyForm);
-              $("#mailSent").on("click", mailSent);    
+            $("#addUser").on("click", edit_companyForm);
+            $("#mailSent").on("click", mailSent);
         }
 
-             var checkEmail = function(event) {
+        var checkEmail = function(event) {
             var re = /\S+@\S+\.\S+/;
-            console.log(re.test($("#pass_email").val()));
             if (re.test($("#pass_email").val())) {
                 //alert(state_response.feedback);
                 $(".signCheck").removeClass("fa-exclamation-triangle");
@@ -49,32 +48,35 @@ window.addEventListener("load", function() {
             form_data.append("action", "elemental_editcompany_ajax");
             form_data.append("action_taken", "update_editcompany");
             var formDataArray = $("#companyForm").serializeArray();
-            $.each(formDataArray, function(key, input) {
-                form_data.append(input.name, input.value);
-            });
+            $.each(
+                formDataArray,
+                function(key, input) {
+                    form_data.append(input.name, input.value);
+                }
+            );
             form_data.append("security", elemental_editcompany_ajax.security);
             $.ajax({
-              type: "post",
-               dataType: "html",
+                type: "post",
+                dataType: "html",
                 url: elemental_editcompany_ajax.ajax_url,
-               contentType: false,
+                contentType: false,
                 processData: false,
                 data: form_data,
                 success: function(response) {
                     var state_response = JSON.parse(response);
-                    console.log(state_response);
+
                     if (state_response.feedback == "company Updated") {
                         alert(state_response.feedback);
                     }
                 },
                 error: function(response) {
-                    console.log("Error Uploading Template "+JSON.stringify(response));
+                    console.log("Error Uploading Template " + JSON.stringify(response));
                 },
             });
         };
 
-         /**
-             * Add new user details on Database (used in backend admin page)
+        /**
+         * Add new user details on Database (used in backend admin page)
          */
         var add_user = function(event) {
 
@@ -82,29 +84,31 @@ window.addEventListener("load", function() {
             form_data.append("action", "elemental_editcompany_ajax");
             form_data.append("action_taken", "add_user");
             var formDataArray = $("#registrationForm").serializeArray();
-            $.each(formDataArray, function(key, input) {
-                form_data.append(input.name, input.value);
-            });
+            $.each(
+                formDataArray,
+                function(key, input) {
+                    form_data.append(input.name, input.value);
+                }
+            );
             form_data.append("security", elemental_editcompany_ajax.security);
             $.ajax({
                 type: "post",
-               dataType: "html",
+                dataType: "html",
                 url: elemental_editcompany_ajax.ajax_url,
-               contentType: false,
+                contentType: false,
                 processData: false,
                 data: form_data,
                 success: function(response) {
                     var state_response = JSON.parse(response);
-                    console.log(state_response);
                     if (state_response.feedback == "User Created") {
                         alert(state_response.feedback);
-                    }else{
-                         alert(state_response.feedback);
+                    } else {
+                        alert(state_response.feedback);
                     }
 
                 },
                 error: function(response) {
-                    console.log("Error Uploading Template "+JSON.stringify(response));
+                    console.log("Error Uploading Template " + JSON.stringify(response));
                 },
             });
 
@@ -112,7 +116,7 @@ window.addEventListener("load", function() {
 
 
         var mailSent = function(event) {
-              var form_data = new FormData();
+            var form_data = new FormData();
             form_data.append("action", "elemental_editcompany_ajax");
             form_data.append("action_taken", "forgot_password");
             // event.stopPropagation();
@@ -142,7 +146,6 @@ window.addEventListener("load", function() {
                             data: form_data,
                             success: function(response) {
                                 var state_response = JSON.parse(response);
-                                //  console.log("smtp", state_response);
                                 if (state_response.feedback == "Email Sent") {
                                     alert("If User exits , Mail has been sent !");
                                     location.reload();
@@ -157,9 +160,7 @@ window.addEventListener("load", function() {
             });
 
         };
-      
+
         init();
     });
-       });
-
-
+});

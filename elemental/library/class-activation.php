@@ -23,7 +23,7 @@ class Activation {
 	/**
 	 * Activate the plugin, and related modules.
 	 */
-	public function activate() {
+	public static function activate() {
 		Factory::get_instance( Membership::class )->activate();
 		Factory::get_instance( WCFM::class )->activate();
 		Factory::get_instance( Sandbox::class )->activate();
@@ -40,10 +40,9 @@ class Activation {
 	/**
 	 * Activate the plugin, and related modules.
 	 */
-	private function install_main_plugin_tables() {
+	private static function install_main_plugin_tables() {
 		Factory::get_instance( TokenDAO::class )->install_user_tokens_table();
 		Factory::get_instance( UserPreferenceDAO::class )->install_user_preference_table();
-
 	}
 
 }

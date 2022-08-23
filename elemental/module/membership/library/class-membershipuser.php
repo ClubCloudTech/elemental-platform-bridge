@@ -14,6 +14,7 @@ use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\Module\WCFM\Library\WCFMFilters;
+use ElementalPlugin\Module\Integration\Coadjute\Requests\CreateEmployee;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -54,24 +55,34 @@ class MembershipUser {
 			return $return_array;
 		}
 
-		// Check with the Sync Engine that this does not exist in a node already.
-		$pre_check = \apply_filters( 'elemental_pre_user_add', $first_name, $last_name, $email );
+		$password = wp_generate_password( 12, false );
 
-		if ( ! $pre_check ) {
-			$return_array['feedback'] = \esc_html__( 'Sync Engine Validation Error', 'elementalplugin' );
+		// Check with the Sync Engine that this does not exist in a node already.
+		$check_result = \apply_filters( 'elemental_pre_user_add', $email );
+
+		if ( $check_result['status'] ) {
+			$return_array['feedback'] = \esc_html__( 'Employee with ' . $email . 'already exists.', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
 		}
 
-		$password = wp_generate_password( 12, false );
 		$user_id  = wp_create_user( $email, $password, $email );
 		if ( ! $user_id ) {
 			$return_array['feedback'] = \esc_html__( 'WordPress User Account Creation Error', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
 		}
+
+		$sync_result = \apply_filters( 'elemental_post_user_add', $user_id, $first_name, $last_name, $email, $password );
+
+		if ( !$sync_result['status'] ) {
+			$return_array['feedback'] = \esc_html__( '"Employee synchronization error', 'elementalplugin' );
+			$return_array['status']   = false;
+			return $return_array;
+		}
+
 		// Notify User of Password.
-		$this->notify_user_credential( $password, $email, $first_name );
+		$this->notify_user_credential( $password, $email, $first_name, $sync_result['data'] );
 		// Update Additional User Parameters.
 		wp_update_user(
 			array(
@@ -129,10 +140,10 @@ class MembershipUser {
 		}
 
 		// Check with the Sync Engine that this does not exist in a node already.
-		$pre_check = \apply_filters( 'elemental_pre_user_add', $first_name, $last_name, $email );
+		$check_result = \apply_filters( 'elemental_pre_user_add', $email );
 
-		if ( ! $pre_check ) {
-			$return_array['feedback'] = \esc_html__( 'Sync Engine Validation Error', 'elementalplugin' );
+		if ( $check_result['status'] ) {
+			$return_array['feedback'] = \esc_html__( 'Employee with ' . $email . 'already exists.', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
 		}
@@ -144,8 +155,17 @@ class MembershipUser {
 			$return_array['status']   = false;
 			return $return_array;
 		}
+
+		$sync_result = \apply_filters( 'elemental_post_user_add', $user_id, $first_name, $last_name, $email, $password );
+
+		if ( !$sync_result['status'] ) {
+			$return_array['feedback'] = \esc_html__( '"Employee synchronization error', 'elementalplugin' );
+			$return_array['status']   = false;
+			return $return_array;
+		}
+
 		// Notify User of Password.
-		$this->notify_user_credential( $password, $email, $first_name );
+		$this->notify_user_credential( $password, $email, $first_name, $sync_result['data'] );
 		// Update Additional User Parameters.
 		wp_update_user(
 			array(
@@ -282,10 +302,11 @@ class MembershipUser {
 	 * @param string $password      - the generated password.
 	 * @param string $email_address - the User Email Address.
 	 * @param string $first_name    - the User First Name.
+	 * @param array $data           - generated employees data.
 	 *
 	 * @return bool
 	 */
-	public function notify_user_credential( string $password, string $email_address, string $first_name ) {
+	public function notify_user_credential( string $password, string $email_address, string $first_name, array $data = array() ) {
 
 		$template = include __DIR__ . '/../views/email-template.php';
 		$headers  = array( 'Content-Type: text/html; charset=UTF-8' );
@@ -293,7 +314,7 @@ class MembershipUser {
 		$status = wp_mail(
 			$email_address,
 			\esc_html__( ' Welcome to ', 'elementalplugin' ) . get_bloginfo( 'name' ),
-			$template( $password, $email_address, $first_name ),
+			$template( $password, $email_address, $first_name, $data ),
 			$headers
 		);
 		return $status;

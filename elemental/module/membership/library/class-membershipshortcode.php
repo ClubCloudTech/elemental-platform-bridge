@@ -73,7 +73,7 @@ class MembershipShortCode {
 		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}
-		$accounts_remaining  = $this->render_remaining_account_count($user_id);
+		$accounts_remaining = $this->render_remaining_account_count( $user_id );
 		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
 		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
 

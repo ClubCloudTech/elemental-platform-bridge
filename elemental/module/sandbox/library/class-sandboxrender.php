@@ -48,7 +48,6 @@ class SandboxRender extends TabHelper {
 	public function sandbox_shortcode_handler() {
 		$user_id      = Factory::get_instance( Encryption::class )->encrypt_string( \get_current_user_id() );
 		$html_library = Factory::get_instance( HTML::class, array( 'view-management' ) );
-		$tabs         = array();
 		$tabs         = Factory::get_instance( SandBoxHelpers::class )->render_all_tabs();
 		$render       = include __DIR__ . '/../views/view-sandbox-main.php';
 		return $render( $html_library, $tabs, $user_id );
