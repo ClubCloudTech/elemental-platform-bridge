@@ -762,6 +762,7 @@ padding: 1% ! important;
 
 .elementor-12685 .elementor-element.elementor-element-5875c03 .elementor-heading-title {
     font-family: "Montserrat", Sans-serif!important;
+	font-size: 14px ! important;
 
 }
 
@@ -799,8 +800,6 @@ a{
 	background-color:none ! important;
 
 }
-
-
 .elementor-54888 .elementor-element.elementor-element-825e134 .elementor-cta__content {
     display: flex;
     min-height: 10vh;
@@ -821,4 +820,18 @@ a{
     min-height: 10vh;
     text-align: center;
     flex-wrap: nowrap;
+}
+
+.elementor-12508 .elementor-element.elementor-element-35c9887 .elementor-heading-title{
+
+	font-family: "Montserrat", Sans-serif!important;
+	font-size: 14px !important;
+}
+
+.elementor-45298 .elementor-element.elementor-element-9675539:not(.elementor-motion-effects-element-type-background), .elementor-45298 .elementor-element.elementor-element-9675539 > .elementor-motion-effects-container > .elementor-motion-effects-layer{
+	background-color: hsl(0deg 0% 100% / 0%) !important;
+}
+.elementor-12517 .elementor-element.elementor-element-ca75bf8 .elementor-heading-title{
+	font-family: "Montserrat", Sans-serif!important;
+	font-size: 14px !important;
 }
