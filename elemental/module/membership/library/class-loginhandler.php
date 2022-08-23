@@ -36,6 +36,7 @@ class LoginHandler {
 	const SHORTCODE_COMPANY_EDIT = 'elemental_company_edit';
 	const SHORTCODE_ADD_USER = 'elemental_add_user';
 	const SHORTCODE_FORGOT_PASSWORD = 'elemental_forgot_password';
+	const SHORTCODE_USER_EDIT = 'elemental_user_edit';
 
 
 	const SETTING_LOGIN_SWITCH_TEMPLATE           = 'elemental-login-switch-template';
@@ -71,6 +72,9 @@ class LoginHandler {
 
 		add_shortcode( self::SHORTCODE_ADD_USER, array( $this, 'elemental_add_user' ) );
 		add_shortcode(self::SHORTCODE_FORGOT_PASSWORD, array($this, 'elemental_forgot_password'));
+
+		// Edit user details
+		add_shortcode(self::SHORTCODE_USER_EDIT, array($this, 'elemental_user_edit'));
 
 		$this->register_scripts();
 		$this->initialise_loginhandler_ajax();
@@ -561,5 +565,25 @@ class LoginHandler {
 
 		$render = (require __DIR__ . '/../views/membership/view-forgetpassword.php');
 		return $render();
+	}
+
+
+	/**
+	 * Edit USER Layout
+	 * Renders the shortcode to correctly show company context edits for Admin.
+	 *
+	 * @return string
+	 */
+	public function elemental_user_edit(): string
+	{
+		wp_dequeue_style('login-form-min.css');
+		wp_enqueue_script('elemental_companyhandler');
+		wp_enqueue_style('company-companyEdit', plugin_dir_url(__FILE__) . '../css/companyEdit.css', false);
+		wp_enqueue_style('fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false);
+		wp_enqueue_style('bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false);
+
+		$current_user = wp_get_current_user();
+		$render       = (require __DIR__ . '/../views/membership/view-edituser.php');
+		return $render($current_user);
 	}
 }
