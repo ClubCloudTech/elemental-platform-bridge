@@ -12,7 +12,6 @@ use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\TabHelper;
-use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
@@ -89,7 +88,7 @@ class SandBoxHelpers {
 		$employee_name  = $sandbox_object->get_employee_name();
 		$company_domain = $sandbox_object->get_company_domain();
 
-		if ($record_id == 4) { // TODO: should be based on company type, hard-coded for lender as sandbox id = 4
+		if ( $record_id === 4) { // TODO: should be based on company type, hard-coded for lender as sandbox id = 4
 			$email     = $user->user_email;
 			$full_name = $user->first_name . ' ' . $user->last_name;
 		} else {
@@ -99,7 +98,7 @@ class SandBoxHelpers {
 
 		$email_hash = Factory::get_instance( Encryption::class )->encrypt( $email );
 
-		return '<div>' . $full_name . '</div><div>' . $email .  '</div><iframe style="width:100%;height:900px;" src="' . $base_url . '/' . $api_path . '__' . $record_id . '?userid=' . urlencode( $email_hash ) . $custom_field1 . $custom_field2 . '"></iframe>';
+		return '<iframe style="width:100%;height:900px;" src="' . $base_url . '/' . $api_path . '__' . $record_id . '?userid=' . urlencode( $email_hash ) . $custom_field1 . $custom_field2 . '"></iframe>';
 
 	}
 
@@ -168,6 +167,7 @@ class SandBoxHelpers {
 			fn() => $this->create_sandbox_iframe( $sandbox_object ),
 			$sandbox_object->get_record_id(),
 			strval( $sandbox_object->get_column_priority() ),
+			$sandbox_object
 		);
 
 		return $host_menu;

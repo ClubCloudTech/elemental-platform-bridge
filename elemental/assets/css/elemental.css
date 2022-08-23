@@ -54,7 +54,6 @@
 }
 
 .elemental-sandbox-wrap {
-	border: 1px solid #c3c4c7;
 	clear: both;
 	margin-top: 1%;
 	border-radius: 1%;
@@ -719,4 +718,24 @@ span.wcfm_title strong {
 
 .site-main {
 	min-height: calc(100vh - 210px);
+}
+
+.elemental-sandbox-info-header{
+	background: #EDEDED;
+	border-radius: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.elemental-table-header-info{
+	text-transform: none;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 22px;
+}
+.elemental-table-info-header{
+	margin-bottom: 0px;
+}
+
+.elemental-sandbox-info-header{
+	
 }
