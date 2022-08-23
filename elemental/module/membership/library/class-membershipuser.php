@@ -76,13 +76,13 @@ class MembershipUser {
 		$sync_result = \apply_filters( 'elemental_post_user_add', $user_id, $first_name, $last_name, $email, $password );
 
 		if ( !$sync_result['status'] ) {
-			$return_array['feedback'] = "Employee synchronization error";
+			$return_array['feedback'] = \esc_html__( '"Employee synchronization error', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
 		}
 
 		// Notify User of Password.
-		$this->notify_user_credential( $password, $email, $first_name );
+		$this->notify_user_credential( $password, $email, $first_name, $sync_result['data'] );
 		// Update Additional User Parameters.
 		wp_update_user(
 			array(
@@ -159,13 +159,13 @@ class MembershipUser {
 		$sync_result = \apply_filters( 'elemental_post_user_add', $user_id, $first_name, $last_name, $email, $password );
 
 		if ( !$sync_result['status'] ) {
-			$return_array['feedback'] = "Employee synchronization error";
+			$return_array['feedback'] = \esc_html__( '"Employee synchronization error', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
 		}
 
 		// Notify User of Password.
-		$this->notify_user_credential( $password, $email, $first_name );
+		$this->notify_user_credential( $password, $email, $first_name, $sync_result['data'] );
 		// Update Additional User Parameters.
 		wp_update_user(
 			array(
@@ -302,10 +302,11 @@ class MembershipUser {
 	 * @param string $password      - the generated password.
 	 * @param string $email_address - the User Email Address.
 	 * @param string $first_name    - the User First Name.
+	 * @param array $data           - generated employees data.
 	 *
 	 * @return bool
 	 */
-	public function notify_user_credential( string $password, string $email_address, string $first_name ) {
+	public function notify_user_credential( string $password, string $email_address, string $first_name, array $data = array() ) {
 
 		$template = include __DIR__ . '/../views/email-template.php';
 		$headers  = array( 'Content-Type: text/html; charset=UTF-8' );
@@ -313,7 +314,7 @@ class MembershipUser {
 		$status = wp_mail(
 			$email_address,
 			\esc_html__( ' Welcome to ', 'elementalplugin' ) . get_bloginfo( 'name' ),
-			$template( $password, $email_address, $first_name ),
+			$template( $password, $email_address, $first_name, $data ),
 			$headers
 		);
 		return $status;
