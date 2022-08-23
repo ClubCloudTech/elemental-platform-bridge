@@ -62,6 +62,13 @@ class SandboxEntity {
 	private ?string $company_domain;
 
 	/**
+	 * Class Key String
+	 *
+	 * @var string $class
+	 */
+	private ?string $class;
+
+	/**
 	 * Is Item Enabled.
 	 *
 	 * @var bool $is_enabled
@@ -73,7 +80,7 @@ class SandboxEntity {
 	 *
 	 * @var string $private_key
 	 */
-	private string $private_key;
+	private ?string $private_key;
 
 	/**
 	 * Record ID
@@ -112,8 +119,9 @@ class SandboxEntity {
 	 * @param string  $destination_url         Destination URL of Iframe.
 	 * @param ?string $customfield1            Custom String for header.
 	 * @param ?string $customfield2            Custom String for header.
-	 * @param ?string $employee_name            Custom String for header.
-	 * @param ?string $company_domain            Custom String for header.
+	 * @param ?string $employee_name           Custom String for header.
+	 * @param ?string $company_domain          Custom String for header.
+	 * @param ?string $class                   CSS Class to store for tab.
 	 * @param bool    $is_enabled              Is Item Enabled.
 	 * @param string  $private_key             The Private or Public Key Cypher.
 	 * @param ?int    $record_id               The Record ID.
@@ -129,8 +137,9 @@ class SandboxEntity {
 		?string $customfield2 = null,
 		?string $employee_name = null,
 		?string $company_domain = null,
+		?string $class = null,
 		bool $is_enabled = false,
-		string $private_key,
+		?string $private_key = null,
 		int $record_id,
 		int $owner_user_id,
 		?int $column_priority,
@@ -144,6 +153,7 @@ class SandboxEntity {
 		$this->customfield2      = $customfield2;
 		$this->employee_name     = $employee_name;
 		$this->company_domain    = $company_domain;
+		$this->class             = $class;
 		$this->is_enabled        = $is_enabled;
 		$this->private_key       = $private_key;
 		$this->record_id         = $record_id;
@@ -172,6 +182,7 @@ class SandboxEntity {
 				$data->customfield2,
 				$data->employee_name,
 				$data->company_domain,
+				$data->class,
 				$data->is_enabled,
 				$data->private_key,
 				$data->record_id,
@@ -201,6 +212,7 @@ class SandboxEntity {
 				'customfield2'      => $this->customfield2,
 				'employee_name'     => $this->employee_name,
 				'company_domain'    => $this->company_domain,
+				'class'             => $this->class,
 				'is_enabled'        => $this->is_enabled,
 				'private_key'       => $this->private_key,
 				'record_id'         => $this->record_id,
@@ -344,6 +356,28 @@ class SandboxEntity {
 	}
 
 	/**
+	 * Gets Class.
+	 *
+	 * @return ?string
+	 */
+	public function get_class(): ?string {
+		return $this->class;
+	}
+
+	/**
+	 * Sets employee_name
+	 *
+	 * @param ?string $class - CSS Class.
+	 *
+	 * @return SandboxEntity
+	 */
+	public function set_class( string $class ): SandboxEntity {
+		$this->class = $class;
+
+		return $this;
+	}
+
+	/**
 	 * Sets company_domain
 	 *
 	 * @param ?string $company_domain - Reception Status.
@@ -392,7 +426,7 @@ class SandboxEntity {
 	 *
 	 * @return string
 	 */
-	public function get_private_key(): string {
+	public function get_private_key(): ?string {
 		return $this->private_key;
 	}
 

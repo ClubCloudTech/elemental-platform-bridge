@@ -257,7 +257,6 @@ window.addEventListener(
 						$section,
 						function () {
 							taborder[count] = $( this ).attr( 'data-elementid' );
-							console.log( $( this ).attr( 'data-elementid' ) + 'position' + count );
 							count++;
 						}
 					);

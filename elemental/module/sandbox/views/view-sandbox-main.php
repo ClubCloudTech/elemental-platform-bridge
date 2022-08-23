@@ -86,6 +86,7 @@ return function (
 					foreach ( $tabs as $menu_output ) {
 						$tab_display_name = $menu_output->get_tab_display_name();
 						$tab_slug         = $menu_output->get_tab_slug();
+						$class            = $menu_output->get_sandbox_object()->get_class();
 						$object_id        = $menu_output->get_element_id();
 						$retrieved_color  = $menu_output->get_sandbox_object()->get_customfield2();
 						if ( true === $first_run ) {
@@ -95,7 +96,7 @@ return function (
 						?>
 
 					<li data-elementid=<?php echo esc_attr( $object_id ); ?> data-color=<?php echo esc_textarea( $retrieved_color ); ?>>
-						<a class="nav-tab<?php echo esc_attr( $active ); ?>"
+						<a class="<?php echo esc_attr( $class ); ?> nav-tab<?php echo esc_attr( $active ); ?>"
 						<?php echo esc_attr( $color_output ); ?> 
 						<?php
 						if ( $object_id ) {

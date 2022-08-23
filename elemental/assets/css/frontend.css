@@ -136,7 +136,7 @@
 			background: #fff0 !important;
 		}
 
-		.elemental-sandbox-nav-tab-wrapper li {
+		.elemental-sandbox-nav-tab-wrapper li  {
 			display: inline-block;
 			margin: 0;
 			padding: 1px;
@@ -144,6 +144,9 @@
 			background: white;
 			width: 100%;
 			text-align: center
+		}
+		.elemental-sandbox-nav-tab-wrapper li a.info  {
+			
 		}
 
 

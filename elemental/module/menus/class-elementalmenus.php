@@ -129,7 +129,7 @@ class ElementalMenus {
 	 */
 	private function render_user_logo_worker( array $attributes = null ): ?string {
 
-		if ( ! $attributes['user_id'] ) {
+		if ( ! isset( $attributes['user_id'] ) ) {
 			$user_id = \get_current_user_id();
 		}
 
@@ -137,7 +137,7 @@ class ElementalMenus {
 		$attributes = array(
 			'force_default' => true,
 		);
-		if ( 'avatar' === $attributes['image'] && $user_id ) {
+		if ( isset( $attributes['image'] ) && 'avatar' === $attributes['image'] && $user_id ) {
 			$picture_url = get_avatar_url( $user, $attributes );
 		} else {
 			$picture_url = \plugins_url( '../../assets/img/user-icon.png', __FILE__ );

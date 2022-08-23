@@ -92,9 +92,9 @@
 }
 
 .elemental-sandbox-nav-tab-wrapper li a {
-	border: 1px solid #c3c4c7;
+	border: 2px solid #323064!important;
+	border-bottom: 2px solid #323064 ! important;
 	border-radius: 10px 10px 0 0;
-	border-bottom: 1px solid #c3c4c7 ! important;
 	display: inline-block;
 	font-size: 18px;
 	font-family: montserrat;

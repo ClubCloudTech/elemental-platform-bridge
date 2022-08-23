@@ -12,7 +12,6 @@ use ElementalPlugin\Entity\MenuTabDisplay;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\TabHelper;
-use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\Sandbox\DAO\SandBoxDao;
 use ElementalPlugin\Module\Sandbox\Entity\SandboxEntity;
@@ -119,7 +118,7 @@ class SandBoxHelpers {
 		// Check Setup Config.
 		$user_config_record_ids = Factory::get_instance( UserPreferenceDAO::class )->get_by_pathway_id( $user_id );
 
-		if ( 0 === count( $user_config_record_ids ) || count( $all_record_ids ) < count( $user_config_record_ids ) ) {
+		if ( 0 === count( $user_config_record_ids ) || count( $all_record_ids ) > count( $user_config_record_ids ) ) {
 			$sortable_ids = $all_record_ids;
 			$sort         = true;
 		} else {
@@ -134,9 +133,7 @@ class SandBoxHelpers {
 			if ( $object ) {
 				$menu_item = $this->prepare_sandbox_tab( $object );
 				\array_push( $tab_objects, $menu_item );
-			} else {
-				echo ' No Oject found';
-			}
+			} 
 		}
 		// Return the Array, and Sort if unset by User preference.
 		if ( $sort ) {

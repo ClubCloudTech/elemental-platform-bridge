@@ -38,6 +38,7 @@ class SandBoxDao {
 			`customfield2` VARCHAR(512) NULL,
 			`employee_name` VARCHAR(512) NULL,
 			`company_domain` VARCHAR(512) NULL,
+			`class` VARCHAR(255) NULL,
 			`enabled` BOOLEAN,
 			`private_key` VARCHAR(512) NOT NULL,
 			`owner_user_id` INT NOT NULL,
@@ -76,6 +77,7 @@ class SandBoxDao {
 				'customfield2'      => $sandbox_entity->get_customfield2(),
 				'employee_name'     => $sandbox_entity->get_employee_name(),
 				'company_domain'    => $sandbox_entity->get_company_domain(),
+				'class'             => $sandbox_entity->get_class(),
 				'enabled       '    => $sandbox_entity->is_enabled(),
 				'private_key'       => $sandbox_entity->get_private_key(),
 				'owner_user_id'     => $sandbox_entity->get_owner_user_id(),
@@ -178,7 +180,7 @@ class SandBoxDao {
 		$row = $wpdb->get_row(
 			$wpdb->prepare(
 				'
-				SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, employee_name, company_domain, enabled, private_key, record_id, owner_user_id, column_priority, admin_enforced 
+				SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, employee_name, company_domain, class, enabled, private_key, record_id, owner_user_id, column_priority, admin_enforced 
 				FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
 				WHERE record_id = %d;
 			',
@@ -192,7 +194,7 @@ class SandBoxDao {
 			$row = $wpdb->get_row(
 				$wpdb->prepare(
 					'
-					SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, employee_name, company_domain, enabled, private_key, record_id, owner_user_id, column_priority, admin_enforced
+					SELECT tab_name, user_name_prepend, destination_url, customfield1, customfield2, employee_name, company_domain, class, enabled, private_key, record_id, owner_user_id, column_priority, admin_enforced
 					FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_table_name() . '
 					WHERE record_id = %d;
 				',
@@ -212,6 +214,7 @@ class SandBoxDao {
 				$row->customfield2,
 				$row->employee_name,
 				$row->company_domain,
+				$row->class,
 				(bool) $row->enabled,
 				$row->private_key,
 				(int) $row->record_id,
@@ -254,6 +257,7 @@ class SandBoxDao {
 				'customfield2'      => $sandbox_entity->get_customfield2(),
 				'employee_name'     => $sandbox_entity->get_employee_name(),
 				'company_domain'    => $sandbox_entity->get_company_domain(),
+				'class'             => $sandbox_entity->get_class(),
 				'enabled       '    => $sandbox_entity->is_enabled(),
 				'private_key'       => $sandbox_entity->get_private_key(),
 				'owner_user_id'     => $sandbox_entity->get_owner_user_id(),
@@ -330,6 +334,12 @@ class SandBoxDao {
 			 ";
 			//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
 			$wpdb->query( $wpdb->prepare( $add_employee_company ) );
+
+			$add_class = "ALTER TABLE `{$table_name}` ADD `class` VARCHAR(512) NULL AFTER `company_domain`;
+			";
+		   //phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
+			$wpdb->query( $wpdb->prepare( $add_class ) );
+
 			return true;
 		}
 
