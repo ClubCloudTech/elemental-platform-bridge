@@ -73,13 +73,13 @@ class Sandbox {
 	 * Renders configuration of Membership Management Plugin
 	 */
 	private function register_scripts(): void {
-
+		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
 		// Tabbed Frame Navigation.
 		wp_register_script(
 			'elemental-advanced-tabs',
 			plugins_url( '/assets/js/tabmanage.js', __FILE__ ),
 			array( 'jquery' ),
-			Factory::get_instance( Version::class )->get_plugin_version(),
+			$plugin_version,
 			true
 		);
 
@@ -101,6 +101,15 @@ class Sandbox {
 			'https://code.jquery.com/ui/1.13.2/jquery-ui.js',
 			array( 'jquery' ),
 			Factory::get_instance( Version::class )->get_plugin_version(),
+			true
+		);
+
+		// Tabbed Frame Navigation.
+		wp_register_script(
+			'elemental-sandbox-tabs',
+			plugins_url( '/assets/js/sandbox-tabbed.js', __FILE__ ),
+			array( 'jquery-ui' ),
+			$plugin_version,
 			true
 		);
 	}

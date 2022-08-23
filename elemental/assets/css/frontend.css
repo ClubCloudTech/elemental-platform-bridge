@@ -128,12 +128,12 @@
 		.elemental-sandbox-nav-tab-wrapper {
 			overflow: hidden;
 			margin-bottom: 1%;
-			min-height: 500px;
 		}
 
 		.elemental-sandbox-nav-tab-wrapper ul {
 			padding: 0;
 			white-space: nowrap;
+			background: #fff0 !important;
 		}
 
 		.elemental-sandbox-nav-tab-wrapper li {
@@ -149,7 +149,6 @@
 
 		.elemental-sandbox-nav-tab-wrapper li a.nav-tab-active {
 			font-weight: 600;
-			background: #323064;
 			color: white;
 			width: 100%;
 			font-size: 18px;
@@ -315,6 +314,14 @@
 			margin-right: 5px;
 			margin-left: 3px;
 		}
+
+		.ui-tabs .ui-tabs-panel {
+			padding: 2px!important;
+			margin-top: 10px;
+			border-right: solid#C4C4C4 1px!important;
+			border-top: solid#C4C4C4 1px!important;
+			border-radius: 0!important;
+		  }
 
 		.mvr-flex {
 			display: flex;

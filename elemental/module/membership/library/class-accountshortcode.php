@@ -29,7 +29,7 @@ class AccountShortcode {
 		$tabs         = $this->prepare_admin_tabs();
 		$user_id      = \get_current_user_id();
 
-		$render = ( include __DIR__ . '/../../sandbox/views/view-sandbox-main.php' );
+		$render = ( include __DIR__ . '/../../sandbox/views/view-sandbox-accounts.php' );
 		return $render( $html_library, $tabs, $user_id );
 	}
 
@@ -46,7 +46,9 @@ class AccountShortcode {
 			esc_html__( 'Manage User Accounts', 'elementalplugin' ),
 			'useraccounts',
 			fn() => Factory::get_instance( MembershipShortCode::class )->render_membership_shortcode(),
-			'useraccounts'
+			'useraccounts',
+			null,
+			null
 		);
 		\array_push( $return_array, $user_accounts );
 
@@ -54,7 +56,9 @@ class AccountShortcode {
 			esc_html__( 'Manage Admin Accounts', 'elementalplugin' ),
 			'adminaccounts',
 			fn() => \do_shortcode( '[wcfm endpoint="wcfm-staffs"]' ),
-			'adminaccounts'
+			'adminaccounts',
+			null,
+			null
 		);
 		\array_push( $return_array, $admin_accounts );
 

@@ -88,17 +88,15 @@ class SandBoxHelpers {
 		$employee_name  = $sandbox_object->get_employee_name();
 		$company_domain = $sandbox_object->get_company_domain();
 
-		if ( $record_id === 4) { // TODO: should be based on company type, hard-coded for lender as sandbox id = 4
-			$email     = $user->user_email;
-			$full_name = $user->first_name . ' ' . $user->last_name;
+		if ( 4 === $record_id ) { // TODO: should be based on company type, hard-coded for lender as sandbox id = 4.
+			$email = $user->user_email;
 		} else {
-			$email     = strtolower($employee_name . '.' . $user->last_name) . $user->id . '@' . $company_domain;
-			$full_name = $employee_name . ' ' . $user->last_name;
+			$email = strtolower( $employee_name . '.' . $user->last_name ) . $user->id . '@' . $company_domain;
 		}
 
 		$email_hash = Factory::get_instance( Encryption::class )->encrypt( $email );
 
-		return '<iframe style="width:100%;height:900px;" src="' . $base_url . '/' . $api_path . '__' . $record_id . '?userid=' . urlencode( $email_hash ) . $custom_field1 . $custom_field2 . '"></iframe>';
+		return '<iframe style="width:100%;height:900px; margin-top:-1px;" src="' . $base_url . '/' . $api_path . '__' . $record_id . '?userid=' . urlencode( $email_hash ) . $custom_field1 . $custom_field2 . '"></iframe>';
 
 	}
 
@@ -109,12 +107,10 @@ class SandBoxHelpers {
 	 */
 	public function render_all_tabs(): array {
 		$tab_objects = array();
-		//TODO FRED FIX THIS
+
 		// Get Parent ID of Organisation to search from.
 		$user_id   = \get_current_user_id();
-		$is_user_admin = Factory::get_instance( UserRoles::class )->is_wordpress_administrator();
 		$parent_id = Factory::get_instance( WCFMTools::class )->staff_to_parent( $user_id );
-
 
 		// Get all Tabs for Parent Org plus mandatory tabs.
 		if ( $parent_id ) {

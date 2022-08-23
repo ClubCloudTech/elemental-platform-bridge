@@ -55,7 +55,6 @@
 
 .elemental-sandbox-wrap {
 	clear: both;
-	margin-top: 1%;
 	border-radius: 1%;
 }
 
@@ -311,7 +310,8 @@
 }
 
 .elemental-background-item {
-	background: white!important;
+	background: #fff url("../img/Background.jpg");
+	padding-bottom: 10px;
 }
 
 #wcfm_membership_container p.wcfm_title,
@@ -720,22 +720,18 @@ span.wcfm_title strong {
 	min-height: calc(100vh - 210px);
 }
 
-.elemental-sandbox-info-header{
+.elemental-spacer{
+	padding-top: 12px
+}
+.elemental-table-info-header{
 	background: #EDEDED;
 	border-radius: 10px;
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-bottom: 10px!important;
 }
 .elemental-table-header-info{
 	text-transform: none;
-	font-weight: 600;
-	font-size: 14px;
+	font-family:'Montserrat','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-weight: 500;
+	font-size: 15px;
 	line-height: 22px;
-}
-.elemental-table-info-header{
-	margin-bottom: 0px;
-}
-
-.elemental-sandbox-info-header{
-	
 }
