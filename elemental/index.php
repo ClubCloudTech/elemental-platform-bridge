@@ -14,7 +14,7 @@ declare(strict_types=1);
  * Version:             0.93
  * Requires PHP:        7.4
  * Requires at least:   5.6
- * Author:              Fred Mocellin at Clubcloud, Then by Coadjute team
+ * Author:              Fred Mocellin, Then by Coadjute team
  * Author URI:          https://clubcloud.tech/
  * License:             GPLv2 or later
  * License URI:         https://www.gnu.org/licenses/gpl-2.0.html
