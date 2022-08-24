@@ -735,3 +735,8 @@ span.wcfm_title strong {
 	font-size: 15px;
 	line-height: 22px;
 }
+
+li[aria-controls*=elemental_view_management_info], li[aria-controls*=elemental_view_management_info] a {
+	width: 60px !important;
+	padding: 0 !important;
+}

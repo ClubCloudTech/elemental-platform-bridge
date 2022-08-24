@@ -82,8 +82,6 @@ class SandBoxHelpers {
 		$base_url       = $sandbox_object->get_destination_url();
 		$api_path       = $sandbox_object->get_user_name_prepend();
 		$record_id      = $sandbox_object->get_record_id();
-		$custom_field1  = $sandbox_object->get_customfield1();
-		$custom_field2  = $sandbox_object->get_customfield2();
 		$employee_name  = $sandbox_object->get_employee_name();
 		$company_domain = $sandbox_object->get_company_domain();
 
@@ -95,7 +93,7 @@ class SandBoxHelpers {
 
 		$email_hash = Factory::get_instance( Encryption::class )->encrypt( $email );
 
-		return '<iframe style="width:100%;height:900px; margin-top:-1px;" src="' . $base_url . '/' . $api_path . '__' . $record_id . '?userid=' . urlencode( $email_hash ) . $custom_field1 . $custom_field2 . '"></iframe>';
+		return '<iframe style="width:100%;height:900px; margin-top:-1px;" src="' . $base_url . '/' . $api_path . '__' . $record_id . '?userid=' . urlencode( $email_hash ) . '"></iframe>';
 
 	}
 
@@ -154,10 +152,11 @@ class SandBoxHelpers {
 	private function prepare_sandbox_tab( SandboxEntity $sandbox_object ): MenuTabDisplay {
 
 		$slug      = preg_replace( '/[^a-zA-Z0-9]+/', '', $sandbox_object->get_tab_name() );
+		$tab_name  = $sandbox_object->get_tab_name();
 		$host_menu = new MenuTabDisplay(
-			$sandbox_object->get_tab_name(),
+			$tab_name,
 			$slug . '-' . $sandbox_object->get_record_id(),
-			fn() => $this->create_sandbox_iframe( $sandbox_object ),
+			($tab_name == 'Info') ? include __DIR__ . '/../views/view-sandbox-info-tab.php' : fn() => $this->create_sandbox_iframe( $sandbox_object ),
 			$sandbox_object->get_record_id(),
 			strval( $sandbox_object->get_column_priority() ),
 			$sandbox_object
