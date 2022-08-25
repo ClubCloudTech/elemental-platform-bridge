@@ -160,7 +160,7 @@ return function (
 	<div class="elemental-image-container elemental-lightbox-image">
 		<img class="elemental-lightbox-image" src="<?php echo esc_url( $site_url ); ?>">
 	</div>
-Loading Your Sandbox Environment</div>	
+			<h1 style="display:inline"><?php echo esc_html__( 'Loading Your Sandbox ', 'elementalplugin' ); ?></h1></div>	
 
 </div>
 	<?php
