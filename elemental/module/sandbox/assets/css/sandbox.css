@@ -1,0 +1,42 @@
+/**
+ * The wp-admin css for Elemental Sandbox pages
+ *
+ * @package Elementalplugin
+ */
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 0.2em;
+    padding-bottom: 0;
+}
+p {
+    font-size: 1.5em;
+    margin-top: 0;
+    padding-top: 0;
+}
+#page {
+    display: none;
+}
+#loading {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(31, 31, 31, 0.979);
+    background-image: url("http://i.stack.imgur.com/MnyxU.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.elemental-loading{
+	padding-top: 100px;
+	padding-left: 100px;
+}
+.elemental-lightbox-image{
+	display: inline-block;
+	max-width: 40%;
+	width: 40%;
+}

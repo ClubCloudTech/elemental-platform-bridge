@@ -27,7 +27,7 @@ class Sandbox {
 	public function init(): void {
 
 		Factory::get_instance( SandboxRender::class )->init();
-		$this->register_scripts();
+		$this->register_scripts_styles();
 		$this->initialise_sandbox_ajax();
 
 	}
@@ -72,7 +72,7 @@ class Sandbox {
 	 * Render Membership Config Page
 	 * Renders configuration of Membership Management Plugin
 	 */
-	private function register_scripts(): void {
+	private function register_scripts_styles(): void {
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
 		// Tabbed Frame Navigation.
 		wp_register_script(
@@ -111,6 +111,22 @@ class Sandbox {
 			array( 'jquery-ui' ),
 			$plugin_version,
 			true
+		);
+
+		// Loading Navigation.
+		wp_register_script(
+			'elemental-sandbox-loading',
+			plugins_url( '/assets/js/sandbox-loading.js', __FILE__ ),
+			null,
+			$plugin_version,
+			true
+		);
+
+		wp_register_style(
+			'elemental-sandbox-style',
+			plugins_url( '/assets/css/sandbox.css', __FILE__ ),
+			null,
+			$plugin_version
 		);
 	}
 }

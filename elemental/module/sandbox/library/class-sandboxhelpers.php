@@ -156,7 +156,7 @@ class SandBoxHelpers {
 		$host_menu = new MenuTabDisplay(
 			$tab_name,
 			$slug . '-' . $sandbox_object->get_record_id(),
-			($tab_name == 'Info') ? include __DIR__ . '/../views/view-sandbox-info-tab.php' : fn() => $this->create_sandbox_iframe( $sandbox_object ),
+			( $tab_name == 'Info' ) ? include __DIR__ . '/../views/view-sandbox-info-tab.php' : fn() => $this->create_sandbox_iframe( $sandbox_object ),
 			$sandbox_object->get_record_id(),
 			strval( $sandbox_object->get_column_priority() ),
 			$sandbox_object

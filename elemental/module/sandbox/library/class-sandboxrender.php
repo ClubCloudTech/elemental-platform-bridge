@@ -36,7 +36,10 @@ class SandboxRender extends TabHelper {
 	 */
 	public function render_sandbox_shortcode( $attributes = array() ): ?string {
 		wp_enqueue_script( 'elemental-advanced-tabs' );
-		\wp_enqueue_script( 'elemental-sandbox-tabs' );
+		wp_enqueue_script( 'elemental-sandbox-tabs' );
+		wp_enqueue_style( 'elemental-sandbox-style' );
+		wp_enqueue_script( 'elemental-sandbox-loading' );
+
 		return $this->sandbox_shortcode_handler();
 	}
 
@@ -50,7 +53,8 @@ class SandboxRender extends TabHelper {
 		$html_library = Factory::get_instance( HTML::class, array( 'view-management' ) );
 		$tabs         = Factory::get_instance( SandBoxHelpers::class )->render_all_tabs();
 		$render       = include __DIR__ . '/../views/view-sandbox-main.php';
-		return $render( $html_library, $tabs, $user_id );
+		$site_url     = \get_site_icon_url();
+		return $render( $html_library, $tabs, $user_id, $site_url );
 
 	}
 }

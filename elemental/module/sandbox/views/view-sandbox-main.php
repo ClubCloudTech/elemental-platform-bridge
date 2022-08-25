@@ -20,7 +20,8 @@
 return function (
 	object $html_library,
 	array $tabs,
-	string $user_id
+	string $user_id,
+	string $site_url
 ): string {
 	$count_tabs = count( $tabs );
 	ob_start();
@@ -41,7 +42,7 @@ return function (
 					$first_run = true;
 
 					foreach ( $tabs as $header_output ) {
-						if ( 'Info' == $header_output->get_sandbox_object()->get_tab_name() ) continue;
+						if ( 'Info' === $header_output->get_sandbox_object()->get_tab_name() ) continue;
 						$employee_name  = ucwords( $header_output->get_sandbox_object()->get_employee_name() );
 						$company_domain = $header_output->get_sandbox_object()->get_company_domain();
 						$record_id      = $header_output->get_sandbox_object()->get_record_id();
@@ -154,6 +155,14 @@ return function (
 			</div><!-- elemental-container-article -->
 		</nav>
 </div><!-- #elemental-sandbox-base -->
+<div id="loading">
+<div class="elemental-loading">
+	<div class="elemental-image-container elemental-lightbox-image">
+		<img class="elemental-lightbox-image" src="<?php echo esc_url( $site_url ); ?>">
+	</div>
+Loading Your Sandbox Environment</div>	
+
+</div>
 	<?php
 
 			return \ob_get_clean();
