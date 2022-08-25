@@ -36,7 +36,9 @@ class SandboxRender extends TabHelper {
 	 */
 	public function render_sandbox_shortcode( $attributes = array() ): ?string {
 		wp_enqueue_script( 'elemental-advanced-tabs' );
-		\wp_enqueue_script( 'elemental-sandbox-tabs' );
+		wp_enqueue_script( 'elemental-sandbox-tabs' );
+		wp_enqueue_style( 'elemental-sandbox-style' );
+
 		return $this->sandbox_shortcode_handler();
 	}
 
