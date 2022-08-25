@@ -317,7 +317,7 @@ class MembershipUser {
 
 		foreach ( $sponsored_objects as $account ) {
 			$user = \get_user_by( 'ID', $account['user_id'] );
-
+			echo \var_dump( $account );
 			$record_array                 = array();
 			$record_array['user_id']      = $account['user_id'];
 			$record_array['created']      = date_i18n( get_option( 'date_format' ), $account['timestamp'] );
