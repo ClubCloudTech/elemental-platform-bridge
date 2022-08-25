@@ -26,13 +26,18 @@ return function (
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Seller </th>
-                            <th>Buyer</th>
                             <th>Property</th>
+                            <th>Seller</th>
+                            <th>Buyer</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    1 Brynhyfryd, Crawley, Rhosfach, United Kingdom, SA66 7JT"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Mr John Smith
@@ -43,13 +48,13 @@ return function (
                                     Mr Jason Wilson
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    1 Brynhyfryd, Crawley, Rhosfach, United Kingdom, SA66 7JT"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    29 Beechwood Avenue, Thornaby-on-Tees , Richmond United Kingdom, TW9 4DD"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Mrs Sarah Johnson
@@ -60,13 +65,13 @@ return function (
                                     Mr Louis Harris
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    29 Beechwood Avenue, Thornaby-on-Tees , Richmond United Kingdom, TW9 4DD"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    39 Marlhill Road,  Eastbourne ,Blackpool, United Kingdom, FY3 7TG"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Mrs Carrie Williams
@@ -77,13 +82,13 @@ return function (
                                     Mr Timothy Hall
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    39 Marlhill Road,  Eastbourne ,Blackpool, United Kingdom, FY3 7TG"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    Swallows Nest, Swallow Nest, Dronfield, Heathfield United Kingdom, TQ12 6RD"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Mrs Jessica Brown
@@ -94,13 +99,13 @@ return function (
                                     Mr Lewis Gabriel
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    Swallows Nest, Swallow Nest, Dronfield, Heathfield United Kingdom, TQ12 6RD"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    22 Little Potters, Marl, Bushey United Kingdom, WD23 4QT"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Mrs Yuni Li
@@ -111,13 +116,13 @@ return function (
                                     Mr Mateo Gonzalez
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    22 Little Potters, Marl, Bushey United Kingdom, WD23 4QT"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    27 King Street, Dewsbur, Desborough, United Kingdom, NN14 2RD"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Miss Xinning Chen
@@ -128,13 +133,13 @@ return function (
                                     Mr Tabbi Jansen
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    27 King Street, Dewsbur, Desborough, United Kingdom, NN14 2RD"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    8 Cwrt Arthur, Epping, Rhewl United Kingdom, LL15 2UJ"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Miss Melissa Anderson
@@ -145,13 +150,13 @@ return function (
                                     Mr Katy Vella
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    8 Cwrt Arthur, Epping, Rhewl United Kingdom, LL15 2UJ"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    17 Middle Close, Woburn , Coulsdon United Kingdom, CR5 1BH"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Miss Rachel Miller
@@ -162,13 +167,13 @@ return function (
                                     Mrs Jacquie Grishukov
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    17 Middle Close, Woburn , Coulsdon United Kingdom, CR5 1BH"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    3B  Bridge Street, Eccles, Hungerford United Kingdom, RG17 0EH"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Miss Harriet Garcia
@@ -179,13 +184,13 @@ return function (
                                     Mrs Winfred Roffey
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    3B  Bridge Street, Eccles, Hungerford United Kingdom, RG17 0EH"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    1 Ysgoldy, Hexham, Soar United Kingdom, LL47 6UP"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Mr Kyle Taylor
@@ -196,13 +201,13 @@ return function (
                                     Mr Ashia Berriman
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    1 Ysgoldy, Hexham, Soar United Kingdom, LL47 6UP"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    11 The Chase, Midhurst, Kilburn United Kingdom, DE56 0PL"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Mr Mark Thomas
@@ -213,13 +218,13 @@ return function (
                                     Mr Doralin Jiri
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    11 The Chase, Midhurst, Kilburn United Kingdom, DE56 0PL"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    2 Field Lane Cottages, Tickhill, Thorpe Willoughby, United Kingdom, YO8 9NL"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Mr William Moore
@@ -230,13 +235,13 @@ return function (
                                     Mrs Erhart Feehely
                                 </span>
                             </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    2 Field Lane Cottages, Tickhill, Thorpe Willoughby, United Kingdom, YO8 9NL"
-                                </span>
-                            </td>
                         </tr>
                         <tr>
+                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
+                                <span class="tdtext">
+                                    1 Brynhyfryd, Crawley, Rhosfach, United Kingdom, SA66 7JT"
+                                </span>
+                            </td>                            
                             <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                 <span class="tdtext">
                                     Mrs Jane Smith
@@ -245,11 +250,6 @@ return function (
                             <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="buyer-copy"></i>
                                 <span class="tdtext">
                                     Mr Jason Wilson
-                                </span>
-                            </td>
-                            <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                <span class="tdtext">
-                                    1 Brynhyfryd, Crawley, Rhosfach, United Kingdom, SA66 7JT"
                                 </span>
                             </td>
                         </tr>
