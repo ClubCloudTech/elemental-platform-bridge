@@ -234,7 +234,7 @@ return function (): string {
                                     <span class="tdtext">Mr Morgen Dunbleton</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">85 Duke Street, , Guildford , , Highcliffe Drive, Askam-In-Furness ,United Kingdom 1_Property LA16 7AD
+                                    <span class="tdtext">85 Duke Street,Guildford ,Highcliffe Drive, Askam-In-Furness ,United Kingdom 1_Property LA16 7AD
                                     </span>
                                 </td>
                             </tr>
@@ -246,7 +246,7 @@ return function (): string {
                                     <span class="tdtext">Mr Darwin Maass</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext"> Church Street, , NULL, Church Gates, Hartland , Old Heathfield ,United Kingdom 2_Property TN21 9AH
+                                    <span class="tdtext"> Church Street, Church Gates, Hartland , Old Heathfield ,United Kingdom 2_Property TN21 9AH
                                     </span>
                                 </td>
                             </tr>
@@ -258,7 +258,7 @@ return function (): string {
                                     <span class="tdtext">Mr Giffer Dolden</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">45 Ranelagh Street, , NULL, , Lytchett Minster and Upton , Liverpool ,United Kingdom 3_Property L1 1JR
+                                    <span class="tdtext">45 Ranelagh Street,Lytchett Minster and Upton , Liverpool ,United Kingdom 3_Property L1 1JR
                                     </span>
                                 </td>
                             </tr>
@@ -270,7 +270,7 @@ return function (): string {
                                     <span class="tdtext">Mr Molly Mauchlen</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext"> The Balk, , NULL, Southlea, Henley-in-Arden , Pocklington ,United Kingdom 4_Property YO42 2NX
+                                    <span class="tdtext"> The Balk, Southlea, Henley-in-Arden , Pocklington ,United Kingdom 4_Property YO42 2NX
                                     </span>
                                 </td>
                             </tr>
@@ -282,7 +282,7 @@ return function (): string {
                                     <span class="tdtext">Mr Emily Hessay</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext"> London Road, , NULL, The Brambles, Luton , Halesworth ,United Kingdom 5_Property IP19 8DH
+                                    <span class="tdtext"> London Road, The Brambles, Luton , Halesworth ,United Kingdom 5_Property IP19 8DH
                                     </span>
                                 </td>
                             </tr>
@@ -294,7 +294,7 @@ return function (): string {
                                     <span class="tdtext">Mr Evie Bartholin</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">4 Blenheim Road, , NULL, , Patchway , Wroughton ,United Kingdom 6_Property SN4 9HL
+                                    <span class="tdtext">4 Blenheim Road,Patchway , Wroughton ,United Kingdom 6_Property SN4 9HL
                                     </span>
                                 </td>
                             </tr>
@@ -306,7 +306,7 @@ return function (): string {
                                     <span class="tdtext">Mr Janella Delgaty</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">1A Hogarth Place, , NULL, , Verwood , London ,United Kingdom 7_Property SW5 9RE
+                                    <span class="tdtext">1A Hogarth Place,Verwood , London ,United Kingdom 7_Property SW5 9RE
                                     </span>
                                 </td>
                             </tr>
@@ -318,7 +318,7 @@ return function (): string {
                                     <span class="tdtext">Mr Carlina Christou</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">23 King Street, , NULL, , Oakham , Salford ,United Kingdom 8_Property M7 4PU
+                                    <span class="tdtext">23 King Street,Oakham , Salford ,United Kingdom 8_Property M7 4PU
                                     </span>
                                 </td>
                             </tr>
@@ -330,7 +330,7 @@ return function (): string {
                                     <span class="tdtext">Mr Faith Philpin</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">67 Beckminster Road, , NULL, , Horwich , Wolverhampton ,United Kingdom 9_Property WV3 7DY
+                                    <span class="tdtext">67 Beckminster Road,Horwich , Wolverhampton ,United Kingdom 9_Property WV3 7DY
                                     </span>
                                 </td>
                             </tr>
@@ -342,7 +342,7 @@ return function (): string {
                                     <span class="tdtext">Mr Talya Langrick</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">12 The Grove, , NULL, , Coleshill , London ,United Kingdom 10_Property N6 6LB
+                                    <span class="tdtext">12 The Grove,Coleshill , London ,United Kingdom 10_Property N6 6LB
                                     </span>
                                 </td>
                             </tr>
@@ -354,7 +354,7 @@ return function (): string {
                                     <span class="tdtext">Mr Chickie Clipson</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">47 Glebe Road, , NULL, , Redruth , Chalfont St Peter ,United Kingdom 11_Property SL9 9NL
+                                    <span class="tdtext">47 Glebe Road,Redruth , Chalfont St Peter ,United Kingdom 11_Property SL9 9NL
                                     </span>
                                 </td>
                             </tr>
@@ -366,7 +366,7 @@ return function (): string {
                                     <span class="tdtext">Mr Harrietta Arnaudin</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">42 Brigade Place, , NULL, , Portishead and North Weston , Caterham ,United Kingdom 12_Property CR3 5ZU
+                                    <span class="tdtext">42 Brigade Place,Portishead and North Weston , Caterham ,United Kingdom 12_Property CR3 5ZU
                                     </span>
                                 </td>
                             </tr>
@@ -387,18 +387,15 @@ return function (): string {
                         </thead>
                         <tbody>
 
-
-
-
                             <tr>
                                 <td data-type="seller"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
                                     <span class="tdtext">Mrs Ardis Kruschov</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mr Steffen Andrichuk/span>
+                                    <span class="tdtext">Mr Steffen Andrichuk</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">15 Kimbolton Court, , , NULL, , Walthamstow , Giffard Park ,United Kingdom 1_Property MK14 5PS
+                                    <span class="tdtext">15 Kimbolton Court,Walthamstow , Giffard Park ,United Kingdom 1_Property MK14 5PS
                                     </span>
                                 </td>
 
@@ -408,10 +405,10 @@ return function (): string {
                                     <span class="tdtext"> Alphonse Josskowitz</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mr Hakeem Matic/span>
+                                    <span class="tdtext">Mr Hakeem Matic</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">3 Oxley Close, , , NULL, , Battle , Dudley ,United Kingdom 2_Property DY2 0EN
+                                    <span class="tdtext">3 Oxley Close,Battle , Dudley ,United Kingdom 2_Property DY2 0EN
                                     </span>
                                 </td>
                             </tr>
@@ -420,10 +417,10 @@ return function (): string {
                                     <span class="tdtext"> Westleigh Trematick</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mr Natale Levesque/span>
+                                    <span class="tdtext">Mr Natale Levesque</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">1 Romulus Walk, , , NULL, , Marlow , Coventry ,United Kingdom 3_Property CV4 9WG
+                                    <span class="tdtext">1 Romulus Walk,Marlow , Coventry ,United Kingdom 3_Property CV4 9WG
                                     </span>
                                 </td>
                             </tr>
@@ -432,10 +429,10 @@ return function (): string {
                                     <span class="tdtext">Mrs Erna Weblin</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mrs Rosette Dagleas/span>
+                                    <span class="tdtext">Mrs Rosette Dagleas</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">33 Buxton Gardens, , , NULL, , Mansfield , London ,United Kingdom 4_Property W3 9LE
+                                    <span class="tdtext">33 Buxton Gardens,Mansfield , London ,United Kingdom 4_Property W3 9LE
                                     </span>
                                 </td>
                             </tr>
@@ -444,10 +441,10 @@ return function (): string {
                                     <span class="tdtext">Mrs Yasmin Mayho</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mrs Luci Magarrell/span>
+                                    <span class="tdtext">Mrs Luci Magarrell</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">31 Lintham Drive, , , NULL, , Maidstone , Kingswood ,United Kingdom 5_Property BS15 9GB
+                                    <span class="tdtext">31 Lintham Drive,Maidstone , Kingswood ,United Kingdom 5_Property BS15 9GB
                                     </span>
                                 </td>
                             </tr>
@@ -456,10 +453,10 @@ return function (): string {
                                     <span class="tdtext">Mrs Emmye Foxhall</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mrs Dulci Frounks/span>
+                                    <span class="tdtext">Mrs Dulci Frounks</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext"> Tylwch, , NULL, Pen Cae Driw, Oldbury , ,United Kingdom 6_Property SY18 6JL
+                                    <span class="tdtext"> Tylwch, Pen Cae Driw, Oldbury , ,United Kingdom 6_Property SY18 6JL
                                     </span>
                                 </td>
                             </tr>
@@ -468,10 +465,10 @@ return function (): string {
                                     <span class="tdtext"> Dex Harvard</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mr Zolly Fillon/span>
+                                    <span class="tdtext">Mr Zolly Fillon</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">12 South Cliff Road, , NULL, , Atherstone , Withernsea ,United Kingdom 7_Property HU19 2HX
+                                    <span class="tdtext">12 South Cliff Road,Atherstone , Withernsea ,United Kingdom 7_Property HU19 2HX
                                     </span>
                                 </td>
                             </tr>
@@ -480,10 +477,10 @@ return function (): string {
                                     <span class="tdtext">Mrs Kira Gaitskill</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mr Byrom Peirson/span>
+                                    <span class="tdtext">Mr Byrom Peirson</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext"> Fleetwood Road, , NULL, Pitfield Farm, Skelton-in-Cleveland , Singleton ,United Kingdom 8_Property FY6 8NE
+                                    <span class="tdtext"> Fleetwood Road, Pitfield Farm, Skelton-in-Cleveland , Singleton ,United Kingdom 8_Property FY6 8NE
                                     </span>
                                 </td>
                             </tr>
@@ -492,10 +489,10 @@ return function (): string {
                                     <span class="tdtext"> Hanan Morsom</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mrs Cassey Tomasoni/span>
+                                    <span class="tdtext">Mrs Cassey Tomasoni</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">10 Kirkway, , NULL, , Birchwood , Broadstone ,United Kingdom 9_Property BH18 8EE
+                                    <span class="tdtext">10 Kirkway,Birchwood , Broadstone ,United Kingdom 9_Property BH18 8EE
                                     </span>
                                 </td>
                             </tr>
@@ -504,10 +501,10 @@ return function (): string {
                                     <span class="tdtext"> Jock McCurt</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mrs Bethany Trevers/span>
+                                    <span class="tdtext">Mrs Bethany Trevers</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">1 Godrer Coed, , NULL, , Canterbury , Penpedairheol ,United Kingdom 10_Property CF82 7TG
+                                    <span class="tdtext">1 Godrer Coed,Canterbury , Penpedairheol ,United Kingdom 10_Property CF82 7TG
                                     </span>
                                 </td>
                             </tr>
@@ -516,10 +513,10 @@ return function (): string {
                                     <span class="tdtext">Mrs Agathe Demangel</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mrs Gillie Chasemore/span>
+                                    <span class="tdtext">Mrs Gillie Chasemore</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">2 Church Close, , NULL, , Windermere , Stour Row ,United Kingdom 11_Property SP7 0QE
+                                    <span class="tdtext">2 Church Close,Windermere , Stour Row ,United Kingdom 11_Property SP7 0QE
                                     </span>
                                 </td>
                             </tr>
@@ -528,10 +525,10 @@ return function (): string {
                                     <span class="tdtext"> Reid Chamberlain</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mrs Randy Titcom/span>
+                                    <span class="tdtext">Mrs Randy Titcom</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">Flat 37 Elizabeth House, , King's Lynn , , St Giles Mews, Stony Stratford ,United Kingdom 12_Property MK11 1HT
+                                    <span class="tdtext">Flat 37 Elizabeth House,King's Lynn ,St Giles Mews, Stony Stratford ,United Kingdom 12_Property MK11 1HT
 
                                     </span>
                                 </td>
@@ -564,7 +561,7 @@ return function (): string {
                                     <span class="tdtext">Mrs Helaina Clarson/span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">3 Mockford Alley, , NULL, , Frome , Tenterden ,United Kingdom 1_Property TN30 6AU
+                                    <span class="tdtext">3 Mockford Alley,Frome , Tenterden ,United Kingdom 1_Property TN30 6AU
                                     </span>
                                 </td>
                             </tr>
@@ -573,10 +570,10 @@ return function (): string {
                                     <span class="tdtext">Mrs Dorrie Brion</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mr Dino Gribbon/span>
+                                    <span class="tdtext">Mr Dino Gribbon</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">7 The Terrace, , NULL, , Framlingham , Boldon Colliery ,United Kingdom 2_Property NE35 9AA
+                                    <span class="tdtext">7 The Terrace,Framlingham , Boldon Colliery ,United Kingdom 2_Property NE35 9AA
                                     </span>
                                 </td>
                             </tr>
@@ -585,10 +582,10 @@ return function (): string {
                                     <span class="tdtext">Mrs Fidelity Anespie</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mr Jeno McKirdy/span>
+                                    <span class="tdtext">Mr Jeno McKirdy</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">22 The Borough, , NULL, , Bridgwater , Montacute ,United Kingdom 3_Property TA15 6XB
+                                    <span class="tdtext">22 The Borough,Bridgwater , Montacute ,United Kingdom 3_Property TA15 6XB
                                     </span>
                                 </td>
                             </tr>
@@ -597,10 +594,10 @@ return function (): string {
                                     <span class="tdtext">Mrs Beverlie Baumer</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mrs Laverna Dillinton/span>
+                                    <span class="tdtext">Mrs Laverna Dillinton</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext"> Copperhill Street, , NULL, Frondeg, Wigan , Aberdovey ,United Kingdom 4_Property LL35 0HT
+                                    <span class="tdtext"> Copperhill Street, Frondeg, Wigan , Aberdovey ,United Kingdom 4_Property LL35 0HT
                                     </span>
                                 </td>
                             </tr>
@@ -609,10 +606,10 @@ return function (): string {
                                     <span class="tdtext"> Tudor Churchin</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mr Nikola Gover/span>
+                                    <span class="tdtext">Mr Nikola Gover</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">30 Wingfields, , NULL, , Hereford , Downham Market ,United Kingdom 5_Property PE38 9AR
+                                    <span class="tdtext">30 Wingfields,Hereford , Downham Market ,United Kingdom 5_Property PE38 9AR
                                     </span>
                                 </td>
                             </tr>
@@ -621,10 +618,10 @@ return function (): string {
                                     <span class="tdtext">Mrs Jaquenetta Sandbrook</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mrs Janaya Griffoen/span>
+                                    <span class="tdtext">Mrs Janaya Griffoen</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">25 Maes Waldo, , NULL, , Sale , Fishguard ,United Kingdom 6_Property SA65 9ER
+                                    <span class="tdtext">25 Maes Waldo,Sale , Fishguard ,United Kingdom 6_Property SA65 9ER
                                     </span>
                                 </td>
                             </tr>
@@ -636,7 +633,7 @@ return function (): string {
                                     <span class="tdtext">Mrs Lane Gravells/span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">1 Heath Hill Road South, , NULL, , Northallerton , Crowthorne ,United Kingdom 7_Property RG45 7BW
+                                    <span class="tdtext">1 Heath Hill Road South,Northallerton , Crowthorne ,United Kingdom 7_Property RG45 7BW
                                     </span>
                                 </td>
                             </tr>
@@ -645,10 +642,10 @@ return function (): string {
                                     <span class="tdtext">Mrs Lenna Rhubottom</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mrs Jerrilyn Hewson/span>
+                                    <span class="tdtext">Mrs Jerrilyn Hewson</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">1 Bishop Way, , NULL, , South Molton , Bicker ,United Kingdom 8_Property PE20 3BU
+                                    <span class="tdtext">1 Bishop Way,South Molton , Bicker ,United Kingdom 8_Property PE20 3BU
                                     </span>
                                 </td>
                             </tr>
@@ -657,10 +654,10 @@ return function (): string {
                                     <span class="tdtext">Mrs Rianon Capell</span>
                                 </td>
                                 <td data-type="buyer"><i class="fa fa-clone" aria-hidden="true" data-type="seller-copy"></i>
-                                    <span class="tdtext">Mrs Rosy Jannex/span>
+                                    <span class="tdtext">Mrs Rosy Jannex</span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">2 Saxon Road, , NULL, , Yeovil , Westgate-On-Sea ,United Kingdom 9_Property CT8 8RS
+                                    <span class="tdtext">2 Saxon Road,Yeovil , Westgate-On-Sea ,United Kingdom 9_Property CT8 8RS
                                     </span>
                                 </td>
                             </tr>
@@ -672,7 +669,7 @@ return function (): string {
                                     <span class="tdtext">Mrs Grazia Lamblot/span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">15 Hagley Road West, , NULL, , Ringwood , Birmingham ,United Kingdom 10_Property B17 8AL
+                                    <span class="tdtext">15 Hagley Road West,Ringwood , Birmingham ,United Kingdom 10_Property B17 8AL
                                     </span>
                                 </td>
                             </tr>
@@ -684,7 +681,7 @@ return function (): string {
                                     <span class="tdtext">Mr Kipp Channer/span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">45 Selby Road, , NULL, , Knares , Leeds ,United Kingdom 11_Property LS9 0EW
+                                    <span class="tdtext">45 Selby Road,Knares , Leeds ,United Kingdom 11_Property LS9 0EW
                                     </span>
                                 </td>
                             </tr>
@@ -696,7 +693,7 @@ return function (): string {
                                     <span class="tdtext">Mrs Carolann Ayers/span>
                                 </td>
                                 <td data-type="property"><i class="fa fa-clone" aria-hidden="true" data-type="property-copy"></i>
-                                    <span class="tdtext">13 Croft Parc, , NULL, , Wilton , The Lizard ,United Kingdom 12_Property TR12 7PN</span>
+                                    <span class="tdtext">13 Croft Parc,Wilton , The Lizard ,United Kingdom 12_Property TR12 7PN</span>
                                 </td>
                             </tr>
 
