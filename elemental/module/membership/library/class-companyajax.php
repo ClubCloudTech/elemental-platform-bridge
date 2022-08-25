@@ -149,8 +149,28 @@ class CompanyAjax {
                 }else{
                     $response['feedback'] = \esc_html__('Email Does Not Exist', 'elementalplugin');
                 }
-       
+
             }
+
+        if ('update_edituser' === $action_taken) {
+            $verify = \wp_verify_nonce($nonce, 'elemental_membership');
+            if (!$verify) {
+                $response['feedback'] = \esc_html__('Invalid Security Nonce received', 'elementalplugin');
+                return \wp_send_json($response);
+            }
+            $update =  wp_update_user(array(
+                'ID' => $user_id,
+                'display_name' => esc_attr($display_name),
+                'first_name' =>  esc_attr($firstname),
+                'last_name' =>  esc_attr($lastname)
+            ));
+
+            if ($update) {
+                $response['feedback'] = \esc_html__('User Updated', 'elementalplugin');
+            } else {
+                $response['feedback'] = \esc_html__('Update Failed', 'elementalplugin');
+            }
+        }
 
         return \wp_send_json($response);
     }  

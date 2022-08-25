@@ -25,46 +25,45 @@ return function (
                     </div>
                     <div class="row erow">
                         <div class="col-xs-12" id="demoContainer">
-                            <h3 id="edit_notifyuser"> </h3>
+                            <h4 id="edit_notifyuser" style="    text-align: center;color:#388015"> </h4>
                         </div>
                     </div>
 
                     <div class="row erow">
                         <div class="col-xs-12" id="demoContainer">
-                            <form id="registrationForm" action="elemental_edituser_ajax" method="post" class="form-horizontal fv-form fv-form-bootstrap ajax" novalidate="novalidate">
-                                <button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+                            <form id="registrationForm" action="elemental_editcompany_ajax" method="post" class="form-horizontal fv-form fv-form-bootstrap ajax" novalidate="novalidate">
 
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">Email address</label>
-                                    <div class="col-xs-5">
-                                        <input type="text" class="form-control" name="" value="<?php echo $current_user->user_email; ?>" disabled />
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control" style="color:#877878" value="<?php echo $current_user->user_email; ?>" disabled />
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">Username</label>
-                                    <div class="col-xs-5">
+                                    <label class="col-xs-3 control-label">User Name</label>
+                                    <div class="col-xs-8">
                                         <input type="text" class="form-control" name="display_name" value="<?php echo $current_user->display_name; ?>" />
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">Firstname</label>
-                                    <div class="col-xs-5">
-                                        <input type="text" class="form-control" name="firstname" value="<?php echo $current_user->user_firstname; ?>" />
+                                    <label class="col-xs-3 control-label">First Name</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control" name="first_name" value="<?php echo $current_user->user_firstname; ?>" />
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">Lastname</label>
-                                    <div class="col-xs-5">
-                                        <input type="text" class="form-control" name="lastname" value="<?php echo $current_user->user_lastname; ?>" />
+                                    <label class="col-xs-3 control-label">Last Name</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control" name="last_name" value="<?php echo $current_user->user_lastname; ?>" />
                                     </div>
                                 </div>
                                 <input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>">
                                 <div class="form-group">
-                                    <div class="col-xs-9 col-xs-offset-3">
-                                        <button type="button" id="update_user1" class="btn btn-primary" name="update-user" value="update-user">Update User </button>
+                                    <div class="col-xs-8 col-xs-offset-3">
+                                        <button type="button" id="update_user1" style="width:100%;background:#323064" class="btn btn-primary" name="update-user" value="update-user">Save Changes </button>
                                     </div>
                                 </div>
                             </form>
