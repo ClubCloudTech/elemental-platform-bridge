@@ -113,6 +113,15 @@ class Sandbox {
 			true
 		);
 
+		// Loading Navigation.
+		wp_register_script(
+			'elemental-sandbox-loading',
+			plugins_url( '/assets/js/sandbox-loading.js', __FILE__ ),
+			null,
+			$plugin_version,
+			true
+		);
+
 		wp_register_style(
 			'elemental-sandbox-style',
 			plugins_url( '/assets/css/sandbox.css', __FILE__ ),
