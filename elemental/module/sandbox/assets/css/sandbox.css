@@ -39,4 +39,5 @@ p {
 	display: inline-block;
 	max-width: 20%;
 	width: 20%;
+	border-radius: 25px;
 }

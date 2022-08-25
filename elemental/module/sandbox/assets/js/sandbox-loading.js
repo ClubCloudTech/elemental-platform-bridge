@@ -5,7 +5,7 @@
  */
 
  function onReady(callback) {
-    var intervalID = window.setInterval(checkReady, 2000);
+    var intervalID = window.setInterval(checkReady, 1500);
 
     function checkReady() {
         if (document.getElementsByTagName('body')[0] !== undefined) {
