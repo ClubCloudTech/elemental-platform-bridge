@@ -131,7 +131,7 @@ class SandBoxHelpers {
 			if ( $object ) {
 				$menu_item = $this->prepare_sandbox_tab( $object );
 				\array_push( $tab_objects, $menu_item );
-			} 
+			}
 		}
 		// Return the Array, and Sort if unset by User preference.
 		if ( $sort ) {
