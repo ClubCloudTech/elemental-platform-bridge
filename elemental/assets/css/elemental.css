@@ -727,6 +727,11 @@ span.wcfm_title strong {
 	background: #EDEDED;
 	border-radius: 10px;
 	margin-bottom: 10px!important;
+	
+}
+
+.elemental-table-info-header th { 
+	border: 0px !important; 
 }
 .elemental-table-header-info{
 	text-transform: none;
