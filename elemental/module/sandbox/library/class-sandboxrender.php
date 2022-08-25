@@ -46,6 +46,12 @@ class SandboxRender extends TabHelper {
 	 * @return string
 	 */
 	public function sandbox_shortcode_handler() {
+		if ( ! \is_user_logged_in() ) {
+			$url = \get_site_url() . '/login';
+			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
+			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+			die();
+		}
 		$user_id      = Factory::get_instance( Encryption::class )->encrypt_string( \get_current_user_id() );
 		$html_library = Factory::get_instance( HTML::class, array( 'view-management' ) );
 		$tabs         = Factory::get_instance( SandBoxHelpers::class )->render_all_tabs();
