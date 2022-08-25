@@ -60,8 +60,8 @@ class MembershipSetup {
 	 */
 	public function create_tenant_admin_role(): void {
 		global $wp_roles;
-		$edr = $wp_roles->get_role( 'Subscriber' );
-		add_role( Membership::MEMBERSHIP_ROLE_NAME, Membership::MEMBERSHIP_ROLE_DESCRIPTION, $edr->capabilities );
+		$roles_change = $wp_roles->get_role( 'Subscriber' );
+		add_role( Membership::MEMBERSHIP_ROLE_TENANT_ADMIN, Membership::MEMBERSHIP_ROLE_TENANT_ADMIN_DESCRIPTION, $roles_change->capabilities );
 	}
 
 	/**
