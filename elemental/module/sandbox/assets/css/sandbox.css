@@ -37,6 +37,6 @@ p {
 }
 .elemental-lightbox-image{
 	display: inline-block;
-	max-width: 40%;
-	width: 40%;
+	max-width: 20%;
+	width: 20%;
 }
