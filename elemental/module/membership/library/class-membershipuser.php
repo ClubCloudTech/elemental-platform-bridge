@@ -60,7 +60,7 @@ class MembershipUser {
 		$check_result = \apply_filters( 'elemental_pre_user_add', $email );
 
 		if ( $check_result['status'] ) {
-			$return_array['feedback'] = \esc_html__( 'Employee with ' . $email . 'already exists.', 'elementalplugin' );
+			$return_array['feedback'] = \esc_html__( 'Employee with ' . $email . ' already exists.', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
 		}
@@ -142,7 +142,7 @@ class MembershipUser {
 		$check_result = \apply_filters( 'elemental_pre_user_add', $email );
 
 		if ( $check_result['status'] ) {
-			$return_array['feedback'] = \esc_html__( 'Employee with ' . $email . 'already exists.', 'elementalplugin' );
+			$return_array['feedback'] = \esc_html__( 'Employee with ' . $email . ' already exists.', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
 		}
