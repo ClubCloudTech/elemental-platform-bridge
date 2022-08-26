@@ -879,3 +879,7 @@ table td {
     margin-bottom: 0px ! important;
     padding-bottom: 0px ! important;
 }
+
+#useraccounts {
+    color: #545454;
+}
