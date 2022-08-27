@@ -140,7 +140,7 @@ class ElementalMenus {
 		if ( isset( $attributes['image'] ) && 'avatar' === $attributes['image'] && $user_id ) {
 			$picture_url = get_avatar_url( $user, $attributes );
 		} else {
-			$picture_url = \plugins_url( '../../assets/img/user-icon.png', __FILE__ );
+			$picture_url = \plugins_url('../../assets/img/User-05.svg', __FILE__ );
 		}
 
 		$is_vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
@@ -152,7 +152,7 @@ class ElementalMenus {
 			$output     = $store_name;
 			// @TODO Only whilst in sandbox only mode - as a new control panel page will be built and this url can lose the extension
 			$profile_control_url = \get_permalink( 12508 ) . '/ihc/?ihc_ap_menu=profile';
-
+			$picture_url = \plugins_url('../../assets/img/Icons-18.svg', __FILE__);
 			// Case Not Org Admin Account but signed in.
 		} elseif ( $user_id ) {
 			$output = $user->display_name;
