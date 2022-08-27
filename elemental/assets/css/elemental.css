@@ -310,7 +310,7 @@
 }
 
 .elemental-background-item {
-    background: #fff url("../img/Background.jpg");
+   /* background: #fff url("../img/Background.jpg");*/
     padding-bottom: 10px;
 }
 
@@ -812,7 +812,6 @@ a {
     /* background-position: top; */
     background-repeat: no-repeat;
     background-size: cover ! important;
-    background: url(https://coadjute.app/wp-content/uploads/2022/08/Backgr_.jpg);
 }
 
 .elementor-12499 .elementor-element.elementor-element-a864663>.elementor-background-overlay {
