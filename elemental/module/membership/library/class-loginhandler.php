@@ -629,8 +629,8 @@ class LoginHandler
 		ob_start();
 ?>
 
-		<a href="<?php echo esc_url($store_url); ?>" class="elemental-host-link">
-			<div class="elemental-primary-nav-img one" style="width:100%; background-image: url(<?php echo esc_url($store_logo); ?> )"></div>
+		<a href="<?php echo esc_url($store_url); ?>" class="elemental-host-link logoCompany">
+			<div class="elemental-primary-nav-img oneLogo" style="width:100%; height:49px; background-image: url(<?php echo esc_url($store_logo); ?> )"></div>
 			<!-- <span><?php echo esc_attr($store_name); ?></span> -->
 
 		</a>
