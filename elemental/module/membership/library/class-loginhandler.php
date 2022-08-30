@@ -453,6 +453,7 @@ class LoginHandler {
 		}
 
 		$is_tenant_account = Factory::get_instance( UserRoles::class )->is_tenant_account();
+		echo '456';
 		if ( $is_tenant_account ) {
 			// Decide Correct Redirect Path based on Staff Account Count.
 			$staff_count = Factory::get_instance( WCFMTools::class )->elemental_get_staff_member_count();
@@ -466,6 +467,7 @@ class LoginHandler {
 
 		}
 		$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
+		echo '469';
 		if ( $template ) {
 			$url = get_permalink( $template );
 			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
