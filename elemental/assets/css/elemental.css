@@ -895,7 +895,7 @@ table td {
     padding: 0px ! important;
 }
 
-.elementor-44807 .elementor-element.elementor-element-81c2990>.elementor-container {
+#main-header>div:first-child {
     margin-left: 1em;
     margin-right: 3.2em ! important;
     max-width: 100% ! important;

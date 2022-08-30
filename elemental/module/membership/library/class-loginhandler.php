@@ -528,6 +528,9 @@ class LoginHandler
 	 */
 	public function elemental_company_edit(): string
 	{
+		// Get Identities.
+		$is_vendor = Factory::get_instance(UserRoles::class)->is_wcfm_vendor();
+		
 		wp_dequeue_style('login-form-min.css');
 		wp_enqueue_script('elemental_companyhandler');
 		wp_enqueue_style('company-companyEdit', plugin_dir_url(__FILE__) . '../css/companyEdit.css', false);
@@ -536,7 +539,13 @@ class LoginHandler
 
 		$current_user = wp_get_current_user();
 		$render       = (require __DIR__ . '/../views/membership/view-companyedit.php');
-		return $render($current_user);
+		if ($is_vendor) {
+			return $render($current_user);
+		} else {
+			$url = \get_site_url() . '/access-restricted/';
+			echo '<script type="text/javascript"> window.location="' . esc_url($url) . '";</script>';
+			die();
+		}
 	}
 
 
@@ -569,6 +578,9 @@ class LoginHandler
 	 */
 	public function elemental_user_edit(): string
 	{
+		// Get Identities.
+		$is_vendor = Factory::get_instance(UserRoles::class)->is_wcfm_vendor();
+
 		wp_dequeue_style('login-form-min.css');
 		wp_enqueue_script('elemental_companyhandler');
 		wp_enqueue_style('company-companyEdit', plugin_dir_url(__FILE__) . '../css/companyEdit.css', false);
@@ -577,7 +589,16 @@ class LoginHandler
 
 		$current_user = wp_get_current_user();
 		$render       = (require __DIR__ . '/../views/membership/view-edituser.php');
-		return $render($current_user);
+
+		if ($is_vendor) {
+			return $render($current_user);
+		} else {
+		 	$url = \get_site_url() . '/access-restricted/';
+			echo '<script type="text/javascript"> window.location="' . esc_url($url) . '";</script>';
+			die();
+		}
+		
+	
 	}
 
 
@@ -629,10 +650,8 @@ class LoginHandler
 		ob_start();
 ?>
 
-		<a href="<?php echo esc_url($store_url); ?>" class="elemental-host-link logoCompany">
-			<div class="elemental-primary-nav-img oneLogo" style="width:100%; height:49px; background-image: url(<?php echo esc_url($store_logo); ?> )"></div>
-			<!-- <span><?php echo esc_attr($store_name); ?></span> -->
-
+		<a href="<?php echo esc_url($store_url); ?>" class="elemental-host-link logo-company">
+			<div class="elemental-primary-nav-img one-logo" style="width:100%; height:49px; background-image: url(<?php echo esc_url($store_logo); ?> )"></div>
 		</a>
 		</div>
 <?php

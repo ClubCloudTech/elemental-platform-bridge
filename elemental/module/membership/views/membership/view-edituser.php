@@ -8,11 +8,11 @@
 
 
 return function (
-    object $current_user
+    object $current_user,
+
 ): string {
     ob_start();
 
-    if (user_can($current_user, 'administrator')) {
 ?>
         <div id="primary" class="site-content">
             <div id="content" role="main">
@@ -34,7 +34,7 @@ return function (
                             <form id="registrationForm" action="elemental_editcompany_ajax" method="post" class="form-horizontal fv-form fv-form-bootstrap ajax" novalidate="novalidate">
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">Email address</label>
+                                    <label class="col-xs-3 control-label"><?php echo esc_html__('Email Address', 'elementalplugin'); ?></label>
                                     <div class="col-xs-8">
                                         <input type="text" class="form-control" style="color:#877878" value="<?php echo $current_user->user_email; ?>" disabled />
                                     </div>
@@ -74,8 +74,5 @@ return function (
                 </div><!-- #content -->
             </div><!-- #primary -->
     <?php
-    } else {
-        echo 'Login as admin ';
-    }
     return ob_get_clean();
 };
