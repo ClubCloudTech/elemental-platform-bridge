@@ -14,6 +14,7 @@ use ElementalPlugin\Module\Membership\Onboard;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\HttpGet;
+use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\BuddyPress\ElementalBP;
 use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
@@ -444,8 +445,27 @@ class LoginHandler {
 	 */
 	public function loginland_redirect() {
 
-		$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
+		if ( Factory::get_instance( UserRoles::class )->is_wordpress_administrator() ) {
+			$url = \get_site_url() . '/wp-admin/admin.php?page=elemental';
+			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
+			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+			die();
+		}
 
+		$is_tenant_account = Factory::get_instance( UserRoles::class )->is_tenant_account();
+		if ( $is_tenant_account ) {
+			// Decide Correct Redirect Path based on Staff Account Count.
+			$staff_count = Factory::get_instance( WCFMTools::class )->elemental_get_staff_member_count();
+			if ( $staff_count >= 1 ) {
+				$url = \get_site_url() . '/control/';
+			} else {
+				$url = \get_site_url() . '/control/manage-accounts/firstadmin/';
+			}
+			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+			die();
+
+		}
+		$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
 		if ( $template ) {
 			$url = get_permalink( $template );
 			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
@@ -469,13 +489,14 @@ class LoginHandler {
 	 *  @return void
 	 */
 	private function register_scripts(): void {
+		$version = Factory::get_instance( Version::class )->get_plugin_version();
 
 		// Company Profile  handler.
 		wp_register_script(
 			'elemental_companyhandler',
 			plugins_url( '../js/companyhandler.js', __FILE__ ),
 			array( 'jquery' ),
-			false,
+			$version,
 			true
 		);
 
