@@ -376,7 +376,7 @@ return function (): string {
 
 
 				<div id="Conveyancer2" class="container tab-pane fade"><br>
-					<h3>Crown Solicitors </h3>
+					<h3>Speedy Solicitors </h3>
 					<table class="table">
 						<thead>
 							<tr>
