@@ -76,7 +76,7 @@ class Actions {
 		    $result['error'] = 'User could not be created. Error: ' . $employee_response->body();
 		}
 
-		$result['data'] = $employee_response->json()['data'];
+		$result['data'] = $employee_response->json();
 
 		return $result;
 	}
