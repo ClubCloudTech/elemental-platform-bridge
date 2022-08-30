@@ -109,13 +109,13 @@ return function (
 						data-object-id="<?php echo esc_textarea( $object_id ); ?>"
 						href="#<?php echo esc_attr( $html_library->get_id( $tab_slug ) ); ?>">
 							<?php
+							if ( 'Info' === $tab_display_name ) {
+								$icon = include __DIR__ . '/view-sandbox-info-icon.php';
 								//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Icon is created by escaped function.
-									if ( 'Info' == $tab_display_name ) {
-										$icon = include __DIR__ . '/view-sandbox-info-icon.php';
-										echo $icon();
-									} else {
-										echo $tab_display_name;
-									}
+								echo $icon();
+							} else {
+								echo esc_textarea( $tab_display_name );
+							}
 							?>
 
 						</a>
@@ -155,11 +155,11 @@ return function (
 			</div><!-- elemental-container-article -->
 		</nav>
 </div><!-- #elemental-sandbox-base -->
-<div id="loading">
+<div id="elemental-loading">
 <div class="elemental-loading">
 	<div class="elemental-image-container elemental-lightbox-image">
 	</div>
-			<h1 style="display:inline"><?php echo esc_html__( 'Loading Your Sandbox ', 'elementalplugin' ); ?></h1></div>	
+			<h1 class="elemental-sandbox-inline"><?php echo esc_html__( 'Loading Your Sandbox ', 'elementalplugin' ); ?></h1></div>	
 
 </div>
 	<?php

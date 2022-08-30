@@ -1,5 +1,5 @@
 /**
- * The wp-admin css for Elemental Sandbox pages
+ * The css for Elemental Sandbox page
  *
  * @package Elementalplugin
  */
@@ -9,15 +9,14 @@ h1 {
     margin-bottom: 0.2em;
     padding-bottom: 0;
 }
-p {
-    font-size: 1.5em;
-    margin-top: 0;
-    padding-top: 0;
+.elemental-sandbox-inline {
+	display: inline;
 }
+
 #page {
     display: none;
 }
-#loading {
+#elemental-loading {
     display: block;
     position: absolute;
     top: 0;

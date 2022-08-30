@@ -21,5 +21,5 @@ function show(id, value) {
 
 onReady(function () {
     show('elemental-sandbox-base', true);
-    show('loading', false);
+    show('elemental-loading', false);
 });
