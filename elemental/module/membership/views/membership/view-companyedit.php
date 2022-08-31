@@ -13,7 +13,7 @@ return function (
 	object $current_user
 ): string {
 	ob_start();
-?>
+	?>
 	<div id="primary" class="site-content">
 		<div id="content" role="main">
 
@@ -44,7 +44,7 @@ return function (
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-xs-3 control-label"><?php echo esc_html__('Email Address', 'elementalplugin'); ?></label>
+								<label class="col-xs-3 control-label"><?php echo esc_html__( 'Email Address', 'elementalplugin' ); ?></label>
 								<div class="col-xs-8">
 									<input type="text" class="form-control" name="email" value="<?php echo $current_user->user_email; ?>" />
 								</div>

@@ -42,25 +42,25 @@
 							'click',
 							function (event) {
 								$tab.trigger( 'focus' );
-								id    = $tab.attr( 'data-object-id' );
+								id = $tab.attr( 'data-object-id' );
 								$tabs.removeClass( 'nav-tab-active' );
-								$tabs.css("background-color", "white");
+								$tabs.css( "background-color", "white" );
 								var $header_section = $( '.elemental-table-info-header' );
-								var $headers = $( 'th.elemental-table-header-info', $header_section );
-								
+								var $headers        = $( 'th.elemental-table-header-info', $header_section );
+
 								$headers.each(
 									function () {
 										$header_single = $( this );
-										$header_single.css("color", "#323064");
+										$header_single.css( "color", "#323064" );
 									}
 								);
 								hide_all_non_active( $nav_section );
 								$tab.addClass( 'nav-tab-active' );
 								color = $tab.attr( 'data-color' );
-								$('#name_label_'+id ).css("color", color );
+								$( '#name_label_' + id ).css( "color", color );
 
-								$tab.css("background-color", color);
-								
+								$tab.css( "background-color", color );
+
 								$( $tab.attr( 'href' ) ).show();
 
 								event.preventDefault();
@@ -74,7 +74,7 @@
 								$tab.trigger( 'focus' );
 
 								$tabs.removeClass( 'nav-tab-active' );
-								$tabs.css("background-color", "white");
+								$tabs.css( "background-color", "white" );
 								hide_all_non_active( $nav_section );
 
 								$tab.addClass( 'nav-tab-active' );

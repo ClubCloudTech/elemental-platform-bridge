@@ -437,14 +437,14 @@ window.addEventListener(
 				 * Check if Name and Email conditions are met in main form
 				 */
 				function checkShow(status) {
-					
-					if ($('#first_name').length){
+
+					if ($( '#first_name' ).length) {
 						var first_name = $( '#first_name' ).val().length
 					}
-					if ($('#last_name').length){
+					if ($( '#last_name' ).length) {
 						var last_name = $( '#last_name' ).val().length
 					}
-					
+
 					var status = $( '#elemental-email-status' ).data( 'status' );
 
 					if (first_name >= 3) {
