@@ -13,69 +13,64 @@ return function (
 	object $current_user
 ): string {
 	ob_start();
+?>
+	<div id="primary" class="site-content">
+		<div id="content" role="main">
 
-	if ( user_can( $current_user, 'administrator' ) ) {
-		?>
-		<div id="primary" class="site-content">
-			<div id="content" role="main">
-
-				<div class="container editcontainer">
-					<div class="row erow headrow">
-						<div class="col-xs-12" id="formHeader">
-							Edit Organistation
-						</div>
+			<div class="container editcontainer">
+				<div class="row erow headrow">
+					<div class="col-xs-12" id="formHeader">
+						Edit Organistation
 					</div>
-					<div class="row erow">
-						<div class="col-xs-12" id="demoContainer">
-							<form id="companyForm" action="elemental_editcompany_ajax" method="post" class="form-horizontal fv-form fv-form-bootstrap ajax" novalidate="novalidate">
-								<button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+				</div>
+				<div class="row erow">
+					<div class="col-xs-12" id="demoContainer">
+						<form id="companyForm" action="elemental_editcompany_ajax" method="post" class="form-horizontal fv-form fv-form-bootstrap ajax" novalidate="novalidate">
+							<button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
 
 
-								<div class="form-group">
-									<label class="col-xs-3 control-label">Company Name</label>
-									<div class="col-xs-8">
-										<input type="text" class="form-control" name="company_name" value="<?php echo $current_user->display_name; ?>" />
-									</div>
+							<div class="form-group">
+								<label class="col-xs-3 control-label">Company Name</label>
+								<div class="col-xs-8">
+									<input type="text" class="form-control" name="company_name" value="<?php echo $current_user->display_name; ?>" />
 								</div>
+							</div>
 
 
-								  <div class="form-group">
-									<label class="col-xs-3 control-label">Company Slug</label>
-									<div class="col-xs-8">
-										<input type="text" class="form-control" name="company_slug" value="<?php echo $current_user->user_firstname; ?>" />
-									</div>
+							<div class="form-group">
+								<label class="col-xs-3 control-label">Company Slug</label>
+								<div class="col-xs-8">
+									<input type="text" class="form-control" name="company_slug" value="<?php echo $current_user->user_firstname; ?>" />
 								</div>
-								<div class="form-group">
-									<label class="col-xs-3 control-label">Email address</label>
-									<div class="col-xs-8">
-										<input type="text" class="form-control" name="email" value="<?php echo $current_user->user_email; ?>" />
-									</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-3 control-label"><?php echo esc_html__('Email Address', 'elementalplugin'); ?></label>
+								<div class="col-xs-8">
+									<input type="text" class="form-control" name="email" value="<?php echo $current_user->user_email; ?>" />
 								</div>
+							</div>
 
-							  
 
-								<div class="form-group">
-									<label class="col-xs-3 control-label">Company Phone</label>
-									<div class="col-xs-8">
-										<input type="text" class="form-control" name="company_phone" value="<?php echo $current_user->user_lastname; ?>" />
-									</div>
+
+							<div class="form-group">
+								<label class="col-xs-3 control-label">Company Phone</label>
+								<div class="col-xs-8">
+									<input type="text" class="form-control" name="company_phone" value="<?php echo $current_user->user_lastname; ?>" />
 								</div>
-								<input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>">
-								<div class="form-group">
-									<div class="col-xs-9 col-xs-offset-3 lastButtonForm">
-										<button type="button" id="update_profile" class="btn btn-primary profilebtn" name="update-user" value="update-user">Update </button>
-									</div>
+							</div>
+							<input type="hidden" name="userid" value="<?php echo $current_user->ID; ?>">
+							<div class="form-group">
+								<div class="col-xs-9 col-xs-offset-3 lastButtonForm">
+									<button type="button" id="update_profile" class="btn btn-primary profilebtn" name="update-user" value="update-user">Update </button>
 								</div>
-							</form>
-						</div>
+							</div>
+						</form>
 					</div>
+				</div>
 
 
-				</div><!-- #content -->
-			</div><!-- #primary -->
-		<?php
-	} else {
-		echo 'Login as admin ';
-	}
+			</div><!-- #content -->
+		</div><!-- #primary -->
+	<?php
 	return ob_get_clean();
 };
