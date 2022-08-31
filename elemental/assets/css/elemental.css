@@ -740,8 +740,9 @@ span.wcfm_title strong {
 	text-transform: none;
 	font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	font-weight: 500;
-	font-size: 15px;
+	font-size: 13px;
 	line-height: 22px;
+	letter-spacing: 0;
 }
 
 li[aria-controls*=elemental_view_management_info],

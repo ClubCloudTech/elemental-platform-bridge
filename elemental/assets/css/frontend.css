@@ -315,7 +315,7 @@
 		}
 
 		.ui-tabs .ui-tabs-panel {
-			padding: 2px!important;
+			padding: 0 !important;
 			margin-top: 10px;
 			border-right: solid#C4C4C4 1px!important;
 			border-top: solid#C4C4C4 1px!important;
