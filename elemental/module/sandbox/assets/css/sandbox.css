@@ -5,52 +5,52 @@
  */
 
 h1 {
-    font-size: 2em;
-    margin-bottom: 0.2em;
-    padding-bottom: 0;
+	font-size: 2em;
+	margin-bottom: 0.2em;
+	padding-bottom: 0;
 }
 
 .elemental-sandbox-inline {
-    display: inline;
+	display: inline;
 }
 
 #page {
-    display: none;
+	display: none;
 }
 
 #elemental-loading {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(31, 31, 31, 0.979);
-    background-image: url("https://i.stack.imgur.com/MnyxU.gif");
-    background-repeat: no-repeat;
-    background-position: center;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(31, 31, 31, 0.979);
+	background-image: url("https://i.stack.imgur.com/MnyxU.gif");
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .elemental-loading {
-    padding-top: 100px;
-    padding-left: 100px;
+	padding-top: 100px;
+	padding-left: 100px;
 }
 
 .elemental-lightbox-image {
-    display: inline-block;
-    max-width: 20%;
-    width: 20%;
-    border-radius: 25px;
+	display: inline-block;
+	max-width: 20%;
+	width: 20%;
+	border-radius: 25px;
 }
 
 .tabset>input[type="radio"] {
-    position: absolute;
-    left: -200vw;
+	position: absolute;
+	left: -200vw;
 }
 
 .tabset .tab-panel {
-    display: none;
+	display: none;
 }
 
 .tabset>input:first-child:checked~.tab-panels>.tab-panel:first-child,
@@ -59,90 +59,90 @@ h1 {
 .tabset>input:nth-child(7):checked~.tab-panels>.tab-panel:nth-child(4),
 .tabset>input:nth-child(9):checked~.tab-panels>.tab-panel:nth-child(5),
 .tabset>input:nth-child(11):checked~.tab-panels>.tab-panel:nth-child(6) {
-    display: block;
+	display: block;
 }
 
 .tabset>label {
-    position: relative;
-    display: inline-block;
-    padding: 15px 15px 25px;
-    border: 1px solid transparent;
-    border-bottom: 0;
-    cursor: pointer;
-    font-weight: 600;
+	position: relative;
+	display: inline-block;
+	padding: 15px 15px 25px;
+	border: 1px solid transparent;
+	border-bottom: 0;
+	cursor: pointer;
+	font-weight: 600;
 }
 
 .tabset>label::after {
-    content: "";
-    position: absolute;
-    left: 15px;
-    bottom: 10px;
-    width: 22px;
-    height: 4px;
-    background: #8d8d8d;
+	content: "";
+	position: absolute;
+	left: 15px;
+	bottom: 10px;
+	width: 22px;
+	height: 4px;
+	background: #8d8d8d;
 }
 
 .tabset>label:hover,
 .tabset>input:focus+label {
-    color: #323064;
+	color: #323064;
 }
 
 .tabset>label:hover::after,
 .tabset>input:focus+label::after,
 .tabset>input:checked+label::after {
-    background: #323064;
+	background: #323064;
 }
 
 .tabset>input:checked+label {
-    border-color: #ccc;
-    border-bottom: 1px solid #fff;
-    margin-bottom: -1px;
+	border-color: #ccc;
+	border-bottom: 1px solid #fff;
+	margin-bottom: -1px;
 }
 
 .tab-panel {
-    padding: 30px 0;
-    border-top: 1px solid #ccc;
+	padding: 30px 0;
+	border-top: 1px solid #ccc;
 }
 
 .tabset {
-    max-width: 100%;
+	max-width: 100%;
 }
 
 .table {
-    border-spacing: 10px;
+	border-spacing: 10px;
 }
 
 thead th,
 tfoot th {
-    text-align: left;
-    font-family: "Montserrat", Sans-serif;
+	text-align: left;
+	font-family: "Montserrat", Sans-serif;
 }
 
 th {
-    letter-spacing: 2px;
+	letter-spacing: 2px;
 }
 
 td {
-    letter-spacing: 1px;
+	letter-spacing: 1px;
 }
 
 tbody td {
-    text-align: left;
-    white-space: nowrap;
+	text-align: left;
+	white-space: nowrap;
 }
 
 tfoot th {
-    text-align: left;
+	text-align: left;
 }
 
 tr td:last-child {
-    white-space: nowrap;
+	white-space: nowrap;
 }
 
 .fa-clone {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .tdtext {
-    margin-left: 2%;
+	margin-left: 2%;
 }

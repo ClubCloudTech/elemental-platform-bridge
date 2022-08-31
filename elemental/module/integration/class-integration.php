@@ -17,7 +17,7 @@ use ElementalPlugin\Library\Ajax;
  */
 class Integration {
 
-	const SETTING_INTEGRATION_API_BASEURL 	= 'setting-integration-api-base-url';
+	const SETTING_INTEGRATION_API_BASEURL = 'setting-integration-api-base-url';
 
 	/**
 	 * Runtime Shortcodes and Setup

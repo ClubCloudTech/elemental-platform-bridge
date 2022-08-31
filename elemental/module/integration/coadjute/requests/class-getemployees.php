@@ -12,29 +12,28 @@ use ElementalPlugin\Module\Integration\Coadjute\CoadjuteConnector;
 use Sammyjo20\Saloon\Constants\Saloon;
 use Sammyjo20\Saloon\Http\SaloonRequest;
 
-class GetEmployees extends SaloonRequest
-{
-    /**
-    * The connector class.
-    *
-    * @var string|null
-    */
-    protected ?string $connector = CoadjuteConnector::class;
+class GetEmployees extends SaloonRequest {
 
-    /**
-    * The HTTP verb the request will use.
-    *
-    * @var string|null
-    */
-    protected ?string $method = Saloon::GET;
+	/**
+	 * The connector class.
+	 *
+	 * @var string|null
+	 */
+	protected ?string $connector = CoadjuteConnector::class;
 
-    /**
-    * The endpoint of the request.
-    *
-    * @return string
-    */
-    public function defineEndpoint(): string
-    {
-        return '/employees';
-    }
+	/**
+	 * The HTTP verb the request will use.
+	 *
+	 * @var string|null
+	 */
+	protected ?string $method = Saloon::GET;
+
+	/**
+	 * The endpoint of the request.
+	 *
+	 * @return string
+	 */
+	public function defineEndpoint(): string {
+		return '/employees';
+	}
 }

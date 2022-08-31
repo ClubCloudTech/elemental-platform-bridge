@@ -40,7 +40,7 @@ class MembershipSetup {
 	public function create_membership_role(): void {
 		global $wp_roles;
 		$edr = $wp_roles->get_role( 'Subscriber' );
-		if ($edr) {
+		if ( $edr ) {
 			add_role( Membership::MEMBERSHIP_ROLE_NAME, Membership::MEMBERSHIP_ROLE_DESCRIPTION, $edr->capabilities );
 		}
 	}
