@@ -93,7 +93,7 @@ class SandBoxHelpers {
 
 		$email_hash = Factory::get_instance( Encryption::class )->encrypt( $email );
 
-		return '<iframe style="width:100%;height:900px; margin-top:-1px;" src="' . $base_url . '/' . $api_path . '__' . $record_id . '?userid=' . urlencode( $email_hash ) . '"></iframe>';
+		return '<iframe style="width:100%;height:900px; margin-top:-1px;" src="' . $base_url . '/' . $api_path . '__' . $user->id . '?userid=' . urlencode( $email_hash ) . '"></iframe>';
 
 	}
 
