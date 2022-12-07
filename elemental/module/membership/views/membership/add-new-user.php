@@ -53,7 +53,7 @@ return function (): string {
 			<div class="form-group">
 				<label class="col-xs-3 control-label" for="first_name">
 					<?php esc_html_e( 'First Name ', 'myvideoroom' ); ?>
-					<i id="first-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
+					<i id="first-name-icon" class="card elemental-dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
 				</label>
 				<div class="col-xs-5">
 					<input type="text" class="form-control" id="first_name" name="<?php echo esc_attr( $html_library->get_field_name( 'slug' ) ); ?>" aria-describedby="<?php echo \esc_attr( $html_library->get_description_id( 'slug' ) ); ?>" minlength="3" maxlength="64" value="" style="border: 1px solid black; width:60%;">
@@ -62,7 +62,7 @@ return function (): string {
 			<div class="form-group">
 				<label class="col-xs-3 control-label" for="last_name">
 					<?php esc_html_e( 'Last Name ', 'myvideoroom' ); ?>
-					<i id="last-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved " title="Last Name Ready to Go" style="display:none"></i>
+					<i id="last-name-icon" class="card elemental-dashicons mvr-icons dashicons-saved " title="Last Name Ready to Go" style="display:none"></i>
 				</label>
 				<div class="col-xs-5">
 					<input type="text" class="form-control" id="last_name" name="<?php echo esc_attr( $html_library->get_field_name( 'slug' ) ); ?>" aria-describedby="<?php echo \esc_attr( $html_library->get_description_id( 'slug' ) ); ?>" minlength="3" maxlength="64" value="" style="border: 1px solid black; width:60%;">

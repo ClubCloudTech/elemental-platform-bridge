@@ -78,7 +78,7 @@ class WCFMStyling {
 		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID ) . '"
 		value="' . get_option( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID of Template to Call for a WCFM Store Dashboard in the main page- this will be used in main page', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID of Template to Call for a WCFM Store Dashboard in the main page- this will be used in main page', 'myvideoroom' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;

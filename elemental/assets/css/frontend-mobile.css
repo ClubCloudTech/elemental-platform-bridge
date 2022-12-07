@@ -277,8 +277,8 @@ td {
 	color: rgb(58, 45, 45);
 }
 
-.myvideoroom-dashicons,
-.myvideoroom-dashicons-before:before {
+.elemental-dashicons,
+.elemental-dashicons-before:before {
 	font-family: dashicons;
 	display: inline-block;
 	line-height: 1;

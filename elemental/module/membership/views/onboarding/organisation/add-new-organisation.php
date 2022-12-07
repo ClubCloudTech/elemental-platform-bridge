@@ -52,7 +52,7 @@ return function (
 <div class="mvr-left">
 		<label for="first_name">
 			<?php esc_html_e( 'Organisation Display Name ', 'myvideoroom' ); ?>
-			<i id="first-name-icon" class="card myvideoroom-dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
+			<i id="first-name-icon" class="card elemental-dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
 		</label>
 
 		<input type="text"

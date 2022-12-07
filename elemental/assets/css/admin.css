@@ -390,7 +390,7 @@
 				transition: color .5s ease-in;
 			}
 
-			.myvideoroom-dashicons-before:before {
+			.elemental-dashicons-before:before {
 				font-family: dashicons;
 				display: inline-block;
 				line-height: 1;
@@ -405,8 +405,8 @@
 				transition: color .5s ease-in;
 			}
 
-			.myvideoroom-dashicons,
-			.myvideoroom-dashicons-before:before {
+			.elemental-dashicons,
+			.elemental-dashicons-before:before {
 				font-family: dashicons;
 				display: inline-block;
 				line-height: 1;
@@ -544,7 +544,7 @@
 				width: 74px;
 			}
 
-			.myvideoroom-dashicons-small {
+			.elemental-dashicons-small {
 				font-family: dashicons;
 				display: inline-block;
 				line-height: 1;

@@ -139,7 +139,7 @@ class WooCommerceHelpers {
 		<td>
 		<input type="text" class="mvr-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( self::SETTING_ONBOARD_SLUG ) . '" value="' . get_option( self::SETTING_ONBOARD_SLUG ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Location of the Onboarding Center Shortcode (slug is path after www.sitename.com/ )', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Location of the Onboarding Center Shortcode (slug is path after www.sitename.com/ )', 'myvideoroom' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -174,7 +174,7 @@ class WooCommerceHelpers {
 		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID ) . '"
 		value="' . get_option( self::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID Template Switch to Call for a Product Archive', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID Template Switch to Call for a Product Archive', 'myvideoroom' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -207,7 +207,7 @@ class WooCommerceHelpers {
 		<td>
 		<input type="text" class="mvr-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( self::SETTING_ONBOARD_POST_SUB_SLUG ) . '" value="' . get_option( self::SETTING_ONBOARD_POST_SUB_SLUG ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Onboard Post Subscription Thank You Page. This is the page to send a successful individual subscription to (slug is path after www.sitename.com/ )', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Onboard Post Subscription Thank You Page. This is the page to send a successful individual subscription to (slug is path after www.sitename.com/ )', 'myvideoroom' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -290,7 +290,7 @@ class WooCommerceHelpers {
 		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_STAFF_USER_CONTROL ) . '"
 		value="' . get_option( self::SETTING_WCFM_STAFF_USER_CONTROL ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID that holds the staff and user add and manage page (use page ID and not slug)', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID that holds the staff and user add and manage page (use page ID and not slug)', 'myvideoroom' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;

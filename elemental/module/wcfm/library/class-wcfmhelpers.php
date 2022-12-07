@@ -186,7 +186,7 @@ class WCFMHelpers {
 		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS ) . '"
 		value="' . get_option( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Comma separated list of what accounts site considers Premium (use numeric ID of WCFM Membership ID)', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Comma separated list of what accounts site considers Premium (use numeric ID of WCFM Membership ID)', 'myvideoroom' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -221,7 +221,7 @@ class WCFMHelpers {
 		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '"
 		value="' . get_option( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Shortcode Post ID Template Switch to Call for a WCFM Store in case a membership level has no setting', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Shortcode Post ID Template Switch to Call for a WCFM Store in case a membership level has no setting', 'myvideoroom' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;

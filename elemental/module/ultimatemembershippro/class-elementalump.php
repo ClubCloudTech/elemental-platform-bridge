@@ -67,7 +67,7 @@ class ElementalUMP {
 		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID ) . '"
 		value="' . get_option( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'UMP Subscription ID for the Tenant Admin subscription (used to auto assign it to new Admins)', 'elementalplugin' ) . '"></i>
+			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'UMP Subscription ID for the Tenant Admin subscription (used to auto assign it to new Admins)', 'elementalplugin' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -102,7 +102,7 @@ class ElementalUMP {
 		class="mvr-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID ) . '"
 		value="' . get_option( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Normal User Account Subscription  (used to auto assign it to new users)', 'elementalplugin' ) . '"></i>
+			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Normal User Account Subscription  (used to auto assign it to new users)', 'elementalplugin' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;

@@ -62,7 +62,7 @@ class Integration {
 		<td>
 		<input type="text" class="mvr-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( self::SETTING_INTEGRATION_API_BASEURL ) . '" value="' . get_option( self::SETTING_INTEGRATION_API_BASEURL ) . '">
-			<i class="myvideoroom-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Integration API Base URL', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Integration API Base URL', 'myvideoroom' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;

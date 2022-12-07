@@ -24,7 +24,7 @@ return function (
 		$edit_actions[] = array(
 			__( 'Delete User' ),
 			null,
-			'myvideoroom-dashicons dashicons-dismiss elemental-delete-user-account',
+			'elemental-dashicons dashicons-dismiss elemental-delete-user-account',
 			array( 'data-nonce' => $save_nonce ),
 		);
 

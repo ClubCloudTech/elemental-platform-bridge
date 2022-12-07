@@ -55,12 +55,12 @@ return function (
 			<div id="mvr-postbutton-notification" class="mvr-notification-align">
 				<div id="notification" class="elemental-search-bar">
 					<button id="elemental-refresh-search" class="mvr-main-button-enabled" style="display:none;">
-					<a  class="mvr-main-button-enabled  myvideoroom-button-link"><span title="Search Again" class="myvideoroom-dashicons dashicons-search"></span><span title="Search Again" class="myvideoroom-dashicons dashicons-update-alt"></span></a>
+					<a  class="mvr-main-button-enabled  myvideoroom-button-link"><span title="Search Again" class="elemental-dashicons dashicons-search"></span><span title="Search Again" class="elemental-dashicons dashicons-update-alt"></span></a>
 					</button>
 					<input id="elemental-search" type="text" placeholder="Search..... (Results will appear in Tabs Below)"  class="myvideoroom-input-restrict-alphanumeric-space mvr-input-box myvideoroom-center">
 					<div id="searchnotification" class="mvr-notification-align"></div>
 					<button class="mvr-main-button-enabled " >
-					<a data-room-name="" class="mvr-main-button-enabled elemental-search-trigger"><span title="Search" class="myvideoroom-dashicons dashicons-search elemental-search-trigger"></span></a>
+					<a data-room-name="" class="mvr-main-button-enabled elemental-search-trigger"><span title="Search" class="elemental-dashicons dashicons-search elemental-search-trigger"></span></a>
 					</button>
 					<div id="mvr-postbutton-notification" class="mvr-notification-align"></div>
 				</div>
