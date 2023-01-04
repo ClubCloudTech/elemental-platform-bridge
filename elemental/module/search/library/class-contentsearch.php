@@ -35,7 +35,9 @@ class ContentSearch {
 			\esc_html__( 'News', 'myvideoroom' ),
 			'content',
 			fn() => $this->render_content_search_template( $search_template ),
-			'elemental-search-result'
+			'elemental-search-result',
+			null,
+			null
 		);
 
 		array_push( $input, $host_menu );

@@ -37,7 +37,9 @@ class OrganisationSearch {
 			\esc_html__( 'Organisations', 'myvideoroom' ),
 			'organisations',
 			fn() => $this->render_wcfm_organisations(),
-			'elemental-org-result'
+			'elemental-org-result',
+			null,
+			null
 		);
 		\array_push( $input, $admin_menu );
 
