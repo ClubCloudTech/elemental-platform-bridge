@@ -32,7 +32,9 @@ class ProductSearch {
 			\esc_html__( 'Products', 'myvideoroom' ),
 			'product',
 			fn() => $this->render_product_template( $product_template ),
-			'elemental-product-result'
+			'elemental-product-result',
+			null,
+			null
 		);
 
 		array_push( $input, $host_menu );

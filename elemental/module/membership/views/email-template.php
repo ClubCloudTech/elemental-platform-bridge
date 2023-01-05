@@ -131,11 +131,11 @@ return function (
 													</td>
 												</tr>
 													<?php
-														if (count($data)) {
-															foreach ($data as $user) {
-																echo '<tr><td align="left" scope="col" style="width:40%"><strong>' . $user['first_name'] . ' ' . $user['last_name'] . '</strong></td></tr><tr><td align="left" scope="col" style="width:40%">' . $user['email'] . '</td></tr>';
-															}
+													if ( count( $data ) ) {
+														foreach ( $data as $user ) {
+															echo '<tr><td align="left" scope="col" style="width:40%"><strong>' . $user['first_name'] . ' ' . $user['last_name'] . '</strong></td></tr><tr><td align="left" scope="col" style="width:40%">' . $user['email'] . '</td></tr>';
 														}
+													}
 													?>
 											</tbody>
 										</table>
