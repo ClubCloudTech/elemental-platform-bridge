@@ -36,7 +36,7 @@ return function (
 
 			<ul class="sandbox-menu-header">
 				<?php
-					$active    = ' nav-tab-active';
+					$active = ' nav-tab-active';
 
 				foreach ( $tabs as $menu_output ) {
 					$tab_display_name = $menu_output->get_tab_display_name();

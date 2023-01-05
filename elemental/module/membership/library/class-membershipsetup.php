@@ -30,7 +30,7 @@ class MembershipSetup {
 		$this->create_sponsored_membership_role();
 		$this->create_tenant_account_role();
 		$this->create_sponsored_tenant_admin_role();
-		
+
 		if ( Factory::get_instance( ElementalBP::class )->is_buddypress_available() ) {
 			$this->create_registration_bpgroup();
 		}

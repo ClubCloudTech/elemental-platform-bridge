@@ -64,7 +64,7 @@ class MembershipUser {
 			return $return_array;
 		}
 
-		$user_id  = wp_create_user( $email, $password, $email );
+		$user_id = wp_create_user( $email, $password, $email );
 		if ( ! $user_id ) {
 			$return_array['feedback'] = \esc_html__( 'WordPress User Account Creation Error', 'elementalplugin' );
 			$return_array['status']   = false;
@@ -73,7 +73,7 @@ class MembershipUser {
 
 		$sync_result = \apply_filters( 'elemental_post_user_add', $user_id, $first_name, $last_name, $email, $password );
 
-		if ( !$sync_result['status'] ) {
+		if ( ! $sync_result['status'] ) {
 			$return_array['feedback'] = \esc_html__( '"Employee synchronization error', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
@@ -156,7 +156,7 @@ class MembershipUser {
 
 		$sync_result = \apply_filters( 'elemental_post_user_add', $user_id, $first_name, $last_name, $email, $password );
 
-		if ( !$sync_result['status'] ) {
+		if ( ! $sync_result['status'] ) {
 			$return_array['feedback'] = \esc_html__( '"Employee synchronization error', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
@@ -302,7 +302,7 @@ class MembershipUser {
 	 * @param string $password      - the generated password.
 	 * @param string $email_address - the User Email Address.
 	 * @param string $first_name    - the User First Name.
-	 * @param array $data           - generated employees data.
+	 * @param array  $data           - generated employees data.
 	 *
 	 * @return bool
 	 */
