@@ -91,7 +91,7 @@ class Admin {
 	}
 
 	/**
-	 * A shortcode to Proxy Functions to Front End for Testing
+	 * A Function for  to Proxy Functions to Front End for Testing
 	 * Used to Setup basic settings
 	 * Used to run whatever is in here from the /test page
 	 *

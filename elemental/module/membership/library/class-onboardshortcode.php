@@ -344,7 +344,7 @@ class OnboardShortcode {
 		}
 
 		return '
-		<button  class="' . $style . ' myvideoroom-woocommerce-basket-ajax" data-target="' . $target_id . '">
+		<button  class="' . $style . ' myvideoroom-woocommerce-basket-ajax myvideoroom-button-override" data-target="' . $target_id . '">
 		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' class="' . $style . ' myvideoroom-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
 		</button>
 		';

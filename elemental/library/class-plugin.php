@@ -21,7 +21,6 @@ use ElementalPlugin\Module\Integration\Integration;
 use ElementalPlugin\Module\Search\Search;
 use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\Module\WCFM\WCFM;
-use ElementalPlugin\Module\BuddyPress\XProfile;
 use ElementalPlugin\Library\Admin;
 use ElementalPlugin\Module\Pagemanage\Pagemanage;
 
@@ -73,11 +72,12 @@ class Plugin {
 		\wp_enqueue_style( 'elemental' );
 
 		// Frontend NonMobile Style.
+
 		\add_action(
 			'wp_enqueue_scripts',
 			function () {
 				\wp_enqueue_style(
-					'myvideoroom-frontend-css',
+					'elemental-frontend-css',
 					\plugins_url( '../assets/css/frontend.css', __FILE__ ),
 					false,
 					Factory::get_instance( Version::class )->get_plugin_version(),

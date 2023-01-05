@@ -27,7 +27,7 @@ class MembershipSetup {
 
 		Factory::get_instance( MembershipDAO::class )->install_membership_mapping_table();
 		Factory::get_instance( MemberSyncDAO::class )->install_membership_sync_table();
-		$this->create_membership_role();
+		//$this->create_membership_role();
 		if ( Factory::get_instance( ElementalBP::class )->is_buddypress_available() ) {
 			$this->create_registration_bpgroup();
 		}
@@ -43,14 +43,14 @@ class MembershipSetup {
 		add_role( Membership::MEMBERSHIP_ROLE_SPONSORED, Membership::MEMBERSHIP_ROLE_SPONSORED_DESCRIPTION, $roles_change->capabilities );
 	}
 
-	/**
+	/*
 	 * Create Membership Role for Tenant Main Account
-	 */
+	 
 	public function create_tenant_account_role(): void {
 		global $wp_roles;
 		$roles_change = $wp_roles->get_role( 'Subscriber' );
 		add_role( Membership::MEMBERSHIP_ROLE_TENANT, Membership::MEMBERSHIP_ROLE_TENANT_DESCRIPTION, $roles_change->capabilities );
-	}
+	}*/
 
 	/**
 	 * Create Membership Role for Tenant Main Account

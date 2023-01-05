@@ -64,7 +64,7 @@ class LoginHandler {
 		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_checkout_header_template_settings' ), 5, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_checkout_header_template_setting' ), 5, 2 );
 
-		// Edit Company Profile
+		// Edit Company Profile.
 		add_shortcode( self::SHORTCODE_COMPANY_EDIT, array( $this, 'elemental_company_edit' ) );
 
 		add_shortcode( self::SHORTCODE_ADD_USER, array( $this, 'elemental_add_user' ) );
