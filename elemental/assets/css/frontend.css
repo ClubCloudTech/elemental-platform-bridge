@@ -593,7 +593,8 @@
 		}
 
 		.mvr-button-fix {
-			color: rgb(124, 124, 124)!important;
+			/* color: rgb(124, 124, 124)!important; */
+			color: white!important;
 		}
 
 		.myvideoroom-header-table-right p {
