@@ -114,7 +114,7 @@ return function (
 				$tab_slug          = $article_output->get_tab_slug();
 				?>
 			<article id="<?php echo esc_attr( $html_library->get_id( $tab_slug ) ); ?>"
-				class="mvr-article-separation">
+				class="mvr-article-separation mvr-article-seperation-override">
 				<?php
 					// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.
 						echo $function_callback;
