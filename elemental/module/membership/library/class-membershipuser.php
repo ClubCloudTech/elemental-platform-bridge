@@ -55,30 +55,13 @@ class MembershipUser {
 
 		$password = wp_generate_password( 12, false );
 
-		// Check with the Sync Engine that this does not exist in a node already.
-		$check_result = \apply_filters( 'elemental_pre_user_add', $email );
-
-		if ( $check_result['status'] ) {
-			$return_array['feedback'] = \esc_html__( 'Employee with ' . $email . 'already exists.', 'elementalplugin' );
-			$return_array['status']   = false;
-			return $return_array;
-		}
-
 		$user_id = wp_create_user( $email, $password, $email );
 		if ( ! $user_id ) {
 			$return_array['feedback'] = \esc_html__( 'WordPress User Account Creation Error', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
 		}
-
-		$sync_result = \apply_filters( 'elemental_post_user_add', $user_id, $first_name, $last_name, $email, $password );
-
-		if ( ! $sync_result['status'] ) {
-			$return_array['feedback'] = \esc_html__( '"Employee synchronization error', 'elementalplugin' );
-			$return_array['status']   = false;
-			return $return_array;
-		}
-
+		$sync_result['data'] = array();
 		// Notify User of Password.
 		$this->notify_user_credential( $password, $email, $first_name, $sync_result['data'] );
 		// Update Additional User Parameters.
@@ -99,9 +82,7 @@ class MembershipUser {
 
 		// Update Parent/Sponsor Database.
 		$parent_id = \get_current_user_id();
-
 		\do_action( 'elemental_post_sponsored_user_add', $user_id, $parent_id );
-
 		Factory::get_instance( MemberSyncDAO::class )->register_child_account( $user_id, $parent_id );
 
 		// Return Ajax Call.
@@ -337,7 +318,6 @@ class MembershipUser {
 
 		foreach ( $sponsored_objects as $account ) {
 			$user = \get_user_by( 'ID', $account['user_id'] );
-			echo \var_dump( $account );
 			$record_array                 = array();
 			$record_array['user_id']      = $account['user_id'];
 			$record_array['created']      = date_i18n( get_option( 'date_format' ), $account['timestamp'] );
@@ -363,7 +343,7 @@ class MembershipUser {
 		$current_user_roles = $user_info->roles;
 		include_once ABSPATH . 'wp-admin/includes/user.php';
 
-		if ( in_array( 'administrator', $current_user_roles, true ) ) {
+		if ( $current_user_roles && in_array( 'administrator', $current_user_roles, true ) ) {
 			return false;
 		} else {
 			if ( wp_delete_user( $user_id ) ) {

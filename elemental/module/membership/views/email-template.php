@@ -17,7 +17,7 @@ return function (
 	string $password,
 	string $email,
 	string $first_name,
-	array $data
+	array $data = null
 ): string {
 	ob_start();
 	?>

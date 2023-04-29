@@ -45,8 +45,10 @@ class AccountShortcode {
 		$user_accounts = new MenuTabDisplay(
 			esc_html__( 'Manage User Accounts', 'elementalplugin' ),
 			'useraccounts',
-			fn() => Factory::get_instance( MembershipShortCode::class )->render_membership_shortcode(),
-			'useraccounts'
+			fn() => Factory::get_instance( MembershipShortCode::class )->render_sponsored_account_shortcode(),
+			'useraccounts',
+			null,
+			null
 		);
 		\array_push( $return_array, $user_accounts );
 

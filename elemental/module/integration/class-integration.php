@@ -24,6 +24,7 @@ class Integration {
 	 * Required for Normal Runtime.
 	 */
 	public function init(): void {
+
 		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_integration_api_baseurl' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_integration_api_baseurl_setting' ), 10, 2 );
 

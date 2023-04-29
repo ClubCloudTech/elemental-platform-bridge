@@ -45,20 +45,14 @@ return function (
 						?>
 					</tbody>
 					<tfoot>
-						<tr>
-							<th><?php esc_html_e( 'Account', 'elementalplugin' ); ?></th>
-							<th><?php esc_html_e( 'Type', 'elementalplugin' ); ?></th>
-							<th><?php esc_html_e( 'Created', 'elementalplugin' ); ?></th>
-							<th><?php esc_html_e( 'Name', 'elementalplugin' ); ?></th>
-							<th><?php esc_html_e( 'Actions', 'elementalplugin' ); ?></th>
-						</tr>
+
 					</tfoot>
 				</table>
 				<div class="wcfm-clearfix"></div>
 				<div class="wcfm-container wcfm-top-element-container" style="box-shadow: none;display: inline;">
 
 					<?php
-					echo '<a id="add-new-button" class="add_new_wcfmesc_html_ele_dashboard text_tip" href="' . esc_url( get_wcfm_shop_staffs_manage_url() ) . '" data-tip="' . esc_html__( 'Add New Account', 'elementalplugin' ) . '"><button class="text" style="  background-color: #dc143c; border: none;  color: white;  padding: 1%;  text-align: center;  text-decoration: none;  display: inline-block;  font-size: 13px;  margin: 2px 2px;  cursor: pointer;border-radius: 8px;">' . esc_html__( 'Add New', 'wc-frontend-manager' ) . '</button></a>';
+					echo '<a id="add-new-button" class="text_tip" href="#" data-tip="' . esc_html__( 'Add New Account', 'elementalplugin' ) . '"><button class="text" style="  background-color: #0d173b; border: none;  color: white;  padding: 2%;  text-align: center;  text-decoration: none;  display: inline-block;  font-size: 13px;  margin: 2px 2px;  cursor: pointer;border-radius: 8px;">' . esc_html__( 'Add New', 'wc-frontend-manager' ) . '</button></a>';
 					?>
 
 					<?php
@@ -76,9 +70,12 @@ return function (
 		<div class="elemental-align-left wcfm-container wcfm-top-element-container">
 			<p>
 				<?php
-				esc_html_e( 'You don\'t currently have any User Accounts Created.', 'elementalplugin' );
+				esc_html_e( 'You don\'t currently have any users invited.', 'elementalplugin' );
 				?>
 			</p>
+			<?php
+					echo '<a id="add-new-button"  href="#" data-tip="' . esc_html__( 'Add New Account', 'elementalplugin' ) . '"><button class="text" style="  background-color: #0d173b; border: none;  color: white;  padding: 2%;  text-align: center;  text-decoration: none;  display: inline-block;  font-size: 13px;  margin: 2px 2px;  cursor: pointer;border-radius: 8px;">' . esc_html__( 'Add New', 'wc-frontend-manager' ) . '</button></a>';
+			?>
 		</div>
 		<?php
 	}

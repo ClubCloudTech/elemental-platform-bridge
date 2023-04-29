@@ -89,7 +89,6 @@ class UMPMemberships {
 	 * @return void
 	 */
 	public function add_user_ump_subscription( int $user_id, int $subscription_id ): void {
-
 		UserSubscriptions::assign( $user_id, $subscription_id );
 		UserSubscriptions::makeComplete( $user_id, $subscription_id, false );
 	}
