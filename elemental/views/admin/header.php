@@ -16,7 +16,7 @@ return function (
 	?>
 		<header>
 		<h1 class="myvideoroom-header-config-title">
-	<?php \esc_html_e( 'Elemental Settings and Configuration', 'myvideoroom' ); ?>
+	<?php \esc_html_e( 'Elemental Platform Settings and Configuration', 'myvideoroom' ); ?>
 		</h1>
 
 		<div class="overview">
