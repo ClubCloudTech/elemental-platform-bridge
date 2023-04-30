@@ -19,6 +19,9 @@ window.addEventListener(
 							e.stopPropagation();
 							e.stopImmediatePropagation();
 							e.preventDefault();
+							$( '#elemental-email-status' ).show();
+							$("#elemental-email-status").removeClass();
+							$("#elemental-email-status").empty();
 							$( '#elemental-adduser-frame' ).slideToggle();
 						}
 					);
@@ -30,6 +33,7 @@ window.addEventListener(
 					$( '#elemental-inbound-email' ).on( 'keyup', chkEmail );
 					$( '#first_name' ).on( 'keyup', checkShow );
 					$( '#last_name' ).on( 'keyup', checkShow );
+					$( '#elemental-email-status' ).hide();
 
 					$( '#submit' ).click(
 						function(e) {
@@ -358,6 +362,8 @@ window.addEventListener(
 										$( '#elemental-email-status' ).attr( 'data-status', '' );
 										$( '#first-name-icon' ).hide();
 										$( '#last-name-icon' ).hide();
+										$( '#elemental-adduser-frame' ).slideToggle();
+										init();
 									}
 								} else {
 									$( '#elemental-email-status' ).removeClass( 'elemental-email-available' );

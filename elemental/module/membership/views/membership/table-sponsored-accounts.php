@@ -29,7 +29,7 @@ return function (
 					<thead>
 						<tr>
 							<th><?php esc_html_e( 'Account', 'elementalplugin' ); ?></th>
-							<th><?php esc_html_e( 'Type', 'elementalplugin' ); ?></th>
+							<th><?php esc_html_e( 'Last Login', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Created', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Name', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Actions', 'elementalplugin' ); ?></th>

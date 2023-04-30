@@ -317,9 +317,10 @@ class MembershipUser {
 		$return_array = array();
 
 		foreach ( $sponsored_objects as $account ) {
-			$user = \get_user_by( 'ID', $account['user_id'] );
+			$user                         = \get_user_by( 'ID', $account['user_id'] );
 			$record_array                 = array();
 			$record_array['user_id']      = $account['user_id'];
+			$record_array['last_login']   = $this->get_last_login_by_user_id( $account['user_id'] );
 			$record_array['created']      = date_i18n( get_option( 'date_format' ), $account['timestamp'] );
 			$record_array['parent_id']    = $account['parent_id'];
 			$record_array['display_name'] = $user->display_name;
@@ -441,5 +442,53 @@ class MembershipUser {
 		} else {
 			return false;
 		}
+	}
+
+
+	/**
+	 * Set Last Login User Meta
+	 *
+	 * @param string $user_name - The User_login passed in from the action hook.
+	 *
+	 * @return void
+	 */
+	public function set_last_login( string $user_name ) {
+
+		$user              = get_user_by( 'login', $user_name );
+		$curent_login_time = get_user_meta( $user->ID, 'current_login', true );
+
+		// Add or update the last login value for logged in user.
+		if ( ! empty( $curent_login_time ) ) {
+			update_user_meta( $user->ID, 'last_login', $curent_login_time );
+			update_user_meta( $user->ID, 'current_login', current_time( 'mysql' ) );
+		} else {
+			update_user_meta( $user->ID, 'current_login', current_time( 'mysql' ) );
+			update_user_meta( $user->ID, 'last_login', current_time( 'mysql' ) );
+		}
+	}
+
+
+	/**
+	 * Get Last Login Time by user id.
+	 *
+	 * @param int $user_id - The User id passed in.
+	 *
+	 * @return string
+	 */
+	public function get_last_login_by_user_id( int $user_id = null ) {
+
+		if ( ! $user_id ) {
+			$user_id = \get_current_user_id();
+		}
+
+		$last_login  = get_user_meta( $user_id, 'last_login', true );
+		$date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+
+		if ( wp_is_mobile() ) {
+			$the_last_login = date( 'M j, y, g:i a', strtotime( $last_login ) );
+		} else {
+			$the_last_login = mysql2date( $date_format, $last_login, false );
+		}
+		return $the_last_login;
 	}
 }

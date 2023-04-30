@@ -46,6 +46,7 @@ class MembershipShortCode {
 
 		$this->enqueue_style_scripts();
 		$child_account_table = $this->generate_sponsored_account_table();
+		$login_form          = null;
 		if ( ! \is_user_logged_in() ) {
 
 			$args       = array(

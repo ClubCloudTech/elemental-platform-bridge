@@ -41,7 +41,7 @@ return function (
 		<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
 	<?php
 
-	echo esc_textarea( $child_account_object['account_type'] );
+	echo esc_textarea( $child_account_object['last_login'] );
 
 	?>
 		</td>

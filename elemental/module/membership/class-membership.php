@@ -16,6 +16,7 @@ use ElementalPlugin\Module\Membership\Library\LoginHandler;
 use ElementalPlugin\Module\Membership\Library\MembershipAjax;
 use ElementalPlugin\Module\Membership\Library\MembershipSetup;
 use ElementalPlugin\Module\Membership\Library\MembershipShortCode;
+use ElementalPlugin\Module\Membership\Library\MembershipUser;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
 
 /**
@@ -43,7 +44,12 @@ class Membership {
 	 */
 	public function init() {
 		Factory::get_instance( LoginHandler::class )->init();
+
+		// Setup Ajax.
 		\add_action( 'wp_ajax_elemental_membershipadmin_ajax', array( Factory::get_instance( MembershipAjax::class ), 'membership_ajax_handler' ), 10, 2 );
+
+		// Hook Login to allow last logged in membership time.
+		\add_action( 'wp_login', array( Factory::get_instance( MembershipUser::class ), 'set_last_login' ), 10, 2 );
 
 		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
 		// Enqueue Script Ajax Handling.
