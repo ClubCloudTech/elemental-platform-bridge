@@ -27,6 +27,7 @@ class MembershipUser {
 	const USERSUBS_META_VALUE_PENDING              = 'elemental_onboardsubs_pending';
 	const USERSUBS_META_VALUE_ONBOARD_DATA_PENDING = 'elemental_onboardsubs_data_pending';
 	const USERSUBS_META_KEY_MEMBERSHIP_PRODUCT     = 'elemental_membership_product';
+	const VERIFICATION_NONCE                       = 'elemental_nonce_admin_verification';
 
 	/**
 	 * Create WordPress user from Membership form Ajax call.
@@ -353,6 +354,7 @@ class MembershipUser {
 			$record_array['display_name'] = $user->display_name;
 			$record_array['account_type'] = $account['account_type'];
 			$record_array['email']        = $user->user_email;
+			$record_array['allusers']     = \wp_create_nonce( self::VERIFICATION_NONCE );
 
 			\array_push( $return_array, $record_array );
 		}

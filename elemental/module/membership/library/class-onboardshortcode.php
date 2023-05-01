@@ -344,7 +344,7 @@ class OnboardShortcode {
 		}
 
 		return '
-		<button  class="' . $style . ' elemental-woocommerce-basket-ajax elemental-button-override" data-target="' . $target_id . '">
+		<button  class="' . $style . ' elemental-woocommerce-basket-ajax elemental-button-override" data-target="' . $target_id . ' ' . $id_text . '">
 		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' class="' . $style . ' elemental-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
 		</button>
 		';

@@ -25,56 +25,62 @@ return function (
 			__( 'Delete User' ),
 			null,
 			'elemental-dashicons dashicons-dismiss elemental-delete-user-account',
-			array( 'data-nonce' => $save_nonce ),
+			array(
+				'data-nonce' => $save_nonce,
+				'data-type'  => $child_account_object['allusers'],
+			),
 		);
 
 		?>
-	<tr class="active elemental-table-mobile" >
-		<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
-	<?php
-
-	echo esc_textarea( $child_account_object['email'] );
-
-	?>
-		</td>
-
-		<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
-	<?php
-
-	echo esc_textarea( $child_account_object['last_login'] );
-
-	?>
-		</td>
-		<td class="column-description elemental-mobile-table-row-adjust">
-	<?php
-				echo esc_textarea( $child_account_object['created'] );
-	?>
-		</td>
-		<td>
-	<?php
-				echo esc_textarea( $child_account_object['display_name'] );
-	?>
-		</td>
-		<td>
-	<?php
-	foreach ( $edit_actions as $action ) {
-		?>
-				<a href=""
-					class="elemental-icons <?php echo esc_attr( $action[2] ); ?>"
-					data-userid="<?php echo esc_attr( $child_account_object['user_id'] ); ?>"
-					data-nonce="<?php echo esc_attr( $save_nonce ); ?>"
-					title="<?php echo esc_attr( $action[0] ); ?>"
+<tr class="active elemental-table-mobile">
+	<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
 		<?php
-		foreach ( $actions[3] ?? array() as $key => $value ) {
-			echo esc_attr( $key ) . '="' . esc_attr( $value ) . '" ';
+		echo esc_textarea( $child_account_object['email'] );
+		?>
+	</td>
+	<td>
+		<?php
+				echo esc_textarea( $child_account_object['display_name'] );
+		?>
+	</td>
+
+	<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
+		<?php
+
+		echo esc_textarea( $child_account_object['last_login'] );
+
+		?>
+	</td>
+	<td class="column-description elemental-mobile-table-row-adjust">
+		<?php
+				echo esc_textarea( $child_account_object['created'] );
+		?>
+	</td>
+	<td>
+		<?php
+				echo esc_textarea( $child_account_object['parent_name'] );
+		?>
+	</td>
+	<td>
+		<?php
+		foreach ( $edit_actions as $action ) {
+			?>
+		<a href="" class="elemental-icons <?php echo esc_attr( $action[2] ); ?>"
+			data-userid="<?php echo esc_attr( $child_account_object['user_id'] ); ?>"
+			data-nonce="<?php echo esc_attr( $save_nonce ); ?>" title="<?php echo esc_attr( $action[0] ); ?>" 
+			data-type="<?php echo esc_attr( $child_account_object['allusers'] ); ?>" title="<?php echo esc_attr( $action[0] ); ?>" 
+			<?php
+			foreach ( $actions[3] ?? array() as $key => $value ) {
+				echo esc_attr( $key ) . '="' . esc_attr( $value ) . '" ';
+			}
+			?>
+		>
+			</a>
+			<?php
 		}
 		?>
-				></a>
-		<?php
-	}
-	?>
-		</td>
-	</tr>
+	</td>
+</tr>
 
 
 	<?php

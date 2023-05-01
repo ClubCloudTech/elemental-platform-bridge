@@ -120,7 +120,8 @@ class MembershipShortCode {
 		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_all_sponsored_users();
 		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
 		wp_enqueue_style( 'dashicons' );
-		return $render( $sponsored_accounts, $accounts_remaining );
+		$admin_nonce = \wp_create_nonce( MembershipUser::VERIFICATION_NONCE );
+		return $render( $sponsored_accounts, $accounts_remaining, $admin_nonce );
 
 	}
 
@@ -345,7 +346,7 @@ class MembershipShortCode {
 		}
 
 		return '
-		<button  class="' . $style . ' elementalplugin-woocommerce-basket-ajax" data-target="' . $target_id . '">
+		<button  class="' . $style . ' elementalplugin-woocommerce-basket-ajax" data-target="' . $target_id . ' " ' . $id_text . '>
 		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' elementalplugin-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
 		</button>
 		';

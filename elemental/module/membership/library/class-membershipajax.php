@@ -13,6 +13,7 @@ use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
+use Error;
 
 /**
  * Class MembershipAjax - Provides the Membership Ajax Control.
@@ -40,6 +41,7 @@ class MembershipAjax {
 		$last_name        = Factory::get_instance( Ajax::class )->get_string_parameter( 'last_name' );
 		$user_id          = Factory::get_instance( Ajax::class )->get_string_parameter( 'userid' );
 		$nonce            = Factory::get_instance( Ajax::class )->get_string_parameter( 'nonce' );
+		$type             = Factory::get_instance( Ajax::class )->get_string_parameter( 'type' );
 
 		/*
 		* Update Membership Limit section.
@@ -120,9 +122,14 @@ class MembershipAjax {
 
 			$success_state        = Factory::get_instance( MembershipUser::class )->create_sponsored_account_user( $first_name, $last_name, $email );
 			$response['feedback'] = $success_state['feedback'];
+			if ( $type && \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE ) ) {
+				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_all_sponsored_accounts_table();
+			} else {
+				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_sponsored_account_table();
+			}
 			if ( true === $success_state['status'] ) {
 				$response['status']  = true;
-				$response['table']   = Factory::get_instance( MembershipShortCode::class )->generate_sponsored_account_table();
+				$response['table']   = $new_table;
 				$response['counter'] = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
 			} else {
 				$response['status'] = false;
@@ -136,14 +143,15 @@ class MembershipAjax {
 		*
 		*/
 		if ( 'delete_user' === $action_taken ) {
-			$verify = \wp_verify_nonce( $nonce, Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $user_id ) );
-			if ( ! $verify ) {
+			$verify             = \wp_verify_nonce( $nonce, Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $user_id ) );
+			$verify_admin_nonce = \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE );
+			if ( ! $verify && ! $verify_admin_nonce ) {
 				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
 			$my_user_id  = \get_current_user_id();
 			$user_parent = Factory::get_instance( MemberSyncDAO::class )->get_parent_by_child( $user_id );
-			if ( $user_parent !== $my_user_id ) {
+			if ( $user_parent !== $my_user_id && ! \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE ) ) {
 				$response['feedback'] = \esc_html__( 'You are not the parent of this account, you can not delete it.', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
@@ -157,16 +165,23 @@ class MembershipAjax {
 
 		if ( 'delete_final' === $action_taken ) {
 			$verify = \wp_verify_nonce( $nonce, $user_id . 'approved' );
-			if ( ! $verify ) {
+			$verify_admin_nonce = \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE );
+			if ( ! $verify && ! $verify_admin_nonce ) {
 				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
 			$delete_user = Factory::get_instance( MembershipUser::class )->delete_wordpress_user( $user_id );
 			$delete_db   = Factory::get_instance( MemberSyncDAO::class )->delete_child_account( $user_id );
 
+			if ( $type && \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE ) ) {
+				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_all_sponsored_accounts_table();
+			} else {
+				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_sponsored_account_table();
+			}
+
 			if ( true === $delete_user ) {
 				$response['feedback'] = \esc_html__( 'User Deleted Successfully', 'elementalplugin' );
-				$response['table']    = Factory::get_instance( MembershipShortCode::class )->generate_sponsored_account_table();
+				$response['table']    = $new_table;
 				$response['counter']  = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
 			} else {
 				$response['feedback'] = \esc_html__( 'Error Deleting User', 'elementalplugin' );

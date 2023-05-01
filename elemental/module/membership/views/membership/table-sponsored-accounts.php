@@ -15,7 +15,8 @@
  */
 return function (
 	array $user_accounts = null,
-	string $accounts_remaining = null
+	string $accounts_remaining = null,
+	string $admin_nonce = null,
 ): string {
 	ob_start();
 	?>
@@ -23,15 +24,16 @@ return function (
 	<?php
 	if ( $user_accounts ) {
 		?>
-		<div class="wcfm-container">
+		<div class="wcfm-container" id="user-add-form" data-type="<?php echo esc_attr( $admin_nonce ); ?>">
 			<div id="wwcfm_shop_staffsesc_html_expander" class="wcfm-content">
 				<table id="elemental-membership-table" class="display" cellspacing="0" width="100%">
 					<thead>
 						<tr>
 							<th><?php esc_html_e( 'Account', 'elementalplugin' ); ?></th>
+							<th><?php esc_html_e( 'Name', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Last Login', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Created', 'elementalplugin' ); ?></th>
-							<th><?php esc_html_e( 'Name', 'elementalplugin' ); ?></th>
+							<th><?php esc_html_e( 'Invited By', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Actions', 'elementalplugin' ); ?></th>
 						</tr>
 					</thead>

@@ -34,7 +34,6 @@ window.addEventListener(
 					$( '#first_name' ).on( 'keyup', checkShow );
 					$( '#last_name' ).on( 'keyup', checkShow );
 					$( '#elemental-email-status' ).hide();
-
 					$( '#submit' ).click(
 						function(e) {
 							e.stopPropagation();
@@ -93,6 +92,7 @@ window.addEventListener(
 							e.preventDefault();
 							user_id = $( this ).attr( 'data-record-id' );
 							nonce   = $( this ).attr( 'data-auth-nonce' );
+							console.log(this);
 							deleteUser( e, user_id, nonce, true );
 						}
 					);
@@ -315,6 +315,7 @@ window.addEventListener(
 					var email          = $( '#elemental-inbound-email' ).val(),
 						first_name     = $( '#first_name' ).val(),
 						last_name      = $( '#last_name' ).val(),
+						type           = $( '#user-add-form' ).attr('data-type'),
 						account_window = $( '#elemental-membership-table' ),
 						counter_window = $( '#elemental-remaining-counter' ),
 						form_data      = new FormData();
@@ -322,6 +323,7 @@ window.addEventListener(
 					form_data.append( 'action', 'elemental_membershipadmin_ajax' );
 					form_data.append( 'action_taken', 'create_user' );
 					form_data.append( 'email', email );
+					form_data.append( 'type', type );
 					form_data.append( 'last_name', last_name );
 					form_data.append( 'first_name', first_name );
 					form_data.append( 'security', elemental_membershipadmin_ajax.security );
@@ -387,8 +389,9 @@ window.addEventListener(
 					var form_data      = new FormData(),
 						notification   = $( '#elemental-notification-frame' ),
 						account_window = $( '#elemental-membership-table' ),
+						type           = $( '#user-add-form' ).attr('data-type'),
 						counter_window = $( '#elemental-remaining-counter' );
-
+console.log(user_id + 'userID');
 					form_data.append( 'action', 'elemental_membershipadmin_ajax' );
 					if (final) {
 						form_data.append( 'action_taken', 'delete_final' );
@@ -397,6 +400,7 @@ window.addEventListener(
 					}
 					form_data.append( 'userid', user_id );
 					form_data.append( 'nonce', nonce );
+					form_data.append( 'type', type );
 					form_data.append( 'security', elemental_membershipadmin_ajax.security );
 					$.ajax(
 						{
@@ -433,7 +437,7 @@ window.addEventListener(
 
 							},
 							error: function(response) {
-								console.log( 'Error Uploading' );
+								console.log( 'Error in server' );
 							}
 						}
 					);
