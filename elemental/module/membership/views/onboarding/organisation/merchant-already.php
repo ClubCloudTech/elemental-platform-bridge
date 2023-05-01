@@ -23,7 +23,7 @@ return function (
 	<div class="wcfm-collapse-content">
 		<div id="wcfm_page_load "></div>
 		<div class="wcfm-container wcfm-top-element-container">
-			<h2><?php esc_html_e( 'Account Creation Conflict', 'myvideoroom' ); ?></h2>
+			<h2><?php esc_html_e( 'Account Creation Conflict', 'elemental' ); ?></h2>
 
 			<div class="wcfm-clearfix"></div>
 		</div>
@@ -35,13 +35,13 @@ return function (
 					/* translators: %s is the text "Modules" and links to the Module Section */
 					\esc_html__(
 						'You already have a %s membership on the platform.',
-						'myvideoroom'
+						'elemental'
 					),
 					esc_textarea( $membership_data[0][0]->post_title ),
 				);
 			?>
 			</h2><hr>
-			<h3 class="elemental-align-left"><?php esc_html_e( 'Please sign out to buy a new organisation membership, or upgrade your current organisation in your account center', 'myvideoroom' ); ?></h3>
+			<h3 class="elemental-align-left"><?php esc_html_e( 'Please sign out to buy a new organisation membership, or upgrade your current organisation in your account center', 'elemental' ); ?></h3>
 
 		</div>
 		<div id="elemental-notification-frame"></div>

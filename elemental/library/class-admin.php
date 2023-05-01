@@ -112,7 +112,7 @@ class Admin {
 			// Enqueue Script Ajax Handling.
 			\wp_register_script(
 				'elemental-admin-ajax-js',
-				\plugins_url( '../assets/js/mvradminajax.js', \realpath( __FILE__ ) ),
+				\plugins_url( '../assets/js/elementaladminajax.js', \realpath( __FILE__ ) ),
 				array( 'jquery' ),
 				Factory::get_instance( Version::class )->get_plugin_version(),
 				true

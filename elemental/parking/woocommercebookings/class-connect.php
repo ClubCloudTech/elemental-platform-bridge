@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Connect MyVideoRoom to Woocommerce Bookings
+ * Connect elemental to Woocommerce Bookings
  *
  * @package ElementalPlugin\WoocommerceBookings
  */

@@ -22,7 +22,7 @@ return function (
 	<?php
 	if ( $membership_levels ) {
 		?>
-	<table id="mvr-table-basket-frame" class="wp-list-table widefat plugins myvideoroom-table-adjust">
+	<table id="elemental-table-basket-frame" class="wp-list-table widefat plugins elemental-table-adjust">
 		<thead>
 			<tr>
 				<th scope="col" class="manage-column column-name column-primary">
@@ -64,7 +64,7 @@ return function (
 		?>
 	<p>
 		<?php
-		esc_html_e( 'You don\'t current have any membership levels.', 'myvideoroom' );
+		esc_html_e( 'You don\'t current have any membership levels.', 'elemental' );
 		?>
 	</p>
 		<?php

@@ -120,15 +120,14 @@ class Ajax {
 		}
 	}
 
-	/** MyVideoRoom Admin Ajax Support.
+	/** Elemental Admin Ajax Support.
 	 * Handles ajax calls from backend wp-admin pages
 	 *
 	 * @return mixed
 	 */
 	public function elemental_admin_ajax_handler() {
 		$response            = array();
-		$response['message'] = 'No Change';
-
+		$response['message'] = 'No Changes';
 		// Security Checks.
 		check_ajax_referer( 'elemental_admin_ajax', 'security', false );
 

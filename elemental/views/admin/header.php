@@ -15,8 +15,8 @@ return function (
 	ob_start();
 	?>
 		<header>
-		<h1 class="myvideoroom-header-config-title">
-	<?php \esc_html_e( 'Elemental Platform Settings and Configuration', 'myvideoroom' ); ?>
+		<h1 class="elemental-header-config-title">
+	<?php \esc_html_e( 'Elemental Platform Settings and Configuration', 'elemental' ); ?>
 		</h1>
 
 		<div class="overview">

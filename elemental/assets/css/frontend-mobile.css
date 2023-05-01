@@ -1,8 +1,8 @@
 /**
- * The frontend css for MyVideoRoom Mobiles
+ * The frontend css for elemental Mobiles
  * This is used for breakpoints below 640px width
  *
- * @package MyVideoRoomPlugin
+ * @package elementalPlugin
  */
 
 td {
@@ -14,7 +14,7 @@ td {
 	overflow: hidden;
 }
 
-.mvr-icons {
+.elemental-icons {
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
@@ -32,7 +32,7 @@ td {
 	white-space: nowrap;
 }
 
-.mvr-background {
+.elemental-background {
 	background: white;
 }
 
@@ -45,16 +45,16 @@ td {
 }
 
 #basket-video-host-wrap-table,
-#mvr-main-basket-window {
+#elemental-main-basket-window {
 	width: 100%;
 }
 
-.myvideoroom-center {
+.elemental-center {
 	display: block;
 	width: 100%;
 }
 
-.myvideoroom-button-separation {
+.elemental-button-separation {
 	margin-left: 5px;
 	margin-right: 5px;
 }
@@ -102,7 +102,7 @@ td {
 	text-decoration: underline;
 }
 
-.myvideoroom-user-image {
+.elemental-user-image {
 	z-index: 1;
 	color: #fff;
 	display: table;
@@ -112,14 +112,14 @@ td {
 	max-width: 250px;
 }
 
-.myvideoroom-product-image {
+.elemental-product-image {
 	color: #fff;
 	display: table;
 	width: 50px;
 	height: 50px;
 }
 
-.myvideoroom-image-result {
+.elemental-image-result {
 	color: #fff;
 	border-radius: 80px;
 	max-width: 120px;
@@ -127,13 +127,13 @@ td {
 	border-width: 3px;
 }
 
-.myvideoroom-image-result {
+.elemental-image-result {
 	color: #fff;
 	width: 180px;
 	height: 101px;
 }
 
-.myvideoroom-button-notification {
+.elemental-button-notification {
 	text-align: right;
 }
 
@@ -145,7 +145,7 @@ td {
 
 /* Create three unequal columns that floats next to each other */
 
-.mvr-table-row {
+.elemental-table-row {
 	border-color: #C6C0AD;
 	border-style: solid;
 	border-width: 1px 1px 1px 1px;
@@ -157,70 +157,70 @@ td {
 	display: flex;
 }
 
-.mvr-input-box {
+.elemental-input-box {
 	padding: 4px;
 }
 
-.mvr-left {
+.elemental-left {
 	width: 50%;
 	float: left;
 }
 
-.mvr-right {
+.elemental-right {
 	width: 50%;
 	float: right;
 	text-align: -webkit-right;
 }
 
-.mvr-middle {
+.elemental-middle {
 	width: 50%;
 	display: flex;
 }
 
-.mvr-shopping-basket-frame {
+.elemental-shopping-basket-frame {
 	width: 90%;
 }
 
-.mvr-notification-align {
+.elemental-notification-align {
 	align-self: center;
 	margin: 0;
 	margin-right: 5px;
 }
 
-.mvr-flex {
+.elemental-flex {
 	display: flex;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
 
-.mvr-table-row:after {
+.elemental-table-row:after {
 	content: "";
 	display: table;
 	clear: both;
 }
 
-.mvr-admin-page-wrap {
+.elemental-admin-page-wrap {
 	border: 1px solid #c3c4c7;
 	margin-top: 0;
 	padding: 8px;
 	background: white;
 }
 
-.myvideoroom-table-adjust {
+.elemental-table-adjust {
 	font-size: smaller;
 }
 
-.mvr-clear {
+.elemental-clear {
 	clear: both;
 }
 
-#mvr-notification-icons,
-.mvr-header-title {
+#elemental-notification-icons,
+.elemental-header-title {
 	animation: fadeIn 2s;
 	opacity: 1;
 }
 
-.myvideoroom-notification-area {
+.elemental-notification-area {
 	background: darkblue;
 	color: white;
 	text-align: center;
@@ -229,7 +229,7 @@ td {
 	padding-left: 10px;
 }
 
-.mvr-main-button-enabled {
+.elemental-main-button-enabled {
 	background: linear-gradient(#232923, #679e6e);
 	border-radius: 4px;
 	border-width: 2px;
@@ -241,14 +241,14 @@ td {
 	padding: 2px 4px;
 }
 
-.mvr-main-button-enabled a {
+.elemental-main-button-enabled a {
 	color: #929292;
 	font-size: 12px;
 	font-weight: 500;
 	text-transform: uppercase;
 }
 
-.mvr-ul-style-side-menu {
+.elemental-ul-style-side-menu {
 	box-sizing: border-box;
 	background-color: #e0e0e0;
 	color: #525151;
@@ -258,7 +258,7 @@ td {
 	display: contents;
 }
 
-.mvr-ul-style-menu {
+.elemental-ul-style-menu {
 	padding: 3px;
 	box-sizing: border-box;
 	background-color: #e0e0e0;
@@ -272,7 +272,7 @@ td {
 	text-decoration: none;
 }
 
-.mvr-ul-style-menu span {
+.elemental-ul-style-menu span {
 	font-size: 28px;
 	color: rgb(58, 45, 45);
 }
@@ -293,7 +293,7 @@ td {
 	transition: color .5s ease-in;
 }
 
-.myvideoroom-header-table-left {
+.elemental-header-table-left {
 	width: 20%;
 	float: left;
 	text-align: left;
@@ -301,13 +301,13 @@ td {
 	display: flex;
 }
 
-.myvideoroom-header-table-right {
+.elemental-header-table-right {
 	width: 80%;
 	float: right;
 	text-align: right;
 }
 
-.myvideoroom-welcome-buttons {
+.elemental-welcome-buttons {
 	background-color: rgb(77, 77, 77)!important;
 	border-radius: 3px!important;
 	color: rgb(255 255 255) !important;
@@ -319,7 +319,7 @@ td {
 	vertical-align: middle!important;
 }
 
-.myvideoroom-welcome-positive {
+.elemental-welcome-positive {
 	background: linear-gradient(#032979, #1c1c96);
 	border-radius: 3px!important;
 	color: rgb(255 255 255) !important;
@@ -331,16 +331,16 @@ td {
 	vertical-align: middle!important;
 }
 
-.mvr-main-button-cancel a {
+.elemental-main-button-cancel a {
 	color: white;
 }
 
-.mvr-main-refresh-button {
+.elemental-main-refresh-button {
 	padding: 9px!important;
 	font-weight: 400!important;
 }
 
-.mvr-main-button-cancel {
+.elemental-main-button-cancel {
 	background: linear-gradient(#615858, #b5b5b6);
 	border-radius: 4px;
 	border-width: 2px;
@@ -353,11 +353,11 @@ td {
 	padding: 2px 4px;
 }
 
-.mvr-main-button-stop {
+.elemental-main-button-stop {
 	background: linear-gradient(#e60000, #e84a58)!important;
 }
 
-.mvr-woocommerce-overlay {
+.elemental-woocommerce-overlay {
 	border-color: #C6C0AD;
 	border-style: solid;
 	border-width: 1px 1px 1px 1px;
@@ -374,7 +374,7 @@ td {
 	display: none!important;
 }
 
-.mvr-form-button {
+.elemental-form-button {
 	background: -webkit-gradient(linear, left top, left bottom, from(#42a1ec), to(#0070c9));
 	background: -webkit-linear-gradient(#42a1ec, #0070c9);
 	background: linear-gradient(#42a1ec, #0070c9);
@@ -395,20 +395,20 @@ td {
 	white-space: nowrap !important;
 }
 
-.mvr-form-button-max {
+.elemental-form-button-max {
 	max-height: 30px;
 	max-width: 125px;
 }
 
-.myvideoroom-table-adjust {
+.elemental-table-adjust {
 	font-size: smaller;
 }
 
-.myvideoroom-hide-mobile {
+.elemental-hide-mobile {
 	display: none;
 }
 
-.myvideoroom-mobile-img-adjust {
+.elemental-mobile-img-adjust {
 	min-width: 170px;
 	margin-left: auto;
 	border-bottom: none;
@@ -419,12 +419,12 @@ td {
 	font-weight: 600;
 }
 
-.myvideoroom-mobile-table-row-opacity {
+.elemental-mobile-table-row-opacity {
 	background: #e8e8e8e3;
 	font-weight: 600;
 }
 
-.mvr-table-mobile {
+.elemental-table-mobile {
 	border-color: #C6C0AD;
 	border-style: solid;
 	border-width: 1px 1px 1px 1px;
@@ -439,15 +439,15 @@ td {
 	width: 100%;
 }
 
-.myvideoroom-content-tab {
+.elemental-content-tab {
 	width: 100%;
 }
 
-.mvr-mobile-top-margin {
+.elemental-mobile-top-margin {
 	margin-top: 15px;
 }
 
-.mvr-nav-settingstabs-outer-wrap {
+.elemental-nav-settingstabs-outer-wrap {
 	background-color: #f7f7f7;
 	border: 1px solid #c3c4c7;
 	padding: 3px;
@@ -468,21 +468,21 @@ p {
 	margin-bottom: 10px;
 }
 
-.mvr-preferences-paragraph {
+.elemental-preferences-paragraph {
 	color: rgb(32, 32, 32);
 	font-size: 12px;
 	font-weight: 500;
 	margin-bottom: 10px !important;
 }
 
-.mvr-title-header {
+.elemental-title-header {
 	display: inline !important;
 	margin-bottom: 8px;
 	margin-top: 8px;
 	font-size: medium;
 }
 
-.mvr-mobile-hide {
+.elemental-mobile-hide {
 	display: none!important;
 }
 
@@ -490,7 +490,7 @@ p {
 	padding: 0px!important;
 }
 
-#myvideoroom-all-set {
+#elemental-all-set {
 	border: #c6c0ad;
 	border-style: solid;
 	border-width: 1px;
@@ -498,17 +498,17 @@ p {
 	margin: 3px;
 }
 
-.mvr-header-table-right {
+.elemental-header-table-right {
 	text-align: left;
 	width: 100%;
 }
 
-.mvr-header-table-left {
+.elemental-header-table-left {
 	text-align: center;
 	width: 100%;
 }
 
-.mvr-header-table-left img {
+.elemental-header-table-left img {
 	display: block;
 	width: 60%;
 	margin-left: auto;

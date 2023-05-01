@@ -20,7 +20,7 @@ return function (
 ): string {
 	ob_start();
 	?>
-	<tr class="active mvr-table-mobile" data-room-id="<?php echo esc_attr( $sandbox_item['level'] ); ?>">
+	<tr class="active elemental-table-mobile" data-room-id="<?php echo esc_attr( $sandbox_item['level'] ); ?>">
 	<td>
 
 	<input type="checkbox" 

@@ -42,7 +42,7 @@ return function (
 	data-productid="<?php echo esc_attr( $product_template ); ?>"
 	data-pagination="<?php echo esc_url_raw( $pagination_base ); ?>"
 	></div>
-		<div class="mvr-header-section">
+		<div class="elemental-header-section">
 			<?php
 				// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.
 				echo $header;
@@ -50,23 +50,23 @@ return function (
 			?>
 		</div>
 	<div style="<?php echo esc_attr( $display_style ); ?>" class="elemental-header-searchbar elemental-background-item">	
-		<div id="mvr-notification-master" class="mvr-nav-shortcode-outer-wrap-clean mvr-notification-master">
+		<div id="elemental-notification-master" class="elemental-nav-shortcode-outer-wrap-clean elemental-notification-master">
 
-			<div id="mvr-postbutton-notification" class="mvr-notification-align">
+			<div id="elemental-postbutton-notification" class="elemental-notification-align">
 				<div id="notification" class="elemental-search-bar">
-					<button id="elemental-refresh-search" class="mvr-main-button-enabled" style="display:none;">
-					<a  class="mvr-main-button-enabled  myvideoroom-button-link"><span title="Search Again" class="elemental-dashicons dashicons-search"></span><span title="Search Again" class="elemental-dashicons dashicons-update-alt"></span></a>
+					<button id="elemental-refresh-search" class="elemental-main-button-enabled" style="display:none;">
+					<a  class="elemental-main-button-enabled  elemental-button-link"><span title="Search Again" class="elemental-dashicons dashicons-search"></span><span title="Search Again" class="elemental-dashicons dashicons-update-alt"></span></a>
 					</button>
-					<input id="elemental-search" type="text" placeholder="Search..... (Results will appear in Tabs Below)"  class="myvideoroom-input-restrict-alphanumeric-space mvr-input-box myvideoroom-center">
-					<div id="searchnotification" class="mvr-notification-align"></div>
-					<button class="mvr-main-button-enabled " >
-					<a data-room-name="" class="mvr-main-button-enabled elemental-search-trigger"><span title="Search" class="elemental-dashicons dashicons-search elemental-search-trigger"></span></a>
+					<input id="elemental-search" type="text" placeholder="Search..... (Results will appear in Tabs Below)"  class="elemental-input-restrict-alphanumeric-space elemental-input-box elemental-center">
+					<div id="searchnotification" class="elemental-notification-align"></div>
+					<button class="elemental-main-button-enabled " >
+					<a data-room-name="" class="elemental-main-button-enabled elemental-search-trigger"><span title="Search" class="elemental-dashicons dashicons-search elemental-search-trigger"></span></a>
 					</button>
-					<div id="mvr-postbutton-notification" class="mvr-notification-align"></div>
+					<div id="elemental-postbutton-notification" class="elemental-notification-align"></div>
 				</div>
 			</div>
 		</div>
-			<div><h2 class="elemental-align-centre"><?php esc_html_e( 'Platform Categories', 'myvideoroom' ); ?></h2></div>
+			<div><h2 class="elemental-align-centre"><?php esc_html_e( 'Platform Categories', 'elemental' ); ?></h2></div>
 			<?php
 			if ( $count_tabs > 1 ) {
 				?>
@@ -102,7 +102,7 @@ return function (
 			</nav>
 			<?php } ?>
 
-	<div id="mvr-above-article-notification"></div>
+	<div id="elemental-above-article-notification"></div>
 	<div id="elemental-container-article" class="elemental-article-container elemental-background-item">
 			<?php
 			$roles = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( true );
@@ -114,7 +114,7 @@ return function (
 				$tab_slug          = $article_output->get_tab_slug();
 				?>
 			<article id="<?php echo esc_attr( $html_library->get_id( $tab_slug ) ); ?>"
-				class="mvr-article-separation">
+				class="elemental-article-separation">
 				<?php
 					// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - callback escaped within itself.
 						echo $function_callback;

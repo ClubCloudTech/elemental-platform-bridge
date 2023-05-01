@@ -37,7 +37,7 @@ return function (
 
 	<p class="city wcfm_title wcfm_ele"><strong><?php esc_html_e( 'Registrant First Name ', 'elementalplugin' ); ?></strong><br><?php esc_html_e( 'Your First Name', 'elementalplugin' ); ?></p>
 		<label for="first_name" class="screen-reader-text">
-			<i id="first-name-icon" class="card elemental-dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
+			<i id="first-name-icon" class="card elemental-dashicons elemental-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
 		</label>
 
 		<input type="text"
@@ -52,7 +52,7 @@ return function (
 		<p class="city wcfm_title wcfm_ele"><strong><?php esc_html_e( 'Registrant Last Name ', 'elementalplugin' ); ?></strong><br><?php esc_html_e( 'Your Last Name', 'elementalplugin' ); ?></p>
 		<label for="last_name" class="screen-reader-text ">
 			<?php esc_html_e( 'Last Name ', 'elementalplugin' ); ?>
-			<i id="last-name-icon" class="card elemental-dashicons mvr-icons dashicons-saved" title="Last Name Ready to Go" style="display:none"></i>
+			<i id="last-name-icon" class="card elemental-dashicons elemental-icons dashicons-saved" title="Last Name Ready to Go" style="display:none"></i>
 		</label>
 
 		<input type="text"
@@ -67,7 +67,7 @@ return function (
 		<p class="city wcfm_title wcfm_ele"><strong><?php esc_html_e( 'Company Name', 'elementalplugin' ); ?></strong><br><?php esc_html_e( 'The company name of sandbox owner', 'elementalplugin' ); ?></p>
 		<label for="company" class="screen-reader-text">
 			<?php esc_html_e( 'Company Name ', 'elementalplugin' ); ?>
-			<i id="company-name-icon" class="card elemental-dashicons mvr-icons dashicons-saved" title="Company Ready" style="display:none"></i>
+			<i id="company-name-icon" class="card elemental-dashicons elemental-icons dashicons-saved" title="Company Ready" style="display:none"></i>
 		</label>
 
 		<input type="text"
@@ -82,7 +82,7 @@ return function (
 		<p class="city wcfm_title wcfm_ele "><strong><?php esc_html_e( 'City', 'elementalplugin' ); ?></strong><br><?php esc_html_e( '(optional)', 'elementalplugin' ); ?></p>
 		<label for="company" class="screen-reader-text">
 			<?php esc_html_e( 'City ', 'elementalplugin' ); ?>
-			<i id="company-name-icon" class="card elemental-dashicons mvr-icons dashicons-saved" title="City Ready" style="display:none"></i>
+			<i id="company-name-icon" class="card elemental-dashicons elemental-icons dashicons-saved" title="City Ready" style="display:none"></i>
 		</label>
 
 		<input type="text"
@@ -136,9 +136,9 @@ return function (
 
 	</form>
 
-		<div class="mvr-left">
+		<div class="elemental-left">
 		</div>
-		<div class="mvr-right">
+		<div class="elemental-right">
 			<div id="elemental-email-status" data-valid ="" class="elemental-email-status-individual elemental-membership-displayconf"><?php esc_html_e( '.', 'elementalplugin' ); ?>
 			</div>
 		</div>

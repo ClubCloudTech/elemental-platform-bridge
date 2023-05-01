@@ -58,7 +58,7 @@ class Token {
 	 *
 	 * @param string $json The JSON representation of the object.
 	 *
-	 * @return ?\MyVideoRoomPlugin\Entity\Token
+	 * @return ?\elementalPlugin\Entity\Token
 	 */
 	public static function from_json( string $json ): ?self {
 		$data = json_decode( $json );

@@ -48,7 +48,7 @@ class XProfile {
 	public function add_country_filter( array $response ): array {
 		$setting_xprofile_field = Factory::get_instance( Ajax::class )->get_string_parameter( Xprofile::SETTING_XPROFILE_COUNTRY );
 		\update_option( Xprofile::SETTING_XPROFILE_COUNTRY, intval( $setting_xprofile_field ) );
-		$response['feedback'] = \esc_html__( 'Country Saved', 'myvideoroom' );
+		$response['feedback'] = \esc_html__( 'Country Saved', 'elemental' );
 		return $response;
 	}
 	/**
@@ -60,7 +60,7 @@ class XProfile {
 	public function add_city_filter( array $response ): array {
 		$setting_xprofile_field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_XPROFILE_CITY );
 		\update_option( self::SETTING_XPROFILE_CITY, intval( $setting_xprofile_field ) );
-		$response['feedback'] = \esc_html__( 'City Saved', 'myvideoroom' );
+		$response['feedback'] = \esc_html__( 'City Saved', 'elemental' );
 		return $response;
 	}
 
@@ -73,7 +73,7 @@ class XProfile {
 	public function add_company_filter( array $response ): array {
 		$setting_xprofile_field = Factory::get_instance( Ajax::class )->get_string_parameter( Xprofile::SETTING_XPROFILE_COMPANY );
 		\update_option( Xprofile::SETTING_XPROFILE_COMPANY, intval( $setting_xprofile_field ) );
-		$response['feedback'] = \esc_html__( 'Company Saved', 'myvideoroom' );
+		$response['feedback'] = \esc_html__( 'Company Saved', 'elemental' );
 		return $response;
 	}
 	/**
@@ -85,12 +85,12 @@ class XProfile {
 	public function add_country_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Xprofile Field Countries', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'Xprofile Field Countries', 'elemental' ) . '</span>
 		</td>
 		<td>
-		<input type="number" class="mvr-main-button-enabled elemental-maintenance-setting"
+		<input type="number" class="elemental-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( Xprofile::SETTING_XPROFILE_COUNTRY ) . '" value="' . get_option( self::SETTING_XPROFILE_COUNTRY ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Field Name for XProfile Countries', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'Field Name for XProfile Countries', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -104,12 +104,12 @@ class XProfile {
 	public function add_city_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Xprofile Field City', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'Xprofile Field City', 'elemental' ) . '</span>
 		</td>
 		<td>
-		<input type="number" class="mvr-main-button-enabled elemental-maintenance-setting"
+		<input type="number" class="elemental-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( Xprofile::SETTING_XPROFILE_CITY ) . '" value="' . get_option( self::SETTING_XPROFILE_CITY ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Field Name for XProfile City', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'Field Name for XProfile City', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -124,12 +124,12 @@ class XProfile {
 	public function add_company_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Xprofile Field Company', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'Xprofile Field Company', 'elemental' ) . '</span>
 		</td>
 		<td>
-		<input type="number" class="mvr-main-button-enabled elemental-maintenance-setting"
+		<input type="number" class="elemental-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( self::SETTING_XPROFILE_COMPANY ) . '" value="' . get_option( self::SETTING_XPROFILE_COMPANY ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Field Name for XProfile Company', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'Field Name for XProfile Company', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;

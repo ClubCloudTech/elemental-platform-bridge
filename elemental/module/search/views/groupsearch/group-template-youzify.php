@@ -102,7 +102,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 									do_action( 'bp_groups_directory_order_options' );
 									?>
 									<li id="elemental-directory-search-box">
-									<input type="text" name="elemental-groupsearch" class="elemental-groupsearch myvideoroom-input-restrict-alphanumeric-space" id="elemental-group-search" placeholder="Refine Search">
+									<input type="text" name="elemental-groupsearch" class="elemental-groupsearch elemental-input-restrict-alphanumeric-space" id="elemental-group-search" placeholder="Refine Search">
 									<input type="submit" id="elemental-group-search-submit" name="group-submit" value="Search">
 									</li>
 								</ul>

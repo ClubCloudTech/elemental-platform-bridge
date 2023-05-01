@@ -20,25 +20,25 @@ return function (
 	// Check Nonce for Operation.
 
 	if ( ! $message ) {
-		$message = esc_html__( 'do this ?', 'myvideoroom' );
+		$message = esc_html__( 'do this ?', 'elemental' );
 	}
 	ob_start();
 	?>
 
-<div id="mvr-basket-section-confirmation" class=" mvr-woocommerce-basket mvr-nav-settingstabs-outer-wrap mvr-table-row elemental-welcome-page">
+<div id="elemental-basket-section-confirmation" class=" elemental-woocommerce-basket elemental-nav-settingstabs-outer-wrap elemental-table-row elemental-welcome-page">
 	<?php
 	echo sprintf(
 	/* translators: %s is the message variant translated above */
 		\esc_html__(
 			'Are you sure you want to %s',
-			'myvideoroom'
+			'elemental'
 		),
 		esc_html( $message )
 	);
 
 	?>
 
-	<table id="mvr-confirmation-table" class="wp-list-table widefat plugins mvr-shopping-basket-frame">
+	<table id="elemental-confirmation-table" class="wp-list-table widefat plugins elemental-shopping-basket-frame">
 		<thead>
 			<tr>
 				<th scope="col" class="manage-column column-name column-primary">

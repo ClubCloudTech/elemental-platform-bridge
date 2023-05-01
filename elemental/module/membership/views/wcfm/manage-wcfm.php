@@ -32,7 +32,7 @@ data-
 	<div id="wcfm-content">
 		<div class="wcfm-membership-wrapper">
 			<h2 class="wcfm_registration_form_heading elemental-content-tab">
-				<?php esc_html_e( 'Registration', 'myvideoroom' ); ?> </h2>
+				<?php esc_html_e( 'Registration', 'elemental' ); ?> </h2>
 			<div class="elemental-clear"></div>
 
 			<?php

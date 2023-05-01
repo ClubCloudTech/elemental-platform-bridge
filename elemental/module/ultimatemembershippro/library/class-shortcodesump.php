@@ -30,7 +30,7 @@ class ShortCodesUMP {
 			$http_get_library = Factory::get_instance( HttpGet::class );
 			$membership_id    = $http_get_library->get_string_parameter( 'membership' );
 			if ( 'individual' === $membership_id ) {
-				return \esc_html__( 'Individual Account', 'myvideoroom' );
+				return \esc_html__( 'Individual Account', 'elemental' );
 			} else {
 				$membership_id = intval( $http_get_library->get_string_parameter( 'membership' ) );
 			}

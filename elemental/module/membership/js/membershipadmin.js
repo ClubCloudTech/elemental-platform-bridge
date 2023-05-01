@@ -13,7 +13,7 @@ window.addEventListener(
 				 * Initialise Functions on Load
 				 */
 				function init() {
-					$( '#mvr-login-form' ).show();
+					$( '#elemental-login-form' ).show();
 					$( '#add-new-button' ).click(
 						function(e) {
 							e.stopPropagation();
@@ -78,7 +78,7 @@ window.addEventListener(
 						}
 					);
 
-					$( '#mvr-main-button-cancel' ).click(
+					$( '#elemental-main-button-cancel' ).click(
 						function(e) {
 							e.stopPropagation();
 							e.preventDefault();
@@ -87,7 +87,7 @@ window.addEventListener(
 						}
 					);
 
-					$( '.mvr-main-button-enabled' ).click(
+					$( '.elemental-main-button-enabled' ).click(
 						function(e) {
 							e.stopPropagation();
 							e.preventDefault();
@@ -427,7 +427,7 @@ window.addEventListener(
 									counter_window.remove();
 									counter_window.parent().empty();
 									parent_element.html( state_response.counter );
-									$( '#mvr-main-button-cancel' ).click();
+									$( '#elemental-main-button-cancel' ).click();
 									init();
 								}
 

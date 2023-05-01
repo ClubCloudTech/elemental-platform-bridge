@@ -1,6 +1,6 @@
 <?php
 /**
- * Connect MyVideoRoom to Woocommerce FrontEnd Manager Video
+ * Connect elemental to Woocommerce FrontEnd Manager Video
  *
  * @package ElementalPlugin\WoocommerceBookings
  */

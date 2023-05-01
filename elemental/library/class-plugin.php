@@ -29,7 +29,7 @@ use ElementalPlugin\Module\Pagemanage\Pagemanage;
 class Plugin {
 
 	const PLUGIN_NAME_SPACE = 'elemental';
-	const SHORTCODE_PREFIXS = array( 'mvr_', 'cc' );
+	const SHORTCODE_PREFIXS = array( 'elemental_', 'cc' );
 	const ELEMENTAL_SLUG    = 'elemental';
 
 	/**
@@ -89,7 +89,7 @@ class Plugin {
 			'wp_enqueue_scripts',
 			function () {
 				\wp_enqueue_style(
-					'myvideoroom-frontend-mobile-css',
+					'elemental-frontend-mobile-css',
 					\plugins_url( '../assets/css/frontend-mobile.css', __FILE__ ),
 					false,
 					Factory::get_instance( Version::class )->get_plugin_version(),

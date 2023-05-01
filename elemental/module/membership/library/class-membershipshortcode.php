@@ -61,6 +61,31 @@ class MembershipShortCode {
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 		return $render( $manage_account_form(), $child_account_table, $login_form );
 	}
+	/**
+	 * Get ALL Sponsored Account Shortcode Worker Function
+	 * Handles the rendering of the shortcode for membership management.
+	 *
+	 * @return ?string
+	 */
+	public function all_sponsored_accounts_shortcode_worker(): ?string {
+
+		$this->enqueue_style_scripts();
+		$child_account_table = $this->generate_all_sponsored_accounts_table();
+		$login_form          = null;
+		if ( ! \is_user_logged_in() ) {
+
+			$args       = array(
+				'echo'     => false,
+				'redirect' => get_permalink( get_the_ID() ),
+				'remember' => true,
+			);
+			$login_form = wp_login_form( $args );
+		}
+		$render              = ( require __DIR__ . '/../views/membership/manage-child.php' );
+		$manage_account_form = ( require __DIR__ . '/../views/membership/add-new-user.php' );
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+		return $render( $manage_account_form(), $child_account_table, $login_form );
+	}
 
 	/**
 	 * Sponsored Account User Table
@@ -74,9 +99,27 @@ class MembershipShortCode {
 			$user_id = get_current_user_id();
 		}
 		$accounts_remaining = $this->render_remaining_account_count( $user_id );
-		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
+		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users_by_parent( $user_id );
 		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
+		wp_enqueue_style( 'dashicons' );
+		return $render( $sponsored_accounts, $accounts_remaining );
 
+	}
+	/**
+	 * Sponsored Account User Table
+	 * Handles the rendering of the User tables for Sponsored Child Accounts.
+	 *
+	 * @param  int $user_id The WP User ID.
+	 * @return ?string
+	 */
+	public function generate_all_sponsored_accounts_table( int $user_id = null ): ?string {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+		$accounts_remaining = $this->render_remaining_account_count( $user_id );
+		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_all_sponsored_users();
+		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
+		wp_enqueue_style( 'dashicons' );
 		return $render( $sponsored_accounts, $accounts_remaining );
 
 	}
@@ -137,7 +180,7 @@ class MembershipShortCode {
 			$user_id = get_current_user_id();
 		}
 		$accounts_remaining = $this->render_remaining_account_count( $user_id, Membership::MEMBERSHIP_ROLE_TENANT_ADMIN, Membership::MEMBERSHIP_ROLE_TENANT_ADMIN_DESCRIPTION );
-		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
+		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users_by_parent( $user_id );
 		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
 
 		return $render( $sponsored_accounts, $accounts_remaining );
@@ -236,7 +279,7 @@ class MembershipShortCode {
 	 */
 	public function membership_confirmation( string $message, string $confirmation_button_approved ):string {
 
-		$cancel_button = $this->cancel_nav_bar_button( 'cancel', esc_html__( 'Cancel', 'my-video-room' ), null, 'mvr-main-button-cancel' );
+		$cancel_button = $this->cancel_nav_bar_button( 'cancel', esc_html__( 'Cancel', 'elemental' ), null, 'elemental-main-button-cancel' );
 
 		// Render Confirmation Page View.
 		$render = include __DIR__ . '/../views/confirmation-page.php';
@@ -298,12 +341,12 @@ class MembershipShortCode {
 		}
 
 		if ( ! $style ) {
-			$style = 'mvr-main-button-enabled';
+			$style = 'elemental-main-button-enabled';
 		}
 
 		return '
 		<button  class="' . $style . ' elementalplugin-woocommerce-basket-ajax" data-target="' . $target_id . '">
-		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' class="' . $style . ' elementalplugin-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
+		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' elementalplugin-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
 		</button>
 		';
 	}

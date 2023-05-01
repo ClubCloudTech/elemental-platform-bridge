@@ -29,7 +29,7 @@ class ProductSearch {
 	public function render_product_result_tab( array $input, string $search_template = null, string $product_template = null ): array {
 
 		$host_menu = new MenuTabDisplay(
-			\esc_html__( 'Products', 'myvideoroom' ),
+			\esc_html__( 'Products', 'elemental' ),
 			'product',
 			fn() => $this->render_product_template( $product_template ),
 			'elemental-product-result',

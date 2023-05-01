@@ -134,12 +134,12 @@ class WooCommerceHelpers {
 	public function add_onboard_slug_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Onboarding Slug', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'Onboarding Slug', 'elemental' ) . '</span>
 		</td>
 		<td>
-		<input type="text" class="mvr-main-button-enabled elemental-maintenance-setting"
+		<input type="text" class="elemental-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( self::SETTING_ONBOARD_SLUG ) . '" value="' . get_option( self::SETTING_ONBOARD_SLUG ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Location of the Onboarding Center Shortcode (slug is path after www.sitename.com/ )', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'Location of the Onboarding Center Shortcode (slug is path after www.sitename.com/ )', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -152,9 +152,12 @@ class WooCommerceHelpers {
 	 * @return array
 	 */
 	public function update_onboard_slug_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_ONBOARD_SLUG );
-		\update_option( self::SETTING_ONBOARD_SLUG, $field );
-		$response['feedback'] = \esc_html__( 'Slug Saved', 'myvideoroom' );
+		$current_value = \get_option( self::SETTING_ONBOARD_SLUG );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_ONBOARD_SLUG );
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_ONBOARD_SLUG, $field );
+			$response['feedback'] = \esc_html__( 'Onboarding Slug Saved', 'elemental' );
+		}
 		return $response;
 	}
 
@@ -167,14 +170,14 @@ class WooCommerceHelpers {
 	public function add_product_archive_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Product Archive Page ID', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'Product Archive Page ID', 'elemental' ) . '</span>
 		</td>
 		<td>
 		<input type="number" size="32"
-		class="mvr-main-button-enabled elemental-maintenance-setting"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID ) . '"
 		value="' . get_option( self::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID Template Switch to Call for a Product Archive', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID Template Switch to Call for a Product Archive', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -187,9 +190,12 @@ class WooCommerceHelpers {
 	 * @return array
 	 */
 	public function update_product_archive_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID );
-		\update_option( self::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID, $field );
-		$response['feedback'] = \esc_html__( 'Product Archive Saved', 'myvideoroom' );
+		$current_value = \get_option( self::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID );
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_PRODUCT_ARCHIVE_SHORTCODE_ID, $field );
+			$response['feedback'] = \esc_html__( 'Product Archive Saved', 'elemental' );
+		}
 		return $response;
 	}
 
@@ -202,12 +208,12 @@ class WooCommerceHelpers {
 	public function add_indv_post_subs_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Post Payment Individual Sub Slug', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'Post Payment Individual Sub Slug', 'elemental' ) . '</span>
 		</td>
 		<td>
-		<input type="text" class="mvr-main-button-enabled elemental-maintenance-setting"
+		<input type="text" class="elemental-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( self::SETTING_ONBOARD_POST_SUB_SLUG ) . '" value="' . get_option( self::SETTING_ONBOARD_POST_SUB_SLUG ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Onboard Post Subscription Thank You Page. This is the page to send a successful individual subscription to (slug is path after www.sitename.com/ )', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'Onboard Post Subscription Thank You Page. This is the page to send a successful individual subscription to (slug is path after www.sitename.com/ )', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -219,9 +225,12 @@ class WooCommerceHelpers {
 	 * @return array
 	 */
 	public function update_indv_subs_landing_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_ONBOARD_POST_SUB_SLUG );
-		\update_option( self::SETTING_ONBOARD_POST_SUB_SLUG, $field );
-		$response['feedback'] = \esc_html__( 'Destination Saved', 'myvideoroom' );
+		$current_value = \get_option( self::SETTING_ONBOARD_POST_SUB_SLUG );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_ONBOARD_POST_SUB_SLUG );
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_ONBOARD_POST_SUB_SLUG, $field );
+			$response['feedback'] = \esc_html__( 'Destination Post Payment Saved', 'elemental' );
+		}
 		return $response;
 	}
 
@@ -283,14 +292,14 @@ class WooCommerceHelpers {
 	public function add_staffuser_cp_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Staff and User Control Panel Page ID', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'Staff and User Control Panel Page ID', 'elemental' ) . '</span>
 		</td>
 		<td>
 		<input type="number" size="32"
-		class="mvr-main-button-enabled elemental-maintenance-setting"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_STAFF_USER_CONTROL ) . '"
 		value="' . get_option( self::SETTING_WCFM_STAFF_USER_CONTROL ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID that holds the staff and user add and manage page (use page ID and not slug)', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID that holds the staff and user add and manage page (use page ID and not slug)', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -303,9 +312,12 @@ class WooCommerceHelpers {
 	 * @return array
 	 */
 	public function update_staffuser_cp_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_WCFM_STAFF_USER_CONTROL );
-		\update_option( self::SETTING_WCFM_STAFF_USER_CONTROL, $field );
-		$response['feedback'] = \esc_html__( 'PostID Saved', 'myvideoroom' );
+		$current_value = \get_option( self::SETTING_WCFM_STAFF_USER_CONTROL );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_WCFM_STAFF_USER_CONTROL );
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_WCFM_STAFF_USER_CONTROL, $field );
+			$response['feedback'] = \esc_html__( 'PostID Saved', 'elemental' );
+		}
 		return $response;
 	}
 }

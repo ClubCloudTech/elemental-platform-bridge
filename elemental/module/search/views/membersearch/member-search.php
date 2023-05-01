@@ -29,7 +29,7 @@ return function (
 		if ( $premium_display ) {
 			?>
 		<div id="elemental-premium-wcfm" class="elemental-premium-orgs">
-			<h1 class="elemental-login-button"><?php \esc_html_e( 'Elite Partnerships', 'myvideoroom ' ); ?></h1>
+			<h1 class="elemental-login-button"><?php \esc_html_e( 'Elite Partnerships', 'elemental ' ); ?></h1>
 			<?php
 				//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped - output is an escaped shortcode.
 				echo $premium_display;
@@ -39,7 +39,7 @@ return function (
 		}
 		?>
 		<div class="elemental-main-orgs">
-			<h1 class="elemental-login-button"><?php \esc_html_e( 'Platform Users', 'myvideoroom ' ); ?></h1>
+			<h1 class="elemental-login-button"><?php \esc_html_e( 'Platform Users', 'elemental ' ); ?></h1>
 			<?php
 				//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped - output is an escaped shortcode.
 				echo $main_display;

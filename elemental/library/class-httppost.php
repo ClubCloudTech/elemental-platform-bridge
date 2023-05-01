@@ -61,7 +61,7 @@ class HttpPost {
 	 */
 	public function get_string_list_parameter( string $name ): array {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$options = $_POST[ 'myvideoroom_' . $name ] ?? array();
+		$options = $_POST[ 'elemental_' . $name ] ?? array();
 
 		$return = array();
 
@@ -84,7 +84,7 @@ class HttpPost {
 	 */
 	public function get_radio_parameter( string $name ): string {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Nonce is verified in parent function
-		return \sanitize_text_field( \wp_unslash( $_POST[ 'myvideoroom_' . $name ] ?? '' ) );
+		return \sanitize_text_field( \wp_unslash( $_POST[ 'elemental_' . $name ] ?? '' ) );
 	}
 
 	/**
@@ -109,7 +109,7 @@ class HttpPost {
 	 */
 	public function get_string_parameter( string $name ): string {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Nonce is verified in parent function
-		return \sanitize_text_field( \wp_unslash( $_POST[ 'myvideoroom_' . $name ] ?? '' ) );
+		return \sanitize_text_field( \wp_unslash( $_POST[ 'elemental_' . $name ] ?? '' ) );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class HttpPost {
 	 */
 	public function has_parameter( string $name ): bool {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Nonce is verified in parent function
-		return isset( $_POST[ 'myvideoroom_' . $name ] );
+		return isset( $_POST[ 'elemental_' . $name ] );
 	}
 
 	/**
@@ -151,7 +151,7 @@ class HttpPost {
 	 */
 	public function is_admin_post_request( string $action ): bool {
 		if ( $this->is_post_request( $action ) ) {
-			return (bool) \check_admin_referer( $action, 'myvideoroom_nonce' );
+			return (bool) \check_admin_referer( $action, 'elemental_nonce' );
 		}
 
 		return false;
@@ -180,9 +180,9 @@ class HttpPost {
 	 * @return string
 	 */
 	public function create_admin_form_submit( string $action ): string {
-		$output = \wp_nonce_field( $action, 'myvideoroom_nonce', true, false );
+		$output = \wp_nonce_field( $action, 'elemental_nonce', true, false );
 
-		$output .= '<input type="hidden" value="' . $action . '" name="myvideoroom_action" />';
+		$output .= '<input type="hidden" value="' . $action . '" name="elemental_action" />';
 		$output .= \get_submit_button();
 
 		return $output;
@@ -200,13 +200,13 @@ class HttpPost {
 	public function create_form_submit( string $action, string $submit_text, string $class = null ): string {
 		\ob_start();
 		?>
-		<?php \wp_nonce_field( $action, 'myvideoroom_nonce' ); ?>
-		<input type="hidden" value="<?php echo \esc_attr( $action ); ?>" name="myvideoroom_action" />
+		<?php \wp_nonce_field( $action, 'elemental_nonce' ); ?>
+		<input type="hidden" value="<?php echo \esc_attr( $action ); ?>" name="elemental_action" />
 
 		<input type="submit"
 			name="submit"
 			id="submit"
-			class=" mvr-ul-style-menu myvideoroom-welcome-positive <?php echo esc_attr( $class ); ?>"
+			class=" elemental-ul-style-menu elemental-welcome-positive <?php echo esc_attr( $class ); ?>"
 			value="<?php echo \esc_html( $submit_text ); ?>"/>
 		<?php
 

@@ -98,7 +98,7 @@ class UserPreference {
 	 *
 	 * @param string $json The JSON representation of the object.
 	 *
-	 * @return ?\MyVideoRoomPlugin\Entity\UserPreference
+	 * @return ?\elementalPlugin\Entity\UserPreference
 	 */
 	public static function from_json( string $json ): ?self {
 		$data = json_decode( $json );

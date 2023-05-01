@@ -26,7 +26,7 @@ return function (
 	<div id="<?php echo esc_attr( $tab_name ); ?>" class="elemental-label-trigger">
 
 		<div class="elemental-main-orgs">
-			<h1 class="elemental-login-button"><?php \esc_html_e( 'Groups and Communities', 'myvideoroom ' ); ?></h1>
+			<h1 class="elemental-login-button"><?php \esc_html_e( 'Groups and Communities', 'elemental ' ); ?></h1>
 			<?php
 				//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped - output is an escaped shortcode.
 				echo $main_display;

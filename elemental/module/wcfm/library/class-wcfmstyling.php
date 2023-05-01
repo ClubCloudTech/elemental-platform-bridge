@@ -71,14 +71,14 @@ class WCFMStyling {
 	public function add_wcfm_dashboard_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'WCFM Dashboard Page ID', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'WCFM Dashboard Page ID', 'elemental' ) . '</span>
 		</td>
 		<td>
 		<input type="number" size="32"
-		class="mvr-main-button-enabled elemental-maintenance-setting"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID ) . '"
 		value="' . get_option( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID of Template to Call for a WCFM Store Dashboard in the main page- this will be used in main page', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( ' Post ID of Template to Call for a WCFM Store Dashboard in the main page- this will be used in main page', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -91,9 +91,13 @@ class WCFMStyling {
 	 * @return array
 	 */
 	public function update_wcfm_dashboard_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID );
-		\update_option( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID, $field );
-		$response['feedback'] = \esc_html__( 'WCFM Dashboard Saved', 'myvideoroom' );
+		$current_value = \get_option( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID );
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_WCFM_DASHBOARD_TEMPLATE_ID, $field );
+			$response['feedback'] = \esc_html__( 'WCFM Dashboard Saved', 'elemental' );
+		}
+
 		return $response;
 	}
 }

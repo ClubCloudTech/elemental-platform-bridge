@@ -30,7 +30,7 @@ return function (
 	<form method="" action="">
 	<div class="elemental-email-wrapper">
 		<label class="elemental-align-left" for="<?php echo esc_attr( $html_library->get_id( 'title' ) ); ?>">
-		<?php echo esc_html__( 'Contact Email Address:  ', 'myvideoroom' ) . '<strong>' . esc_html__( '(Please use generic organisation email and not an individual)', 'myvideoroom' ) . '</strong>'; ?>
+		<?php echo esc_html__( 'Contact Email Address:  ', 'elemental' ) . '<strong>' . esc_html__( '(Please use generic organisation email and not an individual)', 'elemental' ) . '</strong>'; ?>
 		</label>
 		<input type="email"
 			id="elemental-inbound-email"
@@ -44,15 +44,15 @@ return function (
 	<?php
 	esc_html_e(
 		'This email address should be a shared mailbox and not an individual email. Example info@yourcompany or drones@yourcompany',
-		'myvideoroom'
+		'elemental'
 	);
 	?>
 		</p>
 </div>
-<div class="mvr-left">
+<div class="elemental-left">
 		<label for="first_name">
-			<?php esc_html_e( 'Organisation Display Name ', 'myvideoroom' ); ?>
-			<i id="first-name-icon" class="card elemental-dashicons mvr-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
+			<?php esc_html_e( 'Organisation Display Name ', 'elemental' ); ?>
+			<i id="first-name-icon" class="card elemental-dashicons elemental-icons dashicons-saved" title="First Name Ready to Go" style="display:none"></i>
 		</label>
 
 		<input type="text"
@@ -68,18 +68,18 @@ return function (
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo Factory::get_instance( HttpPost::class )->create_form_submit(
 			'add_room',
-			esc_html__( 'Next Step', 'myvideoroom' )
+			esc_html__( 'Next Step', 'elemental' )
 		);
 		?>
 		</div>
-		<div class="mvr-right">
+		<div class="elemental-right">
 
 		</div>
 		<p class="elemental-clear" id="elemental-email-status-box">
 	<?php
 	esc_html_e(
 		'Once your Organisation account is created you will receive an email with the password. You can then create an individual account for yourself.',
-		'myvideoroom'
+		'elemental'
 	);
 	?>
 	</p>

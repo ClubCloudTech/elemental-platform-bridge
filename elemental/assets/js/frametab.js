@@ -1,7 +1,7 @@
 /**
  * Tab Changer JavaScript file Visualiser
  *
- * @package MyVideoRoomPlugin
+ * @package elementalPlugin
  */
 
 function activateTab(pageId)

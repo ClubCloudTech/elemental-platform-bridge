@@ -99,7 +99,7 @@ public function get_list( $input = '' ) {
 					case MembershipLevel::BUSINESS:
 						if ( 'room' === $type ) {
 							$xprofile_setting = $this->get_instance( SiteDefaults::class )->defaults( 'xprofile_storefront_sitedefault' );
-							$map              = $this->get_instance( SiteDefaults::class )->room_map( 'mvr', $user->id );
+							$map              = $this->get_instance( SiteDefaults::class )->room_map( 'elemental', $user->id );
 							$reception        = xprofile_get_field_data( $this->get_instance( SiteDefaults::class )->defaults( 'merchant_reception_field' ), $user->id );
 							if ( ! $reception ) {
 								$reception = 'yes';

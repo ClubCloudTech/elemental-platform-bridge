@@ -26,7 +26,8 @@ class Membership {
 
 	const TABLE_NAME_MEMBERSHIPS                   = 'elemental_memberships';
 	const TABLE_NAME_MEMBERSYNC                    = 'elemental_membersync';
-	const SHORTCODE_TAG                            = 'elemental_membership';
+	const SHORTCODE_SPONSORED_BY_PARENT            = 'elemental_membership';
+	const SHORTCODE_ALL_SPONSORED                  = 'elemental_all_sponsored_users';
 	const ACCOUNT_TENANT_ADMIN_SHORTCODE           = 'elemental_tenant_admin';
 	const ACCOUNT_ADMIN_SHORTCODE                  = 'elemental_account_admin';
 	const ACCOUNT_SPONSORED_ADMIN_SHORTCODE        = 'elemental_sponsored_admin';
@@ -99,7 +100,8 @@ class Membership {
 			$wcfm_registration_params
 		);
 
-		add_shortcode( self::SHORTCODE_TAG, array( Factory::get_instance( MembershipShortCode::class ), 'render_sponsored_account_shortcode' ) );
+		add_shortcode( self::SHORTCODE_ALL_SPONSORED, array( Factory::get_instance( MembershipShortCode::class ), 'all_sponsored_accounts_shortcode_worker' ) );
+		add_shortcode( self::SHORTCODE_SPONSORED_BY_PARENT, array( Factory::get_instance( MembershipShortCode::class ), 'render_sponsored_account_shortcode' ) );
 		add_shortcode( self::ACCOUNT_TENANT_ADMIN_SHORTCODE, array( Factory::get_instance( MembershipShortCode::class ), 'render_tenant_admin_account_shortcode' ) );
 		add_shortcode( self::ACCOUNT_ADMIN_SHORTCODE, array( Factory::get_instance( AccountShortcode::class ), 'render_account_shortcode' ) );
 		add_shortcode( self::ACCOUNT_SPONSORED_ADMIN_SHORTCODE, array( Factory::get_instance( MembershipShortCode::class ), 'render_sponsored_account_shortcode' ) );

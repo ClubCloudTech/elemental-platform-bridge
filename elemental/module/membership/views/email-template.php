@@ -30,7 +30,7 @@ return function (
 	<meta name="viewport" content="width=device-width">
 	<title>
 	<?php
-	\esc_html__( ' Welcome to ', 'myvideoroom' ) . get_bloginfo( 'name' );
+	\esc_html__( ' Welcome to ', 'elemental' ) . get_bloginfo( 'name' );
 	?>
 	</title>
 	<style type="text/css">
@@ -75,7 +75,7 @@ return function (
 						if ( $image_header ) {
 							?>
 								<img src="<?php echo esc_url( $image_header ); ?>"
-								width="100" alt="<?php echo esc_html__( 'Welcome to ', 'myvideoroom' ) . esc_textarea( get_bloginfo( 'name' ) ); ?>"
+								width="100" alt="<?php echo esc_html__( 'Welcome to ', 'elemental' ) . esc_textarea( get_bloginfo( 'name' ) ); ?>"
 								style="outline: none; text-decoration: none; max-width: 100px; clear: both; -ms-interpolation-mode: bicubic; display: inline-block !important; width: 250px;">
 							<?php
 						}
@@ -90,26 +90,26 @@ return function (
 							<div class="success" style="text-align: center;">
 								<p class="text-extra-large text-center congrats"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; line-height: 140%; font-size: 20px; text-align: center; margin: 0 0 20px 0; Margin: 0 0 20px 0;">
-									<?php echo esc_html__( 'Welcome ', 'myvideoroom' ) . esc_textarea( $first_name ) . esc_html__( ' to ', 'myvideoroom ' ) . esc_textarea( get_bloginfo( 'name' ) ); ?>
+									<?php echo esc_html__( 'Welcome ', 'elemental' ) . esc_textarea( $first_name ) . esc_html__( ' to ', 'elemental ' ) . esc_textarea( get_bloginfo( 'name' ) ); ?>
 								</p>
 								<p class="text-large"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0; font-size: 16px;">
-									<?php echo esc_html__( 'Your sponsored account has been successfully created, you can use it to immediately access benefits on our platform ', 'myvideoroom' ); ?>
+									<?php echo esc_html__( 'Your sponsored account has been successfully created, you can use it to immediately access benefits on our platform ', 'elemental' ); ?>
 								</p>
 								<p class="text-large"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0; font-size: 16px;">
 									<?php
-									echo esc_html__( 'To begin, you can access your account ', 'myvideoroom' ) .
-									'<a href="' . esc_url( \get_site_url() ) . '">' . \esc_html__( ' Here ', 'myvideoroom' ) . '<a>';
+									echo esc_html__( 'To begin, you can access your account ', 'elemental' ) .
+									'<a href="' . esc_url( \get_site_url() ) . '">' . \esc_html__( ' Here ', 'elemental' ) . '<a>';
 									?>
 									<div>
-										<table id="mvr-table-basket-frame"
-											class="wp-list-table widefat plugins myvideoroom-table-adjust">
+										<table id="elemental-table-basket-frame"
+											class="wp-list-table widefat plugins elemental-table-adjust">
 											<tbody>
 												<tr>
 													<td align="left" scope="col" style="width:40%">
 														<strong>
-															<?php esc_html_e( 'Username', 'my-video-room' ); ?>
+															<?php esc_html_e( 'Username', 'elemental' ); ?>
 														</strong>
 													</td>
 												</tr>
@@ -121,7 +121,7 @@ return function (
 												<tr>
 													<td align="left" scope="col" style="width:40%">
 														<strong>
-															<?php esc_html_e( 'Password', 'my-video-room' ); ?>
+															<?php esc_html_e( 'Password', 'elemental' ); ?>
 														</strong>
 													</td>
 												</tr>

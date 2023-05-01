@@ -97,7 +97,7 @@ class WCFMShortcodes {
 
 				return do_shortcode( '[youzer_members type="alphabetical" include="' . $shop_staff_html . '" ]' );
 			}
-			return '<h1>' . esc_html__( 'This Organisation has no Member Accounts', 'myvideoroom' ) . '</h1>';
+			return '<h1>' . esc_html__( 'This Organisation has no Member Accounts', 'elemental' ) . '</h1>';
 	}
 
 	/**

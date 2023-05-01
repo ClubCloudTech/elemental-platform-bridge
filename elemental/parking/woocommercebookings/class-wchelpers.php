@@ -11,7 +11,7 @@ use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Shortcode as Shortcode;
-use ElementalPlugin\Shortcode\MyVideoRoomApp;
+use ElementalPlugin\Shortcode\elementalApp;
 use ElementalPlugin\Module\WCFM\Library\WCFMHelpers;
 
 /**
@@ -398,20 +398,20 @@ class WCHelpers extends Shortcode {
 					return $this->get_booking_header( $booking, 'customer', $store_name );
 
 				case 'merchantbook':
-					$myvideoroom_app_app = MyVideoRoomApp::create_instance(
+					$elemental_app_app = elementalApp::create_instance(
 						$this->get_instance( SiteDefaults::class )->room_map( 'bookings', $booking ),
 						$xprofile_setting,
 					)->enable_admin();
 
-					return $myvideoroom_app_app->output_shortcode();
+					return $elemental_app_app->output_shortcode();
 
 				case 'singlebook':
-					$myvideoroom_app_app = MyVideoRoomApp::create_instance(
+					$elemental_app_app = elementalApp::create_instance(
 						$this->get_instance( SiteDefaults::class )->room_map( 'bookings', $booking ),
 						$xprofile_setting,
 					)->enable_reception();
 
-					return $myvideoroom_app_app->output_shortcode();
+					return $elemental_app_app->output_shortcode();
 
 			}
 		} else {

@@ -45,7 +45,7 @@ class Integration {
 	public function update_integration_api_baseurl( array $response ): array {
 		$value = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_INTEGRATION_API_BASEURL );
 		\update_option( self::SETTING_INTEGRATION_API_BASEURL, $value );
-		$response['feedback'] = \esc_html__( 'Integration Base URL Key Saved', 'myvideoroom' );
+		$response['feedback'] = \esc_html__( 'Integration Base URL Key Saved', 'elemental' );
 		return $response;
 	}
 
@@ -58,12 +58,12 @@ class Integration {
 	public function add_integration_api_baseurl_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Integration API Base URL', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'Integration API Base URL', 'elemental' ) . '</span>
 		</td>
 		<td>
-		<input type="text" class="mvr-main-button-enabled elemental-maintenance-setting"
+		<input type="text" class="elemental-main-button-enabled elemental-maintenance-setting"
 			id="' . esc_attr( self::SETTING_INTEGRATION_API_BASEURL ) . '" value="' . get_option( self::SETTING_INTEGRATION_API_BASEURL ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Integration API Base URL', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'Integration API Base URL', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;

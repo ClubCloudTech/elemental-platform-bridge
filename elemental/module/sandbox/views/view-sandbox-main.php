@@ -134,7 +134,7 @@ return function (
 
 			<?php } ?>
 
-			<div id="mvr-above-article-notification"></div>
+			<div id="elemental-above-article-notification"></div>
 			<div id="elemental-container-article"
 				class="elemental-article elemental-article-container">
 				<?php

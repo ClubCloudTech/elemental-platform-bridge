@@ -18,7 +18,7 @@ return function (
 	ob_start();
 
 	?>
-	<tr class="active mvr-table-mobile" data-room-id="<?php echo esc_attr( $memberships['level'] ); ?>">
+	<tr class="active elemental-table-mobile" data-room-id="<?php echo esc_attr( $memberships['level'] ); ?>">
 		<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
 	<?php
 	if ( $memberships['badge_url'] ) {

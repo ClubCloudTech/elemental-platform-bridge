@@ -25,7 +25,7 @@ return function (
 	<?php
 	if ( $sandbox_items ) {
 		?>
-	<table id="mvr-table-basket-frame" class="wp-list-table widefat plugins myvideoroom-table-adjust">
+	<table id="elemental-table-basket-frame" class="wp-list-table widefat plugins elemental-table-adjust">
 		<thead>
 			<tr>
 			<th scope="col" class="manage-column column-name column-primary">

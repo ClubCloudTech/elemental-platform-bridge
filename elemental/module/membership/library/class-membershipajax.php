@@ -149,7 +149,7 @@ class MembershipAjax {
 			}
 			$message                  = \esc_html__( 'delete this user ? This operation can not be undone', 'elementalplugin' );
 			$approved_nonce           = wp_create_nonce( $user_id . 'approved' );
-			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( Membership::MEMBERSHIP_NONCE_PREFIX_DU, esc_html__( 'Delete User', 'my-video-room' ), null, $approved_nonce, $user_id );
+			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( Membership::MEMBERSHIP_NONCE_PREFIX_DU, esc_html__( 'Delete User', 'elemental' ), null, $approved_nonce, $user_id );
 			$response['confirmation'] = Factory::get_instance( MembershipShortCode::class )->membership_confirmation( $message, $button_approved );
 
 			return \wp_send_json( $response );

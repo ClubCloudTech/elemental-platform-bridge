@@ -175,7 +175,7 @@ class ElementalMenus {
 			<a href="<?php echo esc_url( $profile_control_url ); ?>" class="elemental-host-link">
 			<div class="elemental-primary-nav-settings">
 				<div class="elemental-primary-nav-img" style="background-image: url(<?php echo esc_url( $picture_url ); ?> )"></div>
-				<span><?php echo esc_attr( $output ); ?><i class="dropdown elemental-dashicons mvr-icons dashicons-arrow-down-alt2 "></i></span>
+				<span><?php echo esc_attr( $output ); ?><i class="dropdown elemental-dashicons elemental-icons dashicons-arrow-down-alt2 "></i></span>
 
 			</div></a>
 			<div class="dropdown-content">

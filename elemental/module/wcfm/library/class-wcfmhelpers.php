@@ -53,7 +53,7 @@ class WCFMHelpers {
 		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}
-		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
+		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users_by_parent( $user_id );
 		$render             = ( require __DIR__ . '/../views/table-sponsored-accounts.php' );
 
 		return $render( $sponsored_accounts );
@@ -90,7 +90,7 @@ class WCFMHelpers {
 		} else {
 			$owner_id = Factory::get_instance( WCFMTools::class )->get_wcfm_page_owner();
 			if ( ! $owner_id ) {
-				echo '<h1>' . esc_html__( 'No Valid Owner Found', 'myvideoroom' ) . '</h1>';
+				echo '<h1>' . esc_html__( 'No Valid Owner Found', 'elemental' ) . '</h1>';
 				return null;
 			}
 		}
@@ -102,13 +102,13 @@ class WCFMHelpers {
 
 		$membership_level = Factory::get_instance( ElementalUMPDAO::class )->get_all_active_ump_levels( $owner_id, true );
 		if ( ! $membership_level ) {
-			echo '<h1>' . esc_html__( 'No Valid User Memberships Found', 'myvideoroom' ) . '</h1>';
+			echo '<h1>' . esc_html__( 'No Valid User Memberships Found', 'elemental' ) . '</h1>';
 			return null;
 		}
 		$data_object = Factory::get_instance( MembershipDAO::class )->get_limit_info( intval( $membership_level[0] ) );
 		$template    = $data_object->template;
 		if ( ! $template ) {
-			echo '<h1>' . esc_html__( 'No Valid Template Found', 'myvideoroom' ) . '</h1>';
+			echo '<h1>' . esc_html__( 'No Valid Template Found', 'elemental' ) . '</h1>';
 			return null;
 		}
 		return $template;
@@ -146,7 +146,7 @@ class WCFMHelpers {
 			return '';
 		}
 		$url    = Factory::get_instance( ElementalBP::class )->get_buddypress_profile_url( $user_id );
-		$output = '<a href="' . $url . '" class="elementor-item">' . esc_html__( 'Profile', 'myvideoroom' ) . '</a>';
+		$output = '<a href="' . $url . '" class="elementor-item">' . esc_html__( 'Profile', 'elemental' ) . '</a>';
 		return $output;
 	}
 
@@ -164,7 +164,7 @@ class WCFMHelpers {
 
 		$store_url = Factory::get_instance( WCFMTools::class )->get_store_url( $store_id );
 
-		$output = '<a href="' . $store_url . '" class="elementor-item">' . esc_html__( 'My Site', 'myvideoroom' ) . '</a>';
+		$output = '<a href="' . $store_url . '" class="elementor-item">' . esc_html__( 'My Site', 'elemental' ) . '</a>';
 		return $output;
 	}
 
@@ -179,14 +179,14 @@ class WCFMHelpers {
 	public function add_wcfm_premium_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Premium WCFM Memberships', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'Premium WCFM Memberships', 'elemental' ) . '</span>
 		</td>
 		<td>
 		<input type="text" size="32"
-		class="mvr-main-button-enabled elemental-maintenance-setting"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS ) . '"
 		value="' . get_option( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Comma separated list of what accounts site considers Premium (use numeric ID of WCFM Membership ID)', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'Comma separated list of what accounts site considers Premium (use numeric ID of WCFM Membership ID)', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -199,9 +199,13 @@ class WCFMHelpers {
 	 * @return array
 	 */
 	public function update_wcfm_premium_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS );
-		\update_option( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS, $field );
-		$response['feedback'] = \esc_html__( 'WCFM Premium Saved', 'myvideoroom' );
+
+		$current_value = \get_option( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS );
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_WCFM_PREMIUM_MEMBERSHIPS, $field );
+			$response['feedback'] = \esc_html__( 'WCFM Premium Saved', 'elemental' );
+		}
 		return $response;
 	}
 
@@ -214,14 +218,14 @@ class WCFMHelpers {
 	public function add_wcfm_archive_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'WCFM Default Archive Page ID', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'WCFM Default Archive Page ID', 'elemental' ) . '</span>
 		</td>
 		<td>
 		<input type="number" size="32"
-		class="mvr-main-button-enabled elemental-maintenance-setting"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '"
 		value="' . get_option( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Shortcode Post ID Template Switch to Call for a WCFM Store in case a membership level has no setting', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'Shortcode Post ID Template Switch to Call for a WCFM Store in case a membership level has no setting', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -234,9 +238,14 @@ class WCFMHelpers {
 	 * @return array
 	 */
 	public function update_wcfm_archive_settings( array $response ): array {
+
+		$current_value = \get_option( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID );
 		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID );
-		\update_option( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID, $field );
-		$response['feedback'] = \esc_html__( 'WCFM Archive Saved', 'myvideoroom' );
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_WCFM_ARCHIVE_SHORTCODE_ID, $field );
+			$response['feedback'] = \esc_html__( 'WCFM Archive Saved', 'elemental' );
+		}
+
 		return $response;
 	}
 

@@ -54,18 +54,18 @@ if ( function_exists( 'yz_members_directory_class' ) ) {
 			<?php if ( function_exists( 'yz_display_md_filter_bar' ) && yz_display_md_filter_bar() ) : ?>
 
 			<div class="yz-mobile-nav">
-				<div id="directory-show-menu" class="yz-mobile-nav-item"><div class="elemental-mobile-nav-container"><i class="fas fa-bars"></i><a><?php esc_html_e( 'Menu', 'myvideoroom' ); ?></a></div></div>
-				<div id="directory-show-search" class="yz-mobile-nav-item"><div class="elemental-mobile-nav-container"><i class="fas fa-search"></i><a><?php esc_html_e( 'Search', 'myvideoroom' ); ?></a></div></div>
-				<div id="directory-show-filter" class="yz-mobile-nav-item"><div class="elemental-mobile-nav-container"><i class="fas fa-sliders-h"></i><a><?php esc_html_e( 'Filter', 'myvideoroom' ); ?></a></div></div>
+				<div id="directory-show-menu" class="yz-mobile-nav-item"><div class="elemental-mobile-nav-container"><i class="fas fa-bars"></i><a><?php esc_html_e( 'Menu', 'elemental' ); ?></a></div></div>
+				<div id="directory-show-search" class="yz-mobile-nav-item"><div class="elemental-mobile-nav-container"><i class="fas fa-search"></i><a><?php esc_html_e( 'Search', 'elemental' ); ?></a></div></div>
+				<div id="directory-show-filter" class="yz-mobile-nav-item"><div class="elemental-mobile-nav-container"><i class="fas fa-sliders-h"></i><a><?php esc_html_e( 'Filter', 'elemental' ); ?></a></div></div>
 			</div>
 
 			<div class="elemental-directory-filter elemental-separation-header elemental-block-separation">
-				<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Members Directory Main Navigation', 'myvideoroom' ); ?>" role="navigation">
+				<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Members Directory Main Navigation', 'elemental' ); ?>" role="navigation">
 					<ul>
-						<li class="selected elemental-refresh-member-search-trigger" id="members-all"><a href="<?php bp_members_directory_permalink(); ?>"><?php esc_html_e( 'All Members', 'myvideoroom' ); ?></a></li>
+						<li class="selected elemental-refresh-member-search-trigger" id="members-all"><a href="<?php bp_members_directory_permalink(); ?>"><?php esc_html_e( 'All Members', 'elemental' ); ?></a></li>
 
 						<?php if ( is_user_logged_in() && bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
-							<li id="members-personal"><a href="<?php echo esc_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/my-friends/' ); ?>"><?php printf( __( 'Konnections %s', 'myvideoroom' ), '<span>' . bp_get_total_friend_count( bp_loggedin_user_id() ) . '</span>' ); ?></a></li>
+							<li id="members-personal"><a href="<?php echo esc_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/my-friends/' ); ?>"><?php printf( __( 'Konnections %s', 'elemental' ), '<span>' . bp_get_total_friend_count( bp_loggedin_user_id() ) . '</span>' ); ?></a></li>
 						<?php endif; ?>
 
 						<?php
@@ -80,7 +80,7 @@ if ( function_exists( 'yz_members_directory_class' ) ) {
 
 					</ul>
 				</div><!-- .item-list-tabs -->
-				<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Members directory secondary navigation', 'myvideoroom' ); ?>" role="navigation">
+				<div class="item-list-tabs" id="subnav" aria-label="<?php esc_attr_e( 'Members directory secondary navigation', 'elemental' ); ?>" role="navigation">
 					<ul>
 						<?php
 

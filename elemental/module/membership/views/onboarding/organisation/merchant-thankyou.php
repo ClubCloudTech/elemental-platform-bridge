@@ -32,7 +32,7 @@ return function (
 	<div class="elemental-container">
 		<div id="wcfm_page_load "></div>
 		<div class="">
-			<h2 class="elemental-onboard-header"><?php esc_html_e( 'Thank you for Joining', 'myvideoroom' ); ?></h2>
+			<h2 class="elemental-onboard-header"><?php esc_html_e( 'Thank you for Joining', 'elemental' ); ?></h2>
 
 			<div class="wcfm-clearfix"></div>
 		</div>
@@ -44,7 +44,7 @@ return function (
 					/* translators: %s is the text "Modules" and links to the Module Section */
 					\esc_html__(
 						'You have successfully activated your %s membership on our platform. You can continue to use the platform as your Organisation, in which case you might like to set up your Organisation profile via the Organisation Control Panel button. Alternatively, You might wish to join in on the Forums and Groups etc, in which case you will need to activate a User Account via the Add Admin and User Account button.',
-						'myvideoroom'
+						'elemental'
 					),
 					esc_textarea( $membership_data[0][0]->post_title ),
 				);
@@ -53,12 +53,12 @@ return function (
 
 
 			<div class="elemental-thankyou-box">
-			<h3 class="elemental-align-left elemental-thankyou-next"><?php esc_html_e( 'What would you like to do next ?', 'myvideoroom' ); ?></h3>
+			<h3 class="elemental-align-left elemental-thankyou-next"><?php esc_html_e( 'What would you like to do next ?', 'elemental' ); ?></h3>
 			<div class = "elemental-float-left elemental-split">
-			<li class="elemental-thankyou-button  menu-item menu-item-type-post_type menu-item-object-page menu-item-39579"><a href="<?php echo esc_url( get_permalink( get_option( WooCommerceHelpers::SETTING_WCFM_STAFF_USER_CONTROL ) ) ); ?>" class="elementor-item elemental-thankyou-link "><?php esc_html_e( 'Add Admin and User Accounts', 'myvideoroom' ); ?></a></li>
+			<li class="elemental-thankyou-button  menu-item menu-item-type-post_type menu-item-object-page menu-item-39579"><a href="<?php echo esc_url( get_permalink( get_option( WooCommerceHelpers::SETTING_WCFM_STAFF_USER_CONTROL ) ) ); ?>" class="elementor-item elemental-thankyou-link "><?php esc_html_e( 'Add Admin and User Accounts', 'elemental' ); ?></a></li>
 			</div>
 			<div class="elemental-float-right elemental-split">
-			<li class="elemental-thankyou-button  menu-item menu-item-type-post_type menu-item-object-page menu-item-39579"><a href="<?php echo esc_url( Factory::get_instance( WCFMHelpers::class )->get_wcfm_control_panel_page() ); ?>" class="elementor-item elemental-thankyou-link"><?php esc_html_e( 'Organisation Control Panel', 'myvideoroom' ); ?></a></li>
+			<li class="elemental-thankyou-button  menu-item menu-item-type-post_type menu-item-object-page menu-item-39579"><a href="<?php echo esc_url( Factory::get_instance( WCFMHelpers::class )->get_wcfm_control_panel_page() ); ?>" class="elementor-item elemental-thankyou-link"><?php esc_html_e( 'Organisation Control Panel', 'elemental' ); ?></a></li>
 			</div>
 			<div class="elemental-clear"></div>
 		</div>

@@ -18,7 +18,7 @@ use ElementalPlugin\Library\Encryption;
 return function (): string {
 	ob_start();
 	?>
-	<tr class="active mvr-table-mobile elemental-add-new-sandbox" style="display:none;" data-room-id="<?php echo esc_attr( $sandbox_item['level'] ); ?>">
+	<tr class="active elemental-table-mobile elemental-add-new-sandbox" style="display:none;" data-room-id="<?php echo esc_attr( $sandbox_item['level'] ); ?>">
 	<td>
 	<?php echo esc_html__( 'On/Off', 'elementalplugin' ); ?><br>
 	<input type="checkbox" 

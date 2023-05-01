@@ -52,7 +52,7 @@ window.addEventListener(
 							}
 						);
 
-						$( '#mvr-main-button-cancel' ).click(
+						$( '#elemental-main-button-cancel' ).click(
 							function(e) {
 								e.stopPropagation();
 								e.preventDefault();

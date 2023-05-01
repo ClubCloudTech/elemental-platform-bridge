@@ -1,20 +1,20 @@
 /**
- * The frontend css for MyVideoRoom
+ * The frontend css for elemental
  * This is used for breakpoints above 640px width
- * @package MyVideoRoomPlugin
+ * @package elementalPlugin
  */
 
 		.entry-content {
 			text-decoration: none;
 		}
 
-		.myvideoroom-mobile-img-adjust {
+		.elemental-mobile-img-adjust {
 			min-width: 100px;
 			margin-left: auto;
 			border-bottom: none;
 		}
 
-		.mvr-icons {
+		.elemental-icons {
 			-moz-border-radius: 50%;
 			-webkit-border-radius: 50%;
 			border-radius: 50%;
@@ -26,7 +26,7 @@
 			width: 25px;
 		}
 
-		.mvr-title-header {
+		.elemental-title-header {
 			display: inline !important;
 			margin-bottom: 10px;
 			margin-top: 10px;
@@ -35,7 +35,7 @@
 
 
 		#basket-video-host-wrap-table,
-		#mvr-main-basket-window {
+		#elemental-main-basket-window {
 			margin-left: 72px;
 		}
 
@@ -47,19 +47,19 @@
 			padding: 2px;
 		}
 
-		.myvideoroom-content-tab {
+		.elemental-content-tab {
 			float: right;
 			width: 93%;
 		}
 
-		.myvideoroom-center {
+		.elemental-center {
 			display: block;
 			margin-left: auto;
 			margin-right: auto;
 			width: 60%;
 		}
 
-		.myvideoroom-button-separation {
+		.elemental-button-separation {
 			margin-left: 5px;
 			margin-right: 5px;
 		}
@@ -211,7 +211,7 @@
 		}
 
 
-		.myvideoroom-user-image {
+		.elemental-user-image {
 			z-index: 1;
 			color: #fff;
 			display: table;
@@ -221,14 +221,14 @@
 			max-width: 250px;
 		}
 
-		.myvideoroom-product-image {
+		.elemental-product-image {
 			color: #fff;
 			display: table;
 			width: 50px;
 			height: 50px;
 		}
 
-		.myvideoroom-image-result {
+		.elemental-image-result {
 			color: #fff;
 			border-radius: 80px;
 			max-width: 120px;
@@ -236,23 +236,23 @@
 			border-width: 3px;
 		}
 
-		.myvideoroom-image-result {
+		.elemental-image-result {
 			color: #fff;
 			width: 180px;
 			height: 101px;
 		}
 
-		.myvideoroom-button-notification {
+		.elemental-button-notification {
 			text-align: right;
 		}
 
-		.myvideoroom-welcome-page {
+		.elemental-welcome-page {
 			background: #fff;
 			padding: 5px;
 		}
 		/* Create three unequal columns that floats next to each other */
 
-		.mvr-table-row {
+		.elemental-table-row {
 			border-color: #C6C0AD;
 			border-style: solid;
 			border-width: 1px 1px 1px 1px;
@@ -264,50 +264,46 @@
 			display: flex;
 		}
 
-		.mvr-input-box {
+		.elemental-input-box {
 			padding: 4px;
 		}
 
-		.mvr-left {
+		.elemental-left {
 			width: 50%;
 			float: left;
 		}
 
-		.mvr-right {
+		.elemental-right {
 			width: 50%;
 			float: right;
 			text-align: end;
 		}
 
-		.mvr-middle {
+		.elemental-middle {
 			width: 50%;
 			display: flex;
 		}
 
-		.mvr-confirmation-table-left {
+		.elemental-confirmation-table-left {
 			width: 65%;
 			align-self: center;
 			padding-top: 40px;
 			padding-bottom: 40px;
 		}
 
-		.mvr-confirmation-table-right {
+		.elemental-confirmation-table-right {
 			width: 35%;
 			align-self: center;
 		}
 
-		.mvr-personal-video-welcome,
-		.mvr-confirmation-buttons button {
-			padding: 20px;
-		}
 
-		.mvr-shopping-basket-frame {
+		.elemental-shopping-basket-frame {
 			width: 90%;
 		}
 
-		.mvr-notification-align,
-		.mvr-table-row p,
-		.mvr-table-row button {
+		.elemental-notification-align,
+		.elemental-table-row p,
+		.elemental-table-row button {
 			align-self: center;
 			margin: 0;
 			margin-right: 5px;
@@ -322,58 +318,58 @@
 			border-radius: 0!important;
 		  }
 
-		.mvr-flex {
+		.elemental-flex {
 			display: flex;
 			margin-top: 5px;
 			margin-bottom: 5px;
 		}
 
-		.mvr-table-row:after {
+		.elemental-table-row:after {
 			content: "";
 			display: table;
 			clear: both;
 		}
 
-		.mvr-admin-page-wrap {
+		.elemental-admin-page-wrap {
 			border: 1px solid #c3c4c7;
 			margin-top: 0;
 			padding: 8px;
 			background: white;
 		}
 
-		.myvideoroom-table-adjust {
+		.elemental-table-adjust {
 			font-size: smaller;
 			border-bottom: 1px !important;
 		}
 
-		.mvr-clear {
+		.elemental-clear {
 			clear: both;
 		}
 
-		.mvr-float-right {
+		.elemental-float-right {
 			float: right;
 		}
 
-		.mvr-separation {
+		.elemental-separation {
 			margin-top: 10px;
 		}
 
-		.mvr-article-separation {
+		.elemental-article-separation {
 			margin-top: 4px;
 			padding: 2px;
 		}
 
-		#mvr-confirmation-table>thead>tr {
+		#elemental-confirmation-table>thead>tr {
 			background-color: #ffffff!important;
 		}
 
-		#mvr-notification-icons,
-		.mvr-header-title {
+		#elemental-notification-icons,
+		.elemental-header-title {
 			animation: fadeIn 2s;
 			opacity: 1;
 		}
 
-		.myvideoroom-notification-area {
+		.elemental-notification-area {
 			background: darkblue;
 			color: white;
 			text-align: center;
@@ -382,8 +378,8 @@
 			padding-left: 10px;
 		}
 
-		.mvr-main-button-enabled {
-			background: linear-gradient(#232923, #679e6e);
+		.elemental-main-button-enabled {
+			background: rgb(15, 90, 5)!important;
 			border-radius: 4px;
 			border-width: 2px;
 			cursor: pointer;
@@ -391,18 +387,29 @@
 			letter-spacing: -.021em;
 			line-height: 1.87947!important;
 			min-width: 30px !important;
-			padding: 4px 4px;
+			padding: 2px 2px;
+		}
+		.elemental-main-button-enabled :hover{
+
+			border-radius: 4px;
+			border-width: 2px;
+			cursor: pointer;
+			display: inline-block;
+			letter-spacing: -.021em;
+			line-height: 1.87947!important;
+			min-width: 30px !important;
+			padding: 2px 2px;
 		}
 
-		.mvr-main-button-enabled a,
-		.mvr-button-table p {
+		.elemental-main-button-enabled a,
+		.elemental-button-table p {
 			color: white;
 			font-size: 12px;
 			font-weight: 500;
 			text-transform: uppercase;
 		}
 
-		.mvr-ul-style-side-menu {
+		.elemental-ul-style-side-menu {
 			box-sizing: border-box;
 			background-color: #e0e0e0;
 			color: #525151;
@@ -412,12 +419,12 @@
 			display: contents;
 		}
 
-		.myvideoroom-app {
+		.elemental-app {
 			border: 1px solid #c3c4c7;
 			margin-right: 1px;
 		}
 
-		.mvr-ul-style-menu {
+		.elemental-ul-style-menu {
 			box-sizing: border-box;
 			background-color: #e0e0e0;
 			color: #525151;
@@ -431,7 +438,7 @@
 			padding: 5px;
 		}
 
-		.mvr-ul-style-top-menu {
+		.elemental-ul-style-top-menu {
 			box-sizing: border-box;
 			background-color: #e0e0e0;
 			color: #525151;
@@ -442,12 +449,12 @@
 			display: flex;
 		}
 
-		.mvr-ul-style-menu span {
+		.elemental-ul-style-menu span {
 			font-size: 28px;
 			color: rgb(58, 45, 45);
 		}
 
-		.mvr-nav-settingstabs-outer-wrap {
+		.elemental-nav-settingstabs-outer-wrap {
 			border: 1px solid #c3c4c7;
 			padding: 10px 10px 10px 10px;
 		}
@@ -468,7 +475,7 @@
 			transition: color .5s ease-in;
 		}
 
-		.myvideoroom-header-table-left {
+		.elemental-header-table-left {
 			width: 20%;
 			float: left;
 			text-align: left;
@@ -476,14 +483,14 @@
 			display: flex;
 		}
 
-		.myvideoroom-header-table-right {
+		.elemental-header-table-right {
 			width: 80%;
 			float: right;
 			text-align: right;
 			padding-top: 8px
 		}
 
-		.myvideoroom-welcome-buttons {
+		.elemental-welcome-buttons {
 			background-color: rgb(77, 77, 77)!important;
 			border-radius: 3px!important;
 			color: rgb(255 255 255) !important;
@@ -495,7 +502,7 @@
 			vertical-align: middle!important;
 		}
 
-		.myvideoroom-welcome-positive {
+		.elemental-welcome-positive {
 			background: linear-gradient(#032979, #1c1c96);
 			border-radius: 3px!important;
 			color: rgb(255 255 255) !important;
@@ -507,19 +514,19 @@
 			vertical-align: middle!important;
 		}
 
-		.mvr-main-button-cancel a {
+		.elemental-main-button-cancel a {
 			color: white;
 		}
 
-		.mvr-main-refresh-button {
+		.elemental-main-refresh-button {
 			padding: 9px!important;
 			font-weight: 400!important;
 		}
 
-		.mvr-main-button-cancel {
-			background: linear-gradient(#615858, #b5b5b6);
+		.elemental-main-button-cancel {
+			background: gainsboro!important;
 			border-radius: 4px;
-			border-width: 2px;
+			border-width: 1px;
 			cursor: pointer;
 			display: inline-block !important;
 			font-weight: 400;
@@ -529,11 +536,11 @@
 			padding: 4px 4px;
 		}
 
-		.mvr-main-button-stop {
+		.elemental-main-button-stop {
 			background: linear-gradient(#e60000, #e84a58)!important;
 		}
 
-		.mvr-woocommerce-overlay {
+		.elemental-woocommerce-overlay {
 			border-color: #C6C0AD;
 			border-style: solid;
 			border-width: 1px 1px 1px 1px;
@@ -550,7 +557,7 @@
 			display: none!important;
 		}
 
-		.mvr-form-button {
+		.elemental-form-button {
 			background: -webkit-gradient(linear, left top, left bottom, from(#42a1ec), to(#0070c9));
 			background: -webkit-linear-gradient(#42a1ec, #0070c9);
 			background: linear-gradient(#42a1ec, #0070c9);
@@ -571,45 +578,45 @@
 			white-space: nowrap !important;
 		}
 
-		.mvr-form-button-max {
+		.elemental-form-button-max {
 			max-height: 30px;
 			max-width: 125px;
 		}
 
-		.mvr-background {
+		.elemental-background {
 			background: white;
 		}
 
-		.mvr-preferences-paragraph {
+		.elemental-preferences-paragraph {
 			color: rgb(32, 32, 32);
 			font-size: 12px;
 			font-weight: 500;
 			margin-bottom: 10px !important;
 		}
 
-		.mvr-full-hide {
+		.elemental-full-hide {
 			display: none!important;
 		}
 
-		.mvr-button-fix {
+		.elemental-button-fix {
 			color: rgb(124, 124, 124)!important;
 		}
 
-		.myvideoroom-header-table-right p {
+		.elemental-header-table-right p {
 			margin-top: -2px!important;
 			font-size: 12px;
 			padding-right: 10px;
 		}
 
-		.myvideoroom-outer-shortcode {
+		.elemental-outer-shortcode {
 			margin: 5px;
 		}
 
-		.myvideoroom-header-table-right span {
+		.elemental-header-table-right span {
 			margin-top: 10px
 		}
 
-		.myvideoroom-login-button {
+		.elemental-login-button {
 			display: inline-block;
 			background-color: #00529C;
 			font-size: 15px;
@@ -624,12 +631,12 @@
 			transition: all .3s;
 		}
 
-		.myvideoroom-login-button a {
+		.elemental-login-button a {
 			color: #fff;
 			fill: #fff;
 		}
 
-		.myvideoroom-login-button a:hover {
+		.elemental-login-button a:hover {
 			color: rgb(131, 131, 131);
 		}
 

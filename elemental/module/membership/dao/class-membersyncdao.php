@@ -318,7 +318,7 @@ class MemberSyncDAO {
 		return $result;
 	}
 	/**
-	 * Get All Child Accounts from Database by Parent.
+	 * Get Child Account from Database by Parent.
 	 *
 	 * @param int    $parent_id The Parent ID to query.
 	 * @param string $account_type Type of account to register - defaults to Sponsored.

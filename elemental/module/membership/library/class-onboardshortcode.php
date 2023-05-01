@@ -173,7 +173,7 @@ class OnboardShortcode {
 		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}
-		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users( $user_id );
+		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users_by_parent( $user_id );
 		$render             = ( include __DIR__ . '/../views/onboard/table-sponsored-accounts.php' );
 
 		return $render( $sponsored_accounts );
@@ -202,7 +202,7 @@ class OnboardShortcode {
 			// wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
 
 		} else {
-			\wp_enqueue_script( 'myvideoroom-iframe-handler' );
+			\wp_enqueue_script( 'elemental-iframe-handler' );
 			wp_enqueue_style( 'wcfm_capability_css', $WCFM->library->css_lib_url . 'capability/wcfm-style-capability.css', false, 1 );
 			wp_enqueue_style( 'collapsible_css', $WCFM->library->css_lib_url . 'wcfm-style-collapsible.css', false, $WCFMgs->version );
 			wp_enqueue_style( 'wcfmgs_staffs_manage_css', $WCFMgs->plugin_url . 'assets/css/wcfmgs-style-staffs-manage.css', false, $WCFMgs->version );
@@ -218,7 +218,7 @@ class OnboardShortcode {
 			wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'min/menu/wcfm-style-menu.css', array(), $WCFM->version );
 			wp_enqueue_style( 'wcfm_products_manage_css', $css_lib_url . 'products-manager/wcfm-style-products-manage.css', array(), $WCFM->version );
 			// wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
-			wp_enqueue_style( 'myvideoroom-menutab-header' );
+			wp_enqueue_style( 'elemental-menutab-header' );
 		}
 		// Render WCFM Partner AJax.
 		wp_enqueue_script( 'select2_js', $WCFM->plugin_url . 'includes/libs/select2/select2.js', array( 'jquery' ), $WCFM->version, true );
@@ -262,9 +262,9 @@ class OnboardShortcode {
 		$accounts_remaining = Factory::get_instance( MembershipUMP::class )->child_account_available_number( $user_id );
 
 		if ( current_user_can( 'editor' ) || current_user_can( 'administrator' ) ) {
-			return '<div id="div-holder-temp" class="elemental-initial"> <div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have Unlimited Accounts Remaining ', 'myvideoroom' ) . '</div></div>';
+			return '<div id="div-holder-temp" class="elemental-initial"> <div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have Unlimited Accounts Remaining ', 'elemental' ) . '</div></div>';
 		} elseif ( $accounts_remaining > 0 ) {
-			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have ', 'myvideoroom' ) . esc_textarea( $accounts_remaining ) . esc_html__( ' user accounts remaining', 'myvideoroom' ) . '</div></div>';
+			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You Have ', 'elemental' ) . esc_textarea( $accounts_remaining ) . esc_html__( ' user accounts remaining', 'elemental' ) . '</div></div>';
 		}
 		return null;
 	}
@@ -278,7 +278,7 @@ class OnboardShortcode {
 	 */
 	public function membership_confirmation( string $message, string $confirmation_button_approved ):string {
 
-		$cancel_button = $this->cancel_nav_bar_button( 'cancel', esc_html__( 'Cancel', 'my-video-room' ), null, 'mvr-main-button-cancel' );
+		$cancel_button = $this->cancel_nav_bar_button( 'cancel', esc_html__( 'Cancel', 'elemental' ), null, 'elemental-main-button-cancel' );
 
 		// Render Confirmation Page View.
 		$render = include __DIR__ . '/../views/confirmation-page.php';
@@ -308,7 +308,7 @@ class OnboardShortcode {
 
 		return '
 		<button id="' . $target_id . '" class="' . $style . '" data-target="' . $target_window . '">
-		<a data-input-type="' . $button_type . '" ' . $id_text . ' class=" ' . $style . ' ">' . $button_label . '</a>
+		<a data-input-type="' . $button_type . '" ' . $id_text . ' >' . $button_label . '</a>
 		</button>
 		';
 	}
@@ -340,12 +340,12 @@ class OnboardShortcode {
 		}
 
 		if ( ! $style ) {
-			$style = 'mvr-main-button-enabled';
+			$style = 'elemental-main-button-enabled';
 		}
 
 		return '
-		<button  class="' . $style . ' myvideoroom-woocommerce-basket-ajax myvideoroom-button-override" data-target="' . $target_id . '">
-		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' class="' . $style . ' myvideoroom-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
+		<button  class="' . $style . ' elemental-woocommerce-basket-ajax elemental-button-override" data-target="' . $target_id . '">
+		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' class="' . $style . ' elemental-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
 		</button>
 		';
 	}

@@ -34,7 +34,7 @@ class OrganisationSearch {
 	public function render_organisations_tabs( array $input = null ) :array {
 
 		$admin_menu = new MenuTabDisplay(
-			\esc_html__( 'Organisations', 'myvideoroom' ),
+			\esc_html__( 'Organisations', 'elemental' ),
 			'organisations',
 			fn() => $this->render_wcfm_organisations(),
 			'elemental-org-result',

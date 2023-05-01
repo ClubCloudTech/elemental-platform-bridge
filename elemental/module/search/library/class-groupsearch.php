@@ -30,7 +30,7 @@ class GroupSearch {
 	public function render_group_tabs( array $input = null ) :array {
 
 		$admin_menu = new MenuTabDisplay(
-			\esc_html__( 'Groups', 'myvideoroom' ),
+			\esc_html__( 'Groups', 'elemental' ),
 			'groups',
 			fn() => $this->render_group_search(),
 			'elemental-group-result'
@@ -223,13 +223,13 @@ class GroupSearch {
 	 */
 	private function generate_sort_dropdown( string $active_type = null ) {
 
-		$alphabetical = array( 'alphabetical', '<option value="alphabetical">' . esc_html__( 'Alphabetical', 'myvideoroom' ) . '</option>' );
-		$active       = array( 'active', '<option value="active">' . esc_html__( 'Last Active', 'myvideoroom' ) . '</option>' );
-		$newest       = array( 'newest', '<option value="newest">' . esc_html__( 'Newest Members', 'myvideoroom' ) . '</option>' );
-		$random       = array( 'random', '<option value="random">' . esc_html__( 'Random Selection', 'myvideoroom' ) . '</option>' );
-		$popular      = array( 'popular', '<option value="popular">' . esc_html__( 'Popular and Regular', 'myvideoroom' ) . '</option>' );
-		$most_topics  = array( 'most-forum-topics', '<option value="most-forum-topics">' . esc_html__( 'Most Forum Topics', 'myvideoroom' ) . '</option>' );
-		$most_posts   = array( 'online', '<option value=" most-forum-topics">' . esc_html__( 'Most Active Posts', 'myvideoroom' ) . '</option>' );
+		$alphabetical = array( 'alphabetical', '<option value="alphabetical">' . esc_html__( 'Alphabetical', 'elemental' ) . '</option>' );
+		$active       = array( 'active', '<option value="active">' . esc_html__( 'Last Active', 'elemental' ) . '</option>' );
+		$newest       = array( 'newest', '<option value="newest">' . esc_html__( 'Newest Members', 'elemental' ) . '</option>' );
+		$random       = array( 'random', '<option value="random">' . esc_html__( 'Random Selection', 'elemental' ) . '</option>' );
+		$popular      = array( 'popular', '<option value="popular">' . esc_html__( 'Popular and Regular', 'elemental' ) . '</option>' );
+		$most_topics  = array( 'most-forum-topics', '<option value="most-forum-topics">' . esc_html__( 'Most Forum Topics', 'elemental' ) . '</option>' );
+		$most_posts   = array( 'online', '<option value=" most-forum-topics">' . esc_html__( 'Most Active Posts', 'elemental' ) . '</option>' );
 
 		if ( ! $active_type ) {
 			$active_type = 'alphabetical';
@@ -249,8 +249,8 @@ class GroupSearch {
 		ob_start();
 		?>
 		<li id="groups-order-select" class="">
-		<?php echo esc_html__( 'Displaying ', 'myvideoroom' ) . '<span id="elemental-capitalise" class="elemental-capitalise">' . \esc_attr( $active_type ) . ' </span>'; ?>
-		<label for="groups-order-by"><?php esc_html_e( 'Order By:', 'myvideoroom' ); ?></label>
+		<?php echo esc_html__( 'Displaying ', 'elemental' ) . '<span id="elemental-capitalise" class="elemental-capitalise">' . \esc_attr( $active_type ) . ' </span>'; ?>
+		<label for="groups-order-by"><?php esc_html_e( 'Order By:', 'elemental' ); ?></label>
 			<select id="groups-order-by">
 			<?php
 				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - text comes from lines above and is safe.

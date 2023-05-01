@@ -153,7 +153,7 @@ class LoginHandler {
 				if ( $child_id ) {
 					$noncechild = \wp_create_nonce( 'child' );
 					$url        = get_site_url() . '/login?action=child&noncechild=' . $noncechild;
-					$output    .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Exit Admin Mode', 'myvideoroom' ) . '</a>';
+					$output    .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Exit Admin Mode', 'elemental' ) . '</a>';
 				}
 			} else {
 
@@ -172,7 +172,7 @@ class LoginHandler {
 			$org_name    = Factory::get_instance( ElementalMenus::class )->render_header_logo_shortcode( $atts );
 			$nonceparent = \wp_create_nonce( 'parent' );
 			$url         = get_site_url() . '/login?action=parent&nonceparent=' . $nonceparent;
-			$output     .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Switch to ', 'myvideoroom' ) . $org_name . ' Admin</a>';
+			$output     .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Switch to ', 'elemental' ) . $org_name . ' Admin</a>';
 		}
 		if ( 'role' === $type ) {
 			return $output;
@@ -183,7 +183,7 @@ class LoginHandler {
 		if ( \is_user_logged_in() ) {
 			$nonce   = \wp_create_nonce( 'logout' );
 			$url     = get_site_url() . '/login?action=logout&nonce=' . $nonce;
-			$output .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Sign Out', 'myvideoroom' ) . '</a>';
+			$output .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Sign Out', 'elemental' ) . '</a>';
 		} else {
 			// Redirect- non-logged in users looking at profiles.
 			if ( \function_exists( 'bp_displayed_user_id' ) && bp_displayed_user_id() ) {
@@ -193,7 +193,7 @@ class LoginHandler {
 				die();
 			}
 
-			$output .= ' <a class="elemental-host-link" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'myvideoroom' ) . '</a><a class="elemental-host-link elemental-buttonlink-border" href="' . \get_site_url() . '/join" >' . esc_html__( 'Join', 'myvideoroom' ) . '</a>';
+			$output .= ' <a class="elemental-host-link" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'elemental' ) . '</a><a class="elemental-host-link elemental-buttonlink-border" href="' . \get_site_url() . '/join" >' . esc_html__( 'Join', 'elemental' ) . '</a>';
 		}
 		return $output;
 	}
@@ -236,7 +236,7 @@ class LoginHandler {
 			$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
 			$url      = get_permalink( $template );
 			if ( ! $template ) {
-				esc_html_e( 'No Site Template for this subscription, Or subscription invalid', 'my-video-room' );
+				esc_html_e( 'No Site Template for this subscription, Or subscription invalid', 'elemental' );
 			} else {
 				\wp_safe_redirect( $url );
 			}
@@ -321,10 +321,10 @@ class LoginHandler {
 		</td>
 		<td>
 		<input type="number" size="12"
-		class="mvr-main-button-enabled elemental-maintenance-setting"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_LOGIN_SWITCH_TEMPLATE ) . '"
 		value="' . get_option( self::SETTING_LOGIN_SWITCH_TEMPLATE ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'The Template ID of the Login Template', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'The Template ID of the Login Template', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -337,9 +337,12 @@ class LoginHandler {
 	 * @return array
 	 */
 	public function update_login_template_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_LOGIN_SWITCH_TEMPLATE );
-		\update_option( self::SETTING_LOGIN_SWITCH_TEMPLATE, $field );
-		$response['feedback'] = \esc_html__( 'Login Template Saved', 'myvideoroom' );
+		$current_value = \get_option( self::SETTING_LOGIN_SWITCH_TEMPLATE );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_LOGIN_SWITCH_TEMPLATE );
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_LOGIN_SWITCH_TEMPLATE, $field );
+			$response['feedback'] = \esc_html__( 'Login Template Saved', 'elemental' );
+		}
 		return $response;
 	}
 
@@ -352,14 +355,14 @@ class LoginHandler {
 	public function add_checkout_header_template_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Checkout Header Template Setting', 'myvideoroom' ) . '</span>
+		<span>' . esc_html__( 'Checkout Header Template Setting', 'elemental' ) . '</span>
 		</td>
 		<td>
 		<input type="number" size="12"
-		class="mvr-main-button-enabled elemental-maintenance-setting"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE ) . '"
 		value="' . get_option( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'The Template ID of the Login Template', 'myvideoroom' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'The Template ID of the Login Template', 'elemental' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -372,9 +375,12 @@ class LoginHandler {
 	 * @return array
 	 */
 	public function update_checkout_header_template_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE );
-		\update_option( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE, $field );
-		$response['feedback'] = \esc_html__( 'Checkout Header Template Saved', 'myvideoroom' );
+		$current_value = \get_option( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE );
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE, $field );
+			$response['feedback'] = \esc_html__( 'Checkout Header Template Saved', 'elemental' );
+		}
 		return $response;
 	}
 

@@ -64,10 +64,10 @@ class ElementalUMP {
 		</td>
 		<td>
 		<input type="number" size="32"
-		class="mvr-main-button-enabled elemental-maintenance-setting"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID ) . '"
 		value="' . get_option( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'UMP Subscription ID for the Tenant Admin subscription (used to auto assign it to new Admins)', 'elementalplugin' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'UMP Subscription ID for the Tenant Admin subscription (used to auto assign it to new Admins)', 'elementalplugin' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -80,9 +80,12 @@ class ElementalUMP {
 	 * @return array
 	 */
 	public function update_ump_staffid_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID );
-		\update_option( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID, $field );
-		$response['feedback'] = \esc_html__( 'Tenant Admin Subscription ID Saved', 'elementalplugin' );
+		$current_value = \get_option( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID );
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_UMP_TENANT_ADMIN_SUBSCRIPTION_ID, $field );
+			$response['feedback'] = \esc_html__( 'Tenant Admin Subscription ID Saved', 'elementalplugin' );
+		}
 		return $response;
 	}
 
@@ -99,10 +102,10 @@ class ElementalUMP {
 		</td>
 		<td>
 		<input type="number" size="8"
-		class="mvr-main-button-enabled elemental-maintenance-setting"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID ) . '"
 		value="' . get_option( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID ) . '">
-			<i class="elemental-dashicons mvr-icons dashicons-editor-help" title="' . \esc_html__( 'Normal User Account Subscription  (used to auto assign it to new users)', 'elementalplugin' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'Normal User Account Subscription  (used to auto assign it to new users)', 'elementalplugin' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -115,9 +118,12 @@ class ElementalUMP {
 	 * @return array
 	 */
 	public function update_ump_sponsored_id_settings( array $response ): array {
-		$field = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID );
-		\update_option( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID, $field );
-		$response['feedback'] = \esc_html__( 'Sponsored Account Subscription ID Saved', 'elementalplugin' );
+		$current_value = \get_option( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID );
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_UMP_SPONSORED_SUBSCRIPTION_ID, $field );
+			$response['feedback'] = \esc_html__( 'Sponsored Account Subscription ID Saved', 'elementalplugin' );
+		}
 		return $response;
 	}
 }

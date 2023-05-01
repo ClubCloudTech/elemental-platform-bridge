@@ -1,7 +1,7 @@
 <?php
 /**
  * Menu Tab Object Class
- * Shows Menu Objects that can be rendered by tabs in Elemental and MyVideoRoom.
+ * Shows Menu Objects that can be rendered by tabs in Elemental and elemental.
  *
  * @package entity/class-menutabdisplay.php
  */
@@ -12,7 +12,7 @@ use ElementalPlugin\Module\Sandbox\Entity\SandboxEntity;
 
 /**
  * Menu Tab Object Class
- * Shows Menu Objects that can be rendered by tabs in Elemental and MyVideoRoom.
+ * Shows Menu Objects that can be rendered by tabs in Elemental and elemental.
  */
 class MenuTabDisplay {
 

@@ -29,7 +29,7 @@ return function (
 		);
 
 		?>
-	<tr class="active mvr-table-mobile" data-room-id="<?php echo esc_attr( $child_account_object['level'] ); ?>">
+	<tr class="active elemental-table-mobile" >
 		<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
 	<?php
 
@@ -60,7 +60,7 @@ return function (
 	foreach ( $edit_actions as $action ) {
 		?>
 				<a href=""
-					class="mvr-icons <?php echo esc_attr( $action[2] ); ?>"
+					class="elemental-icons <?php echo esc_attr( $action[2] ); ?>"
 					data-userid="<?php echo esc_attr( $child_account_object['user_id'] ); ?>"
 					data-nonce="<?php echo esc_attr( $save_nonce ); ?>"
 					title="<?php echo esc_attr( $action[0] ); ?>"

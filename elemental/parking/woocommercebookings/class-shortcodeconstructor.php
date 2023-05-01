@@ -11,7 +11,7 @@ use ElementalPlugin\Core\SiteDefaults;
 use ElementalPlugin\Library\WordPressUser;
 use ElementalPlugin\Shortcode as Shortcode;
 use ElementalPlugin\Library\Encryption;
-use ElementalPlugin\Shortcode\MyVideoRoomApp;
+use ElementalPlugin\Shortcode\elementalApp;
 
 
 /**
@@ -33,7 +33,7 @@ class ShortCodeConstructor extends Shortcode {
 	}
 
 	/*
-	Constructs the MyVideoRoom App Shortcode correctly with right settings
+	Constructs the elemental App Shortcode correctly with right settings
 	# Arguments - Shortcode Type, Order Number, VendorID(optional), XProfile Field Number, BookingID, and Time Offset)
 	# Returns - a correctly formatted shortcode, or rejection of Booking information*/
 	public function shortcode_build( $sc_type, $ordernum, $vendor_id, $xprofile_field, $booking_id, $time_offset, $showpast ) {
@@ -122,7 +122,7 @@ class ShortCodeConstructor extends Shortcode {
 		// debug onlyreturn "Both provided -Booking ID ".$booking_id." and Order Num ".$ordernum. " Storename was - ".$store_name."<br>";
 		switch ( $sc_type ) {
 			case 'simple':
-				$myvideoroom_app_app = MyVideoRoomApp::create_instance(
+				$elemental_app_app = elementalApp::create_instance(
 					$this->get_instance( SiteDefaults::class )->room_map( 'bookings', $booking_id ),
 					$layout_id,
 				);
@@ -130,7 +130,7 @@ class ShortCodeConstructor extends Shortcode {
 				$outdatas = array(
 					'validcount' => 1,
 					'message'    => $this->get_instance( WCHelpers::class )->get_booking_header( $booking_id, 'customer', $store_name ),
-					'shortcode'  => $myvideoroom_app_app->output_shortcode(),
+					'shortcode'  => $elemental_app_app->output_shortcode(),
 				);
 
 				return $outdatas;
@@ -179,24 +179,24 @@ class ShortCodeConstructor extends Shortcode {
 
 					if ( $merchant_flag ) {
 
-						$myvideoroom_app_app = MyVideoRoomApp::create_instance(
+						$elemental_app_app = elementalApp::create_instance(
 							$this->get_instance( SiteDefaults::class )->room_map( 'bookings', $booking_id ),
 							$layout_id,
 						);
 
-						$myvideoroom_app_app->enable_admin()->enable_lobby();
+						$elemental_app_app->enable_admin()->enable_lobby();
 
 						$outdatas = array(
 							'validcount'   => $order_window_count,
 							'invalidcount' => $invalid_count,
 							'futurecount'  => $futurecount,
 							'message'      => $this->get_instance( WCHelpers::class )->get_booking_header( $booking_id, 'merchant', $store_name ),
-							'shortcode'    => $myvideoroom_app_app->output_shortcode(),
+							'shortcode'    => $elemental_app_app->output_shortcode(),
 						);
 
 						return $outdatas;
 					} else {
-						$myvideoroom_app_app = MyVideoRoomApp::create_instance(
+						$elemental_app_app = elementalApp::create_instance(
 							$this->get_instance( SiteDefaults::class )->room_map( 'bookings', $booking ),
 							$layout_id,
 						);
@@ -206,7 +206,7 @@ class ShortCodeConstructor extends Shortcode {
 							'invalidcount' => $invalid_count,
 							'futurecount'  => $futurecount,
 							'message'      => $this->get_instance( WCHelpers::class )->get_booking_header( $booking_id, 'customer', $store_name ),
-							'shortcode'    => $myvideoroom_app_app->output_shortcode(),
+							'shortcode'    => $elemental_app_app->output_shortcode(),
 						);
 
 						return $outdatas;
@@ -235,7 +235,7 @@ class ShortCodeConstructor extends Shortcode {
 	 * @param $booking_id
 	 * @param $vendor_id
 	 *
-	 * @return string Returns the MyVideoRoom template to use
+	 * @return string Returns the elemental template to use
 	 */
 	public function xprofile_build( $xprofile_field, $booking_id, $vendor_id ) {
 		$default_return = 'boardroom';

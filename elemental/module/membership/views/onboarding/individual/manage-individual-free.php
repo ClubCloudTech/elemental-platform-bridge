@@ -25,7 +25,7 @@ return function (): string {
 					/* translators: %s is the text "Modules" and links to the Module Section */
 					\esc_html__(
 						'Create a New %s Personal Account.',
-						'myvideoroom'
+						'elemental'
 					),
 					esc_textarea( 'Free' ),
 				);

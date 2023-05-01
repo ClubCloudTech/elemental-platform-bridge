@@ -32,7 +32,7 @@ class ForumSearch {
 	public function render_forum_tabs( array $input = null ) :array {
 
 		$admin_menu = new MenuTabDisplay(
-			\esc_html__( 'Expert Forums', 'myvideoroom' ),
+			\esc_html__( 'Expert Forums', 'elemental' ),
 			'forums',
 			fn() => $this->render_forums(),
 			'elemental-forum-result'

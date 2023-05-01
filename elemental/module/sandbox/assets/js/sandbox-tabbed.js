@@ -67,7 +67,7 @@
 								return false;
 							}
 						);
-						$( '.mvr-notification-button' ).on(
+						$( '.elemental-notification-button' ).on(
 							'click',
 							function (event) {
 

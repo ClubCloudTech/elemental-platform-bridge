@@ -28,7 +28,7 @@ return function (
 					/* translators: %s is the text "Modules" and links to the Module Section */
 					\esc_html__(
 						'Create a New %s Organisation.',
-						'myvideoroom'
+						'elemental'
 					),
 					esc_textarea( $membership_data[0]->post_title ),
 				);
