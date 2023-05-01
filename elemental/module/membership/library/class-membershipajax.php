@@ -146,7 +146,7 @@ class MembershipAjax {
 			$verify             = \wp_verify_nonce( $nonce, Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $user_id ) );
 			$verify_admin_nonce = \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE );
 			if ( ! $verify && ! $verify_admin_nonce ) {
-				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'elementalplugin' );
+				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received - First', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
 			$my_user_id  = \get_current_user_id();
@@ -164,8 +164,9 @@ class MembershipAjax {
 		}
 
 		if ( 'delete_final' === $action_taken ) {
-			$verify = \wp_verify_nonce( $nonce, $user_id . 'approved' );
+			$verify             = \wp_verify_nonce( $nonce, $user_id . 'approved' );
 			$verify_admin_nonce = \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE );
+			\error_log( $nonce . 'uid');
 			if ( ! $verify && ! $verify_admin_nonce ) {
 				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'elementalplugin' );
 				return \wp_send_json( $response );

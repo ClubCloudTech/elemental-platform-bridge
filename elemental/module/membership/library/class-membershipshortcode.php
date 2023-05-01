@@ -346,7 +346,7 @@ class MembershipShortCode {
 		}
 
 		return '
-		<button  class="' . $style . ' elementalplugin-woocommerce-basket-ajax" data-target="' . $target_id . ' " ' . $id_text . '>
+		<button  class="' . $style . ' elementalplugin-woocommerce-basket-ajax" data-target="' . $target_id . ' " ' . $id_text . ' data-auth-nonce="' . $nonce . '">
 		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' elementalplugin-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
 		</button>
 		';
