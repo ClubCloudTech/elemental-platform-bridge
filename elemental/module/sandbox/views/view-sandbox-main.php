@@ -110,15 +110,7 @@ return function (
 						data-color=<?php echo esc_textarea( $retrieved_color ); ?>
 						data-object-id="<?php echo esc_textarea( $object_id ); ?>"
 						href="#<?php echo esc_attr( $html_library->get_id( $tab_slug ) ); ?>">
-							<?php
-						//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Icon is created by escaped function.
-							if ( 'Info' === $tab_display_name ) {
-								$icon = include __DIR__ . '/view-sandbox-info-icon.php';
-								echo $icon();
-							} else {
-								echo $tab_display_name;
-							}
-							?>
+
 
 						</a>
 					</li>

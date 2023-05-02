@@ -27,7 +27,7 @@ class SandBoxDao {
 		global $wpdb;
 
 		$table_name = $this->get_table_name();
-
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$sql_create = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (
 			`record_id` int NOT NULL AUTO_INCREMENT,
 			`tab_name` VARCHAR(255) NOT NULL,

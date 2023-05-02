@@ -35,6 +35,14 @@ class MembershipSetup {
 			$this->create_registration_bpgroup();
 		}
 	}
+	/**
+	 * Activate Functions for Membership.
+	 */
+	public function de_activate() {
+		\remove_role( Membership::MEMBERSHIP_ROLE_SPONSORED );
+		\remove_role( Membership::MEMBERSHIP_ROLE_TENANT );
+		\remove_role( Membership::MEMBERSHIP_ROLE_TENANT_ADMIN );
+	}
 
 
 	/**
@@ -42,26 +50,17 @@ class MembershipSetup {
 	 */
 	private function create_sponsored_membership_role(): void {
 		global $wp_roles;
-		$roles_change = $wp_roles->get_role( 'Subscriber' );
+		$roles_change = $wp_roles->get_role( 'subscriber' );
 		\add_role( Membership::MEMBERSHIP_ROLE_SPONSORED, Membership::MEMBERSHIP_ROLE_SPONSORED_DESCRIPTION, $roles_change->capabilities );
 	}
-
-	/*
-	 * Create Membership Role for Tenant Main Account
-	 
-	public function create_tenant_account_role(): void {
-		global $wp_roles;
-		$roles_change = $wp_roles->get_role( 'Subscriber' );
-		add_role( Membership::MEMBERSHIP_ROLE_TENANT, Membership::MEMBERSHIP_ROLE_TENANT_DESCRIPTION, $roles_change->capabilities );
-	}*/
 
 	/**
 	 * Create Membership Role for Tenant Main Account
 	 */
 	private function create_tenant_account_role(): void {
 		global $wp_roles;
-		$roles_change = $wp_roles->get_role( 'Subscriber' );
-		add_role( Membership::MEMBERSHIP_ROLE_SPONSORED, Membership::MEMBERSHIP_ROLE_SPONSORED_DESCRIPTION, $roles_change->capabilities );
+		$roles_change = $wp_roles->get_role( 'subscriber' );
+		add_role( Membership::MEMBERSHIP_ROLE_TENANT, Membership::MEMBERSHIP_ROLE_TENANT_DESCRIPTION, $roles_change->capabilities );
 	}
 
 	/**
@@ -69,7 +68,7 @@ class MembershipSetup {
 	 */
 	private function create_tenant_admin_role(): void {
 		global $wp_roles;
-		$roles_change = $wp_roles->get_role( 'Subscriber' );
+		$roles_change = $wp_roles->get_role( 'subscriber' );
 		add_role( Membership::MEMBERSHIP_ROLE_TENANT_ADMIN, Membership::MEMBERSHIP_ROLE_TENANT_ADMIN_DESCRIPTION, $roles_change->capabilities );
 	}
 

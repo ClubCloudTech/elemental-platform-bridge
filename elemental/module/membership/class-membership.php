@@ -31,11 +31,11 @@ class Membership {
 	const ACCOUNT_TENANT_ADMIN_SHORTCODE           = 'elemental_tenant_admin';
 	const ACCOUNT_ADMIN_SHORTCODE                  = 'elemental_account_admin';
 	const ACCOUNT_SPONSORED_ADMIN_SHORTCODE        = 'elemental_sponsored_admin';
-	const MEMBERSHIP_ROLE_SPONSORED                = 'SponsoredTenantAccount';
+	const MEMBERSHIP_ROLE_SPONSORED                = 'sponsoredmembershipaccount';
 	const MEMBERSHIP_ROLE_SPONSORED_DESCRIPTION    = 'Sponsored Tenant Account';
-	const MEMBERSHIP_ROLE_TENANT                   = 'Tenant';
+	const MEMBERSHIP_ROLE_TENANT                   = 'tenant';
 	const MEMBERSHIP_ROLE_TENANT_DESCRIPTION       = 'Tenant Account';
-	const MEMBERSHIP_ROLE_TENANT_ADMIN             = 'TenantAdmin';
+	const MEMBERSHIP_ROLE_TENANT_ADMIN             = 'tenantadmin';
 	const MEMBERSHIP_ROLE_TENANT_ADMIN_DESCRIPTION = 'Tenant Admin Account';
 	const MEMBERSHIP_NONCE_PREFIX_DU               = 'delete_user_';
 
@@ -112,6 +112,13 @@ class Membership {
 	 */
 	public function activate() {
 		Factory::get_instance( MembershipSetup::class )->activate();
+	}
+
+	/**
+	 * Dectivation Functions for Membership.
+	 */
+	public function de_activate() {
+		Factory::get_instance( MembershipSetup::class )->de_activate();
 	}
 	/**
 	 * Render Membership Config Page

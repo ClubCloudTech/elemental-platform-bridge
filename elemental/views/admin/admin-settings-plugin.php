@@ -5,6 +5,8 @@
  * @package elemental/module/sitevideo/views/admin/view-settings-maintenance.php
  */
 
+use ElementalPlugin\Module\Membership\Membership;
+
 /**
  * Render Admin Page Settings Maintenance.
  *
@@ -28,7 +30,6 @@ return function (): string {
 			</h3>
 		</div>
 	</div>
-
 <div class="elemental-clear"></div>
 
 	<!-- Module State and Description Marker -->

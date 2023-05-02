@@ -79,7 +79,6 @@ if ( ! class_exists( Plugin::class ) ) {
 	require_once __DIR__ . '/library/globals.php';
 	add_action( 'plugins_loaded', array( Plugin::class, 'init' ) );
 	register_activation_hook( __FILE__, array( Activation::class, 'activate' ) );
+	register_deactivation_hook( __FILE__, array( Activation::class, 'deactivate' ) );
 	register_uninstall_hook( __FILE__, array( Activation::class, 'uninstall' ) );
-
-	// require_once __DIR__ . '/vendor/autoload.php';
 }

@@ -25,7 +25,7 @@ class MembershipDAO {
 	 */
 	public function install_membership_mapping_table(): bool {
 		global $wpdb;
-
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$table_name = $this->get_table_name();
 
 		$sql_create = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (
