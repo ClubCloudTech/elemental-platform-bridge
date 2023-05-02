@@ -295,7 +295,7 @@ class MembershipUser {
 
 		$status = wp_mail(
 			$email_address,
-			\esc_html__( ' Welcome to ', 'elementalplugin' ) . get_bloginfo( 'name' ),
+			\esc_html__( ' Welcome to ', 'elementalplugin' ) . \get_bloginfo( 'name' ),
 			$template( $password, $email_address, $first_name, $data ),
 			$headers
 		);

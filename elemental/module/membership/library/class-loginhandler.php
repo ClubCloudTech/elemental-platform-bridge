@@ -443,11 +443,11 @@ class LoginHandler {
 			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
 			die();
 		}
-
 		$is_tenant_account = Factory::get_instance( UserRoles::class )->is_tenant_account();
 		if ( $is_tenant_account ) {
 			// Decide Correct Redirect Path based on Staff Account Count.
 			$staff_count = Factory::get_instance( WCFMTools::class )->elemental_get_staff_member_count();
+
 			if ( $staff_count >= 1 ) {
 				$url = \get_site_url() . '/control/';
 			} else {

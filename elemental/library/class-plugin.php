@@ -46,7 +46,6 @@ class Plugin {
 		Factory::get_instance( ElementalBP::class )->init();
 		Factory::get_instance( ElementalMenus::class )->init();
 		Factory::get_instance( Sandbox::class )->init();
-		Factory::get_instance( Pagemanage::class )->init();
 		$this->styles();
 		add_filter( 'xmlrpc_enabled', '__return_false' );
 

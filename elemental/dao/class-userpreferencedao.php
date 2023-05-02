@@ -23,7 +23,6 @@ class UserPreferenceDAO {
 	 * @return ?string
 	 */
 	public static function install_user_preference_table(): ?string {
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . self::TABLE_NAME;

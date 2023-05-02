@@ -25,7 +25,6 @@ class MemberSyncDAO {
 	 * @return bool
 	 */
 	public function install_membership_sync_table(): bool {
-		include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		global $wpdb;
 
 		$table_name = $this->get_table_name();
