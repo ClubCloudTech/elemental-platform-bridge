@@ -42,6 +42,7 @@ class MembershipSetup {
 		\remove_role( Membership::MEMBERSHIP_ROLE_SPONSORED );
 		\remove_role( Membership::MEMBERSHIP_ROLE_TENANT );
 		\remove_role( Membership::MEMBERSHIP_ROLE_TENANT_ADMIN );
+		\remove_role( 'Sponsored' );
 	}
 
 
