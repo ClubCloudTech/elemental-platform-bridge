@@ -36,7 +36,7 @@ class Admin {
 	public function add_admin_menu() {
 		add_menu_page(
 			'Elemental Configuration',
-			'Elemental',
+			'FinxOne Platform',
 			'manage_options',
 			'elemental',
 			array( $this, 'create_elemental_admin_page' ),

@@ -16,12 +16,12 @@ return function (
 	?>
 		<header>
 		<h1 class="elemental-header-config-title">
-	<?php \esc_html_e( 'Elemental Platform Settings and Configuration', 'elemental' ); ?>
+	<?php \esc_html_e( 'FinxOne Platform Settings', 'elemental' ); ?>
 		</h1>
 
 		<div class="overview">
 			<strong>
-				<?php echo \esc_html__( 'Elemental is a control and integration plugin connecting several plugins together', 'elemental' ); ?>
+				<?php echo \esc_html__( 'Finx1 is a control and integration plugin connecting several plugins together', 'elemental' ); ?>
 			</strong>
 			<?php
 			foreach ( $messages as $message ) {

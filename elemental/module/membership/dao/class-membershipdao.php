@@ -24,9 +24,8 @@ class MembershipDAO {
 	 * @return bool
 	 */
 	public function install_membership_mapping_table(): bool {
-		include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		global $wpdb;
-
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$table_name = $this->get_table_name();
 
 		$sql_create = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (
@@ -62,9 +61,8 @@ class MembershipDAO {
 			)
 		);
 
-		\wp_cache_delete( $user_limit, __CLASS__ . '::get_limit_by_membership' );
-		\wp_cache_delete( $membership_level, __CLASS__ . '::get_all_membership_limits' );
-		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_membership_limits' );
+		\wp_cache_delete( $membership_level );
+		\wp_cache_delete( $user_limit );
 
 		if ( $result ) {
 			return $result;
@@ -94,9 +92,8 @@ class MembershipDAO {
 			)
 		);
 
-		\wp_cache_delete( $user_limit, __CLASS__ . '::get_limit_by_membership' );
-		\wp_cache_delete( $membership_level, __CLASS__ . '::get_all_membership_limits' );
-		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_membership_limits' );
+		\wp_cache_delete( $membership_level );
+		\wp_cache_delete( $template );
 
 		if ( $result ) {
 			return $result;
@@ -126,9 +123,8 @@ class MembershipDAO {
 			)
 		);
 
-		\wp_cache_delete( $user_limit, __CLASS__ . '::get_limit_by_membership' );
-		\wp_cache_delete( $membership_level, __CLASS__ . '::get_all_membership_limits' );
-		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_membership_limits' );
+		\wp_cache_delete( $membership_level );
+		\wp_cache_delete( $template );
 
 		if ( $result ) {
 			return $result;
@@ -186,8 +182,7 @@ class MembershipDAO {
 			)
 		);
 
-		\wp_cache_delete( $user_limit, __CLASS__ . '::get_limit_by_membership' );
-		\wp_cache_delete( $membership_level, __CLASS__ . '::get_limit_info' );
+		\wp_cache_delete( $user_limit );
 
 		return $success;
 	}
@@ -206,7 +201,7 @@ class MembershipDAO {
 		// Check Record Exists.
 		$record_exists = $this->get_limit_info( $membership_level );
 		if ( ! $record_exists ) {
-			$success = $this->register_template_record( $user_limit, $membership_level );
+			$success = $this->register_template_record( $template, $membership_level );
 			if ( $success ) {
 				return true;
 			} else {
@@ -227,7 +222,7 @@ class MembershipDAO {
 			)
 		);
 
-		\wp_cache_delete( $membership_level, __CLASS__ . '::get_limit_info' );
+		\wp_cache_delete( $template );
 
 		return $success;
 	}
@@ -266,7 +261,7 @@ class MembershipDAO {
 			)
 		);
 
-		\wp_cache_delete( $membership_level, __CLASS__ . '::get_limit_info' );
+		\wp_cache_delete( $template );
 
 		return $success;
 	}
@@ -306,10 +301,7 @@ class MembershipDAO {
 			)
 		);
 
-		\wp_cache_delete( $membership_level, __CLASS__ . '::get_limit_by_membership' );
-		\wp_cache_delete( $record_exists->user_limit, __CLASS__ . '::get_all_membership_limits' );
-		\wp_cache_delete( $membership_level, __CLASS__ . '::get_limit_info' );
-		\wp_cache_delete( '__ALL__', __CLASS__ . '::get_all_membership_limits' );
+		\wp_cache_delete( $membership_level );
 
 		return true;
 	}
@@ -324,7 +316,8 @@ class MembershipDAO {
 	public function get_limit_by_membership( int $membership_level ): ?int {
 		global $wpdb;
 
-		$result = \wp_cache_get( $membership_level, __METHOD__ );
+		$result = \wp_cache_get( $membership_level );
+		$result = false;
 
 		if ( false === $result ) {
          // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
@@ -362,7 +355,8 @@ class MembershipDAO {
 	public function get_limit_info( int $membership_level ): ?\stdClass {
 		global $wpdb;
 
-		$result = \wp_cache_get( $membership_level, __METHOD__ );
+		$result = \wp_cache_get( $membership_level );
+		$result = false;
 
 		if ( false === $result ) {
          // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
@@ -412,8 +406,8 @@ class MembershipDAO {
 			$cache_key = '__ALL__';
 		}
 
-		$result = \wp_cache_get( $cache_key, __METHOD__ );
-
+		$result = \wp_cache_get( $cache_key );
+		$result = false;
 		if ( false === $result ) {
 			if ( $membership_level ) {
              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery

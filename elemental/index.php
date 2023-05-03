@@ -1,6 +1,6 @@
 <?php
 /**
- * Coadjute Elemental Plugin.
+ * Finxone Elemental Plugin.
  *
  * @package ElementalPlugin
  */
@@ -8,13 +8,13 @@
 declare(strict_types=1);
 
 /**
- * Plugin Name:         Elemental Platform
- * Plugin URI:          https://coadjute.com
+ * Plugin Name:         Finxone Site Platform
+ * Plugin URI:          https://finxone.com
  * Description:         Adds user management, multi-entity onboarding, and integration support functions for Ultimate Member Pro, BuddyPress, WooCommerce, and WCFM.
- * Version:             0.93
+ * Version:             1.0alpha
  * Requires PHP:        7.4
  * Requires at least:   5.6
- * Author:              Fred Mocellin, Then by Coadjute team
+ * Author:              Fred Mocellin, Alex Dale and Finxone team
  * Author URI:          https://clubcloud.tech/
  * License:             GPLv2 or later
  * License URI:         https://www.gnu.org/licenses/gpl-2.0.html
@@ -79,7 +79,6 @@ if ( ! class_exists( Plugin::class ) ) {
 	require_once __DIR__ . '/library/globals.php';
 	add_action( 'plugins_loaded', array( Plugin::class, 'init' ) );
 	register_activation_hook( __FILE__, array( Activation::class, 'activate' ) );
+	register_deactivation_hook( __FILE__, array( Activation::class, 'deactivate' ) );
 	register_uninstall_hook( __FILE__, array( Activation::class, 'uninstall' ) );
-
-	// require_once __DIR__ . '/vendor/autoload.php';
 }

@@ -23,9 +23,8 @@ class TokenDAO {
 	 * @return ?string
 	 */
 	public static function install_user_tokens_table(): ?string {
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		global $wpdb;
-
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$table_name = $wpdb->prefix . self::TABLE_NAME;
 
 		$sql_create = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (

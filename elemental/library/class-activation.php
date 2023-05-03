@@ -34,7 +34,15 @@ class Activation {
 	 * Remove the plugin
 	 */
 	public static function uninstall() {
+
+	}
+
+	/**
+	 * Deactivate the plugin
+	 */
+	public static function deactivate() {
 		Factory::get_instance( WCFM::class )->de_activate();
+		Factory::get_instance( Membership::class )->de_activate();
 	}
 
 	/**

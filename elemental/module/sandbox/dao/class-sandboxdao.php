@@ -24,11 +24,10 @@ class SandBoxDao {
 	 * @return bool
 	 */
 	public function install_sandbox_control_table(): bool {
-		include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		global $wpdb;
 
 		$table_name = $this->get_table_name();
-
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		$sql_create = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (
 			`record_id` int NOT NULL AUTO_INCREMENT,
 			`tab_name` VARCHAR(255) NOT NULL,

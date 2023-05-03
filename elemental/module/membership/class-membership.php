@@ -31,11 +31,11 @@ class Membership {
 	const ACCOUNT_TENANT_ADMIN_SHORTCODE           = 'elemental_tenant_admin';
 	const ACCOUNT_ADMIN_SHORTCODE                  = 'elemental_account_admin';
 	const ACCOUNT_SPONSORED_ADMIN_SHORTCODE        = 'elemental_sponsored_admin';
-	const MEMBERSHIP_ROLE_SPONSORED                = 'Sponsored';
-	const MEMBERSHIP_ROLE_SPONSORED_DESCRIPTION    = 'Regular User';
-	const MEMBERSHIP_ROLE_TENANT                   = 'Tenant';
+	const MEMBERSHIP_ROLE_SPONSORED                = 'sponsoredmembershipaccount';
+	const MEMBERSHIP_ROLE_SPONSORED_DESCRIPTION    = 'Sponsored Tenant Account';
+	const MEMBERSHIP_ROLE_TENANT                   = 'tenant';
 	const MEMBERSHIP_ROLE_TENANT_DESCRIPTION       = 'Tenant Account';
-	const MEMBERSHIP_ROLE_TENANT_ADMIN             = 'TenantAdmin';
+	const MEMBERSHIP_ROLE_TENANT_ADMIN             = 'tenantadmin';
 	const MEMBERSHIP_ROLE_TENANT_ADMIN_DESCRIPTION = 'Tenant Admin Account';
 	const MEMBERSHIP_NONCE_PREFIX_DU               = 'delete_user_';
 
@@ -113,14 +113,36 @@ class Membership {
 	public function activate() {
 		Factory::get_instance( MembershipSetup::class )->activate();
 	}
+
+	/**
+	 * Dectivation Functions for Membership.
+	 */
+	public function de_activate() {
+		Factory::get_instance( MembershipSetup::class )->de_activate();
+	}
 	/**
 	 * Render Membership Config Page
 	 * Renders configuration of Membership Management Plugin
 	 */
 	public function render_membership_config_page(): string {
-		\wp_enqueue_script( 'elemental-membership-js' );
-		$membership_levels = Factory::get_instance( UMPMemberships::class )->get_ump_memberships();
-		return ( include __DIR__ . '/views/membership/table-output.php' )( $membership_levels );
+		if ( $this->is_ump_available() ){
+			\wp_enqueue_script( 'elemental-membership-js' );
+			$membership_levels = Factory::get_instance( UMPMemberships::class )->get_ump_memberships();
+			return ( include __DIR__ . '/views/membership/table-output.php' )( $membership_levels );
+		} else {
+			return esc_html__( 'UMP is not installed', 'elementalplugin' );
+		}
+	}
+
+		/**
+	 * Is Buddypress Available - checks if BuddyPress is enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_ump_available(): bool {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		return is_plugin_active( 'indeed-membership-pro/indeed-membership-pro.php' );
 	}
 }
 
