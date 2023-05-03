@@ -125,9 +125,24 @@ class Membership {
 	 * Renders configuration of Membership Management Plugin
 	 */
 	public function render_membership_config_page(): string {
-		\wp_enqueue_script( 'elemental-membership-js' );
-		$membership_levels = Factory::get_instance( UMPMemberships::class )->get_ump_memberships();
-		return ( include __DIR__ . '/views/membership/table-output.php' )( $membership_levels );
+		if ( $this->is_ump_available() ){
+			\wp_enqueue_script( 'elemental-membership-js' );
+			$membership_levels = Factory::get_instance( UMPMemberships::class )->get_ump_memberships();
+			return ( include __DIR__ . '/views/membership/table-output.php' )( $membership_levels );
+		} else {
+			return esc_html__( 'UMP is not installed', 'elementalplugin' );
+		}
+	}
+
+		/**
+	 * Is Buddypress Available - checks if BuddyPress is enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_ump_available(): bool {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		return is_plugin_active( 'indeed-membership-pro/indeed-membership-pro.php' );
 	}
 }
 

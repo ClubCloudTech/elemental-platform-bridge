@@ -119,10 +119,11 @@ class LoginHandler {
 	 * Starts by understanding if there are sufficient staff accounts, if not - forces their creation
 	 *
 	 * @param string $type = the type of shortcode to return, login = login only, role = role switch only, all or null is both.
+	 * @param bool $show_join_button = don't show join button.
 	 *
 	 * @return string
 	 */
-	public function elemental_login_out( string $type ): string {
+	public function elemental_login_out( string $type, bool $show_join_button = null ): string {
 		$output = '';
 		// Get Identities.
 		$is_vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
@@ -153,7 +154,7 @@ class LoginHandler {
 				if ( $child_id ) {
 					$noncechild = \wp_create_nonce( 'child' );
 					$url        = get_site_url() . '/login?action=child&noncechild=' . $noncechild;
-					$output    .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Exit Admin Mode', 'elemental' ) . '</a>';
+					$output    .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Exit Admin Mode', 'elementalplugin' ) . '</a>';
 				}
 			} else {
 
@@ -172,7 +173,7 @@ class LoginHandler {
 			$org_name    = Factory::get_instance( ElementalMenus::class )->render_header_logo_shortcode( $atts );
 			$nonceparent = \wp_create_nonce( 'parent' );
 			$url         = get_site_url() . '/login?action=parent&nonceparent=' . $nonceparent;
-			$output     .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Switch to ', 'elemental' ) . $org_name . ' Admin</a>';
+			$output     .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Switch to ', 'elementalplugin' ) . $org_name . ' Admin</a>';
 		}
 		if ( 'role' === $type ) {
 			return $output;
@@ -183,7 +184,7 @@ class LoginHandler {
 		if ( \is_user_logged_in() ) {
 			$nonce   = \wp_create_nonce( 'logout' );
 			$url     = get_site_url() . '/login?action=logout&nonce=' . $nonce;
-			$output .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Sign Out', 'elemental' ) . '</a>';
+			$output .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Sign Out', 'elementalplugin' ) . '</a>';
 		} else {
 			// Redirect- non-logged in users looking at profiles.
 			if ( \function_exists( 'bp_displayed_user_id' ) && bp_displayed_user_id() ) {
@@ -193,7 +194,13 @@ class LoginHandler {
 				die();
 			}
 
-			$output .= ' <a class="elemental-host-link" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'elemental' ) . '</a><a class="elemental-host-link elemental-buttonlink-border" href="' . \get_site_url() . '/join" >' . esc_html__( 'Join', 'elemental' ) . '</a>';
+			if ( true === $show_join_button ) {
+				$join_button = '<a class="elemental-host-link elemental-buttonlink-border" href="' . \get_site_url() . '/join" >' . esc_html__( 'Join', 'elementalplugin' ) . '</a>';
+			} else {
+				$join_button = '';
+			}
+
+			$output .= ' <a class="elemental-host-link" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'elementalplugin' ) . '</a>' . $join_button;
 		}
 		return $output;
 	}
@@ -236,7 +243,7 @@ class LoginHandler {
 			$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
 			$url      = get_permalink( $template );
 			if ( ! $template ) {
-				esc_html_e( 'No Site Template for this subscription, Or subscription invalid', 'elemental' );
+				esc_html_e( 'No Site Template for this subscription, Or subscription invalid', 'elementalplugin' );
 			} else {
 				\wp_safe_redirect( $url );
 			}
@@ -324,7 +331,7 @@ class LoginHandler {
 		class="elemental-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_LOGIN_SWITCH_TEMPLATE ) . '"
 		value="' . get_option( self::SETTING_LOGIN_SWITCH_TEMPLATE ) . '">
-			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'The Template ID of the Login Template', 'elemental' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'The Template ID of the Login Template', 'elementalplugin' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -341,7 +348,7 @@ class LoginHandler {
 		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_LOGIN_SWITCH_TEMPLATE );
 		if ( $field !== $current_value ) {
 			\update_option( self::SETTING_LOGIN_SWITCH_TEMPLATE, $field );
-			$response['feedback'] = \esc_html__( 'Login Template Saved', 'elemental' );
+			$response['feedback'] = \esc_html__( 'Login Template Saved', 'elementalplugin' );
 		}
 		return $response;
 	}
@@ -355,14 +362,14 @@ class LoginHandler {
 	public function add_checkout_header_template_setting( array $input ): array {
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Checkout Header Template Setting', 'elemental' ) . '</span>
+		<span>' . esc_html__( 'Checkout Header Template Setting', 'elementalplugin' ) . '</span>
 		</td>
 		<td>
 		<input type="number" size="12"
 		class="elemental-main-button-enabled elemental-maintenance-setting"
 		id="' . esc_attr( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE ) . '"
 		value="' . get_option( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE ) . '">
-			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'The Template ID of the Login Template', 'elemental' ) . '"></i>
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( 'The Template ID of the Login Template', 'elementalplugin' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
@@ -379,7 +386,7 @@ class LoginHandler {
 		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE );
 		if ( $field !== $current_value ) {
 			\update_option( self::SETTING_CHECKOUT_HEADER_SWITCH_TEMPLATE, $field );
-			$response['feedback'] = \esc_html__( 'Checkout Header Template Saved', 'elemental' );
+			$response['feedback'] = \esc_html__( 'Checkout Header Template Saved', 'elementalplugin' );
 		}
 		return $response;
 	}
