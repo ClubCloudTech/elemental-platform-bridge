@@ -26,6 +26,7 @@ class Admin {
 		add_shortcode( self::SHORTCODE_TAG . 'proxytest', array( $this, 'proxy_test_function' ) );
 		$this->register_scripts();
 		Factory::get_instance( Sandbox::class )->initialise_sandbox_ajax();
+		add_filter( 'upload_mimes', array( $this, 'elemental_allow_json' ) );
 	}
 
 	/**
@@ -129,5 +130,18 @@ class Admin {
 				$script_data_array
 			);
 	}
+
+	/**
+	 * Register Admin Page Scripts
+	 *
+	 * @param array $mimes - the minme types allowed.
+	 * @return array - the mime types.
+	 */
+	public function elemental_allow_json( array $mimes ) {
+		$mimes['json'] = 'application/json';
+		$mimes['svg']  = 'image/svg+xml';
+		return $mimes;
+	}
+
 }
 

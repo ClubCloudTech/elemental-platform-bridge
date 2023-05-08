@@ -125,7 +125,7 @@ class Membership {
 	 * Renders configuration of Membership Management Plugin
 	 */
 	public function render_membership_config_page(): string {
-		if ( $this->is_ump_available() ){
+		if ( $this->is_ump_available() ) {
 			\wp_enqueue_script( 'elemental-membership-js' );
 			$membership_levels = Factory::get_instance( UMPMemberships::class )->get_ump_memberships();
 			return ( include __DIR__ . '/views/membership/table-output.php' )( $membership_levels );
@@ -134,8 +134,8 @@ class Membership {
 		}
 	}
 
-		/**
-	 * Is Buddypress Available - checks if BuddyPress is enabled.
+	/**
+	 * Is UMP Available - checks if BuddyPress is enabled.
 	 *
 	 * @return bool
 	 */
