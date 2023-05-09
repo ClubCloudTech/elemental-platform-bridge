@@ -165,7 +165,7 @@ class ElementalMenus {
 			$profile_control_url = '/login';
 		}
 
-		if ( 'text' === $attributes['type'] ) {
+		if ( isset( $attributes['type'] ) && 'text' === $attributes['type'] ) {
 			return $output;
 		}
 
