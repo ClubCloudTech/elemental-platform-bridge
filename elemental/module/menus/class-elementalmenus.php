@@ -185,7 +185,7 @@ class ElementalMenus {
 						echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'role' );
 
 					?>
-				<a href="my-account/?ihc_ap_menu=profile" class="elemental-host-link"><?php echo \esc_html__( 'Account Settings', 'elementalplugin' ); ?></a>
+				<a href="/my-account/?ihc_ap_menu=profile" class="elemental-host-link"><?php echo \esc_html__( 'Account Settings', 'elementalplugin' ); ?></a>
 					<?php
 				}
 				?>
