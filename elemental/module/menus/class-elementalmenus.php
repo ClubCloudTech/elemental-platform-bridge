@@ -185,7 +185,7 @@ class ElementalMenus {
 						echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'role' );
 
 					?>
-				<a href="/control/account-settings/ihc/?ihc_ap_menu=profile" class="elemental-host-link"><?php echo \esc_html__( 'Account Settings', 'elementalplugin' ); ?></a>
+				<a href="my-account/?ihc_ap_menu=profile" class="elemental-host-link"><?php echo \esc_html__( 'Account Settings', 'elementalplugin' ); ?></a>
 					<?php
 				}
 				?>
@@ -193,7 +193,9 @@ class ElementalMenus {
 
 				<?php
 				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'login' );?>
+				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'login' );
+				?>
+
 			</div>
 		</div>
 

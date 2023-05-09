@@ -185,6 +185,10 @@ class LoginHandler {
 			$nonce   = \wp_create_nonce( 'logout' );
 			$url     = get_site_url() . '/login?action=logout&nonce=' . $nonce;
 			$output .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Sign Out', 'elementalplugin' ) . '</a>';
+			if ( \current_user_can( 'administrator' ) ) {
+				$url     = get_site_url() . '/wp-admin';
+				$output .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Admin Site', 'elementalplugin' ) . '</a>';
+			}
 		} else {
 			// Redirect- non-logged in users looking at profiles.
 			if ( \function_exists( 'bp_displayed_user_id' ) && bp_displayed_user_id() ) {
