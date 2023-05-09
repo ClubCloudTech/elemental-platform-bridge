@@ -521,4 +521,120 @@ class MembershipUser {
 		}
 		return $the_last_login;
 	}
+	/**
+	 * Make a User Home Folder on user creation
+	 *
+	 * @param string $user_login - The WP user login.
+	 *
+	 * @return string
+	 */
+	public function get_user_upload_directory( string $user_login ): string {
+			$upload_dir = wp_upload_dir();
+			$user_dir   = $upload_dir['basedir'] . '/user_dirs/' . $user_login;
+			return $user_dir;
+	}
+
+
+	/**
+	 * Make a User Home Folder on user creation
+	 *
+	 * @param int $user_id - The User id passed in.
+	 *
+	 * @return void
+	 */
+	public function create_user_dir( $user_id ) {
+		$user_info = get_userdata( $user_id );
+		// Only create if user folder does not exist.
+		if ( ! $this->check_user_dir_exists( $user_info->user_login ) ) {
+			$user_dir = get_user_upload_directory( $user_info->user_login );
+			wp_mkdir_p( $user_dir );
+		}
+	}
+
+	/**
+	 * Make a User Home Folder on user creation
+	 *
+	 * @param $user_login - The User id passed in.
+	 *
+	 * @return bool
+	 */
+	public function check_user_dir_exists( $user_login ): bool {
+		$user_info = \get_user_by( 'login', $user_login );
+		$user_dir  = get_user_upload_directory( $user_info->user_login );
+		return is_dir( $user_dir );
+	}
+
+	/**
+	 * Make a User Home Folder on user creation
+	 *
+	 * @param $user_login - The User id passed in.
+	 *
+	 * @return void
+	 */
+	public function check_then_create_user_dir( $user_login ) {
+		if ( ! $this->check_user_dir_exists( $user_login ) ) {
+			$user_info = \get_user_by( 'login', $user_login );
+			$this->create_user_dir( $user_info->id );
+		}
+	}
+
+	public function get_file_list( $dir ) {
+		// array to hold return value
+		$retval = array();
+
+		// add trailing slash if missing
+		if ( substr( $dir, -1 ) !== '/' ) {
+			$dir .= '/';
+		}
+
+		// open pointer to directory and read list of files
+		$d = @dir( $dir ) || die( "getFileList: Failed opening directory {$dir} for reading" );
+
+		while ( false !== ( $entry = $d->read() ) ) {
+
+			// skip hidden files
+			if ( '.' === $entry[0] ) {
+				continue;
+			}
+
+			if ( is_dir( "{$dir}{$entry}" ) ) {
+				$retval[] = array(
+					'name'    => "{$dir}{$entry}/",
+					'type'    => filetype( "{$dir}{$entry}" ),
+					'size'    => 0,
+					'lastmod' => filemtime( "{$dir}{$entry}" ),
+				);
+			} elseif ( is_readable( "{$dir}{$entry}" ) ) {
+				$retval[] = array(
+					'name'    => "{$dir}{$entry}",
+					'type'    => mime_content_type( "{$dir}{$entry}" ),
+					'size'    => filesize( "{$dir}{$entry}" ),
+					'lastmod' => filemtime( "{$dir}{$entry}" ),
+				);
+			}
+		} // for each file
+
+		$d->close();
+
+		return $retval;
+	}
+
+		/**
+	 * Render Membership Config Page
+	 * Renders configuration of Membership Management Plugin
+	 */
+	public function render_user_file_page( int $user_id = null ): string {
+		if ( $user_id ) {
+			$user_object = get_user_by( 'id', $$user_id );
+		} elseif ( \is_user_logged_in() ) {
+			$user_object = wp_get_current_user();
+		} else {
+			return 'No User Logged in';
+		}
+		$dir       = $this->get_user_upload_directory( $user_object->user_login );
+		$file_list = $this->get_file_list( $dir );
+		return ( include __DIR__ . '/../views/files/table-file-views.php' )( $file_list );
+
+	}
+
 }
