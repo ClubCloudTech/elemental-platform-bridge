@@ -8,8 +8,6 @@
 namespace ElementalPlugin\Module\Files\Library;
 
 use ElementalPlugin\Library\Factory;
-use ElementalPlugin\Library\UserHelpers;
-use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\Files\DAO\FileSyncDao;
 use ElementalPlugin\Module\Files\Files;
 
@@ -128,12 +126,7 @@ class FileManagement {
 	 * @return string
 	 */
 	public function render_user_file_page(): string {
-		\wp_enqueue_style(
-			'elemental-admin-css',
-			\plugins_url( '/../../../assets/css/admin.css', __FILE__ ),
-			false,
-			Factory::get_instance( Version::class )->get_plugin_version(),
-		);
+		\wp_enqueue_style( 'elemental-admin-css' );
 
 		if ( \is_user_logged_in() ) {
 			$user_object = wp_get_current_user();
@@ -153,9 +146,12 @@ class FileManagement {
 	 * @return string - Welcome Picture Page.
 	 */
 	public function render_picture_page(): string {
-
+		wp_enqueue_script( 'elemental-webcam-stream-js' );
+		wp_enqueue_style( 'elemental-admin-css' );
 		wp_enqueue_script( 'elemental-protect-username' );
-		$user_session     = Factory::get_instance( UserHelpers::class )->get_user_session();
+		wp_enqueue_style( 'elemental-template' );
+		wp_enqueue_style( 'dashicons' );
+		$user_session     = get_current_user_id();
 		$application_name = Files::APPLICATION_NAME;
 		$user_info        = Factory::get_instance( FileSyncDao::class )->get_by_id_sync_table( $user_session, $application_name );
 

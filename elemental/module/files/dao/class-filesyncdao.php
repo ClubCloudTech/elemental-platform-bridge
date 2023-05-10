@@ -160,7 +160,7 @@ class FileSyncDao {
 	 */
 	public function create_new_user_storage_record( string $user_id = null ): ?FileSync {
 		if ( ! $user_id ) {
-			$user_id = $this->get_user_session();
+			$user_id = \get_current_user_id();
 		}
 		$application_name = Files::APPLICATION_NAME;
 		$current_object   = new FileSync(
@@ -303,29 +303,4 @@ class FileSyncDao {
 
 		return $filesyncobj;
 	}
-	/**
-	 * Get Session ID for Signed Out Users.
-	 *
-	 * @param ?int $user_id The user id. (optional).
-	 *
-	 * @return string the session ID of the user.
-	 */
-	public function get_user_session( int $user_id = null ): string {
-
-		if ( $user_id ) {
-			return wp_hash( $user_id );
-
-		} elseif ( is_user_logged_in() ) {
-
-			return wp_hash( get_current_user_id() );
-		} else {
-
-			// Get php session hash.
-			if ( ! session_id() ) {
-				session_start();
-			}
-			return session_id();
-		}
-	}
-
 }

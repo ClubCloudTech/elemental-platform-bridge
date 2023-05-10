@@ -69,6 +69,20 @@ class Plugin {
 		);
 		\wp_enqueue_style( 'elemental' );
 
+		\wp_register_style(
+			'elemental-admin-css',
+			plugins_url( '../assets/css/admin.css', __FILE__ ),
+			false,
+			$plugin_version,
+		);
+
+		wp_register_style(
+			'elemental-template',
+			plugins_url( '../assets/css/template.css', __FILE__ ),
+			false,
+			$plugin_version
+		);
+
 		// Frontend NonMobile Style.
 
 		\add_action(
