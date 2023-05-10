@@ -630,7 +630,7 @@ class MembershipUser {
 			false,
 			Factory::get_instance( Version::class )->get_plugin_version(),
 		);
-		
+	
 		if ( \is_user_logged_in() ) {
 			$user_object = wp_get_current_user();
 		} else {
