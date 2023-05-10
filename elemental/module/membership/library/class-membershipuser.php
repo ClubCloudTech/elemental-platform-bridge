@@ -619,7 +619,7 @@ class MembershipUser {
 		return $retval;
 	}
 
-		/**
+	/**
 	 * Render Membership Config Page
 	 * Renders configuration of Membership Management Plugin
 	 */
