@@ -14,36 +14,31 @@
  * @return string
  */
 return function (
-	object $dir_list
+	array $dir_list
 ): string {
 	ob_start();
 	?>
-<h1>Display PNG images in a TABLE</h1>
-
-<table class="collapse" border="1">
+<table class="collapse wp-list-table widefat plugins elemental-table-adjust" style = "background : #d8d8d8; border: 4px solid black;">
 	<thead>
-		<tr>
+		<tr style= "border-bottom: 3px solid black;">
 			<th></th>
-			<th>Name</th>
-			<th>Type</th>
-			<th>Size</th>
-			<th>Last Modified</th>
+			<th><h1>Name</h1></th>
+			<th><h1>Type</h1></th>
+			<th><h1>Size</h1></th>
+			<th><h1>Last Modified</h1></th>
 		</tr>
 	</thead>
 	<tbody>
 		<?PHP
-
 		foreach ( $dir_list as $file ) {
-			if ( ! preg_match( '/\.png$/', $file['name'] ) ) {
-				continue;
-			}
-			echo "<tr>\n";
-			echo "<td><img src=\"{$file['name']}\" width=\"64\" alt=\"\"></td>\n";
-			echo "<td>{$file['name']}</td>\n";
-			echo "<td>{$file['type']}</td>\n";
-			echo "<td>{$file['size']}</td>\n";
-			echo '<td>',date( 'r', $file['lastmod'] ),"</td>\n";
-			echo "</tr>\n";
+
+			echo '<td style="max-width=25%;"><a href="' . esc_url( $file['url'] ) . '">' . $file['icon'] . '<img src="' . esc_url( $file['url'] ) . '" width="90" alt=""></a></td>';
+			echo '<td><a href="' . esc_url( $file['url'] ) . '">' . esc_attr( $file['name'] ) . '</a> </td>';
+			echo "<td>{$file["type"]}</td>";
+			echo "<td>{$file["size"]}</td>";
+			echo '<td>',date( 'r', $file["lastmod"] ),"</td>";
+			echo "</tr><br>";
+			
 		}
 		?>
 	</tbody>
