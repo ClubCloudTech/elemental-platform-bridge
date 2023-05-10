@@ -28,7 +28,6 @@ class Membership {
 	const TABLE_NAME_MEMBERSYNC                    = 'elemental_membersync';
 	const SHORTCODE_SPONSORED_BY_PARENT            = 'elemental_membership';
 	const SHORTCODE_ALL_SPONSORED                  = 'elemental_all_sponsored_users';
-	const SHORTCODE_USER_FILES                     = 'elemental_all_user_files';
 	const ACCOUNT_TENANT_ADMIN_SHORTCODE           = 'elemental_tenant_admin';
 	const ACCOUNT_ADMIN_SHORTCODE                  = 'elemental_account_admin';
 	const ACCOUNT_SPONSORED_ADMIN_SHORTCODE        = 'elemental_sponsored_admin';
@@ -46,10 +45,6 @@ class Membership {
 	 */
 	public function init() {
 		Factory::get_instance( LoginHandler::class )->init();
-
-		// Add User Folder Creation.
-		add_action( 'user_register', array( Factory::get_instance( MembershipUser::class ), 'create_user_dir' ) );
-		add_action( 'wp_login', array( Factory::get_instance( MembershipUser::class ), 'check_then_create_user_dir' ) );
 
 		// Setup Ajax.
 		\add_action( 'wp_ajax_elemental_membershipadmin_ajax', array( Factory::get_instance( MembershipAjax::class ), 'membership_ajax_handler' ), 10, 2 );
@@ -110,8 +105,6 @@ class Membership {
 		add_shortcode( self::ACCOUNT_TENANT_ADMIN_SHORTCODE, array( Factory::get_instance( MembershipShortCode::class ), 'render_tenant_admin_account_shortcode' ) );
 		add_shortcode( self::ACCOUNT_ADMIN_SHORTCODE, array( Factory::get_instance( AccountShortcode::class ), 'render_account_shortcode' ) );
 		add_shortcode( self::ACCOUNT_SPONSORED_ADMIN_SHORTCODE, array( Factory::get_instance( MembershipShortCode::class ), 'render_sponsored_account_shortcode' ) );
-		add_shortcode( self::SHORTCODE_USER_FILES, array( Factory::get_instance( MembershipUser::class ), 'render_user_file_page' ) );
-
 	}
 	/**
 	 * Activate Functions for Membership.

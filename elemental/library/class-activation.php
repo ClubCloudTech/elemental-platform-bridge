@@ -11,6 +11,7 @@ namespace ElementalPlugin\Library;
 
 use ElementalPlugin\DAO\TokenDAO;
 use ElementalPlugin\DAO\UserPreferenceDAO;
+use ElementalPlugin\Module\Files\Files;
 use ElementalPlugin\Module\Membership\Membership;
 use ElementalPlugin\Module\Sandbox\Sandbox;
 use ElementalPlugin\Module\WCFM\WCFM;
@@ -27,6 +28,7 @@ class Activation {
 		Factory::get_instance( Membership::class )->activate();
 		Factory::get_instance( WCFM::class )->activate();
 		Factory::get_instance( Sandbox::class )->activate();
+		Factory::get_instance( Files::class )->activate();
 		self::install_main_plugin_tables();
 	}
 

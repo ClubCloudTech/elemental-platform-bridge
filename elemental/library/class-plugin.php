@@ -21,7 +21,7 @@ use ElementalPlugin\Module\Search\Search;
 use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\Module\WCFM\WCFM;
 use ElementalPlugin\Library\Admin;
-use ElementalPlugin\Module\Pagemanage\Pagemanage;
+use ElementalPlugin\Module\Files\Files;
 
 /**
  * Class Plugin
@@ -46,6 +46,7 @@ class Plugin {
 		Factory::get_instance( ElementalBP::class )->init();
 		Factory::get_instance( ElementalMenus::class )->init();
 		Factory::get_instance( Sandbox::class )->init();
+		Factory::get_instance( Files::class )->init();
 		$this->styles();
 		add_filter( 'xmlrpc_enabled', '__return_false' );
 
