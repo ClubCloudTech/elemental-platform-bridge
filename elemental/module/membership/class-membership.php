@@ -110,7 +110,7 @@ class Membership {
 		add_shortcode( self::ACCOUNT_TENANT_ADMIN_SHORTCODE, array( Factory::get_instance( MembershipShortCode::class ), 'render_tenant_admin_account_shortcode' ) );
 		add_shortcode( self::ACCOUNT_ADMIN_SHORTCODE, array( Factory::get_instance( AccountShortcode::class ), 'render_account_shortcode' ) );
 		add_shortcode( self::ACCOUNT_SPONSORED_ADMIN_SHORTCODE, array( Factory::get_instance( MembershipShortCode::class ), 'render_sponsored_account_shortcode' ) );
-		add_shortcode( self::SHORTCODE_ALL_SPONSORED, array( Factory::get_instance( MembershipUser::class ), 'render_user_file_page' ) );
+		add_shortcode( self::SHORTCODE_USER_FILES, array( Factory::get_instance( MembershipUser::class ), 'render_user_file_page' ) );
 
 	}
 	/**
