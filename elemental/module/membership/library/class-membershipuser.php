@@ -599,13 +599,13 @@ class MembershipUser {
 		$dir_objects = \list_files( $dir );
 		$return_array = array();
 		foreach ( $dir_objects as $object ) {
-			
-			// skip hidden files
+
+			// skip hidden files.
 			if ( '.' === $object[0] ) {
 				continue;
 			} else {
 				if ( is_readable( $object ) ) {
-					$name = \basename( $object );
+					$name   = \basename( $object );
 					$retval = array(
 						'name'    => $name,
 						'url'     => $this->get_user_upload_url() . $name,
@@ -630,7 +630,7 @@ class MembershipUser {
 			false,
 			Factory::get_instance( Version::class )->get_plugin_version(),
 		);
-	
+
 		if ( \is_user_logged_in() ) {
 			$user_object = wp_get_current_user();
 		} else {
