@@ -391,7 +391,7 @@ window.addEventListener(
 						account_window = $( '#elemental-membership-table' ),
 						type           = $( '#user-add-form' ).attr('data-type'),
 						counter_window = $( '#elemental-remaining-counter' );
-console.log(user_id + 'userID');
+
 					form_data.append( 'action', 'elemental_membershipadmin_ajax' );
 					if (final) {
 						form_data.append( 'action_taken', 'delete_final' );

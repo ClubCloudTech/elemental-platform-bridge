@@ -2,14 +2,39 @@ window.addEventListener("load", function() {
 
     function init() {
         jQuery(function($) {
-            //Initialise Reception.
-            let item = document.querySelector("#Reset_app__30V6t > form > input[type=submit]");
-            if (item) {
-                item.click();
-            }
 
+            $( '.elemental-delete-file' ).click(
+                function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var usrcheck = $( this ).attr( 'data-usrcheck' ),
+                    file_check = $( this ).attr( 'data-filecheck' ),
+                        nonce   = $( this ).attr( 'data-nonce' );
+                    deleteFile( e, usrcheck, file_check, nonce );
+                }
+            );
+            //TODO finish confirmation.
+            $( '.elemental-main-button-enabled' ).click(
+                function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    user_id = $( '#elemental-welcome-page' ).attr( 'data-checksum' );
+                    nonce   = $( this ).attr( 'data-auth-nonce' );
+                    input   = $( this ).attr( 'data-input-type' );
+                    deleteFile( e, user_id, input, nonce, true );
+                }
+            );
 
-            var loginActive = document.getElementsByClassName('elemental-login-form');
+            $( '#elemental-main-button-cancel' ).click(
+                function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    //$( '#elemental-membership-table' ).show();
+                    $( '#elemental-top-notification' ).empty();
+                }
+            );
+
+            
             /* Initialise Camera, and Listen to Buttons */
             $('#vid-picture').click(function(e) {
                 document.getElementById("vid-picture").classList.add('elemental-hide');
@@ -168,7 +193,7 @@ window.addEventListener("load", function() {
             var form_data = new FormData(),
             checksum = $('#elemental-welcome-page').data('checksum');
             $.each(file, function(key, value) {
-                form_data.append("upimage", value);
+                form_data.append("upfile", value);
             });
             form_data.append('checksum', checksum );
             form_data.append('action', 'elemental_base_ajax');
@@ -200,6 +225,59 @@ window.addEventListener("load", function() {
             refreshWelcome();
         });
 
+    }
+
+    /**
+     * Delete User (used in main form)
+     */
+    var deleteFile = function(event, user_id, filecheck, nonce, final) {
+    jQuery(function($) {
+        event.stopPropagation();
+        var form_data      = new FormData();
+        var notification   = $('#elemental-top-notification' ),
+            type           = $( '#user-add-form' ).attr('data-type');
+
+            form_data.append( 'action', 'elemental_base_ajax' );
+        if (final) {
+            form_data.append( 'action_taken', 'delete_file_final' );
+        } else {
+            form_data.append( 'action_taken', 'delete_file' );
+        }
+        
+        form_data.append( 'userid', user_id );
+        form_data.append( 'filecheck', filecheck );
+        form_data.append( 'nonce', nonce );
+        form_data.append( 'type', type );
+        form_data.append( 'security', elemental_base_ajax.security );
+        $.ajax(
+            {
+                type: 'post',
+                dataType: 'html',
+                url: elemental_base_ajax.ajax_url,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                success: function(response) {
+                    var state_response = JSON.parse( response );
+
+                    if (state_response.confirmation) {
+                        notification.html( state_response.confirmation );
+                    }
+                    if (state_response.feedback) {
+                        console.log( state_response.feedback );
+                    }
+
+                    if (state_response.table) {
+                        refreshWelcome();
+                    }
+                    init();
+                },
+                error: function(response) {
+                    console.log( 'Error in server' );
+                }
+            }
+        );
+    });
     }
 
     function skipwindow() {

@@ -7,10 +7,13 @@
 
 namespace ElementalPlugin\Module\Files\Library;
 
+use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Files\DAO\FileSyncDao;
 use ElementalPlugin\Module\Files\Files;
+use ElementalPlugin\Module\Membership\Library\MembershipShortCode;
+
 use Error;
 
 /**
@@ -18,7 +21,9 @@ use Error;
  */
 class FileAjax {
 
-	const DELETE_APPROVED = 'delete-approved';
+	const DELETE_APPROVED      = 'delete-approved';
+	const DELETE_FILE_REQUEST  = 'delete-request';
+	const DELETE_FILE_APPROVED = 'delete-approved';
 
 
 	/** File Upload Ajax Support.
@@ -29,24 +34,20 @@ class FileAjax {
 	public function file_upload_handler() {
 		$temp_name           = null;
 		$response            = array();
-		$response['message'] = 'No Change';
 
 		// Security Checks.
 		check_ajax_referer( Files::AJAX_FILE_NONCE, 'security', false );
-		$user_id = get_current_user_id();
-
-		if ( isset( $_POST['room_name'] ) ) {
-			$application_name = sanitize_text_field( wp_unslash( $_POST['room_name'] ) );
-		}
-		if ( isset( $_POST['action_taken'] ) ) {
-			$action_taken = sanitize_text_field( wp_unslash( $_POST['action_taken'] ) );
-		}
-		if ( isset( $_POST['display_name'] ) ) {
-			$display_name = sanitize_text_field( wp_unslash( $_POST['display_name'] ) );
-		}
-		if ( isset( $_POST['checksum'] ) ) {
-			$checksum = sanitize_text_field( wp_unslash( $_POST['checksum'] ) );
-			$user_id  = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
+		$action_taken = Factory::get_instance( Ajax::class )->get_string_parameter( 'action_taken' );
+		$nonce        = Factory::get_instance( Ajax::class )->get_string_parameter( 'nonce' );
+		$checksum     = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
+		$filecheck    = Factory::get_instance( Ajax::class )->get_string_parameter( 'filecheck' );
+		$user_check   = Factory::get_instance( Ajax::class )->get_string_parameter( 'userid' );
+		if ( $checksum ) {
+			$user_id = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
+		} elseif ( $user_check ) {
+			$user_id = Factory::get_instance( Encryption::class )->decrypt_string( $user_check );
+		} else {
+			$user_id = get_current_user_id();
 		}
 
 		/*
@@ -131,62 +132,82 @@ class FileAjax {
 		}
 
 		/*
-		* Update Picture Section.
+		* Upload a File Picture Section.
 		*
 		*/
 		if ( 'update_file' === $action_taken ) {
 
 			// File Upload Section.
 			if ( isset( $_FILES['upfile']['type'] ) && isset( $_FILES['upfile']['tmp_name'] ) ) {
-				$temp_name = sanitize_file_name( wp_unslash( $_FILES['upfile']['tmp_name'] ) );
+				$file_name = sanitize_file_name( wp_unslash( $_FILES['upfile']['tmp_name'] ) );
 			}
-//TODO -- iiz here   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// Filter files here.
-			$arr_img_ext = array();
+			$arr_img_ext = array( 'image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'text/plain', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' );
 
 			if ( isset( $_FILES['upfile']['type'] ) && ! in_array( $_FILES['upfile']['type'], $arr_img_ext, true ) ) {
-				$response['feedback'] = esc_html__( 'Incorrect Attachment Type Sent', 'elementalplugin' );
+				$response['message'] = esc_html__( 'Incorrect Attachment Type Sent', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
-			$session = 'tmp-' . $user_id . wp_rand( 200, 20000 ) . '.png';
 
-			// Delete Existing File in Uploads directory if exists.
-			$delete_path = $this->get_current_picture_path( $user_id );
-
-			if ( $delete_path ) {
-				$delete = \wp_delete_file( $delete_path );
-			}
-
-			if ( $temp_name ) {
+			if ( $file_name ) {
 				$user_id = \get_current_user_id();
 				//phpcs:ignore -- WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-				$upload = \wp_upload_bits( $session, null, file_get_contents( $_FILES['upfile']['tmp_name'] ) );
-				$return = Factory::get_instance( FileManagement::class )->user_picture_name_update( $upload['file'], $upload['url'] );
-				\do_action( 'elemental_avatar_update', $user_id, $upload['url'], $upload['file'] );
+				$source      = $_FILES['upfile']['tmp_name'];
+				$uploads_dir = Factory::get_instance( FileManagement::class )->get_user_upload_folder();
+				$destination = trailingslashit( $uploads_dir ) . $_FILES['upfile']['name'];
+				//$destination = trailingslashit( $uploads_dir ) . $_FILES['upfile']['name'];
+				$upload = move_uploaded_file( $source, $destination );
 
-				if ( $return ) {
-					$response['feedback'] = esc_html__( 'Picture Update Success', 'elementalplugin' );
+				\do_action( 'elemental_file_upload', $user_id, $destination . $_FILES['upfile']['name'], $_FILES['upfile']['name'] );
+
+				if ( $upload ) {
+					$response['feedback'] = esc_html__( 'File Upload Success', 'elementalplugin' );
 				} else {
-					$response['feedback'] = esc_html__( 'Picture Update Failed', 'elementalplugin' );
+					$response['feedback'] = esc_html__( 'File Upload Failed', 'elementalplugin' );
 				}
 			}
+		}
+			/*
+			* Delete File.
+			*
+			*/
+		if ( 'delete_file' === $action_taken ) {
+			$verify = \wp_verify_nonce( $nonce, self::DELETE_FILE_REQUEST . strval( $user_id ) );
+			if ( ! $verify ) {
+				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received - First Step', 'elementalplugin' );
+				return \wp_send_json( $response );
+			}
+
+			$message                  = \esc_html__( 'delete this file ? This operation can not be undone', 'elementalplugin' );
+			$approved_nonce           = wp_create_nonce( $user_id . self::DELETE_FILE_APPROVED );
+			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( $filecheck, esc_html__( 'Delete File', 'elementalplugin' ), null, $approved_nonce, $user_id );
+			$response['confirmation'] = Factory::get_instance( MembershipShortCode::class )->membership_confirmation( $message, $button_approved );
+
 			return \wp_send_json( $response );
 		}
 
-		/*
-		* Update Display Name section.
-		*
-		*/
-		if ( 'update_display_name' === $action_taken ) {
-			if ( $display_name && $application_name ) {
-				$display_updated = Factory::get_instance( FileManagement::class )->user_picture_name_update( null, null, $display_name );
+		if ( 'delete_file_final' === $action_taken ) {
+			$verify = \wp_verify_nonce( $nonce, $user_id . self::DELETE_FILE_APPROVED );
+
+			if ( ! $verify ) {
+				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'elementalplugin' );
+				return \wp_send_json( $response );
+			}
+			// Decode File Path.
+			$path = Factory::get_instance( Encryption::class )->decrypt_string( $filecheck );
+
+			// Delete File.
+			if ( $path ) {
+				$status = Factory::get_instance( FileManagement::class )->delete_file_if_exists( $path );
+			}
+			if ( $status ) {
+				$response['feedback']     = \esc_html__( 'File Deleted', 'elementalplugin' );
+				$response['confirmation'] = '<h1>' . \esc_html__( 'File Deleted', 'elementalplugin' ) . '</h1>';
+				$response['table']        = '<h1>' . \esc_html__( 'File Deleted', 'elementalplugin' ) . '</h1>';
+			} else {
+				$response['feedback'] = \esc_html__( 'Error Deleting File', 'elementalplugin' );
 			}
 
-			if ( true === $display_updated ) {
-				$response['feedback'] = \esc_html__( 'Display Name Update Updated', 'elementalplugin' );
-			} else {
-				$response['feedback'] = \esc_html__( 'Display Name Update Failed', 'elementalplugin' );
-			}
 			return \wp_send_json( $response );
 		}
 

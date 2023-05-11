@@ -45,6 +45,20 @@ class FileManagement {
 		return $site_url;
 	}
 
+	/**
+	 * Make a User Home Folder on user creation
+	 *
+	 * @param string $user_login - The WP user login.
+	 *
+	 * @return string
+	 */
+	public function get_user_upload_folder(): string {
+		$user_info = \wp_get_current_user();
+		$site_path = \ABSPATH . 'wp-content/uploads/user_dirs/' . $user_info->user_login . '/';
+
+		return $site_path;
+	}
+
 
 	/**
 	 * Make a User Home Folder on user creation
@@ -109,17 +123,35 @@ class FileManagement {
 				if ( is_readable( $object ) ) {
 					$name   = \basename( $object );
 					$retval = array(
-						'name'    => $name,
-						'url'     => $this->get_user_upload_url() . $name,
-						'type'    => mime_content_type( $object ),
-						'size'    => filesize( $object ),
-						'lastmod' => filemtime( $object ),
+						'name'              => $name,
+						'url'               => $this->get_user_upload_url() . $name,
+						'path'              => Factory::get_instance( Encryption::class )->encrypt_string( $this->get_user_upload_folder() . $name ),
+						'type'              => mime_content_type( $object ),
+						'user_id_encrypted' => Factory::get_instance( Encryption::class )->encrypt_string( strval( get_current_user_id() ) ),
+						'size'              => round( filesize( $object ) / 1024, 1 ) . 'KB',
+						'lastmod'           => filemtime( $object ),
 					);
 					array_push( $return_array, $retval );
+
 				}
 			}
 		}
 		return $return_array;
+	}
+	/**
+	 * Delete a File if Exists
+	 *
+	 * @param string $filename - The fully qualified path to delete file from.
+	 *
+	 * @return bool
+	 */
+	public function delete_file_if_exists( string $filename ): bool {
+		if ( file_exists( $filename ) ) {
+			$status = unlink( $filename );
+			return $status;
+		} else {
+			return false;
+		}
 	}
 	/**
 	 * Render Membership Config Page
@@ -133,7 +165,10 @@ class FileManagement {
 		wp_enqueue_script( 'elemental-protect-username' );
 		wp_enqueue_style( 'elemental-template' );
 		wp_enqueue_style( 'dashicons' );
-		$encrypted_user_id = Factory::get_instance( Encryption::class )->encrypt_string( \strval( \get_current_user_id() ) );
+
+		$user_id           = \get_current_user_id();
+		$encrypted_user_id = Factory::get_instance( Encryption::class )->encrypt_string( \strval( $user_id ) );
+		$nonce             = \wp_create_nonce( FileAjax::DELETE_FILE_REQUEST . strval( $user_id ) );
 		if ( \is_user_logged_in() ) {
 			$user_object = wp_get_current_user();
 		} else {
@@ -142,7 +177,7 @@ class FileManagement {
 		$dir       = $this->get_user_upload_directory( $user_object->user_login );
 		$file_list = $this->get_file_list( $dir );
 
-		return ( include __DIR__ . '/../views/files/table-file-views.php' )( $file_list, $encrypted_user_id );
+		return ( include __DIR__ . '/../views/files/table-file-views.php' )( $file_list, $encrypted_user_id, $nonce );
 
 	}
 
@@ -223,6 +258,4 @@ class FileManagement {
 			return false;
 		}
 	}
-
-
 }

@@ -17,7 +17,6 @@
 
 return function (
 	string $add_account_form,
-	// string $accounts_remaining = null,
 	string $child_account_table,
 	string $login_form = null
 ): string {

@@ -166,7 +166,7 @@ class MembershipAjax {
 		if ( 'delete_final' === $action_taken ) {
 			$verify             = \wp_verify_nonce( $nonce, $user_id . 'approved' );
 			$verify_admin_nonce = \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE );
-			\error_log( $nonce . 'uid');
+
 			if ( ! $verify && ! $verify_admin_nonce ) {
 				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'elementalplugin' );
 				return \wp_send_json( $response );
