@@ -111,7 +111,7 @@ class FileSync {
 				$data->user_picture_path,
 			);
 		}
-
+		
 		return null;
 	}
 

@@ -22,7 +22,7 @@ class FileSyncDao {
 	 *
 	 * @return string
 	 */
-	private function get_room_presence_table_name(): string {
+	private function get_db_table_name(): string {
 		global $wpdb;
 
 		return $wpdb->prefix . self::TABLE_NAME_FILE_SYNC;
@@ -49,7 +49,7 @@ class FileSyncDao {
 	private function repair_update_database( string $db_error_message = null ): bool {
 
 		// Case Table Delete.
-		$table_message = $this->get_room_presence_table_name() . '\' doesn\'t exist';
+		$table_message = $this->get_db_table_name() . '\' doesn\'t exist';
 		if ( strpos( $db_error_message, $table_message ) !== false ) {
 			// Recreate Table.
 			$this->install_room_presence_table();
@@ -65,7 +65,7 @@ class FileSyncDao {
 	public function install_room_presence_table(): bool {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-		$table_name = $wpdb->prefix . $this->get_room_presence_table_name();
+		$table_name = $wpdb->prefix . $this->get_db_table_name();
 
 		$sql_create = 'CREATE TABLE IF NOT EXISTS `' . $table_name . '` (
 			`record_id` int NOT NULL AUTO_INCREMENT,
@@ -100,11 +100,10 @@ class FileSyncDao {
 		);
 
 		$result = \wp_cache_get( $cache_key, __METHOD__ );
-
+		
 		if ( $result ) {
 			return FileSync::from_json( $result );
 		}
-
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
 		$row = $wpdb->get_row(
 			$wpdb->prepare(
@@ -118,7 +117,7 @@ class FileSyncDao {
 				   user_display_name,
 				   user_picture_path
 				   
-				FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_room_presence_table_name() . '
+				FROM ' . /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */ $this->get_db_table_name() . '
 				WHERE user_id = %s AND application_name = %s;
 			',
 				array(
@@ -133,7 +132,6 @@ class FileSyncDao {
 		}
 
 		$result = null;
-
 		if ( $row ) {
 			$result = new FileSync(
 				$row->user_id,
@@ -209,7 +207,7 @@ class FileSyncDao {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$wpdb->insert(
-			$this->get_room_presence_table_name(),
+			$this->get_db_table_name(),
 			array(
 				'user_id'           => $filesyncobj->get_user_id(),
 				'application_name'  => $filesyncobj->get_application_name(),
@@ -264,7 +262,7 @@ class FileSyncDao {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->update(
-			$this->get_room_presence_table_name(),
+			$this->get_db_table_name(),
 			array(
 				'user_id'           => $filesyncobj->get_user_id(),
 				'application_name'  => $filesyncobj->get_application_name(),
@@ -302,5 +300,44 @@ class FileSyncDao {
 		);
 
 		return $filesyncobj;
+	}
+	/**
+	 * Delete a Picture Singular from the database
+	 *
+	 * @param FileSync $filesyncobj The Object to delete.
+	 *
+	 * @return null
+	 * @throws \Exception When failing to delete.
+	 */
+	public function delete( FileSync $filesyncobj ) {
+		global $wpdb;
+
+		$cache_key = $this->create_cache_key(
+			$filesyncobj->get_user_id(),
+			$filesyncobj->get_application_name()
+		);
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$wpdb->delete(
+			$this->get_db_table_name(),
+			array(
+				'user_id'          => $filesyncobj->get_user_id(),
+				'application_name' => $filesyncobj->get_application_name(),
+			)
+		);
+
+		\wp_cache_delete( $cache_key, implode( '::', array( __CLASS__, 'get_by_id_sync_table' ) ) );
+		\wp_cache_delete(
+			$filesyncobj->get_user_id(),
+			implode(
+				'::',
+				array(
+					__CLASS__,
+					'get_by_cart_id',
+				)
+			)
+		);
+
+		return null;
 	}
 }

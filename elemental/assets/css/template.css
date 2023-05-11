@@ -1,18 +1,18 @@
-.mvr-icons-enabled,
-.mvr-icons-disabled {
+.elemental-icons-enabled,
+.elemental-icons-disabled {
 	font-size: 18px;
 	text-decoration: none;
 }
 
-.mvr-icons-enabled {
+.elemental-icons-enabled {
 	color: green;
 }
 
-.mvr-icons-disabled {
+.elemental-icons-disabled {
 	color: red;
 }
 
-.mvr-template-image {
+.elemental-template-image {
 	color: #fff;
 	display: table;
 	font-size: 0;
@@ -22,7 +22,7 @@
 	z-index: 1;
 }
 
-.mvr-access-image {
+.elemental-access-image {
 	border-radius: 50px;
 	color: #fff;
 	display: block;
@@ -35,7 +35,7 @@
 	z-index: 1;
 }
 
-.mvr-row {
+.elemental-row {
 	border-color: #C6C0AD;
 	border-style: solid;
 	border-width: 1px 1px 1px 1px;
@@ -48,30 +48,30 @@
 
 
 
-.mvr-header-text {
+.elemental-header-text {
 	font-size: 18px;
 	font-weight: 400;
 	text-align: center;
 }
 
-.mvr-header-text:before {
+.elemental-header-text:before {
 	display: none;
 }
 
-.mvr-button-table {
+.elemental-button-table {
 	margin-bottom: 10px;
 	margin-top: 15px;
 
 }
 
-.mvr-template-table {
+.elemental-template-table {
 	text-align: -webkit-center;
 	vertical-align: middle;
 	width: 50%;
 
 }
 
-.mvr-template-text {
+.elemental-template-text {
 	font-size: 14px;
 	font-weight: 400;
 	text-align: -webkit-center;
@@ -79,7 +79,7 @@
 }
 
 
-.mvr-main-button-disabled {
+.elemental-main-button-disabled {
 	background-color: rgb(190, 21, 21);
 	border-radius: 3px;
 	color: rgb(255 255 255) !important;
@@ -92,7 +92,7 @@
 	vertical-align: middle;
 }
 
-.mvr-main-button-notice {
+.elemental-main-button-notice {
 	background-color: rgb(12, 0, 173);
 	border-radius: 3px;
 	color: rgb(255 255 255) !important;
@@ -105,7 +105,7 @@
 	vertical-align: middle;
 }
 
-.mvr-select-box {
+.elemental-select-box {
 	background-color: rgb(253, 253, 253) !important;
 	border: 1px solid #6d6d6d !important;
 	color: rgb(0, 0, 0);
@@ -116,11 +116,11 @@
 	width: 60% !important;
 }
 
-.mvr-hide {
+.elemental-hide {
 	display: none!important;
 }
 
-.mvr-reception-image:hover + .mvr-hide {
+.elemental-reception-image:hover + .elemental-hide {
 	background-color: rgb(253, 253, 253) !important;
 	border: 3px solid #d2d2d2;
 	color: rgb(41, 41, 41);
@@ -132,7 +132,7 @@
 	width: 70% !important;
 }
 
-.mvr-video-template:hover + .mvr-hide {
+.elemental-video-template:hover + .elemental-hide {
 	background-color: rgb(253, 253, 253) !important;
 	border: 3px solid #d2d2d2;
 	color: rgb(41, 41, 41);
@@ -144,7 +144,7 @@
 	width: 70% !important;
 }
 
-.mvr-custom-video:hover + .mvr-hide {
+.elemental-custom-video:hover + .elemental-hide {
 	background-color: rgb(253, 253, 253) !important;
 	border: 3px solid #d2d2d2;
 	color: rgb(41, 41, 41);
