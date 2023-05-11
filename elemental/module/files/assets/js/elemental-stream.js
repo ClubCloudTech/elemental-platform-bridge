@@ -60,9 +60,7 @@ window.addEventListener("load", function() {
                 document.getElementById("elemental-picture").classList.remove('elemental-hide');
                 document.getElementById("vid-picture").classList.remove('elemental-hide');
 
-                if (loginActive.length > 0) {
-                    document.getElementById("elemental-login-form").classList.add('elemental-hide');
-                }
+
                 $('#elemental-picture').slideToggle();
             });
 
