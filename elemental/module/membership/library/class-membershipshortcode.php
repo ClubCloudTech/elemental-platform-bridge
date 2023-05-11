@@ -9,6 +9,7 @@ namespace ElementalPlugin\Module\Membership\Library;
 
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- This parameter is set in upstream code and not in ours. Can't move to snake case.
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\Membership\Membership;
 
 /**
@@ -195,27 +196,28 @@ class MembershipShortCode {
 	 *
 	 * @return void
 	 */
-	private function enqueue_style_scripts() {
-		global $WCFM, $WCFMgs;
-		$css_lib_url       = $WCFM->plugin_url . 'assets/css/';
+	public function enqueue_style_scripts() {
+
+		$css_lib_url       = plugins_url() . 'assets/wc/css/';
+		$version           = Factory::get_instance( Version::class )->get_plugin_version();
 		$upload_dir        = wp_upload_dir();
 		$wcfm_style_custom = get_option( 'wcfm_style_custom' );
 		\wp_enqueue_script( 'elementalplugin-iframe-handler' );
-		wp_enqueue_style( 'wcfm_capability_css', $WCFM->library->css_lib_url . 'capability/wcfm-style-capability.css', false, 1 );
-		wp_enqueue_style( 'collapsible_css', $WCFM->library->css_lib_url . 'wcfm-style-collapsible.css', false, $WCFMgs->version );
-		wp_enqueue_style( 'wcfmgs_staffs_manage_css', $WCFMgs->plugin_url . 'assets/css/wcfmgs-style-staffs-manage.css', false, $WCFMgs->version );
-		wp_enqueue_style( 'wcfm_menu_css', $WCFM->library->css_lib_url_min . 'menu/wcfm-style-menu.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_settings_css', $css_lib_url . 'settings/wcfm-style-settings.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_messages_css', $css_lib_url . 'messages/wcfm-style-messages.css', array(), $WCFM->version );
-		wp_enqueue_style( 'collapsible_css', $css_lib_url . 'wcfm-style-collapsible.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_notice_view_css', $css_lib_url . 'notice/wcfm-style-notice-view.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_dashboard_css', $css_lib_url . 'dashboard/wcfm-style-dashboard.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_dashboard_welcomebox_css', $css_lib_url . 'dashboard/wcfm-style-dashboard-welcomebox.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_template_css', $WCFM->plugin_url . 'templates/classic/template-style.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_no_menu_css', $css_lib_url . 'menu/wcfm-style-no-menu.css', array( 'wcfm_menu_css' ), $WCFM->version );
-		wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'min/menu/wcfm-style-menu.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_products_manage_css', $css_lib_url . 'products-manager/wcfm-style-products-manage.css', array(), $WCFM->version );
-		wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
+		wp_enqueue_style( 'wcfm_capability_css', $css_lib_url . 'capability/wcfm-style-capability.css', false, 1 );
+		wp_enqueue_style( 'collapsible_css', $css_lib_url . 'wcfm-style-collapsible.css', false, $version );
+		wp_enqueue_style( 'wcfmgs_staffs_manage_css', $css_lib_url . 'assets/css/wcfmgs-style-staffs-manage.css', false, $version );
+		wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'menu/wcfm-style-menu.css', array(), $version );
+		wp_enqueue_style( 'wcfm_settings_css', $css_lib_url . 'settings/wcfm-style-settings.css', array(), $version );
+		wp_enqueue_style( 'wcfm_messages_css', $css_lib_url . 'messages/wcfm-style-messages.css', array(), $version );
+		wp_enqueue_style( 'collapsible_css', $css_lib_url . 'wcfm-style-collapsible.css', array(), $version );
+		wp_enqueue_style( 'wcfm_notice_view_css', $css_lib_url . 'notice/wcfm-style-notice-view.css', array(), $version );
+		wp_enqueue_style( 'wcfm_dashboard_css', $css_lib_url . 'dashboard/wcfm-style-dashboard.css', array(), $version );
+		wp_enqueue_style( 'wcfm_dashboard_welcomebox_css', $css_lib_url . 'dashboard/wcfm-style-dashboard-welcomebox.css', array(), $version );
+		wp_enqueue_style( 'wcfm_template_css', $css_lib_url . 'templates/classic/template-style.css', array(), $version );
+		wp_enqueue_style( 'wcfm_no_menu_css', $css_lib_url . 'menu/wcfm-style-no-menu.css', array( 'wcfm_menu_css' ), $version );
+		wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'min/menu/wcfm-style-menu.css', array(), $version );
+		wp_enqueue_style( 'wcfm_products_manage_css', $css_lib_url . 'products-manager/wcfm-style-products-manage.css', array(), $version );
+		wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $version );
 		wp_enqueue_style( 'elementalplugin-menutab-header' );
 
 		\wp_enqueue_script( 'elemental-membership-js' );

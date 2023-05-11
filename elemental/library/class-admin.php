@@ -62,12 +62,7 @@ class Admin {
 				wp_enqueue_style( 'dashicons' );
 			}
 		);
-				\wp_enqueue_style(
-					'elemental-admin-css',
-					\plugins_url( '/../assets/css/admin.css', __FILE__ ),
-					false,
-					Factory::get_instance( Version::class )->get_plugin_version(),
-				);
+		\wp_enqueue_style( 'elemental-admin-css' );
 
 		$tabs = array(
 			'admin-settings-membership' => \esc_html__( 'Membership Settings', 'elementalplugin' ),

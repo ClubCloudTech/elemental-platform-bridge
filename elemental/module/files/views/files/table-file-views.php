@@ -14,10 +14,15 @@
  * @return string
  */
 return function (
-	array $dir_list
+	array $dir_list,
+	string $encrypted_user_id
 ): string {
 	ob_start();
 	?>
+		<div id="elemental-welcome-page" class=" " data-checksum="<?php echo esc_attr( $encrypted_user_id ); ?>">
+		<div id="elemental-top-notification" class="elemental-button-notification">
+		</div>
+	<input type="file" accept=".gif,.jpg,.jpeg,.png" id="elemental-file-input" />
 <table class="collapse wp-list-table widefat plugins elemental-table-adjust" style = "background : #d8d8d8; border: 4px solid black;">
 	<thead>
 		<tr style= "border-bottom: 3px solid black;">
@@ -27,6 +32,7 @@ return function (
 			<th><h1>Size</h1></th>
 			<th><h1>Last Modified</h1></th>
 		</tr>
+		
 	</thead>
 	<tbody>
 		<?PHP

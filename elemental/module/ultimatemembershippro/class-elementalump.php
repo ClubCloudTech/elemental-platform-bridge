@@ -36,6 +36,9 @@ class ElementalUMP {
 		// Option for Sponsored Account Setting.
 		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'update_ump_sponsored_id_settings' ), 10, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'add_ump_sponsored_id_setting' ), 10, 2 );
+
+		\add_action( 'elemental_avatar_update', array( $this, 'update_ump_avatar_hook' ), 10, 2 );
+		\add_action( 'elemental_avatar_delete', array( $this, 'delete_ump_avatar_hook' ), 10, 1 );
 	}
 	/**
 	 * Activate Functions for Membership.
@@ -50,6 +53,21 @@ class ElementalUMP {
 	public function render_ump_membership_page() {
 
 	}
+	/**
+	 * Render Membership Config Page
+	 * Renders configuration of Membership Management Plugin
+	 */
+	public function update_ump_avatar_hook( int $user_id, string $url ):void {
+		update_user_meta( $user_id, 'ihc_avatar', $url );
+	}
+	/**
+	 * Render Membership Config Page
+	 * Renders configuration of Membership Management Plugin
+	 */
+	public function delete_ump_avatar_hook( int $user_id ):void {
+		update_user_meta( $user_id, 'ihc_avatar', '' );
+	}
+
 
 	/**
 	 * AddUMP Staff ID Setting to Plugin Menu

@@ -106,7 +106,7 @@ class MemberSearch {
 	 **/
 	public function elemental_members_shortcode( $atts = array() ) {
 		$youzify_loaded = ! $this->is_youzer_available();
-		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
+		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
 
 		add_filter( 'bp_is_current_component', array( $this, 'elemental_enable_shortcode' ), 10, 2 );
 		add_filter( 'bp_is_directory', '__return_true' );
