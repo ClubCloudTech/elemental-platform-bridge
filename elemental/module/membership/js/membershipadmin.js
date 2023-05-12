@@ -73,9 +73,19 @@ window.addEventListener(
 							e.preventDefault();
 							var user_id = $( this ).attr( 'data-userid' ),
 								nonce   = $( this ).attr( 'data-nonce' );
-							deleteUser( e, user_id, nonce );
+								deleteUser( e, user_id, nonce );
 						}
 					);
+					$( '.elemental-file-manager' ).click(
+						function(e) {
+							e.stopPropagation();
+							e.preventDefault();
+							var user_id = $( this ).attr( 'data-userid' ),
+								nonce   = $( this ).attr( 'data-nonce' );
+								manageFile( e, user_id, nonce );							
+						}
+					);
+					
 
 					$( '#elemental-main-button-cancel' ).click(
 						function(e) {
@@ -132,44 +142,6 @@ window.addEventListener(
 						}
 					);
 				}
-
-				/**
-				 * Update Account Limits on Database by Subscription Level (used in backend admin page)
-				 */
-					var sandboxUpload = function(event) {
-						event.stopPropagation();
-						var level = event.target.dataset.level,
-						field     = event.target.dataset.field,
-						value     = event.target.value,
-						checkbox  = $( '#' + event.target.name + '_' + level ).prop( 'checked' );
-						form_data = new FormData();
-						form_data.append( 'action', 'elemental_membershipadmin_ajax' );
-						form_data.append( 'action_taken', 'update_sandbox' );
-						form_data.append( 'field', field );
-						form_data.append( 'checkbox', checkbox );
-						form_data.append( 'level', level );
-						form_data.append( 'value', value );
-						form_data.append( 'security', elemental_membershipadmin_ajax.security );
-						$.ajax(
-							{
-								type: 'post',
-								dataType: 'html',
-								url: elemental_membershipadmin_ajax.ajax_url,
-								contentType: false,
-								processData: false,
-								data: form_data,
-								success: function(response) {
-									var state_response = JSON.parse( response );
-									console.log( state_response.feedback );
-									$( '#confirmation_' + level ).html( state_response.feedback ).fadeOut( 2000 );
-
-								},
-								error: function(response) {
-									console.log( 'Error Uploading Level' );
-								}
-							}
-						);
-					}
 
 				/**
 				 * Update Account Limits on Database by Subscription Level (used in backend admin page)
@@ -435,6 +407,57 @@ window.addEventListener(
 									init();
 								}
 
+							},
+							error: function(response) {
+								console.log( 'Error in server' );
+							}
+						}
+					);
+				}
+
+				/**
+				 * Delete User (used in main form)
+				 */
+				var manageFile = function(event, user_id, nonce ) {
+					event.stopPropagation();
+					var form_data      = new FormData(),
+						notification   = $( '#elemental-notification-frame' ),
+						account_window = $( '#elemental-membership-table' ),
+						type           = $( '#user-add-form' ).attr('data-type');
+
+					form_data.append( 'action', 'elemental_membershipadmin_ajax' );
+					
+					form_data.append( 'action_taken', 'file_manage_start' );
+					
+					form_data.append( 'userid', user_id );
+					form_data.append( 'nonce', nonce );
+					form_data.append( 'type', type );
+					form_data.append( 'security', elemental_membershipadmin_ajax.security );
+					$.ajax(
+						{
+							type: 'post',
+							dataType: 'html',
+							url: elemental_membershipadmin_ajax.ajax_url,
+							contentType: false,
+							processData: false,
+							data: form_data,
+							success: function(response) {
+								var state_response = JSON.parse( response );
+
+								if (state_response.confirmation) {
+									notification.html( state_response.confirmation );
+									
+							
+								}
+								if (state_response.feedback) {
+									console.log( state_response.feedback );
+								}
+
+								if (state_response.table) {
+									account_window.html( state_response.table );
+								}
+								init();
+								window.elemental_stream_init();
 							},
 							error: function(response) {
 								console.log( 'Error in server' );

@@ -34,7 +34,7 @@ class Files {
 		add_action( 'wp_login', array( Factory::get_instance( FileManagement::class ), 'check_then_create_user_dir' ) );
 
 		// Shortcodes.
-		add_shortcode( self::SHORTCODE_USER_FILES, array( Factory::get_instance( FileManagement::class ), 'render_user_file_page' ) );
+		add_shortcode( self::SHORTCODE_USER_FILES, array( Factory::get_instance( FileManagement::class ), 'render_user_file_page_shortcode' ) );
 		add_shortcode( self::SHORTCODE_PICTURE_VIEW, array( Factory::get_instance( FileManagement::class ), 'render_picture_page' ) );
 
 		// Ajax for Pictures and Files.

@@ -31,29 +31,42 @@ class FileManagement {
 			return $user_dir;
 	}
 	/**
-	 * Make a User Home Folder on user creation
+	 * Get User Upload URL.
 	 *
-	 * @param string $user_login - The WP user login.
+	 * @param int $user_id = null - The user_id if that is needed.
 	 *
 	 * @return string
 	 */
-	public function get_user_upload_url(): string {
-		$user_info = \wp_get_current_user();
-		$site_url  = \get_site_url();
-		$site_url .= '/wp-content/uploads/user_dirs/' . $user_info->user_login . '/';
+	public function get_user_upload_url( int $user_id = null ): string {
+		if ( $user_id ) {
+			$user_info = get_user_by( 'id', $user_id );
+			$output    = $user_info->user_login;
+		} else {
+			$user_info = \wp_get_current_user();
+			$output    = $user_info->user_login;
+		}
 
+		$site_url  = \get_site_url();
+		$site_url .= '/wp-content/uploads/user_dirs/' . $output . '/';
 		return $site_url;
 	}
 
 	/**
-	 * Make a User Home Folder on user creation
+	 * Get User Upload File location.
 	 *
-	 * @param string $user_login - The WP user login.
+	 * @param int $user_id = null - The user_id if that is needed.
 	 *
 	 * @return string
 	 */
-	public function get_user_upload_folder(): string {
-		$user_info = \wp_get_current_user();
+	public function get_user_upload_folder( int $user_id = null ): string {
+		if ( $user_id ) {
+			$user_info = get_user_by( 'id', $user_id );
+		} else {
+			$user_info = \wp_get_current_user();
+		}
+		// Check Folder Exists, create it- if it doesnt.
+		$this->check_then_create_user_dir( $user_info->user_login );
+
 		$site_path = \ABSPATH . 'wp-content/uploads/user_dirs/' . $user_info->user_login . '/';
 
 		return $site_path;
@@ -105,15 +118,21 @@ class FileManagement {
 	/**
 	 * Gets list of files in a folder (non recursively)
 	 *
-	 * @param $dir - The directory passed in.
+	 * @param string $dir - The directory passed in.
+	 * @param int $user_id = null - The user_id if that is needed.
 	 *
 	 * @return void
 	 */
-	public function get_file_list( $dir ) :?array {
+	public function get_file_list( string $dir, int $user_id = null ) :?array {
 
 		require_once ABSPATH . 'wp-admin/includes/file.php';
+		if ( ! $user_id ) {
+			$user_id = \get_current_user_id();
+		}
+
 		$dir_objects  = \list_files( $dir );
 		$return_array = array();
+
 		foreach ( $dir_objects as $object ) {
 
 			// skip hidden files
@@ -124,10 +143,10 @@ class FileManagement {
 					$name   = \basename( $object );
 					$retval = array(
 						'name'              => $name,
-						'url'               => $this->get_user_upload_url() . $name,
-						'path'              => Factory::get_instance( Encryption::class )->encrypt_string( $this->get_user_upload_folder() . $name ),
+						'url'               => $this->get_user_upload_url( $user_id ) . $name,
+						'path'              => Factory::get_instance( Encryption::class )->encrypt_string( $this->get_user_upload_folder( $user_id ) . $name ),
 						'type'              => mime_content_type( $object ),
-						'user_id_encrypted' => Factory::get_instance( Encryption::class )->encrypt_string( strval( get_current_user_id() ) ),
+						'user_id_encrypted' => Factory::get_instance( Encryption::class )->encrypt_string( strval( $user_id ) ),
 						'size'              => round( filesize( $object ) / 1024, 1 ) . 'KB',
 						'lastmod'           => filemtime( $object ),
 					);
@@ -154,32 +173,76 @@ class FileManagement {
 		}
 	}
 	/**
+	 * Shortcode Handler for Membership Config Page.
+	 *
+	 *  @param array $atts = the attributes.
+	 *  @return ?string
+	 */
+	public function render_user_file_page_shortcode( $atts = array() ) {
+		// User_id in attributes.
+		if ( ! isset( $atts['user_id'] ) ) {
+				// Try user logged in for ID.
+			if ( \is_user_logged_in() ) {
+				$user_id = \get_current_user_id();
+				// User not logged in - exit.
+			} else {
+				return null;
+			}
+			// Atts has ID.
+		} else {
+			$user_id = intval( $atts['user_id'] );
+		}
+
+		return $this->render_user_file_page( $user_id );
+	}
+
+	/**
 	 * Render Membership Config Page
 	 * Renders configuration of Membership Management Plugin
 	 *
+	 * @param int $user_id - the optional User ID to process.
 	 * @return string
 	 */
-	public function render_user_file_page(): string {
+	public function render_user_file_page( int $user_id = null ): string {
+		$this->enqueue_scripts_user_management();
+
+		if ( ! $user_id ) {
+			$user_id = \get_current_user_id();
+		} else {
+			$user_passed_in = true;
+		}
+		$user = get_user_by( 'id', $user_id );
+
+		$encrypted_user_id = Factory::get_instance( Encryption::class )->encrypt_string( \strval( $user_id ) );
+		$nonce             = \wp_create_nonce( FileAjax::DELETE_FILE_REQUEST . strval( $user_id ) );
+
+		if ( true === $user_passed_in ) {
+			$user_object = get_user_by( 'id', $user_id );
+		} elseif ( \is_user_logged_in() ) {
+			$user_object = wp_get_current_user();
+		} else {
+			return 'No User Logged in';
+		}
+		$dir       = $this->get_user_upload_directory( $user_object->user_login );
+		$file_list = $this->get_file_list( $dir, $user_id );
+
+		return ( include __DIR__ . '/../views/files/table-file-views.php' )( $file_list, $encrypted_user_id, $nonce, $user );
+
+	}
+	/**
+	 * Runs required Scripts to start.
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts_user_management(): void {
 		wp_enqueue_style( 'elemental-admin-css' );
 		wp_enqueue_script( 'elemental-webcam-stream-js' );
 		wp_enqueue_script( 'elemental-protect-username' );
 		wp_enqueue_style( 'elemental-template' );
 		wp_enqueue_style( 'dashicons' );
 
-		$user_id           = \get_current_user_id();
-		$encrypted_user_id = Factory::get_instance( Encryption::class )->encrypt_string( \strval( $user_id ) );
-		$nonce             = \wp_create_nonce( FileAjax::DELETE_FILE_REQUEST . strval( $user_id ) );
-		if ( \is_user_logged_in() ) {
-			$user_object = wp_get_current_user();
-		} else {
-			return 'No User Logged in';
-		}
-		$dir       = $this->get_user_upload_directory( $user_object->user_login );
-		$file_list = $this->get_file_list( $dir );
-
-		return ( include __DIR__ . '/../views/files/table-file-views.php' )( $file_list, $encrypted_user_id, $nonce );
-
 	}
+
 
 	/**
 	 * Render Picture Page
@@ -187,11 +250,7 @@ class FileManagement {
 	 * @return string - Welcome Picture Page.
 	 */
 	public function render_picture_page(): string {
-		wp_enqueue_script( 'elemental-webcam-stream-js' );
-		wp_enqueue_style( 'elemental-admin-css' );
-		wp_enqueue_script( 'elemental-protect-username' );
-		wp_enqueue_style( 'elemental-template' );
-		wp_enqueue_style( 'dashicons' );
+		$this->enqueue_scripts_user_management();
 		$user_id          = get_current_user_id();
 		$application_name = Files::APPLICATION_NAME;
 		$user_info        = Factory::get_instance( FileSyncDao::class )->get_by_id_sync_table( $user_id, $application_name );

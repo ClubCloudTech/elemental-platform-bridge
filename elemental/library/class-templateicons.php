@@ -25,31 +25,13 @@ class TemplateIcons {
 	 */
 	public function format_button_icon( ?string $type, string $payload = null ): string {
 		switch ( $type ) {
-			case 'login':
-				$button_label = '<span title ="' . esc_html__( 'Login to access your room settings', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-admin-network"></span>';
-				$button_class = 'elemental-ul-style-menu elemental-button-separation elemental-button-override';
-				$a_class      = '';
-				$id           = 'elemental-button-login';
-				break;
 			case 'photo':
 				$button_label = '<span title ="' . esc_html__( 'Update Profile Picture across site.', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-camera"></span>';
 				$button_class = 'elemental-ul-style-menu elemental-button-separation elemental-button-override';
 				$a_class      = '';
 				$id           = 'elemental-photo-image';
 				break;
-			case 'name':
-				$button_label = '<span title ="' . esc_html__( 'You need to identify yourself for the meeting. Please enter a short name', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-format-chat"></span>';
-				$button_class = 'elemental-ul-style-menu elemental-button-separation elemental-button-override';
-				$a_class      = '';
-				$id           = 'elemental-name-user';
-				break;
-			case 'checksound':
-				$button_label  = '<span title ="' . esc_html__( 'Lets get your sound, and camera checked out and ready', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-admin-generic"></span>';
-				$button_label .= '<span title ="' . esc_html__( 'Lets get your sound, and camera checked out and ready', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-controls-volumeon"></span>';
-				$button_class  = 'elemental-ul-style-menu elemental-button-separation elemental-button-override';
-				$a_class       = '';
-				$id            = 'elemental-check-sound';
-				break;
+
 			case 'forgetme':
 				$button_label = '<span title ="' . esc_html__( 'Delete your picture, and clear temporary information', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-dismiss"></span>';
 				$button_class = 'elemental-ul-style-menu elemental-button-separation elemental-button-override';
@@ -61,6 +43,12 @@ class TemplateIcons {
 				$button_class = 'elemental-ul-style-menu elemental-button-separation elemental-button-override';
 				$a_class      = '';
 				$id           = 'elemental-delete-file';
+				break;
+			case 'close_window':
+				$button_label = '<span title ="' . esc_html__( 'Close the Window', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-no"></span>';
+				$button_class = 'elemental-ul-style-menu elemental-button-separation elemental-button-override';
+				$a_class      = '';
+				$id           = 'elemental-close-window';
 				break;
 		}
 

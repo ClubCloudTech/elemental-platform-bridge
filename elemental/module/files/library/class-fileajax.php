@@ -32,8 +32,8 @@ class FileAjax {
 	 * @return mixed
 	 */
 	public function file_upload_handler() {
-		$temp_name           = null;
-		$response            = array();
+		$temp_name = null;
+		$response  = array();
 
 		// Security Checks.
 		check_ajax_referer( Files::AJAX_FILE_NONCE, 'security', false );
@@ -135,7 +135,7 @@ class FileAjax {
 		* Upload a File Picture Section.
 		*
 		*/
-		if ( 'update_file' === $action_taken ) {
+		if ( 'upload_file' === $action_taken ) {
 
 			// File Upload Section.
 			if ( isset( $_FILES['upfile']['type'] ) && isset( $_FILES['upfile']['tmp_name'] ) ) {
@@ -150,15 +150,24 @@ class FileAjax {
 			}
 
 			if ( $file_name ) {
-				$user_id = \get_current_user_id();
+
 				//phpcs:ignore -- WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 				$source      = $_FILES['upfile']['tmp_name'];
-				$uploads_dir = Factory::get_instance( FileManagement::class )->get_user_upload_folder();
+				$uploads_dir = Factory::get_instance( FileManagement::class )->get_user_upload_folder( $user_id );
 				$destination = trailingslashit( $uploads_dir ) . $_FILES['upfile']['name'];
-				//$destination = trailingslashit( $uploads_dir ) . $_FILES['upfile']['name'];
+
 				$upload = move_uploaded_file( $source, $destination );
 
 				\do_action( 'elemental_file_upload', $user_id, $destination . $_FILES['upfile']['name'], $_FILES['upfile']['name'] );
+
+				$new_table = Factory::get_instance( FileManagement::class )->render_user_file_page( intval( $user_id ) );
+
+				if ( $new_table ) {
+					$response['feedback'] = \esc_html__( 'File Management', 'elementalplugin' );
+					$response['table']    = $new_table;
+				} else {
+					$response['feedback'] = \esc_html__( 'Error With File Manager', 'elementalplugin' );
+				}
 
 				if ( $upload ) {
 					$response['feedback'] = esc_html__( 'File Upload Success', 'elementalplugin' );
@@ -166,6 +175,7 @@ class FileAjax {
 					$response['feedback'] = esc_html__( 'File Upload Failed', 'elementalplugin' );
 				}
 			}
+			return \wp_send_json( $response );
 		}
 			/*
 			* Delete File.
@@ -174,7 +184,7 @@ class FileAjax {
 		if ( 'delete_file' === $action_taken ) {
 			$verify = \wp_verify_nonce( $nonce, self::DELETE_FILE_REQUEST . strval( $user_id ) );
 			if ( ! $verify ) {
-				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received - First Step', 'elementalplugin' );
+				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received - First Step', 'elementalplugin' ).$user_id;
 				return \wp_send_json( $response );
 			}
 
@@ -203,7 +213,7 @@ class FileAjax {
 			if ( $status ) {
 				$response['feedback']     = \esc_html__( 'File Deleted', 'elementalplugin' );
 				$response['confirmation'] = '<h1>' . \esc_html__( 'File Deleted', 'elementalplugin' ) . '</h1>';
-				$response['table']        = '<h1>' . \esc_html__( 'File Deleted', 'elementalplugin' ) . '</h1>';
+				$response['table']        = Factory::get_instance( FileManagement::class )->render_user_file_page( intval( $user_id ) );
 			} else {
 				$response['feedback'] = \esc_html__( 'Error Deleting File', 'elementalplugin' );
 			}

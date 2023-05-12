@@ -13,7 +13,7 @@ window.addEventListener("load", function() {
                     deleteFile( e, usrcheck, file_check, nonce );
                 }
             );
-            //TODO finish confirmation.
+
             $( '.elemental-main-button-enabled' ).click(
                 function(e) {
                     e.stopPropagation();
@@ -29,10 +29,17 @@ window.addEventListener("load", function() {
                 function(e) {
                     e.stopPropagation();
                     e.preventDefault();
-                    //$( '#elemental-membership-table' ).show();
+                    $( '#elemental-membership-table' ).show();
                     $( '#elemental-top-notification' ).empty();
                 }
             );
+
+            $( '.elemental-close-window' ).click(
+                function(e) {
+                    window.location.reload();
+                }
+            );
+            
 
             
             /* Initialise Camera, and Listen to Buttons */
@@ -195,7 +202,7 @@ window.addEventListener("load", function() {
             });
             form_data.append('checksum', checksum );
             form_data.append('action', 'elemental_base_ajax');
-            form_data.append('action_taken', 'update_file');
+            form_data.append('action_taken', 'upload_file');
             form_data.append('security', elemental_base_ajax.security);
             $.ajax({
                 type: 'post',
@@ -212,15 +219,19 @@ window.addEventListener("load", function() {
                     }
                     let notify = document.getElementById("elemental-top-notification");
                     if (typeof notify !== null) {
-                        notify.innerHTML += '<br><h3>' + state_response.message + '</h3><br>';
+                        notify.innerHTML += '<br><h3>' + state_response.feedback + '</h3><br>';
                     }
+                    if (state_response.table) {
+                        $( '#elemental-membership-table' ).html(state_response.table);
+                    }
+                    init();
                   },
-                error: function(response) {
+                error: function() {
                     console.log('Error Uploading');
                 }
             });
 
-            refreshWelcome();
+           // refreshWelcome();
         });
 
     }
@@ -266,7 +277,7 @@ window.addEventListener("load", function() {
                     }
 
                     if (state_response.table) {
-                        refreshWelcome();
+                        $( '#elemental-membership-table' ).html(state_response.table);
                     }
                     init();
                 },
@@ -617,7 +628,7 @@ window.addEventListener("load", function() {
 
     init();
 
-
+    window.elemental_stream_init = init;
 });
 
 function refreshTarget(source_element, ajax_response, video_skip) {
@@ -674,5 +685,5 @@ function reloadVideo() {
         );
         $('#elemental-video').click();
     });
-
+    
 }

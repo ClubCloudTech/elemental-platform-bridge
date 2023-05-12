@@ -10,6 +10,7 @@ namespace ElementalPlugin\Module\Membership\Library;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\UserHelpers;
+use ElementalPlugin\Module\Files\Library\FileManagement;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
@@ -137,7 +138,6 @@ class MembershipAjax {
 
 			return \wp_send_json( $response );
 		}
-
 		/*
 		* Delete User.
 		*
@@ -189,6 +189,30 @@ class MembershipAjax {
 			}
 
 			return \wp_send_json( $response );
+		}
+		/*
+		* Manage File Operations for User.
+		*
+		*/
+		if ( 'file_manage_start' === $action_taken ) {
+			$verify = wp_verify_nonce( $nonce, Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $user_id ) );
+
+			if ( ! $verify ) {
+				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'elementalplugin' );
+				return \wp_send_json( $response );
+			}
+
+			$new_table = Factory::get_instance( FileManagement::class )->render_user_file_page( intval( $user_id ) );
+
+			if ( $new_table ) {
+				$response['feedback'] = \esc_html__( 'File Management', 'elementalplugin' );
+				$response['table']    = $new_table;
+			} else {
+				$response['feedback'] = \esc_html__( 'Error With File Manager', 'elementalplugin' );
+			}
+
+			return \wp_send_json( $response );
+
 		}
 
 		$response = \apply_filters( 'elemental_membership_ajax_response', $response );

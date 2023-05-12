@@ -272,6 +272,9 @@
 			width: 50%;
 			float: left;
 		}
+		.elemental-right-nofloat {
+			text-align: end;
+		}
 
 		.elemental-right {
 			width: 50%;
@@ -339,7 +342,6 @@
 
 		.elemental-table-adjust {
 			font-size: smaller;
-			border-bottom: 1px !important;
 		}
 
 		.elemental-clear {

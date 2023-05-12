@@ -24,9 +24,9 @@ return function (
 	<?php
 	if ( $user_accounts ) {
 		?>
-		<div class="wcfm-container" id="user-add-form" data-type="<?php echo esc_attr( $admin_nonce ); ?>">
-			<div id="wwcfm_shop_staffsesc_html_expander" class="wcfm-content">
-				<table id="elemental-membership-table" class="display" cellspacing="0" width="100%">
+		<div class="wcfm-container wcfm-collapse-content wcfm-main-contentainer" id="user-add-form" data-type="<?php echo esc_attr( $admin_nonce ); ?>">
+			<div id="wwcfm_shop_staffsesc_html_expander wcfm-content" class="wcfm-content">
+				<table id="elemental-membership-table" class="display wcfm-container wcfm-top-element-container" cellspacing="0" width="100%">
 					<thead>
 						<tr>
 							<th><?php esc_html_e( 'Account', 'elementalplugin' ); ?></th>
