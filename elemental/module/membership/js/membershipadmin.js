@@ -416,7 +416,7 @@ window.addEventListener(
 				}
 
 				/**
-				 * Delete User (used in main form)
+				 * Manage Files - Refresh Page
 				 */
 				var manageFile = function(event, user_id, nonce ) {
 					event.stopPropagation();
@@ -424,11 +424,8 @@ window.addEventListener(
 						notification   = $( '#elemental-notification-frame' ),
 						account_window = $( '#elemental-membership-table' ),
 						type           = $( '#user-add-form' ).attr('data-type');
-
 					form_data.append( 'action', 'elemental_membershipadmin_ajax' );
-					
 					form_data.append( 'action_taken', 'file_manage_start' );
-					
 					form_data.append( 'userid', user_id );
 					form_data.append( 'nonce', nonce );
 					form_data.append( 'type', type );

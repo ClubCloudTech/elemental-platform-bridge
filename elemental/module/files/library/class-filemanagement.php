@@ -317,4 +317,36 @@ class FileManagement {
 			return false;
 		}
 	}
+	/**
+	 * Hook to Send Notification Mail for File Change.
+	 *
+	 * @param string $user_id - the user_id from the hook.
+	 *
+	 * @return void
+	 */
+	public function notify_user_file_change_hook( int $user_id ):void {
+		$user = \get_user_by( 'id', $user_id );
+		$this->notify_user_file_change( $user->user_email, $user->first_name );
+	}
+	/**
+	 * Send Document Change Notification Mail to New User.
+	 *
+	 * @param string $email_address - the User Email Address.
+	 * @param string $first_name    - the User First Name.
+	 *
+	 * @return bool
+	 */
+	public function notify_user_file_change( string $email_address, string $first_name ) {
+
+		$template = include __DIR__ . '/../views/email/email-template.php';
+		$headers  = array( 'Content-Type: text/html; charset=UTF-8' );
+
+		$status = wp_mail(
+			$email_address,
+			\esc_html__( ' New Document for you at ', 'elementalplugin' ) . \get_bloginfo( 'name' ),
+			$template( $email_address, $first_name ),
+			$headers
+		);
+		return $status;
+	}
 }

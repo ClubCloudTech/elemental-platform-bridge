@@ -48,7 +48,7 @@ return function (
 
 				</div>
 				<div id="elemental-adduser-frame" class="wcfm-container wcfm-top-element-container" style="display:none;">
-					<h3 class="elemental-align-left"><?php esc_html_e( 'Add a User Account to your Organisation', 'elemental' ); ?></h3>
+					<h3 class="elemental-align-left"><?php esc_html_e( 'Invite User to your Dataroom', 'elemental' ); ?></h3>
 					<?php
 					// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
 					echo $add_account_form;

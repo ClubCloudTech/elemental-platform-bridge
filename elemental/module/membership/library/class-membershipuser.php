@@ -279,7 +279,7 @@ class MembershipUser {
 		return $user_id;
 	}
 	/**
-	 * Send WordPress Notification Mail to New User.
+	 * Send Notification Mail to New User.
 	 *
 	 * @param string $password      - the generated password.
 	 * @param string $email_address - the User Email Address.

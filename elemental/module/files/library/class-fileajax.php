@@ -13,7 +13,7 @@ use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Files\DAO\FileSyncDao;
 use ElementalPlugin\Module\Files\Files;
 use ElementalPlugin\Module\Membership\Library\MembershipShortCode;
-
+use ElementalPlugin\Module\Membership\Membership;
 use Error;
 
 /**
@@ -176,6 +176,25 @@ class FileAjax {
 				}
 			}
 			return \wp_send_json( $response );
+		}
+
+		/*
+		* Manage File Operations for User.
+		*
+		*/
+		if ( 'file_manage_start' === $action_taken ) {
+
+			$new_table = Factory::get_instance( FileManagement::class )->render_user_file_page( intval( $user_id ) );
+
+			if ( $new_table ) {
+				$response['feedback'] = \esc_html__( 'File Management', 'elementalplugin' );
+				$response['table']    = $new_table;
+			} else {
+				$response['feedback'] = \esc_html__( 'Error With File Manager', 'elementalplugin' );
+			}
+
+			return \wp_send_json( $response );
+
 		}
 			/*
 			* Delete File.
