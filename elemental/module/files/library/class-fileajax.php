@@ -13,8 +13,6 @@ use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Module\Files\DAO\FileSyncDao;
 use ElementalPlugin\Module\Files\Files;
 use ElementalPlugin\Module\Membership\Library\MembershipShortCode;
-use ElementalPlugin\Module\Membership\Membership;
-use Error;
 
 /**
  * Class MVRSiteVideo - Renders the Video Plugin for SiteWide Video Room.
@@ -155,8 +153,7 @@ class FileAjax {
 				$source      = $_FILES['upfile']['tmp_name'];
 				$uploads_dir = Factory::get_instance( FileManagement::class )->get_user_upload_folder( $user_id );
 				$destination = trailingslashit( $uploads_dir ) . $_FILES['upfile']['name'];
-
-				$upload = move_uploaded_file( $source, $destination );
+				$upload      = move_uploaded_file( $source, $destination );
 
 				\do_action( 'elemental_file_upload', $user_id, $destination . $_FILES['upfile']['name'], $_FILES['upfile']['name'] );
 
@@ -203,7 +200,7 @@ class FileAjax {
 		if ( 'delete_file' === $action_taken ) {
 			$verify = \wp_verify_nonce( $nonce, self::DELETE_FILE_REQUEST . strval( $user_id ) );
 			if ( ! $verify ) {
-				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received - First Step', 'elementalplugin' ).$user_id;
+				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received - First Step', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
 

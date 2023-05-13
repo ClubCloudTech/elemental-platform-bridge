@@ -123,7 +123,7 @@ class MembershipShortCode {
 		$accounts_remaining = $this->render_remaining_account_count( $user_id );
 		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_all_sponsored_users();
 		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
-		$admin_nonce = \wp_create_nonce( MembershipUser::VERIFICATION_NONCE );
+		$admin_nonce        = \wp_create_nonce( MembershipUser::VERIFICATION_NONCE );
 		return $render( $sponsored_accounts, $accounts_remaining, $admin_nonce );
 
 	}
@@ -140,6 +140,7 @@ class MembershipShortCode {
 
 		if ( ! $user_id ) {
 			$user_id = \get_current_user_id();
+			// Clear Notification State as User has viewed file.
 		}
 
 		return $this->tenant_admin_account_shortcode_worker( $user_id );

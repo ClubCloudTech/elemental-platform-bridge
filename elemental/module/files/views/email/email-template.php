@@ -97,37 +97,10 @@ return function (
 								<p class="text-large"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0; font-size: 16px;">
 									<?php
-									echo esc_html__( 'To begin, you can access your account ', 'elemental' ) .
+									echo esc_html__( 'To view the document, you can access your account ', 'elemental' ) .
 									'<a href="' . esc_url( \get_site_url() ) . '">' . \esc_html__( ' Here ', 'elemental' ) . '<a>';
 									?>
-									<div>
-										<table id="elemental-table-basket-frame"
-											class="wp-list-table widefat plugins elemental-table-adjust">
-											<tbody>
-												<tr>
-													<td align="left" scope="col" style="width:40%">
-														<strong>
-															<?php esc_html_e( 'Username', 'elemental' ); ?>
-														</strong>
-													</td>
-												</tr>
-												<tr>
-													<td align="left" scope="col" style="width:40%">
-														<?php echo esc_textarea( $email ); ?>
-													</td>
-												</tr>
-												<tr>
-													<td align="left" scope="col" style="width:40%">
-														<strong>
-															<?php esc_html_e( 'Password', 'elemental' ); ?>
-														</strong>
-													</td>
-												</tr>
 
-
-											</tbody>
-										</table>
-									</div>
 								</p>
 								<p
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; font-size: 14px; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0;">

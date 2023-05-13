@@ -47,6 +47,7 @@ class Plugin {
 		Factory::get_instance( ElementalMenus::class )->init();
 		Factory::get_instance( Sandbox::class )->init();
 		Factory::get_instance( Files::class )->init();
+		Factory::get_instance( UserHelpers::class )->init();
 		$this->styles();
 		add_filter( 'xmlrpc_enabled', '__return_false' );
 

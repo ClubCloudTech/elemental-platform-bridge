@@ -14,7 +14,6 @@ use ElementalPlugin\Module\Files\Library\FileManagement;
 use ElementalPlugin\Module\Membership\DAO\MembershipDAO;
 use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
-use Error;
 
 /**
  * Class MembershipAjax - Provides the Membership Ajax Control.

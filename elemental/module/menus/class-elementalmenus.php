@@ -8,7 +8,9 @@
 namespace ElementalPlugin\Module\Menus;
 
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Library\UserRoles;
+use ElementalPlugin\Module\Files\Library\FileManagement;
 use ElementalPlugin\Module\Membership\Library\LoginHandler;
 use ElementalPlugin\Module\Menus\Library\Switches;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
@@ -109,13 +111,15 @@ class ElementalMenus {
 		}
 			ob_start();
 		?>
-		<div class="elemental-button-primary-nav-area">
-			<a href="<?php echo esc_url( $store_url ); ?>" class="elemental-host-link">
-			<div class="elemental-primary-nav-settings">
-				<div class="elemental-primary-nav-img" style="background-image: url(<?php echo esc_url( $picture_url ); ?> )"></div>
-				<span><?php echo esc_attr( $output ); ?></span>
-			</div></a>
+<div class="elemental-button-primary-nav-area">
+	<a href="<?php echo esc_url( $store_url ); ?>" class="elemental-host-link">
+		<div class="elemental-primary-nav-settings">
+			<div class="elemental-primary-nav-img"
+				style="background-image: url(<?php echo esc_url( $picture_url ); ?> )"></div>
+			<span><?php echo esc_attr( $output ); ?></span>
 		</div>
+	</a>
+</div>
 		<?php
 			return ob_get_clean();
 	}
@@ -128,7 +132,7 @@ class ElementalMenus {
 	 * @return string
 	 */
 	private function render_user_logo_worker( array $attributes = null ): ?string {
-
+		wp_enqueue_style( 'dashicons' );
 		if ( ! isset( $attributes['user_id'] ) ) {
 			$user_id = \get_current_user_id();
 		}
@@ -137,27 +141,28 @@ class ElementalMenus {
 		$attributes = array(
 			'force_default' => true,
 		);
+		$ump_image  = get_user_meta( $user_id, 'ihc_avatar' );
 		if ( isset( $attributes['image'] ) && 'avatar' === $attributes['image'] && $user_id ) {
 			$picture_url = get_avatar_url( $user, $attributes );
+		} elseif ( $ump_image ) {
+			$picture_url = $ump_image[0];
 		} else {
 			$picture_url = \plugins_url( '../../assets/img/user-icon.png', __FILE__ );
 		}
-
-		$is_vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
-
+		$is_vendor         = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
+		$file_notification = Factory::get_instance( FileManagement::class )->check_user_notification( $user_id );
+		$docvault_url      = \get_site_url() . get_option( UserHelpers::DOCVAULT_MENU_CP_SETTING );
 			// Case Store Owner.
 		if ( $is_vendor ) {
 			$user_id    = \get_current_user_id();
 			$store_name = get_user_meta( $user_id, 'store_name', true );
 			$output     = $store_name;
 			// @TODO Only whilst in sandbox only mode - as a new control panel page will be built and this url can lose the extension
-			$profile_control_url = \get_permalink( 12508 ) . '/ihc/?ihc_ap_menu=profile';
-
+			$profile_control_url = \get_site_url() . get_option( UserHelpers::PROFILE_MENU_CP_SETTING );
 			// Case Not Org Admin Account but signed in.
 		} elseif ( $user_id ) {
-			$output = $user->display_name;
-			// @TODO Only whilst in sandbox only mode - as a new control panel page will be built and this url can lose the extension
-			$profile_control_url = \get_permalink( 12508 ) . '/ihc/?ihc_ap_menu=profile';
+			$output              = $user->display_name;
+			$profile_control_url = \get_site_url() . get_option( UserHelpers::PROFILE_MENU_CP_SETTING );
 
 			// Case Logged Out.
 		} else {
@@ -171,33 +176,59 @@ class ElementalMenus {
 
 		ob_start();
 		?>
-		<div class="elemental-button-primary-nav-area dropdown">
-			<a href="<?php echo esc_url( $profile_control_url ); ?>" class="elemental-host-link">
-			<div class="elemental-primary-nav-settings">
-				<div class="elemental-primary-nav-img" style="background-image: url(<?php echo esc_url( $picture_url ); ?> )"></div>
-				<span><?php echo esc_attr( $output ); ?><i class="dropdown elemental-dashicons elemental-icons dashicons-arrow-down-alt2 "></i></span>
+<div class="elemental-button-primary-nav-area dropdown">
+	<div class="elemental-primary-nav-settings">
+		<a href="<?php echo esc_url( $profile_control_url ); ?>" class="elemental-host-link">
+			<div class="elemental-primary-nav-img"
+				style="background-image: url(<?php echo esc_url( $picture_url ); ?> )"></div>
+			<span class="elemental-name-shortcode"><?php echo esc_attr( $output ); ?><i
+					class="dropdown elemental-dashicons elemental-icons dashicons-arrow-down-alt2 "></i></span>
+		</a>
+		<?php
+		if ( $file_notification ) {
+			?>
+		<a href="<?php echo esc_url( $docvault_url ); ?>" class="elemental-host-link">
+			<i class="elemental-dashicons elemental-name-shortcode-icon dashicons-media-document"
+				title="<?php echo \esc_html__( 'You have a new file in your vault. Click to access', 'elemental' ); ?>"></i></a>
 
-			</div></a>
-			<div class="dropdown-content">
+			<?php
+		}
+		?>
+	</div>
+	<div class="dropdown-content">
+	<?php
+	if ( $file_notification ) {
+			?>
+		<a href="<?php echo esc_url( $docvault_url ); ?>" class="elemental-host-link">
+			<i class="elemental-dashicons elemental-name-shortcode-icon dashicons-media-document"
+				title="<?php echo \esc_html__( 'You have a new file in your vault. Click to access', 'elemental' ); ?>"></i>
+			<?php esc_html_e( 'New Documents to View', 'elementalplugin' );?>
+			</a>
+
+			<?php
+		} else {
+			?>
+			<a href="<?php echo esc_url( $docvault_url ); ?>"
+					class="elemental-host-link"><?php echo \esc_html__( 'Document Vault', 'elementalplugin' ); ?></a>
 				<?php
-				if ( $user_id ) {
-						//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
-						echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'role' );
+		}
 
-					?>
-				<a href="/my-account/?ihc_ap_menu=profile" class="elemental-host-link"><?php echo \esc_html__( 'Account Settings', 'elementalplugin' ); ?></a>
-					<?php
-				}
-				?>
+		if ( $user_id ) {
+				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'role' );
 
+			?>
+		<a href="<?php echo esc_url( $profile_control_url ); ?>"
+			class="elemental-host-link"><?php echo \esc_html__( 'Account Settings', 'elementalplugin' ); ?></a>
+			<?php
+		}
 
-				<?php
 				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'login' );
-				?>
+		?>
 
-			</div>
-		</div>
+	</div>
+</div>
 
 		<?php
 		return ob_get_clean();

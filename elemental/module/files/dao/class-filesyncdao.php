@@ -52,7 +52,7 @@ class FileSyncDao {
 		$table_message = $this->get_db_table_name() . '\' doesn\'t exist';
 		if ( strpos( $db_error_message, $table_message ) !== false ) {
 			// Recreate Table.
-			$this->install_room_presence_table();
+			$this->install_file_sync_table();
 
 			return true;
 		}
@@ -62,7 +62,7 @@ class FileSyncDao {
 	 *
 	 * @return bool
 	 */
-	public function install_room_presence_table(): bool {
+	public function install_file_sync_table(): bool {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		$table_name = $wpdb->prefix . $this->get_db_table_name();
@@ -100,7 +100,6 @@ class FileSyncDao {
 		);
 
 		$result = \wp_cache_get( $cache_key, __METHOD__ );
-		
 		if ( $result ) {
 			return FileSync::from_json( $result );
 		}
@@ -156,12 +155,15 @@ class FileSyncDao {
 	 *
 	 * @return FileSync|null
 	 */
-	public function create_new_user_storage_record( string $user_id = null ): ?FileSync {
+	public function create_new_user_storage_record( string $user_id = null, string $application_name = null ): ?FileSync {
 		if ( ! $user_id ) {
 			$user_id = \get_current_user_id();
 		}
-		$application_name = Files::APPLICATION_NAME;
-		$current_object   = new FileSync(
+		if ( ! $application_name ) {
+			$application_name = Files::APPLICATION_NAME;
+		}
+
+		$current_object = new FileSync(
 			$user_id,
 			$application_name,
 			/*phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested*/
@@ -178,7 +180,6 @@ class FileSyncDao {
 			return null;
 		}
 	}
-
 	/**
 	 * Save a File Sync Event into the database
 	 *

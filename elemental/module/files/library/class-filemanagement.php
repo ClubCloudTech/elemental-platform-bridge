@@ -31,6 +31,35 @@ class FileManagement {
 			return $user_dir;
 	}
 	/**
+	 * Checks if a user has New Notification Status.
+	 *
+	 * @param string $user_login - The WP user login.
+	 *
+	 * @return string
+	 */
+	public function check_user_notification( string $user_id ): bool {
+		$record = Factory::get_instance( FileSyncDao::class )->get_by_id_sync_table( $user_id, Files::STATUS_FIELD_MESSAGE );
+		if ( $record ) {
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Clears a user Notification Status.
+	 *
+	 * @param string $user_login - The WP user login.
+	 *
+	 * @return string
+	 */
+	public function clear_user_notification( string $user_id ): void {
+
+		$record = Factory::get_instance( FileSyncDao::class )->get_by_id_sync_table( $user_id, Files::STATUS_FIELD_MESSAGE );
+		if ( $record ) {
+			Factory::get_instance( FileSyncDao::class )->delete( $record );
+		}
+
+	}
+	/**
 	 * Get User Upload URL.
 	 *
 	 * @param int $user_id = null - The user_id if that is needed.
@@ -181,10 +210,10 @@ class FileManagement {
 	public function render_user_file_page_shortcode( $atts = array() ) {
 		// User_id in attributes.
 		if ( ! isset( $atts['user_id'] ) ) {
-				// Try user logged in for ID.
+
 			if ( \is_user_logged_in() ) {
 				$user_id = \get_current_user_id();
-				// User not logged in - exit.
+				$this->clear_user_notification( $user_id );
 			} else {
 				return null;
 			}
@@ -205,7 +234,6 @@ class FileManagement {
 	 */
 	public function render_user_file_page( int $user_id = null ): string {
 		$this->enqueue_scripts_user_management();
-
 		if ( ! $user_id ) {
 			$user_id = \get_current_user_id();
 		} else {
@@ -316,37 +344,5 @@ class FileManagement {
 		} else {
 			return false;
 		}
-	}
-	/**
-	 * Hook to Send Notification Mail for File Change.
-	 *
-	 * @param string $user_id - the user_id from the hook.
-	 *
-	 * @return void
-	 */
-	public function notify_user_file_change_hook( int $user_id ):void {
-		$user = \get_user_by( 'id', $user_id );
-		$this->notify_user_file_change( $user->user_email, $user->first_name );
-	}
-	/**
-	 * Send Document Change Notification Mail to New User.
-	 *
-	 * @param string $email_address - the User Email Address.
-	 * @param string $first_name    - the User First Name.
-	 *
-	 * @return bool
-	 */
-	public function notify_user_file_change( string $email_address, string $first_name ) {
-
-		$template = include __DIR__ . '/../views/email/email-template.php';
-		$headers  = array( 'Content-Type: text/html; charset=UTF-8' );
-
-		$status = wp_mail(
-			$email_address,
-			\esc_html__( ' New Document for you at ', 'elementalplugin' ) . \get_bloginfo( 'name' ),
-			$template( $email_address, $first_name ),
-			$headers
-		);
-		return $status;
 	}
 }

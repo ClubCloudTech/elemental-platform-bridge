@@ -62,10 +62,10 @@ class FileSync {
 	private ?string $user_picture_path;
 
 	/**
-	 * WooCommerce Room Sync Constructor.
+	 * File Sync Constructor
 	 *
 	 * @param  string  $user_id                The User ID.
-	 * @param  string  $application_name              The Room Name.
+	 * @param  string  $application_name       The Room Name.
 	 * @param  int     $timestamp              Last Updated Timestamp.
 	 * @param  ?int    $id                     The record id.
 	 * @param  ?string $user_picture_url       The URL of the User picture.
@@ -111,7 +111,6 @@ class FileSync {
 				$data->user_picture_path,
 			);
 		}
-		
 		return null;
 	}
 

@@ -24,6 +24,16 @@
 	line-height: 1.2 ! important;
 }
 
+.elemental-name-shortcode{
+	color: #3674FD ! important;
+}
+.elemental-name-shortcode-icon{
+	color: #979799 ;
+	border: 3px white solid;
+    border-radius: 28px;
+    width: 32px;
+}
+
 .dropdown-content a:hover {
 	background-color: #3674FD ! important;
 	color: white ! important;
