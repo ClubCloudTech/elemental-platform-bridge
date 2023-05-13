@@ -10,6 +10,7 @@ namespace ElementalPlugin\Module\Files\Library;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Module\Files\DAO\FileSyncDao;
 use ElementalPlugin\Module\Files\Files;
 use ElementalPlugin\Module\Membership\Library\MembershipShortCode;
@@ -22,6 +23,7 @@ class FileAjax {
 	const DELETE_APPROVED      = 'delete-approved';
 	const DELETE_FILE_REQUEST  = 'delete-request';
 	const DELETE_FILE_APPROVED = 'delete-approved';
+	const USER_MANAGER         = 'elemental-user-manager';
 
 
 	/** File Upload Ajax Support.
@@ -93,6 +95,9 @@ class FileAjax {
 		*/
 		if ( 'update_picture' === $action_taken ) {
 
+			// Tracking User ID in case passed in for other.
+			\error_log( $checksum . $user_id );
+
 			// Image Upload Section.
 			if ( isset( $_FILES['upimage']['type'] ) && isset( $_FILES['upimage']['tmp_name'] ) ) {
 				$temp_name = sanitize_file_name( wp_unslash( $_FILES['upimage']['tmp_name'] ) );
@@ -119,6 +124,50 @@ class FileAjax {
 				$upload = \wp_upload_bits( $session, null, file_get_contents( $_FILES['upimage']['tmp_name'] ) );
 				$return = Factory::get_instance( FileManagement::class )->user_picture_name_update( $upload['file'], $upload['url'] );
 				\do_action( 'elemental_avatar_update', $user_id, $upload['url'], $upload['file'] );
+
+				if ( $return ) {
+					$response['feedback'] = esc_html__( 'Picture Update Success', 'elementalplugin' );
+				} else {
+					$response['feedback'] = esc_html__( 'Picture Update Failed', 'elementalplugin' );
+				}
+			}
+			return \wp_send_json( $response );
+		}
+
+		/*
+		* Update Picture Section.
+		*
+		*/
+		if ( 'update_picture_remote' === $action_taken ) {
+
+			// Image Upload Section.
+			if ( isset( $_FILES['upimage']['type'] ) && isset( $_FILES['upimage']['tmp_name'] ) ) {
+				$temp_name = sanitize_file_name( wp_unslash( $_FILES['upimage']['tmp_name'] ) );
+			}
+
+			$arr_img_ext = array( 'image/png', 'image/jpeg', 'image/jpg', 'image/gif' );
+
+			if ( isset( $_FILES['upimage']['type'] ) && ! in_array( $_FILES['upimage']['type'], $arr_img_ext, true ) ) {
+				$response['feedback'] = esc_html__( 'Incorrect Attachment Type Sent', 'elementalplugin' );
+				return \wp_send_json( $response );
+			}
+			$session = 'tmp-' . $user_id . wp_rand( 200, 20000 ) . '.png';
+
+			// Delete Existing File in Uploads directory if exists.
+			$delete_path = $this->get_current_picture_path( $user_id );
+
+			if ( $delete_path ) {
+				$delete = \wp_delete_file( $delete_path );
+			}
+
+			if ( $temp_name ) {
+				//phpcs:ignore -- WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+				$upload = \wp_upload_bits( $session, null, file_get_contents( $_FILES['upimage']['tmp_name'] ) );
+				$return = Factory::get_instance( FileManagement::class )->user_picture_name_update( $upload['file'], $upload['url'] );
+				\do_action( 'elemental_avatar_update', $user_id, $upload['url'], $upload['file'] );
+				$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
+				$response['table'] = $new_table;
+
 
 				if ( $return ) {
 					$response['feedback'] = esc_html__( 'Picture Update Success', 'elementalplugin' );
@@ -193,6 +242,7 @@ class FileAjax {
 			return \wp_send_json( $response );
 
 		}
+
 			/*
 			* Delete File.
 			*

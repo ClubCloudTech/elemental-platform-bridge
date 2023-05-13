@@ -19,11 +19,20 @@ window.addEventListener(
 						function(e) {
 							e.stopPropagation();
 							e.stopImmediatePropagation();
-							e.preventDefault();
 							$( '#elemental_refresh_layout' ).fadeIn();
 
 						}
 					);
+					// Refresh Room Templates and Receptions.
+					$( '.elemental-maintenance-checkbox-setting' ).click(
+						function(e) {
+							e.stopPropagation();
+							e.stopImmediatePropagation();
+							$( '#elemental_refresh_layout' ).fadeIn();
+
+						}
+					);
+
 					// Save Maintenance All Settings.
 					$( '#elemental_refresh_layout' ).click(
 						function(e) {
@@ -60,6 +69,11 @@ window.addEventListener(
 						$( '.elemental-maintenance-setting' ).each(
 							function(index) {
 								form_data.append( $( this ).attr( 'id' ), $( this ).val() );
+							}
+						);
+						$( '.elemental-maintenance-checkbox-setting' ).each(
+							function(index) {
+								form_data.append( $( this ).attr( 'id' ), $( this ).is(":checked") );
 							}
 						);
 					}

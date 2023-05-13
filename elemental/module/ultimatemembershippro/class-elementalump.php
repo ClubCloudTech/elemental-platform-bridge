@@ -64,6 +64,14 @@ class ElementalUMP {
 	 * Render Membership Config Page
 	 * Renders configuration of Membership Management Plugin
 	 */
+	public function get_ump_avatar( int $user_id ): ?string {
+		$user_picture =  get_user_meta( $user_id, 'ihc_avatar' );
+		return $user_picture[0];
+	}
+	/**
+	 * Render Membership Config Page
+	 * Renders configuration of Membership Management Plugin
+	 */
 	public function delete_ump_avatar_hook( int $user_id ):void {
 		update_user_meta( $user_id, 'ihc_avatar', '' );
 	}

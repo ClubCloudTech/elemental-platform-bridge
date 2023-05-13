@@ -138,8 +138,9 @@ window.addEventListener('load', function () {
           )
         }
       }
-      $('#elemental-picture-input').on('change', imageUpload)
-      $('#elemental-file-input').on('change', fileUpload)
+      $('#elemental-picture-input').on('change', imageUpload);
+      $('#elemental-picture-input-remote').on('change', imageUploadRemote);
+      $('#elemental-file-input').on('change', fileUpload);
     }
 
     /**
@@ -147,21 +148,20 @@ window.addEventListener('load', function () {
      */
     function imageUpload (event) {
       event.stopPropagation()
-      document
-        .getElementById('upload-picture')
-        .classList.remove('elemental-hide')
-      var file = event.target.files
-      var form_data = new FormData()
+      document.getElementById('upload-picture').classList.remove('elemental-hide');
+      var file = event.target.files,
+      checksum = $('#elemental-welcome-page').data('checksum'),
+      form_data = new FormData()
       $.each(file, function (key, value) {
         form_data.append('upimage', value)
       })
-
       form_data.append('action', 'elemental_base_ajax')
 
-      var room_name = $('#roominfo').data('roomName')
-      form_data.append('room_name', room_name)
-      form_data.append('action_taken', 'update_picture')
-      form_data.append('security', elemental_base_ajax.security)
+      var room_name = $('#roominfo').data('roomName');
+      form_data.append('room_name', room_name);
+      form_data.append('action_taken', 'update_picture');
+      form_data.append('checksum', checksum );
+      form_data.append('security', elemental_base_ajax.security);
       $.ajax({
         type: 'post',
         dataType: 'html',
@@ -181,6 +181,7 @@ window.addEventListener('load', function () {
               '<br><h3>' + state_response.message + '</h3><br>'
           }
           $('#vid-up').prop('value', 'Saved !')
+          window.elemental_membership_init()
         },
         error: function (response) {
           console.log('Error Uploading')
@@ -188,6 +189,55 @@ window.addEventListener('load', function () {
       })
 
       refreshWelcome()
+    }
+
+    /**
+     * Upload Image
+     */
+    function imageUploadRemote (event) {
+      event.stopPropagation()
+      var file = event.target.files,
+      checksum = $('#elemental-welcome-page').data('checksum'),
+      form_data = new FormData()
+      $.each(file, function (key, value) {
+        form_data.append('upimage', value)
+      })
+
+      form_data.append('action', 'elemental_base_ajax')
+
+      var room_name = $('#roominfo').data('roomName');
+      form_data.append('room_name', room_name);
+      form_data.append('action_taken', 'update_picture_remote');
+      form_data.append('checksum', checksum );
+      form_data.append('security', elemental_base_ajax.security);
+      $.ajax({
+        type: 'post',
+        dataType: 'html',
+        url: elemental_base_ajax.ajax_url,
+        contentType: false,
+        processData: false,
+        data: form_data,
+        success: function (response) {
+          var state_response = JSON.parse(response)
+          console.log(state_response.message)
+          
+          if (state_response.errormessage) {
+            console.log(state_response.errormessage)
+          }
+          
+          if (state_response.table) {
+            $('#elemental-membership-table').html(state_response.table);
+            $('#elemental-welcome-page').html(state_response.table);
+          }
+
+          $('#vid-up').prop('value', 'Saved !')
+          init()
+          window.elemental_membership_init()
+        },
+        error: function (response) {
+          console.log('Error Uploading')
+        }
+      })
     }
     /**
      * Upload File to Site.
@@ -197,7 +247,7 @@ window.addEventListener('load', function () {
 
       var file = event.target.files
       var form_data = new FormData(),
-        checksum = $('#elemental-welcome-page').data('checksum')
+        checksum = $('#elemental-welcome-page').data('checksum');
       $.each(file, function (key, value) {
         form_data.append('upfile', value)
       })
@@ -228,6 +278,7 @@ window.addEventListener('load', function () {
             $('#elemental-welcome-page').html(state_response.table);
           }
           init()
+          window.elemental_membership_init()
         },
         error: function () {
           console.log('Error Uploading')

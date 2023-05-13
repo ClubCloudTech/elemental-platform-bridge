@@ -43,7 +43,7 @@ class Files {
 		\add_action( 'wp_ajax_elemental_base_ajax', array( Factory::get_instance( FileAjax::class ), 'file_upload_handler' ), 10, 2 );
 
 		// Action for email notification.
-		//\add_action( 'elemental_file_upload', array( Factory::get_instance( FileHooks::class ), 'notify_user_file_change_hook' ), 10, 1 );
+		\add_action( 'elemental_file_upload', array( Factory::get_instance( FileHooks::class ), 'notify_user_file_change_hook' ), 10, 1 );
 		// Action for User Notification Icon.
 		\add_action( 'elemental_file_upload', array( Factory::get_instance( FileHooks::class ), 'new_user_file_notification_hook' ), 10, 2 );
 

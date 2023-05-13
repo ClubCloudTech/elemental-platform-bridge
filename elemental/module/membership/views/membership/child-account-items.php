@@ -42,6 +42,18 @@ return function (
 				),
 			)
 		);
+		array_push(
+			$edit_actions,
+			array(
+				__( 'Manage Users' ),
+				null,
+				'elemental-dashicons dashicons-admin-users elemental-user-manager',
+				array(
+					'data-nonce' => $save_nonce,
+					'data-type'  => $child_account_object['allusers'],
+				),
+			)
+		);
 
 	?>
 <tr class="active elemental-table-mobile">

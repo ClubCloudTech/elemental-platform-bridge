@@ -8,6 +8,7 @@
 namespace ElementalPlugin\Module\Membership\Library;
 
 use ElementalPlugin\Library\Ajax;
+use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Module\Files\Library\FileManagement;
@@ -102,6 +103,49 @@ class MembershipAjax {
 			} else {
 				$response['login'] = false;
 			}
+			return \wp_send_json( $response );
+		}
+		/*
+		* Update Email.
+		*
+		*/
+		if ( 'update_email' === $action_taken ) {
+			$checksum      = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
+			$user_id       = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
+			$success_state = Factory::get_instance( UserHelpers::class )->update_user_email( $user_id, $email );
+			$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
+			$response['table'] = $new_table;
+			$response['feedback'] = $user_id;
+			return \wp_send_json( $response );
+		}
+		/*
+		* Update Display Name.
+		*
+		*/
+		if ( 'update_display_name' === $action_taken ) {
+			$display_name  = Factory::get_instance( Ajax::class )->get_string_parameter( 'display_name' );
+			$checksum      = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
+			$user_id       = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
+			$success_state = Factory::get_instance( UserHelpers::class )->update_display_name( $user_id, $display_name );
+			$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
+			$response['table'] = $new_table;
+			$response['feedback'] = $user_id;
+			return \wp_send_json( $response );
+		}
+		/*
+		* Update Password.
+		*
+		*/
+		if ( 'update_password' === $action_taken ) {
+			$password      = Factory::get_instance( Ajax::class )->get_string_parameter( 'password' );
+			$checksum      = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
+			$user_id       = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
+			$success_state = Factory::get_instance( UserHelpers::class )->update_password( $user_id, $password );
+
+			$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
+			$response['table'] = $new_table;
+
+			$response['feedback'] = $user_id;
 			return \wp_send_json( $response );
 		}
 
@@ -210,6 +254,23 @@ class MembershipAjax {
 				$response['feedback'] = \esc_html__( 'Error With File Manager', 'elementalplugin' );
 			}
 
+			return \wp_send_json( $response );
+
+		}
+		/*
+		* Manage File Operations for User.
+		*
+		*/
+		if ( 'user_manage_start' === $action_taken ) {
+
+			$new_table = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
+
+			if ( $new_table ) {
+				$response['feedback'] = \esc_html__( 'User Management', 'elementalplugin' );
+				$response['table']    = $new_table;
+			} else {
+				$response['feedback'] = \esc_html__( 'User Management', 'elementalplugin' );
+			}
 			return \wp_send_json( $response );
 
 		}

@@ -8,6 +8,7 @@
 namespace ElementalPlugin\Module\Files\Library;
 
 use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Module\Files\DAO\FileSyncDao;
 use ElementalPlugin\Module\Files\Files;
 
@@ -24,8 +25,11 @@ class FileHooks {
 	 * @return void
 	 */
 	public function notify_user_file_change_hook( int $user_id ):void {
-		$user = \get_user_by( 'id', $user_id );
-		$this->notify_user_file_change( $user->user_email, $user->first_name );
+		$setting = get_option( UserHelpers::EMAIL_NOTIFICATION_MENU_CP_SETTING );
+		if ( 'true' === $setting ) {
+			$user    = \get_user_by( 'id', $user_id );
+			$this->notify_user_file_change( $user->user_email, $user->first_name );
+		}
 	}
 	/**
 	 * Send Document Change Notification Mail to New User.
