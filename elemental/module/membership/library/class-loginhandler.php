@@ -119,7 +119,7 @@ class LoginHandler {
 	 * Starts by understanding if there are sufficient staff accounts, if not - forces their creation
 	 *
 	 * @param string $type = the type of shortcode to return, login = login only, role = role switch only, all or null is both.
-	 * @param bool $show_join_button = don't show join button.
+	 * @param bool   $show_join_button = don't show join button.
 	 *
 	 * @return string
 	 */
@@ -182,13 +182,13 @@ class LoginHandler {
 		}
 
 		if ( \is_user_logged_in() ) {
-			$nonce   = \wp_create_nonce( 'logout' );
-			$url     = get_site_url() . '/login?action=logout&nonce=' . $nonce;
+			$nonce      = \wp_create_nonce( 'logout' );
+			$logout_url = get_site_url() . '/login?action=logout&nonce=' . $nonce;
 			if ( \current_user_can( 'administrator' ) ) {
 				$url     = get_site_url() . '/wp-admin';
 				$output .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Admin Site', 'elementalplugin' ) . '</a>';
 			}
-			$output .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Sign Out', 'elementalplugin' ) . '</a>';
+			$output .= '<a href="' . $logout_url . '" class="elemental-host-link">' . esc_html__( 'Sign Out', 'elementalplugin' ) . '</a>';
 		} else {
 			// Redirect- non-logged in users looking at profiles.
 			if ( \function_exists( 'bp_displayed_user_id' ) && bp_displayed_user_id() ) {

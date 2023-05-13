@@ -196,21 +196,21 @@ class ElementalMenus {
 		?>
 	</div>
 	<div class="dropdown-content">
-	<?php
-	if ( $file_notification ) {
+		<?php
+		if ( $file_notification ) {
 			?>
 		<a href="<?php echo esc_url( $docvault_url ); ?>" class="elemental-host-link">
 			<i class="elemental-dashicons elemental-name-shortcode-icon dashicons-media-document"
 				title="<?php echo \esc_html__( 'You have a new file in your vault. Click to access', 'elemental' ); ?>"></i>
-			<?php esc_html_e( 'New Documents to View', 'elementalplugin' );?>
-			</a>
+			<?php esc_html_e( 'New Documents to View', 'elementalplugin' ); ?>
+		</a>
 
 			<?php
-		} else {
+		} elseif ( \is_user_logged_in() ) {
 			?>
-			<a href="<?php echo esc_url( $docvault_url ); ?>"
-					class="elemental-host-link"><?php echo \esc_html__( 'Document Vault', 'elementalplugin' ); ?></a>
-				<?php
+		<a href="<?php echo esc_url( $docvault_url ); ?>"
+			class="elemental-host-link"><?php echo \esc_html__( 'Document Vault', 'elementalplugin' ); ?></a>
+			<?php
 		}
 
 		if ( $user_id ) {
