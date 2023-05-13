@@ -14,6 +14,7 @@ use ElementalPlugin\Module\Membership\Onboard;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\HttpGet;
+use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Module\BuddyPress\ElementalBP;
 use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
@@ -192,7 +193,7 @@ class LoginHandler {
 		} else {
 			// Redirect- non-logged in users looking at profiles.
 			if ( \function_exists( 'bp_displayed_user_id' ) && bp_displayed_user_id() ) {
-				$url = \get_site_url() . '/access-restricted/';
+				$url = \get_site_url() . \get_option( UserHelpers::RESTRICTED_MENU_CP_SETTING ) . '/';
 				// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
 				echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
 				die();
