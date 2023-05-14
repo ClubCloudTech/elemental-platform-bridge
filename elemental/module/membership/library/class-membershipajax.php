@@ -8,6 +8,7 @@
 namespace ElementalPlugin\Module\Membership\Library;
 
 use ElementalPlugin\Library\Ajax;
+use ElementalPlugin\Library\EmailHelpers;
 use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\UserHelpers;
@@ -112,7 +113,7 @@ class MembershipAjax {
 		if ( 'update_email' === $action_taken ) {
 			$checksum      = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
 			$user_id       = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
-			$success_state = Factory::get_instance( UserHelpers::class )->update_user_email( $user_id, $email );
+			$success_state = Factory::get_instance( EmailHelpers::class )->update_user_email( $user_id, $email );
 			$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
 			$response['table'] = $new_table;
 			$response['feedback'] = $user_id;
@@ -126,7 +127,7 @@ class MembershipAjax {
 			$display_name  = Factory::get_instance( Ajax::class )->get_string_parameter( 'display_name' );
 			$checksum      = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
 			$user_id       = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
-			$success_state = Factory::get_instance( UserHelpers::class )->update_display_name( $user_id, $display_name );
+			$success_state = Factory::get_instance( EmailHelpers::class )->update_display_name( $user_id, $display_name );
 			$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
 			$response['table'] = $new_table;
 			$response['feedback'] = $user_id;
@@ -154,7 +155,7 @@ class MembershipAjax {
 		*
 		*/
 		if ( 'check_email' === $action_taken ) {
-			$response['available'] = Factory::get_instance( UserHelpers::class )->verify_user_by_email_ajax( $email );
+			$response['available'] = Factory::get_instance( EmailHelpers::class )->verify_user_by_email_ajax( $email );
 			return \wp_send_json( $response );
 		}
 

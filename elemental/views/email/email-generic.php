@@ -2,20 +2,22 @@
 /**
  * Outputs New Document File Update Mail.
  *
- * @package ElementalPlugin\Module\Files\Views\email#email-template.php
+ * @package ElementalPlugin/views/email/email-generic.php
  */
 
 /**
- * Render the Membership Welcome Email.
+ * Render a Generic Email.
  *
- * @param string $email      -The user Email.
- * @param string $first_name -User First name.
+ * @param string $welcome_message -The user Email Header.
+ * @param string $body_message -Message Body of the Mail.
+ * @param string $detail -The User Detail if any.
  *
  * @return string
  */
 return function (
-	string $email,
-	string $first_name,
+	string $welcome_message,
+	string $body_message,
+	string $detail = null
 ): string {
 	ob_start();
 	?>
@@ -73,7 +75,7 @@ return function (
 						if ( $image_header ) {
 							?>
 								<img src="<?php echo esc_url( $image_header ); ?>"
-								width="100" alt="<?php echo esc_html__( 'Welcome to ', 'elemental' ) . esc_textarea( get_bloginfo( 'name' ) ); ?>"
+								width="100" alt="<?php echo esc_textarea( $welcome_message ); ?>"
 								style="outline: none; text-decoration: none; max-width: 100px; clear: both; -ms-interpolation-mode: bicubic; display: inline-block !important; width: 250px;">
 							<?php
 						}
@@ -88,23 +90,11 @@ return function (
 							<div class="success" style="text-align: center;">
 								<p class="text-extra-large text-center congrats"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; line-height: 140%; font-size: 20px; text-align: center; margin: 0 0 20px 0; Margin: 0 0 20px 0;">
-									<?php echo esc_html__( 'Document for ', 'elemental' ) . esc_textarea( $first_name ) . esc_html__( ' from ', 'elemental ' ) . esc_textarea( get_bloginfo( 'name' ) ); ?>
+									<?php echo esc_attr( $body_message ); ?>
 								</p>
-								<p class="text-large"
-									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0; font-size: 16px;">
-									<?php echo esc_html__( 'There is a new document waiting for you in your user vault on the platform. Please review at your convenience ', 'elemental' ); ?>
-								</p>
-								<p class="text-large"
-									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0; font-size: 16px;">
-									<?php
-									echo esc_html__( 'To view the document, you can access your account ', 'elemental' ) .
-									'<a href="' . esc_url( \get_site_url() ) . '">' . \esc_html__( ' Here ', 'elemental' ) . '<a>';
-									?>
-
-								</p>
-								<p
-									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; font-size: 14px; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0;">
-
+								<p class="text-extra-large text-center congrats"
+									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; line-height: 140%; font-size: 20px; text-align: center; margin: 0 0 20px 0; Margin: 0 0 20px 0;">
+									<?php echo esc_attr( $detail ); ?>
 								</p>
 							</div>
 						</td>

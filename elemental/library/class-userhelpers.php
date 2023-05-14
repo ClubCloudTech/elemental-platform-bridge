@@ -27,32 +27,18 @@ class UserHelpers {
 		// Option for User Logo Landing Page Option PostID.
 		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_profile_menu_cp_setting' ), 9, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'update_profile_menu_cp_setting' ), 9, 2 );
+
 		// Option for Docvault Landing Page Option PostID.
 		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_docvault_menu_cp_setting' ), 9, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'update_docvault_menu_cp_setting' ), 9, 2 );
+
 		// Option for Restricted Landing Page Option PostID.
 		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_restricted_menu_cp_setting' ), 9, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'update_restricted_menu_cp_setting' ), 9, 2 );
+
 		// Option for Sending Email Notifications.
 		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_notification_email_menu_cp_setting' ), 9, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'update_notification_email_menu_cp_setting' ), 9, 2 );
-	}
-	/**
-	 * Verify User Exists by Email
-	 *
-	 * @param string $email - the email to verify.
-	 * @return bool
-	 */
-	public function verify_user_by_email_ajax( string $email ): bool {
-
-		$email_exists = get_user_by( 'email', $email );
-
-		if ( $email_exists ) {
-			$available = false;
-		} else {
-			$available = true;
-		}
-		return apply_filters( 'elemental_email_available_check', $available );
 	}
 
 	/**
@@ -253,53 +239,27 @@ class UserHelpers {
 
 	}
 	/**
-	 * Update User Email in WP.
+	 * Update User Password in WP.
 	 *
 	 * @param int    $user_id - the user id.
-	 * @param string $user_email - the user email to change.
-	 * @return bool
-	 */
-	public function update_user_email( int $user_id, string $user_email ):bool {
-		$user_already_exists = \get_user_by( 'user_email', $user_email );
-		if ( $user_already_exists ) {
-			return false;
-		}
-		$args    = array(
-			'ID'         => $user_id,
-			'user_email' => $user_email,
-		);
-		$success = wp_update_user( $args );
-		if ( $success ) {
-			return true;
-		}
-		return false;
-	}
-	/**
-	 * Update User Email in WP.
-	 *
-	 * @param int    $user_id - the user id.
-	 * @param string $display_name - the user Display Name to change.
-	 * @return bool
-	 */
-	public function update_display_name( int $user_id, string $display_name ):bool {
-		$args    = array(
-			'ID'           => $user_id,
-			'display_name' => $display_name,
-		);
-		$success = wp_update_user( $args );
-		if ( $success ) {
-			return true;
-		}
-		return false;
-	}
-	/**
-	 * Update User Email in WP.
-	 *
-	 * @param int    $user_id - the user id.
-	 * @param string $display_name - the user Display Name to change.
+	 * @param string $password - the Password to update.
 	 * @return bool
 	 */
 	public function update_password( int $user_id, string $password ):void {
 		wp_set_password( $password, $user_id );
+	}
+	/**
+	 * Reset User Password and communicate.
+	 *
+	 * @param int    $user_id - the user id.
+	 * @param string $password - the new password.
+	 * @return bool
+	 */
+	public function reset_password( int $user_id, string $password = null ):void {
+		if ( ! $password ) {
+			$password = wp_generate_password( 8, true );
+		}
+		wp_set_password( $password, $user_id );
+
 	}
 }

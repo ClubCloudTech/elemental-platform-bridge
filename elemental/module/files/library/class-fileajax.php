@@ -95,9 +95,6 @@ class FileAjax {
 		*/
 		if ( 'update_picture' === $action_taken ) {
 
-			// Tracking User ID in case passed in for other.
-			\error_log( $checksum . $user_id );
-
 			// Image Upload Section.
 			if ( isset( $_FILES['upimage']['type'] ) && isset( $_FILES['upimage']['tmp_name'] ) ) {
 				$temp_name = sanitize_file_name( wp_unslash( $_FILES['upimage']['tmp_name'] ) );

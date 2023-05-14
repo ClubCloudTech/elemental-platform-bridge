@@ -7,6 +7,7 @@
 
 namespace ElementalPlugin\Module\Files\Library;
 
+use ElementalPlugin\Library\EmailHelpers;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Module\Files\DAO\FileSyncDao;
@@ -27,31 +28,11 @@ class FileHooks {
 	public function notify_user_file_change_hook( int $user_id ):void {
 		$setting = get_option( UserHelpers::EMAIL_NOTIFICATION_MENU_CP_SETTING );
 		if ( 'true' === $setting ) {
-			$user    = \get_user_by( 'id', $user_id );
-			$this->notify_user_file_change( $user->user_email, $user->first_name );
+			$user = \get_user_by( 'id', $user_id );
+			Factory::get_instance( EmailHelpers::class )->notify_user_file_change( $user->user_email, $user->first_name );
 		}
 	}
-	/**
-	 * Send Document Change Notification Mail to New User.
-	 *
-	 * @param string $email_address - the User Email Address.
-	 * @param string $first_name    - the User First Name.
-	 *
-	 * @return bool
-	 */
-	private function notify_user_file_change( string $email_address, string $first_name ) {
 
-		$template = include __DIR__ . '/../views/email/email-template.php';
-		$headers  = array( 'Content-Type: text/html; charset=UTF-8' );
-
-		$status = wp_mail(
-			$email_address,
-			\esc_html__( ' New Document for you at ', 'elementalplugin' ) . \get_bloginfo( 'name' ),
-			$template( $email_address, $first_name ),
-			$headers
-		);
-		return $status;
-	}
 	/**
 	 * Hook to Send Notification Message Status for File Change.
 	 *
