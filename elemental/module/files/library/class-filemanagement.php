@@ -33,7 +33,7 @@ class FileManagement {
 	/**
 	 * Checks if a user has New Notification Status.
 	 *
-	 * @param string $user_login - The WP user login.
+	 * @param string $user_id - The WP user login.
 	 *
 	 * @return string
 	 */
@@ -47,9 +47,9 @@ class FileManagement {
 	/**
 	 * Clears a user Notification Status.
 	 *
-	 * @param string $user_login - The WP user login.
+	 * @param string $user_id - The WP user login.
 	 *
-	 * @return string
+	 * @return void
 	 */
 	public function clear_user_notification( string $user_id ): void {
 
@@ -148,9 +148,9 @@ class FileManagement {
 	 * Gets list of files in a folder (non recursively)
 	 *
 	 * @param string $dir - The directory passed in.
-	 * @param int $user_id = null - The user_id if that is needed.
+	 * @param int    $user_id = null - The user_id if that is needed.
 	 *
-	 * @return void
+	 * @return ?array
 	 */
 	public function get_file_list( string $dir, int $user_id = null ) :?array {
 
@@ -164,7 +164,7 @@ class FileManagement {
 
 		foreach ( $dir_objects as $object ) {
 
-			// skip hidden files
+			// Skip hidden files.
 			if ( '.' === $object[0] ) {
 				continue;
 			} else {

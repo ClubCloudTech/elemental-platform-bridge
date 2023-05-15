@@ -93,7 +93,7 @@ class UserHelpers {
 		return $response;
 	}
 
-		/**
+	/**
 	 * Add Profile Menu Icon Control Panel
 	 *
 	 * @param array $input - the filter input.
@@ -166,7 +166,7 @@ class UserHelpers {
 		}
 		return $response;
 	}
-		/**
+	/**
 	 * Add Access Restricted Menu Icon Control Panel
 	 *
 	 * @param array $input - the filter input.
@@ -187,7 +187,7 @@ class UserHelpers {
 		\array_push( $input, $input_add );
 		return $input;
 	}
-		/**
+	/**
 	 * Process Update Result. Profile Menu CP Setting.
 	 *
 	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
@@ -202,7 +202,7 @@ class UserHelpers {
 		}
 		return $response;
 	}
-		/**
+	/**
 	 * Add Access Restricted Menu Icon Control Panel
 	 *
 	 * @param array $input - the filter input.
@@ -359,7 +359,7 @@ class UserHelpers {
 	 *
 	 * @param int    $user_id - the user id.
 	 * @param string $password - the new password.
-	 * @return bool
+	 * @return void
 	 */
 	public function reset_password( int $user_id, string $password = null ):void {
 		if ( ! $password ) {
@@ -390,11 +390,11 @@ class UserHelpers {
 	/**
 	 * Reset User Password and communicate.
 	 *
-	 * @param int    $user_id - the user id.
+	 * @param int $user_id - the user id.
 	 * @return void
 	 */
 	public function re_invite_user( int $user_id ):void {
-		//Find Inviter.
+		// Find Inviter.
 		$parent_id     = Factory::get_instance( MemberSyncDAO::class )->get_parent_by_child( $user_id );
 		$parent_object = \get_user_by( 'ID', $parent_id );
 		$site_url      = \get_site_url();
