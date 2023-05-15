@@ -25,7 +25,8 @@ return function (
 	ob_start();
 	?>
 
-<div id="elemental-basket-section-confirmation" class=" elemental-woocommerce-basket elemental-nav-settingstabs-outer-wrap elemental-table-row elemental-welcome-page">
+<div id="elemental-confirmation-box" class="elemental-nav-settingstabs-outer-wrap elemental-confirmation box elemental-welcome-page">
+	<h1>Confirmation</h1>
 	<?php
 	echo sprintf(
 	/* translators: %s is the message variant translated above */
@@ -38,7 +39,7 @@ return function (
 
 	?>
 
-	<table id="elemental-confirmation-table" class="wp-list-table widefat plugins elemental-shopping-basket-frame">
+	<table id="elemental-confirmation-table" class="wp-list-table widefat plugins ">
 		<thead>
 			<tr>
 				<th scope="col" class="manage-column column-name column-primary">

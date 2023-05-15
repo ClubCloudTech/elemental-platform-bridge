@@ -323,8 +323,8 @@ class MembershipShortCode {
 	 * Render the Basket Nav Bar Button
 	 *
 	 * @param string $button_type   - Feedback for Ajax Post.
-	 * @param string $button_label  - Label for Button.
-	 * @param string $room_name     -  Name of Room.
+	 * @param string $button_label   - Label for Button.
+	 * @param string $encrypted_data - Content to send to Ajax (usually userid url, or something encrypted).
 	 * @param string $nonce         - Nonce for operation (if confirmation used).
 	 * @param string $product_or_id - Adds additional Data to Nonce for more security (optional).
 	 * @param string $style         - Add a class for the button (optional).
@@ -334,7 +334,7 @@ class MembershipShortCode {
 	 *
 	 * @return string
 	 */
-	public function basket_nav_bar_button( string $button_type, string $button_label, string $room_name = null, string $nonce = null, string $product_or_id = null, string $style = null, string $target_id = null, string $href_class = null, string $target_window = null ): string {
+	public function basket_nav_bar_button( string $button_type, string $button_label, string $encrypted_data = null, string $nonce = null, string $product_or_id = null, string $style = null, string $target_id = null, string $href_class = null, string $target_window = null ): string {
 
 		$id_text = null;
 		if ( $product_or_id ) {
@@ -350,8 +350,10 @@ class MembershipShortCode {
 		}
 
 		return '
-		<button  class="' . $style . ' elementalplugin-woocommerce-basket-ajax" data-input-type="' . $button_type . '" data-target="' . $target_id . ' " ' . $id_text . ' data-auth-nonce="' . $nonce . '">
-		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-room-name="' . $room_name . '"' . $id_text . ' elementalplugin-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
+		<button id="' . $target_id . '" class="' . $style . ' elementalplugin-woocommerce-basket-ajax" data-input-type="' . $button_type . '" data-target="' . $target_id . ' " ' . $id_text . ' 
+		data-auth-nonce="' . $nonce . '" data-encrypted="' . $encrypted_data . '">
+		<a  data-input-type="' . $button_type . '" data-auth-nonce="' . $nonce . '" data-encrypted="' . $encrypted_data . '"' . $id_text . '" 
+		class="elementalplugin-woocommerce-basket-ajax ' . $href_class . '">' . $button_label . '</a>
 		</button>
 		';
 	}

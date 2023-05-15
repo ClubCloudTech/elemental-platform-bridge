@@ -44,7 +44,7 @@ return function (
 		</div>
 	</div>
 
-	<div id="elemental-top-notification" class="elemental-button-notification"></div>
+	<div id="elemental-top-notification" class=""></div>
 	<table class="collapse wp-list-table widefat plugins elemental-table-adjust"
 		style="background : #d8d8d8; border: 4px solid black;">
 		<thead>

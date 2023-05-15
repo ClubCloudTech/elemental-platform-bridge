@@ -22,6 +22,11 @@ use ElementalPlugin\Module\Membership\Membership;
  */
 class MembershipAjax {
 
+	const RESET_PASSWORD          = 'elemental-password-reset-command';
+	const RESET_PASSWORD_APPROVED = 'elemental-password-reset-approved';
+	const REINVITE_USER           = 'elemental-reinvite-user-command';
+	const REINVITE_USER_APPROVED  = 'elemental-reinvite-user-approved';
+
 	/**
 	 * Elemental Ajax Support.
 	 * Handles membership function related calls and Ajax.
@@ -29,8 +34,7 @@ class MembershipAjax {
 	 * @return mixed
 	 */
 	public function membership_ajax_handler() {
-		$response            = array();
-		$response['message'] = 'No Change';
+		$response = array();
 
 		// Security Checks.
 		check_ajax_referer( 'elemental_membership', 'security', false );
@@ -41,9 +45,10 @@ class MembershipAjax {
 		$email            = Factory::get_instance( Ajax::class )->get_string_parameter( 'email' );
 		$first_name       = Factory::get_instance( Ajax::class )->get_string_parameter( 'first_name' );
 		$last_name        = Factory::get_instance( Ajax::class )->get_string_parameter( 'last_name' );
-		$user_id          = Factory::get_instance( Ajax::class )->get_string_parameter( 'userid' );
+		$user_id_encrypt  = Factory::get_instance( Ajax::class )->get_string_parameter( 'userid' );
 		$nonce            = Factory::get_instance( Ajax::class )->get_string_parameter( 'nonce' );
 		$type             = Factory::get_instance( Ajax::class )->get_string_parameter( 'type' );
+		$user_id          = Factory::get_instance( Encryption::class )->decrypt_string( $user_id_encrypt );
 
 		/*
 		* Update Membership Limit section.
@@ -151,15 +156,60 @@ class MembershipAjax {
 			return \wp_send_json( $response );
 		}
 		/*
-		* Reset Password.
-		* Different from update in that it completely resets itself - and notifies user.
+		* Reset Password First Confirmation Screen.
 		*
 		*/
 		if ( 'reset_password' === $action_taken ) {
+
+			$message                  = \esc_html__( 'send the user a reset password E-mail? This operation can not be undone, and the old password can\'t be recovered.', 'elementalplugin' );
+			$approved_nonce           = wp_create_nonce( $user_id . self::RESET_PASSWORD_APPROVED );
+			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( self::RESET_PASSWORD_APPROVED, esc_html__( 'Send Reset', 'elementalplugin' ), null, $approved_nonce, $user_id, null, self::RESET_PASSWORD_APPROVED );
+			$response['confirmation'] = Factory::get_instance( MembershipShortCode::class )->membership_confirmation( $message, $button_approved );
+
+			return \wp_send_json( $response );
+		}
+		/*
+		* Reset Password - Final Screen.
+		* Different from update in that it completely resets itself - and notifies user.
+		*
+		*/
+		if ( 'reset_password_final' === $action_taken ) {
+
 			$password      = Factory::get_instance( Ajax::class )->get_string_parameter( 'password' );
 			$checksum      = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
 			$user_id       = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
 			$success_state = Factory::get_instance( UserHelpers::class )->reset_password( $user_id, $password );
+
+			$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
+			$response['table'] = $new_table;
+
+			$response['feedback'] = $user_id;
+			return \wp_send_json( $response );
+		}
+
+		/*
+		* Re-invite User First Confirmation Screen.
+		*
+		*/
+		if ( 'reinvite_user' === $action_taken ) {
+
+			$message                  = \esc_html__( 're-invite the user to the site ? Their password will not be changed. ', 'elementalplugin' );
+			$approved_nonce           = wp_create_nonce( $user_id . self::REINVITE_USER_APPROVED );
+			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( self::REINVITE_USER_APPROVED, esc_html__( 'Re-invite User', 'elementalplugin' ), null, $approved_nonce, $user_id, null, self::REINVITE_USER_APPROVED );
+			$response['confirmation'] = Factory::get_instance( MembershipShortCode::class )->membership_confirmation( $message, $button_approved );
+
+			return \wp_send_json( $response );
+		}
+		/*
+		* Re-invite User - Final Screen.
+		* Different from update in that it completely resets itself - and notifies user.
+		*
+		*/
+		if ( 'reinvite_user_final' === $action_taken ) {
+
+			$checksum      = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
+			$user_id       = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
+			$success_state = Factory::get_instance( UserHelpers::class )->re_invite_user( $user_id );
 
 			$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
 			$response['table'] = $new_table;
@@ -205,21 +255,31 @@ class MembershipAjax {
 		*
 		*/
 		if ( 'delete_user' === $action_taken ) {
+			$checksum = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
+			if ( $checksum ) {
+				$user_id           = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
+				$user_id_encrypted = $checksum;
+			} else {
+				$user_id_encrypted = $user_id_encrypt;
+			}
 			$verify             = \wp_verify_nonce( $nonce, Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $user_id ) );
 			$verify_admin_nonce = \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE );
 			if ( ! $verify && ! $verify_admin_nonce ) {
 				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received - First', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
+			
+			//TODO redo parent delete routine
+			/*
 			$my_user_id  = \get_current_user_id();
 			$user_parent = Factory::get_instance( MemberSyncDAO::class )->get_parent_by_child( $user_id );
 			if ( $user_parent !== $my_user_id && ! \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE ) ) {
 				$response['feedback'] = \esc_html__( 'You are not the parent of this account, you can not delete it.', 'elementalplugin' );
 				return \wp_send_json( $response );
-			}
+			}*/
 			$message                  = \esc_html__( 'delete this user ? This operation can not be undone', 'elementalplugin' );
 			$approved_nonce           = wp_create_nonce( $user_id . 'approved' );
-			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( Membership::MEMBERSHIP_NONCE_PREFIX_DU, esc_html__( 'Delete User', 'elemental' ), null, $approved_nonce, $user_id );
+			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( Membership::MEMBERSHIP_NONCE_PREFIX_DU, esc_html__( 'Delete User', 'elemental' ), null, $approved_nonce, $user_id_encrypted, null, Membership::MEMBERSHIP_NONCE_PREFIX_DU );
 			$response['confirmation'] = Factory::get_instance( MembershipShortCode::class )->membership_confirmation( $message, $button_approved );
 
 			return \wp_send_json( $response );
@@ -233,6 +293,7 @@ class MembershipAjax {
 				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
+
 			$delete_user = Factory::get_instance( MembershipUser::class )->delete_wordpress_user( $user_id );
 			$delete_db   = Factory::get_instance( MemberSyncDAO::class )->delete_child_account( $user_id );
 

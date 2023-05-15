@@ -37,7 +37,7 @@ class Membership {
 	const MEMBERSHIP_ROLE_TENANT_DESCRIPTION       = 'Tenant Account';
 	const MEMBERSHIP_ROLE_TENANT_ADMIN             = 'tenantadmin';
 	const MEMBERSHIP_ROLE_TENANT_ADMIN_DESCRIPTION = 'Tenant Admin Account';
-	const MEMBERSHIP_NONCE_PREFIX_DU               = 'delete_user_';
+	const MEMBERSHIP_NONCE_PREFIX_DU               = 'elemental-delete-user-';
 
 	/**
 	 * Runtime Shortcodes and Setup

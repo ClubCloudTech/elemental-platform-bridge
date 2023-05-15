@@ -21,8 +21,8 @@ use ElementalPlugin\Module\Membership\Library\MembershipShortCode;
 class FileAjax {
 
 	const DELETE_APPROVED      = 'delete-approved';
-	const DELETE_FILE_REQUEST  = 'delete-request';
-	const DELETE_FILE_APPROVED = 'delete-approved';
+	const DELETE_FILE_REQUEST  = 'delete-file-request';
+	const DELETE_FILE_APPROVED = 'elemental-delete-file-approved';
 	const USER_MANAGER         = 'elemental-user-manager';
 
 
@@ -253,7 +253,7 @@ class FileAjax {
 
 			$message                  = \esc_html__( 'delete this file ? This operation can not be undone', 'elementalplugin' );
 			$approved_nonce           = wp_create_nonce( $user_id . self::DELETE_FILE_APPROVED );
-			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( $filecheck, esc_html__( 'Delete File', 'elementalplugin' ), null, $approved_nonce, $user_id );
+			$button_approved          = Factory::get_instance( MembershipShortCode::class )->basket_nav_bar_button( self::DELETE_FILE_APPROVED, esc_html__( 'Delete File', 'elementalplugin' ), $filecheck, $approved_nonce, $user_id, 'elemental-main-button-enabled delete-file-approved', self::DELETE_FILE_APPROVED );
 			$response['confirmation'] = Factory::get_instance( MembershipShortCode::class )->membership_confirmation( $message, $button_approved );
 
 			return \wp_send_json( $response );
@@ -272,6 +272,9 @@ class FileAjax {
 			// Delete File.
 			if ( $path ) {
 				$status = Factory::get_instance( FileManagement::class )->delete_file_if_exists( $path );
+			} else {
+				$response['feedback'] = \esc_html__( 'No File Path Found at ', 'elementalplugin' ) . $path . $filecheck;
+				return \wp_send_json( $response );
 			}
 			if ( $status ) {
 				$response['feedback']     = \esc_html__( 'File Deleted', 'elementalplugin' );

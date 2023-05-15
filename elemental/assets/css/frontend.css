@@ -293,15 +293,22 @@
 			padding-top: 40px;
 			padding-bottom: 40px;
 		}
+		.elemental-confirmation{
+			width:99%;
+			border-color: #C6C0AD;
+			border-style: solid;
+			border-width: 1px 1px 1px 1px;
+			box-shadow: 0 0 1px 1px rgb(0 0 0 / 30%);
+			display: grid;
+			margin: 3px 3px 3px 3px;
+			padding: 2px 2px 2px 2px;
+			transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;
+			
+		}
 
 		.elemental-confirmation-table-right {
 			width: 35%;
 			align-self: center;
-		}
-
-
-		.elemental-shopping-basket-frame {
-			width: 90%;
 		}
 
 		.elemental-notification-align,

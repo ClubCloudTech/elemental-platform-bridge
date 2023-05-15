@@ -7,6 +7,8 @@
 
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\TemplateIcons;
+use ElementalPlugin\Module\Membership\Library\MembershipAjax;
+use ElementalPlugin\Module\Membership\Membership;
 
 /**
  * Render the Picture page
@@ -22,6 +24,7 @@ return function (
 	?string $user_picture
 ): string {
 
+	$save_nonce = wp_create_nonce( Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $user->ID ) );
 	ob_start();
 
 	?>
@@ -70,7 +73,7 @@ return function (
 						?>
 						<input type="submit" name="submit" id="submitemail" class=" elemental-ul-style-menu elemental-welcome-positive " value="Update Email" style="display:none;" disabled>
 						<input type="submit" name="submit" id="submitdisplay" class=" elemental-ul-style-menu elemental-welcome-positive " value="Update Display Name" style="display:none;" disabled>
-						<input type="submit" name="submit" id="submitpassword" class=" elemental-ul-style-menu elemental-welcome-positive " value="Update Password" style="display:none;" disabled>
+						<input type="submit" name="submit" id="submitpassword" class=" elemental-ul-style-menu elemental-welcome-positive " value="Update Password" style="display:none;" data-source-multi="multi" disabled>
 					<div id="elemental-email-status"></div>
 					</td>
 					<td style="width:70%; float: left;">
@@ -84,10 +87,21 @@ return function (
 					<label for="display-name-input"><?php echo \esc_html__( 'Update Display Name', 'elementalplugin' ); ?></label><br>
 					<input type="string" name="display-name-input" size="32" id="elemental-display-name-input" class="elemental-input-restrict-alphanumeric" autocomplete="false" /><br>
 					</form>
-					<a href="" class="elemental-icons elemental-dashicons dashicons-email-alt elemental-user-manager" title="Re-send Invitation Mail"></a>
 					</td>
 				</tr>
-
+				<tr class="elemental-table-row"><td></td>
+				<td><label for="re-invite"><?php echo \esc_html__( 'Re-Send Invite', 'elementalplugin' ); ?></label>
+					<a id ="<?php echo esc_textarea( MembershipAjax::REINVITE_USER );?>"href="" class="elemental-icons elemental-dashicons dashicons-email-alt" title="Re-send Invitation Mail"></a></td>
+					<td><label for="reset-password"><?php echo \esc_html__( 'Reset Password', 'elementalplugin' ); ?></label>
+					<a id ="reset-password"href="" class="elemental-icons elemental-dashicons dashicons-admin-network " title="Reset Password"></a>
+					<label for="delete-user-click"><?php echo \esc_html__( 'Delete User', 'elementalplugin' ); ?></label>
+					<a id="delete-user-click" href="" class="elemental-icons elemental-dashicons dashicons-dismiss elemental-delete-user-account"
+							data-userid="<?php echo esc_attr( $user_encrypted_id ); ?>"
+							data-nonce="<?php echo esc_attr( $save_nonce ); ?>"
+							title="<?php echo esc_html__( 'Delete User', 'elementalplugin' ); ?>"
+							></a>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<div id="elemental-user-manager-frame-id" class="elemental-flex elemental-clear">

@@ -62,7 +62,9 @@ window.addEventListener('load', function () {
 		updatePassword(e)
         $(this).prop('value', 'Updating Password')
       })
-
+      $('#elemental-close-window').click(function (e) {
+        window.location.reload()
+      })
       hideButtons()
       $('#elemental-inbound-email').click(function (e) {
         e.stopPropagation()
@@ -87,6 +89,7 @@ window.addEventListener('load', function () {
         e.preventDefault()
         var user_id = $(this).attr('data-userid'),
           nonce = $(this).attr('data-nonce')
+          $('#elemental-adduser-frame').hide()
         deleteUser(e, user_id, nonce)
       })
       $('.elemental-file-manager').click(function (e) {
@@ -94,6 +97,7 @@ window.addEventListener('load', function () {
         e.preventDefault()
         var user_id = $(this).attr('data-userid'),
           nonce = $(this).attr('data-nonce')
+          $('#elemental-adduser-frame').hide()
         manageFile(e, user_id, nonce)
       })
       $('.elemental-user-manager').click(function (e) {
@@ -101,9 +105,31 @@ window.addEventListener('load', function () {
         e.preventDefault()
         var user_id = $(this).attr('data-userid'),
           nonce = $(this).attr('data-nonce')
+        $('#elemental-adduser-frame').hide()
         manageUser(e, user_id, nonce)
       })
-
+      $('#reset-password').click(function (e) {
+        e.stopPropagation()
+        e.preventDefault()
+        updatePassword(e, null, 'true')
+      })
+      $('#elemental-password-reset-approved').click(function (e) {
+        e.stopPropagation()
+        e.preventDefault()
+        updatePassword(e, true )
+      })
+      $('#elemental-reinvite-user-command').click(function (e) {
+        e.stopPropagation()
+        e.preventDefault()
+        reInviteUser(e, null, 'true')
+      })
+      $('#elemental-reinvite-user-approved').click(function (e) {
+        e.stopPropagation()
+        e.preventDefault()
+        reInviteUser(e, true )
+      })
+      
+      
       $('#elemental-main-button-cancel').click(function (e) {
         e.stopPropagation()
         e.preventDefault()
@@ -111,12 +137,11 @@ window.addEventListener('load', function () {
         $('#elemental-notification-frame').empty()
       })
 
-      $('.elemental-main-button-enabled').click(function (e) {
+      $('#elemental-delete-user-').click(function (e) {
         e.stopPropagation()
         e.preventDefault()
         user_id = $(this).attr('data-record-id')
         nonce = $(this).attr('data-auth-nonce')
-        console.log(this)
         deleteUser(e, user_id, nonce, true)
       })
     }
@@ -203,7 +228,6 @@ window.addEventListener('load', function () {
       var level = event.target.dataset.level,
         value = event.target.value,
         form_data = new FormData()
-      console.log(level + value)
       form_data.append('action', 'elemental_membershipadmin_ajax')
       form_data.append('action_taken', 'update_landing_template')
       form_data.append('level', level)
@@ -385,8 +409,11 @@ window.addEventListener('load', function () {
         notification = $('#elemental-notification-frame'),
         account_window = $('#elemental-membership-table'),
         type = $('#user-add-form').attr('data-type'),
-        counter_window = $('#elemental-remaining-counter')
-
+        counter_window = $('#elemental-remaining-counter'),
+        checksum     = $('#elemental-welcome-page').data('checksum')
+        if (typeof checksum != 'undefined' ) {
+          form_data.append('checksum', checksum )
+        }
       form_data.append('action', 'elemental_membershipadmin_ajax')
       if (final) {
         form_data.append('action_taken', 'delete_final')
@@ -396,6 +423,7 @@ window.addEventListener('load', function () {
       form_data.append('userid', user_id)
       form_data.append('nonce', nonce)
       form_data.append('type', type)
+      
       form_data.append('security', elemental_membershipadmin_ajax.security)
       $.ajax({
         type: 'post',
@@ -569,17 +597,27 @@ window.addEventListener('load', function () {
     /**
      * Update Password
      */
-		var updatePassword = function (event) {
+		var updatePassword = function (event, final, step) {
 
 			event.stopPropagation()
 		  var form_data = new FormData(),
 			notification = $('#elemental-notification-frame'),
 			account_window = $('#elemental-membership-table'),
 			checksum     = $('#elemental-welcome-page').data('checksum'),
+      multiuserflag = $('#submitpassword').data('source-multi')
 			password     = $('#elemental-password-input').val()
-	
+      multi = false
+      if (typeof multiuserflag != undefined && typeof step == undefined ){
+        multi=true;
+      }
 		  form_data.append('action', 'elemental_membershipadmin_ajax')
-		  form_data.append('action_taken', 'reset_password')
+      if (final || multi) {
+        form_data.append('action_taken', 'reset_password_final')
+      } else {
+        form_data.append('action_taken', 'reset_password')
+      }
+      
+      
 		  form_data.append('password', password )
 		  form_data.append('checksum', checksum)
 		  form_data.append('security', elemental_membershipadmin_ajax.security)
@@ -602,6 +640,61 @@ window.addEventListener('load', function () {
 	
 			  if (state_response.table) {
 				account_window.html(state_response.table)
+        $('#elemental-confirmation-box').hide();
+			  }
+			  init()
+			  window.elemental_stream_init()
+			},
+			error: function () {
+			  console.log('Error in server')
+			}
+		  })
+		}
+    /**
+     * Re-invite User
+     */ 
+		var reInviteUser = function (event, final, step) {
+
+			event.stopPropagation()
+		  var form_data = new FormData(),
+			notification = $('#elemental-notification-frame'),
+			account_window = $('#elemental-membership-table'),
+			checksum     = $('#elemental-welcome-page').data('checksum'),
+      multiuserflag = $('#submitpassword').data('source-multi')
+
+      multi = false
+      if (typeof multiuserflag != undefined && typeof step == undefined ){
+        multi=true;
+      }
+		  form_data.append('action', 'elemental_membershipadmin_ajax')
+      if (final || multi) {
+        form_data.append('action_taken', 'reinvite_user_final')
+      } else {
+        form_data.append('action_taken', 'reinvite_user')
+      }
+      		  
+		  form_data.append('checksum', checksum)
+		  form_data.append('security', elemental_membershipadmin_ajax.security)
+		  $.ajax({
+			type: 'post',
+			dataType: 'html',
+			url: elemental_membershipadmin_ajax.ajax_url,
+			contentType: false,
+			processData: false,
+			data: form_data,
+			success: function (response) {
+			  var state_response = JSON.parse(response)
+	
+			  if (state_response.confirmation) {
+				notification.html(state_response.confirmation)
+			  }
+			  if (state_response.feedback) {
+				console.log(state_response.feedback)
+			  }
+	
+			  if (state_response.table) {
+				account_window.html(state_response.table)
+        $('#elemental-confirmation-box').hide();
 			  }
 			  init()
 			  window.elemental_stream_init()

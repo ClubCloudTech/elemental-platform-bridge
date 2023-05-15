@@ -12,6 +12,7 @@ use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 use ElementalPlugin\Module\Membership\Membership;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
+use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
 
@@ -344,17 +345,18 @@ class MembershipUser {
 		$return_array = array();
 
 		foreach ( $sponsored_objects as $account ) {
-			$user                         = \get_user_by( 'ID', $account['user_id'] );
-			$parent                       = \get_user_by( 'ID', $account['parent_id'] );
-			$record_array                 = array();
-			$record_array['user_id']      = $account['user_id'];
-			$record_array['last_login']   = $this->get_last_login_by_user_id( $account['user_id'] );
-			$record_array['created']      = date_i18n( get_option( 'date_format' ), $account['timestamp'] );
-			$record_array['parent_name']  = $parent->display_name;
-			$record_array['display_name'] = $user->display_name;
-			$record_array['account_type'] = $account['account_type'];
-			$record_array['email']        = $user->user_email;
-			$record_array['allusers']     = \wp_create_nonce( self::VERIFICATION_NONCE );
+			$user                           = \get_user_by( 'ID', $account['user_id'] );
+			$parent                         = \get_user_by( 'ID', $account['parent_id'] );
+			$record_array                   = array();
+			$record_array['user_id']        = $account['user_id'];
+			$record_array['last_login']     = $this->get_last_login_by_user_id( $account['user_id'] );
+			$record_array['created']        = date_i18n( get_option( 'date_format' ), $account['timestamp'] );
+			$record_array['parent_name']    = $parent->display_name;
+			$record_array['display_name']   = $user->display_name;
+			$record_array['account_type']   = $account['account_type'];
+			$record_array['email']          = $user->user_email;
+			$record_array['encrypted-user'] = Factory::get_instance( Encryption::class )->encrypt_string( $account['user_id'] );
+			$record_array['allusers']       = \wp_create_nonce( self::VERIFICATION_NONCE );
 
 			\array_push( $return_array, $record_array );
 		}

@@ -9,6 +9,11 @@ window.addEventListener('load', function () {
      * Main Initialisation Function
      */
     function init () {
+      
+        $('.elemental-close-window').click(function (e) {
+          window.location.reload()
+        })
+      
       $('.elemental-delete-file').click(function (e) {
         e.stopPropagation()
         e.preventDefault()
@@ -18,12 +23,12 @@ window.addEventListener('load', function () {
         deleteFile(e, usrcheck, file_check, nonce)
       })
 
-      $('.elemental-main-button-enabled').click(function (e) {
+      $('#elemental-delete-file-approved').click(function (e) {
         e.stopPropagation()
         e.preventDefault()
         user_id = $('#elemental-welcome-page').attr('data-checksum')
         nonce = $(this).attr('data-auth-nonce')
-        input = $(this).attr('data-input-type')
+        input = $(this).attr('data-encrypted')
         deleteFile(e, user_id, input, nonce, true)
       })
 
@@ -32,10 +37,6 @@ window.addEventListener('load', function () {
         e.preventDefault()
         $('#elemental-membership-table').show()
         $('#elemental-top-notification').empty()
-      })
-
-      $('.elemental-close-window').click(function (e) {
-        window.location.reload()
       })
 
       /* Initialise Camera, and Listen to Buttons */
@@ -49,25 +50,6 @@ window.addEventListener('load', function () {
           .getElementById('elemental-text-description-current')
           .classList.remove('elemental-hide')
         startcamera()
-      })
-
-      $('.elemental-button-login').click(function (e) {
-        e.preventDefault()
-        document
-          .getElementById('elemental-picture')
-          .classList.add('elemental-hide')
-        if (loginActive.length > 0) {
-          document
-            .getElementById('elemental-login-form')
-            .classList.remove('elemental-hide')
-        }
-        document
-          .getElementById('elemental-checksound')
-          .classList.add('elemental-hide')
-        document
-          .getElementById('elemental-meeting-name')
-          .classList.add('elemental-hide')
-        $('#elemental-login-form').slideToggle()
       })
 
       $('.elemental-photo-image').click(function (e) {
@@ -511,7 +493,7 @@ window.addEventListener('load', function () {
       form_data.append('action', 'elemental_base_ajax')
 
       jQuery(function ($) {
-        console.log('Picture Delete')
+
         var room_name = $('#roominfo').data('roomName'),
           checksum = $('#elemental-welcome-page').data('checksum'),
           display_name = $('#vid-name').val()
@@ -535,16 +517,13 @@ window.addEventListener('load', function () {
             $('.elemental-forget-me').hide()
             setTimeout(() => {
               window.location.reload()
-            }, 1500)
+            }, 200)
           },
           error: function (response) {
             console.log('Error Deleting')
           }
         })
       })
-
-      document.getElementById('elemental-top-notification').innerHTML +=
-        '<br><div><strong>Your Records have been deleted</strong></div>'
     }
 
     function refreshWelcome () {

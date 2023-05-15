@@ -11,6 +11,7 @@ use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\EmailHelpers;
+use ElementalPlugin\Module\Membership\DAO\MemberSyncDAO;
 
 /**
  * Class UserHelpers
@@ -21,6 +22,8 @@ class UserHelpers {
 	const DOCVAULT_MENU_CP_SETTING           = 'elemental-docvault-menu-setting';
 	const RESTRICTED_MENU_CP_SETTING         = 'elemental-restricted-menu-setting';
 	const EMAIL_NOTIFICATION_MENU_CP_SETTING = 'elemental-email-file-notification-menu-setting';
+	const CHANGE_PASSWORD_MENU_CP_SETTING    = 'elemental-change-password-menu-setting';
+	const LOGIN_ADDRESS_MENU_CP_SETTING      = 'elemental-login-address-menu-setting';
 	/**
 	 * Init
 	 *
@@ -42,6 +45,15 @@ class UserHelpers {
 		// Option for Sending Email Notifications.
 		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_notification_email_menu_cp_setting' ), 9, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'update_notification_email_menu_cp_setting' ), 9, 2 );
+
+		// Option for Sending Email Notifications.
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_change_password_menu_cp_setting' ), 9, 2 );
+		\add_filter( 'elemental_page_option', array( $this, 'update_change_password_menu_cp_setting' ), 9, 2 );
+
+		// Option for Sending Email Notifications.
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_login_url_menu_cp_setting' ), 9, 2 );
+		\add_filter( 'elemental_page_option', array( $this, 'update_login_url_menu_cp_setting' ), 9, 2 );
+
 	}
 
 	/**
@@ -145,6 +157,78 @@ class UserHelpers {
 	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
 	 * @return array
 	 */
+	public function process_change_password_menu_cp_setting( array $response ): array {
+		$current_value = \get_option( self::CHANGE_PASSWORD_MENU_CP_SETTING );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::CHANGE_PASSWORD_MENU_CP_SETTING );
+		if ( $field !== $current_value ) {
+			\update_option( self::CHANGE_PASSWORD_MENU_CP_SETTING, $field );
+			$response['feedback'] = \esc_html__( 'Password Change URL Setting Saved', 'elementalplugin' );
+		}
+		return $response;
+	}
+		/**
+	 * Add Access Restricted Menu Icon Control Panel
+	 *
+	 * @param array $input - the filter input.
+	 * @return array
+	 */
+	public function update_change_password_menu_cp_setting( array $input ): array {
+		$input_add = ' 
+		<td>
+		<span>' . esc_html__( 'Change Password URL', 'elementalplugin' ) . '</span>
+		</td>
+		<td>
+		<input type="string" size="64"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
+		id="' . esc_attr( self::CHANGE_PASSWORD_MENU_CP_SETTING ) . '"
+		value="' . get_option( self::CHANGE_PASSWORD_MENU_CP_SETTING ) . '">
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( ' The URL of the Change Password Page', 'elementalplugin' ) . '"></i>
+		</td>';
+		\array_push( $input, $input_add );
+		return $input;
+	}
+		/**
+	 * Process Update Result. Profile Menu CP Setting.
+	 *
+	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
+	 * @return array
+	 */
+	public function process_login_url_menu_cp_setting( array $response ): array {
+		$current_value = \get_option( self::LOGIN_ADDRESS_MENU_CP_SETTING );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::LOGIN_ADDRESS_MENU_CP_SETTING );
+		if ( $field !== $current_value ) {
+			\update_option( self::LOGIN_ADDRESS_MENU_CP_SETTING, $field );
+			$response['feedback'] = \esc_html__( 'Login URL Setting Saved', 'elementalplugin' );
+		}
+		return $response;
+	}
+		/**
+	 * Add Access Restricted Menu Icon Control Panel
+	 *
+	 * @param array $input - the filter input.
+	 * @return array
+	 */
+	public function update_login_url_menu_cp_setting( array $input ): array {
+		$input_add = ' 
+		<td>
+		<span>' . esc_html__( 'Login Page URL', 'elementalplugin' ) . '</span>
+		</td>
+		<td>
+		<input type="string" size="64"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
+		id="' . esc_attr( self::LOGIN_ADDRESS_MENU_CP_SETTING ) . '"
+		value="' . get_option( self::LOGIN_ADDRESS_MENU_CP_SETTING ) . '">
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( ' The URL of the Login Page', 'elementalplugin' ) . '"></i>
+		</td>';
+		\array_push( $input, $input_add );
+		return $input;
+	}
+	/**
+	 * Process Update Result. Profile Menu CP Setting.
+	 *
+	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
+	 * @return array
+	 */
 	public function process_docvault_menu_cp_setting( array $response ): array {
 		$current_value = \get_option( self::DOCVAULT_MENU_CP_SETTING );
 		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::DOCVAULT_MENU_CP_SETTING );
@@ -168,7 +252,7 @@ class UserHelpers {
 		}
 		$input_add = ' 
 		<td>
-		<span>' . esc_html__( 'Send Email File Change Notifications', 'elementalplugin' ) . '</span>
+		<span>' . esc_html__( 'Send Email File and Account Notifications', 'elementalplugin' ) . '</span>
 		</td>
 		<td>
 		<input type="checkbox" 
@@ -177,7 +261,7 @@ class UserHelpers {
 		name="' . esc_attr( self::EMAIL_NOTIFICATION_MENU_CP_SETTING ) . '"
 		value="' . esc_attr( self::EMAIL_NOTIFICATION_MENU_CP_SETTING ) . '"
 		. ' . $retrieved_value . '>
-			<label for="' . esc_attr( self::EMAIL_NOTIFICATION_MENU_CP_SETTING ) . '">' . \esc_html__( ' Send Email on file uploads', 'elementalplugin' ) . '</label>
+			<label for="' . esc_attr( self::EMAIL_NOTIFICATION_MENU_CP_SETTING ) . '">' . \esc_html__( ' Send Email on account and file events', 'elementalplugin' ) . '</label>
 		<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( ' Send Email Notifications - yes or no', 'elementalplugin' ) . '"></i><br>
 		</td>';
 		\array_push( $input, $input_add );
@@ -264,7 +348,7 @@ class UserHelpers {
 	 *
 	 * @param int    $user_id - the user id.
 	 * @param string $password - the Password to update.
-	 * @return bool
+	 * @return void
 	 */
 	public function update_password( int $user_id, string $password ):void {
 		wp_set_password( $password, $user_id );
@@ -300,6 +384,42 @@ class UserHelpers {
 			
 		</table>
 		';
+		Factory::get_instance( EmailHelpers::class )->send_generic_email( $email_address, $subject_line, $welcome_message, $body_message, $detail );
+	}
+
+	/**
+	 * Reset User Password and communicate.
+	 *
+	 * @param int    $user_id - the user id.
+	 * @return void
+	 */
+	public function re_invite_user( int $user_id ):void {
+		//Find Inviter.
+		$parent_id     = Factory::get_instance( MemberSyncDAO::class )->get_parent_by_child( $user_id );
+		$parent_object = \get_user_by( 'ID', $parent_id );
+		$site_url      = \get_site_url();
+
+		// Notify User.
+		$user            = \get_user_by( 'id', $user_id );
+		$email_address   = $user->user_email;
+		$welcome_message = esc_html__( 'Reminder to Access Your Acccount', 'elementalplugin' );
+		$subject_line    = \esc_html__( 'Reminder for you to access your ', 'elementalplugin' ) . \get_bloginfo( 'name' ) . \esc_html__( ' account', 'elemental' );
+		$body_message    = esc_html__( 'You have been invited to access the ', 'elementalplugin' ) .
+		get_bloginfo( 'name' ) . esc_html__( ' platform by ', 'elementalplugin' ) . \esc_textarea( $parent_object->display_name ) .
+		esc_html__( '. You can access the platform at: ', 'elementalplugin' ) . '<br>' . $site_url;
+		$detail          = '<br>
+		<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%" class="body" style="border-collapse: collapse; border-spacing: 0; vertical-align: top;  -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; height: 100% !important; width: 100% !important; min-width: 100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; -webkit-font-smoothing: antialiased !important; -moz-osx-font-smoothing: grayscale !important; background-color: #f1f1f1; color: #444; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; margin: 0; Margin: 0; text-align: left; font-size: 14px; line-height: 140%;"><tr style="padding: 0; vertical-align: top; text-align: left;">
+			<thead colspan="2"><h3>' . esc_html__( 'Your Details', 'elementalplugin' ) . '</h3>
+			</thead>
+			<tr style="padding: 0; vertical-align: top; text-align: left;"><td><strong>' . esc_html__( 'Username', 'elementalplugin' ) . '</strong></td>
+			<td>' . \esc_textarea( $user->user_login ) . '</td></tr>
+			<tr style="padding: 0; vertical-align: top; text-align: left;"><td><strong>' . esc_html__( 'Password', 'elementalplugin' ) . '</strong></td>
+			<td>' . esc_html__( 'Access: ', 'elementalplugin' ) . '<a href="' . $site_url . get_option( self::LOGIN_ADDRESS_MENU_CP_SETTING ) . '">' . esc_html__( 'Here', 'elementalplugin' ) . '</a><br>' .
+			esc_html__( 'Change Password: ', 'elementalplugin' ) . '<a href="' . $site_url . get_option( self::CHANGE_PASSWORD_MENU_CP_SETTING ) . '">' . esc_html__( 'Here', 'elementalplugin' ) . '</a></td></tr>
+			
+		</table>
+		';
+
 		Factory::get_instance( EmailHelpers::class )->send_generic_email( $email_address, $subject_line, $welcome_message, $body_message, $detail );
 	}
 }
