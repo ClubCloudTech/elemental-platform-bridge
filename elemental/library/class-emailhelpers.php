@@ -57,7 +57,10 @@ class EmailHelpers {
 	 * Send Generic Mail to User.
 	 *
 	 * @param string $email_address - the User Email Address.
-	 * @param string $first_name    - the User First Name.
+	 * @param string $subject_line  - Email Subject Line.
+	 * @param string $welcome_message  - Top Message.
+	 * @param string $body_message  - Main Message Body.
+	 * @param string $detail  - Detail to Send.
 	 *
 	 * @return bool
 	 */
@@ -67,7 +70,7 @@ class EmailHelpers {
 			return false;
 		}
 		$current_url_setting = \get_option( UserHelpers::IMAGE_URL_MENU_CP_SETTING );
-		if ( isset( $current_url_setting ) ) {
+		if ( $current_url_setting ) {
 			$logo_image_url = $current_url_setting;
 		} else {
 			$logo_image_url = wp_get_attachment_url( get_theme_mod( 'custom_logo' ) );
