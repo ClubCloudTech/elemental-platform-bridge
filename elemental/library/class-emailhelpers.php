@@ -66,6 +66,12 @@ class EmailHelpers {
 		if ( 'true' !== $setting ) {
 			return false;
 		}
+		$current_url_setting = \get_option( UserHelpers::IMAGE_URL_MENU_CP_SETTING );
+		if ( isset( $current_url_setting ) ) {
+			$logo_image_url = $current_url_setting;
+		} else {
+			$logo_image_url = wp_get_attachment_url( get_theme_mod( 'custom_logo' ) );
+		}
 
 		$template = include __DIR__ . '../../views/email/email-generic.php';
 		$headers  = array( 'Content-Type: text/html; charset=UTF-8' );
@@ -73,7 +79,7 @@ class EmailHelpers {
 		$status = wp_mail(
 			$email_address,
 			$subject_line,
-			$template( $welcome_message, $body_message, $detail ),
+			$template( $welcome_message, $body_message, $detail, $logo_image_url ),
 			$headers
 		);
 		return $status;

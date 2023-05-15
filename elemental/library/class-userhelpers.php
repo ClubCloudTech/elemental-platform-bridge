@@ -24,6 +24,9 @@ class UserHelpers {
 	const EMAIL_NOTIFICATION_MENU_CP_SETTING = 'elemental-email-file-notification-menu-setting';
 	const CHANGE_PASSWORD_MENU_CP_SETTING    = 'elemental-change-password-menu-setting';
 	const LOGIN_ADDRESS_MENU_CP_SETTING      = 'elemental-login-address-menu-setting';
+	const IMAGE_URL_MENU_CP_SETTING          = 'elemental-image-url-menu-setting';
+
+	
 	/**
 	 * Init
 	 *
@@ -46,13 +49,17 @@ class UserHelpers {
 		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_notification_email_menu_cp_setting' ), 9, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'update_notification_email_menu_cp_setting' ), 9, 2 );
 
-		// Option for Sending Email Notifications.
+		// Option for Change Password URL.
 		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_change_password_menu_cp_setting' ), 9, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'update_change_password_menu_cp_setting' ), 9, 2 );
 
-		// Option for Sending Email Notifications.
-		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_login_url_menu_cp_setting' ), 9, 2 );
+		// Option for Login URL.
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_image_url_menu_cp_setting' ), 9, 2 );
 		\add_filter( 'elemental_page_option', array( $this, 'update_login_url_menu_cp_setting' ), 9, 2 );
+
+		// Option for Email URL.
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_image_url_menu_cp_setting' ), 9, 2 );
+		\add_filter( 'elemental_page_option', array( $this, 'update_image_url_menu_cp_setting' ), 9, 2 );
 
 	}
 
@@ -219,6 +226,42 @@ class UserHelpers {
 		id="' . esc_attr( self::LOGIN_ADDRESS_MENU_CP_SETTING ) . '"
 		value="' . get_option( self::LOGIN_ADDRESS_MENU_CP_SETTING ) . '">
 			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( ' The URL of the Login Page', 'elementalplugin' ) . '"></i>
+		</td>';
+		\array_push( $input, $input_add );
+		return $input;
+	}
+			/**
+	 * Process Update Result. Profile Menu CP Setting.
+	 *
+	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
+	 * @return array
+	 */
+	public function process_image_url_menu_cp_setting( array $response ): array {
+		$current_value = \get_option( self::IMAGE_URL_MENU_CP_SETTING );
+		$field         = Factory::get_instance( Ajax::class )->get_string_parameter( self::IMAGE_URL_MENU_CP_SETTING );
+		if ( $field !== $current_value ) {
+			\update_option( self::IMAGE_URL_MENU_CP_SETTING, $field );
+			$response['feedback'] = \esc_html__( 'Image URL Setting Saved', 'elementalplugin' );
+		}
+		return $response;
+	}
+	/**
+	 * Add Access Restricted Menu Icon Control Panel
+	 *
+	 * @param array $input - the filter input.
+	 * @return array
+	 */
+	public function update_image_url_menu_cp_setting( array $input ): array {
+		$input_add = ' 
+		<td>
+		<span>' . esc_html__( 'Email Logo URL', 'elementalplugin' ) . '</span>
+		</td>
+		<td>
+		<input type="string" size="64"
+		class="elemental-main-button-enabled elemental-maintenance-setting"
+		id="' . esc_attr( self::IMAGE_URL_MENU_CP_SETTING ) . '"
+		value="' . get_option( self::IMAGE_URL_MENU_CP_SETTING ) . '">
+			<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( ' The URL of the Logo Image for Email (full URL)', 'elementalplugin' ) . '"></i>
 		</td>';
 		\array_push( $input, $input_add );
 		return $input;
