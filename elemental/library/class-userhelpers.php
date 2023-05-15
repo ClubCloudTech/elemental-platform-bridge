@@ -8,6 +8,9 @@
 namespace ElementalPlugin\Library;
 
 use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
+use ElementalPlugin\Library\Ajax;
+use ElementalPlugin\Library\Factory;
+use ElementalPlugin\Library\EmailHelpers;
 
 /**
  * Class UserHelpers
@@ -198,6 +201,24 @@ class UserHelpers {
 		return $response;
 	}
 	/**
+	 * Update User Email in WP.
+	 *
+	 * @param int    $user_id - the user id.
+	 * @param string $display_name - the user Display Name to change.
+	 * @return bool
+	 */
+	public function update_display_name( int $user_id, string $display_name ):bool {
+		$args    = array(
+			'ID'           => $user_id,
+			'display_name' => $display_name,
+		);
+		$success = wp_update_user( $args );
+		if ( $success ) {
+			return true;
+		}
+		return false;
+	}
+	/**
 	 * Render Membership Config Page
 	 * Renders configuration of Membership Management Plugin
 	 *
@@ -248,6 +269,7 @@ class UserHelpers {
 	public function update_password( int $user_id, string $password ):void {
 		wp_set_password( $password, $user_id );
 	}
+
 	/**
 	 * Reset User Password and communicate.
 	 *
@@ -261,5 +283,23 @@ class UserHelpers {
 		}
 		wp_set_password( $password, $user_id );
 
+		// Notify User Password.
+		$user            = \get_user_by( 'id', $user_id );
+		$email_address   = $user->user_email;
+		$welcome_message = esc_html__( 'Password Reset Notification', 'elementalplugin' );
+		$subject_line    = \esc_html__( 'Password Reset for your account at ', 'elementalplugin' ) . \get_bloginfo( 'name' );
+		$body_message    = esc_html__( 'Your password on ', 'elementalplugin' ) . get_bloginfo( 'name' ) . esc_html__( ' has been changed. The details of the new password are below. ', 'elementalplugin' );
+		$detail          = '<br>
+		<table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%" class="body" style="border-collapse: collapse; border-spacing: 0; vertical-align: top;  -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; height: 100% !important; width: 100% !important; min-width: 100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; -webkit-font-smoothing: antialiased !important; -moz-osx-font-smoothing: grayscale !important; background-color: #f1f1f1; color: #444; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; margin: 0; Margin: 0; text-align: left; font-size: 14px; line-height: 140%;"><tr style="padding: 0; vertical-align: top; text-align: left;">
+			<thead colspan="2"><h3>' . esc_html__( 'New Password Details', 'elementalplugin' ) . '</h3>
+			</thead>
+			<tr style="padding: 0; vertical-align: top; text-align: left;"><td><strong>' . esc_html__( 'Username', 'elementalplugin' ) . '</strong></td>
+			<td>' . \esc_textarea( $user->user_login ) . '</td></tr>
+			<tr style="padding: 0; vertical-align: top; text-align: left;"><td><strong>' . esc_html__( 'Password', 'elementalplugin' ) . '</strong></td>
+			<td>' . \esc_textarea( $password ) . '</td></tr>
+			
+		</table>
+		';
+		Factory::get_instance( EmailHelpers::class )->send_generic_email( $email_address, $subject_line, $welcome_message, $body_message, $detail );
 	}
 }

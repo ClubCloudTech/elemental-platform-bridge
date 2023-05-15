@@ -111,11 +111,11 @@ class MembershipAjax {
 		*
 		*/
 		if ( 'update_email' === $action_taken ) {
-			$checksum      = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
-			$user_id       = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
-			$success_state = Factory::get_instance( EmailHelpers::class )->update_user_email( $user_id, $email );
-			$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
-			$response['table'] = $new_table;
+			$checksum             = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
+			$user_id              = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
+			$success_state        = Factory::get_instance( EmailHelpers::class )->update_user_email( $user_id, $email );
+			$new_table            = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
+			$response['table']    = $new_table;
 			$response['feedback'] = $user_id;
 			return \wp_send_json( $response );
 		}
@@ -124,17 +124,18 @@ class MembershipAjax {
 		*
 		*/
 		if ( 'update_display_name' === $action_taken ) {
-			$display_name  = Factory::get_instance( Ajax::class )->get_string_parameter( 'display_name' );
-			$checksum      = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
-			$user_id       = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
-			$success_state = Factory::get_instance( EmailHelpers::class )->update_display_name( $user_id, $display_name );
-			$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
-			$response['table'] = $new_table;
+			$display_name         = Factory::get_instance( Ajax::class )->get_string_parameter( 'display_name' );
+			$checksum             = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
+			$user_id              = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
+			$success_state        = Factory::get_instance( UserHelpers::class )->update_display_name( $user_id, $display_name );
+			$new_table            = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
+			$response['table']    = $new_table;
 			$response['feedback'] = $user_id;
 			return \wp_send_json( $response );
 		}
 		/*
 		* Update Password.
+		* Admin user has selected a new password and sends it in for change.
 		*
 		*/
 		if ( 'update_password' === $action_taken ) {
@@ -142,6 +143,23 @@ class MembershipAjax {
 			$checksum      = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
 			$user_id       = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
 			$success_state = Factory::get_instance( UserHelpers::class )->update_password( $user_id, $password );
+
+			$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
+			$response['table'] = $new_table;
+
+			$response['feedback'] = $user_id;
+			return \wp_send_json( $response );
+		}
+		/*
+		* Reset Password.
+		* Different from update in that it completely resets itself - and notifies user.
+		*
+		*/
+		if ( 'reset_password' === $action_taken ) {
+			$password      = Factory::get_instance( Ajax::class )->get_string_parameter( 'password' );
+			$checksum      = Factory::get_instance( Ajax::class )->get_string_parameter( 'checksum' );
+			$user_id       = Factory::get_instance( Encryption::class )->decrypt_string( $checksum );
+			$success_state = Factory::get_instance( UserHelpers::class )->reset_password( $user_id, $password );
 
 			$new_table         = Factory::get_instance( UserHelpers::class )->render_user_manage_page( intval( $user_id ) );
 			$response['table'] = $new_table;

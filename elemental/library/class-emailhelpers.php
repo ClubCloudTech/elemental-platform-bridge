@@ -52,24 +52,6 @@ class EmailHelpers {
 		}
 		return false;
 	}
-	/**
-	 * Update User Email in WP.
-	 *
-	 * @param int    $user_id - the user id.
-	 * @param string $display_name - the user Display Name to change.
-	 * @return bool
-	 */
-	public function update_display_name( int $user_id, string $display_name ):bool {
-		$args    = array(
-			'ID'           => $user_id,
-			'display_name' => $display_name,
-		);
-		$success = wp_update_user( $args );
-		if ( $success ) {
-			return true;
-		}
-		return false;
-	}
 
 	/**
 	 * Send Generic Mail to User.
@@ -79,14 +61,18 @@ class EmailHelpers {
 	 *
 	 * @return bool
 	 */
-	public function send_generic_email( string $email_address, string $welcome_message, string $body_message, string $detail = null ) {
+	public function send_generic_email( string $email_address, string $subject_line, string $welcome_message, string $body_message, string $detail = null ):bool {
+		$setting = get_option( UserHelpers::EMAIL_NOTIFICATION_MENU_CP_SETTING );
+		if ( 'true' !== $setting ) {
+			return false;
+		}
 
 		$template = include __DIR__ . '../../views/email/email-generic.php';
 		$headers  = array( 'Content-Type: text/html; charset=UTF-8' );
 
 		$status = wp_mail(
 			$email_address,
-			\esc_html__( ' New Document for you at ', 'elementalplugin' ) . \get_bloginfo( 'name' ),
+			$subject_line,
 			$template( $welcome_message, $body_message, $detail ),
 			$headers
 		);
@@ -102,6 +88,10 @@ class EmailHelpers {
 	 * @return bool
 	 */
 	public function notify_user_file_change( string $email_address, string $first_name ) {
+		$setting = get_option( UserHelpers::EMAIL_NOTIFICATION_MENU_CP_SETTING );
+		if ( 'true' !== $setting ) {
+			return false;
+		}
 
 		$template = include __DIR__ . '/../views/email/file-change-email-template.php';
 		$headers  = array( 'Content-Type: text/html; charset=UTF-8' );

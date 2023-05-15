@@ -579,7 +579,7 @@ window.addEventListener('load', function () {
 			password     = $('#elemental-password-input').val()
 	
 		  form_data.append('action', 'elemental_membershipadmin_ajax')
-		  form_data.append('action_taken', 'update_password')
+		  form_data.append('action_taken', 'reset_password')
 		  form_data.append('password', password )
 		  form_data.append('checksum', checksum)
 		  form_data.append('security', elemental_membershipadmin_ajax.security)
