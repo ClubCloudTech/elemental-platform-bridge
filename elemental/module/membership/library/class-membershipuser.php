@@ -13,6 +13,7 @@ use ElementalPlugin\Module\Membership\Membership;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\Encryption;
+use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
 
@@ -29,6 +30,8 @@ class MembershipUser {
 	const USERSUBS_META_VALUE_ONBOARD_DATA_PENDING = 'elemental_onboardsubs_data_pending';
 	const USERSUBS_META_KEY_MEMBERSHIP_PRODUCT     = 'elemental_membership_product';
 	const VERIFICATION_NONCE                       = 'elemental_nonce_admin_verification';
+	const TENANT_COUNTRY_META_KEY                  = 'elemental-tenant-country';
+	const TENANT_PARENT_META_KEY                   = 'elemental-tenant-parent-id';
 
 	/**
 	 * Create WordPress user from Membership form Ajax call.
@@ -124,7 +127,7 @@ class MembershipUser {
 		$check_result = \apply_filters( 'elemental_pre_user_add', $email );
 
 		if ( $check_result['status'] ) {
-			$return_array['feedback'] = \esc_html__( 'Employee with ' . $email . 'already exists.', 'elementalplugin' );
+			$return_array['feedback'] = \esc_html__( 'Employee with ', 'elementalplugin' ) . $email . esc_html__( ' already exists.', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;
 		}
@@ -182,13 +185,6 @@ class MembershipUser {
 			return false;
 		}
 
-		// Check with the Sync Engine that this does not exist in a node already.
-		$pre_check = \apply_filters( 'elemental_pre_tenant_add', $first_name, $email );
-
-		if ( false === $pre_check ) {
-			return false;
-		}
-
 		$password = wp_generate_password( 12, false );
 		$user_id  = wp_create_user( $email, $password, $email );
 		if ( ! $user_id ) {
@@ -218,7 +214,89 @@ class MembershipUser {
 
 		return $user_id;
 	}
+	/**
+	 * Create WordPress user from Free Tenant- Add form Ajax call.
+	 *
+	 * @param string $first_name - User First Name.
+	 * @param string $last_name  - User Last Name.
+	 * @param string $email      - Email.
+	 * @param string $company    - Company.
+	 * @param string $country    - Country.
+	 * @param string $password   - Password.
+	 * @param string $membership - Membership ID to add.
+	 *
+	 * @return ?int
+	 */
+	public function create_free_tenant_parent( string $first_name, string $last_name, string $email, string $company_name, string $country, string $password, string $membership ): ?int {
+		$company_available = Factory::get_instance( UserHelpers::class )->verify_company_available( $company_name );
+		if ( strlen( $first_name ) < 4 || strlen( $last_name ) < 3 || strlen( $password ) < 8 || strlen( $company_name ) < 5 || ! \sanitize_email( $email ) || \username_exists( $email ) || ! $company_available ) {
+			return false;
+		}
+		// Master Parent Account Section.
+		$company_slug     = Factory::get_instance( UserHelpers::class )->format_company_name( $company_name );
+		$company_email    = Factory::get_instance( UserHelpers::class )->format_company_email_address( $company_name );
+		$company_password = wp_generate_password( 12, false );
 
+		$parent_user_id = wp_create_user( $company_slug, $company_password, $company_email );
+		if ( ! $parent_user_id ) {
+			return false;
+		}
+		wp_update_user(
+			array(
+				'ID'           => $parent_user_id,
+				'nickname'     => $first_name,
+				'display_name' => $company_name,
+				'first_name'   => $company_name,
+				'role'         => Membership::MEMBERSHIP_ROLE_TENANT,
+			)
+		);
+		$meta_key   = self::TENANT_COUNTRY_META_KEY;
+		$meta_value = $country;
+		add_user_meta(
+			$parent_user_id,
+			$meta_key,
+			$meta_value
+		);
+
+		// Check with the Sync Engine that this does not exist in a node already.
+		\apply_filters( 'elemental_post_tenant_add', $parent_user_id, $password );
+
+		//// User Admin Account Section.
+		$admin_account_user_id = wp_create_user( $email, $password, $email );
+		// Update Additional User Parameters.
+		wp_update_user(
+			array(
+				'ID'           => $admin_account_user_id,
+				'nickname'     => $first_name,
+				'display_name' => $first_name . ' ' . $last_name,
+				'first_name'   => $first_name,
+				'last_name'    => $last_name,
+				'role'         => Membership::MEMBERSHIP_ROLE_TENANT_ADMIN,
+			)
+		);
+		// Notify User of Password.
+		$this->notify_user_credential( $password, $email, $first_name );
+
+		// Inject Parent ID.
+		$meta_key   = self::TENANT_PARENT_META_KEY;
+		$meta_value = $parent_user_id;
+		add_user_meta(
+			$admin_account_user_id,
+			$meta_key,
+			$meta_value
+		);
+
+		// Inject Country ID.
+		$meta_key   = self::TENANT_COUNTRY_META_KEY;
+		$meta_value = $country;
+		add_user_meta(
+			$admin_account_user_id,
+			$meta_key,
+			$meta_value
+		);
+
+		return $admin_account_user_id;
+	}
 	/**
 	 * Create WordPress user from Indivual Subscriber Add form Ajax call.
 	 *
@@ -396,7 +474,7 @@ class MembershipUser {
 	 */
 	public function is_user_onboarding( int $user_id ): bool {
 		$meta_key = get_user_meta( $user_id, self::USER_META_KEY_PENDING );
-		if ( self::USER_META_VALUE_PENDING === $meta_key[0] ) {
+		if ( isset( $meta_key[0] ) && self::USER_META_VALUE_PENDING === $meta_key[0] ) {
 
 			return true;
 

@@ -32,12 +32,13 @@ class UMPMemberships {
 		$membership_levels = array_keys( $ihc_data );
 		$return_array      = array();
 		foreach ( $membership_levels as $level => $value ) {
-			if ( ! $membership_id || Factory::get_instance( ElementalUMPDAO::class )->translate_ump_level_to_wc( $value ) === $membership_id ) {
+			if ( $value === $membership_id || Factory::get_instance( ElementalUMPDAO::class )->translate_ump_level_to_wc( $value ) === $membership_id ) {
 				$record_data                      = Factory::get_instance( MembershipDAO::class )->get_limit_info( intval( $value ) );
 				$record_array                     = array();
 				$record_array['level']            = $value;
 				$record_array['wcfm_level']       = Factory::get_instance( ElementalUMPDAO::class )->translate_ump_level_to_wc( $value );
 				$record_array['label']            = $ihc_data[ $value ]['label'];
+				$record_array['description']      = $ihc_data[ $value ]['short_description'];
 				$record_array['badge_url']        = $ihc_data[ $value ]['badge_image_url'];
 				$record_array['price_text']       = $ihc_data[ $value ]['price_text'];
 				$record_array['limit']            = $record_data->user_limit;
@@ -106,6 +107,21 @@ class UMPMemberships {
 		UserSubscriptions::assign( $staff_id, $level_id );
 		UserSubscriptions::makeComplete( $staff_id, $level_id, false );
 
+	}
+	/**
+	 * Checks if an ID is a UMP Subscription Number.
+	 *
+	 * @param int $subscription_id - the subscription ID to check.
+	 * @return bool
+	 */
+	public function is_a_ump_subscription( int $subscription_id ): bool {
+		$ihc_data          = get_option( 'ihc_levels' );
+		$membership_levels = array_keys( $ihc_data );
+		if ( \in_array( $subscription_id, $membership_levels ) ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 

@@ -14,6 +14,10 @@ use ElementalPlugin\Module\Membership\Onboard;
 use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Module\WooCommerceSubscriptions\Library\SubscriptionHelpers;
 use ElementalPlugin\Library\HttpGet;
+use ElementalPlugin\Library\Version;
+use ElementalPlugin\Module\Membership\Membership;
+use ElementalPlugin\Module\UltimateMembershipPro\Library\ShortCodesUMP;
+use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
 
 /**
  * Class MembershipShortcode - Renders the Membership Shortcode View.
@@ -76,6 +80,7 @@ class OnboardShortcode {
 	 * @return ?string
 	 */
 	public function onboarding_shortcode_worker( int $membership_id = null ): ?string {
+		$this->enqueue_style_scripts( true );
 		// Setup.
 		$http_get_library = Factory::get_instance( HttpGet::class );
 		$user_logged_in   = is_user_logged_in();
@@ -87,8 +92,15 @@ class OnboardShortcode {
 		}
 		$order_num         = $http_get_library->get_string_parameter( 'order' );
 		$thank_you_status  = $http_get_library->get_string_parameter( 'vmstep' );
-		$individual_status = $http_get_library->get_string_parameter( 'membership' );
-		$this->enqueue_style_scripts( true );
+		$membership_status = $http_get_library->get_string_parameter( 'membership' );
+		if ( $membership_status ) {
+			$is_woo_commerce_sub = Factory::get_instance( SubscriptionHelpers::class )->is_woocommerce_subscription( intval( $membership_status ) );
+			$is_ump_subscription = Factory::get_instance( UMPMemberships::class )->is_a_ump_subscription( intval( $membership_status ) );
+		} else {
+			$is_woo_commerce_sub = null;
+			$is_ump_subscription = null;
+		}
+		
 
 		if ( 434 === $membership_id && ! Factory::get_instance( MembershipSetup::class )->is_page_elementor() ) {
 			$url = \get_site_url() . '/settings/loginlanding/';
@@ -96,7 +108,6 @@ class OnboardShortcode {
 			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
 			die();
 		}
-
 		// Case Thank you Subscription Order.
 		if ( $order_num ) {
 			Factory::get_instance( WooCommerceHelpers::class )->process_order_num( $order_num );
@@ -105,14 +116,41 @@ class OnboardShortcode {
 			$render        = ( require __DIR__ . '/../views/onboarding/individual/manage-individual-paid.php' );
 			return $render( null, $redirect_url );
 		}
-		// Case Free Individual.
-		if ( 'individual' === $individual_status ) {
+
+
+
+
+
+
+
+		// Case Free Individual. Only for single user account that doesn't have a subscription.
+		if ( Membership::MEMBERSHIP_INDIVIDUAL_ID === $membership_status ) {
 			$render = ( require __DIR__ . '/../views/onboarding/individual/manage-individual-free.php' );
 			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 			return $render();
 
-			// Case Individual Membership Classes.
-		} elseif ( $individual_status && Factory::get_instance( SubscriptionHelpers::class )->is_woocommerce_subscription( $individual_status ) ) {
+			// Case Free Owner/Tenant Onboard without Subscription Needed.
+		} elseif ( $is_ump_subscription ) {
+			$atts       = array(
+				'id'   => intval( $membership_status ),
+				'type' => 'all',
+			);
+			$level_name = Factory::get_instance( ShortCodesUMP::class )->render_level_name( $atts );
+			
+			// Is user onboard pending.
+
+			// TODO change to remove and update logic of redirect....
+			/*if ( $user_logged_in && Factory::get_instance( MembershipUser::class )->is_user_subscription_onboarding( $user_id ) ) {
+				$redirect_url = wc_get_checkout_url();
+			}*/
+			// New User.
+			$manage_user_form = ( require __DIR__ . '/../views/onboarding/organisation/add-new-freetenant.php' );
+			$render           = ( require __DIR__ . '/../views/onboarding/organisation/manage-subscription-free.php' );
+			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
+			return $render( $manage_user_form( $membership_id ), $redirect_url, $level_name );
+
+		/* Case WooCommerce Subscription which Has to be purchased to execute level */
+		} elseif ( $is_woo_commerce_sub ) {
 			// Is user onboard pending.
 			if ( $user_logged_in && Factory::get_instance( MembershipUser::class )->is_user_subscription_onboarding( $user_id ) ) {
 				$redirect_url = wc_get_checkout_url();
@@ -146,7 +184,11 @@ class OnboardShortcode {
 		}
 		// Membership Validity Check.
 		$valid_memberships = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( true );
-		$valid             = \in_array( $membership_id, $valid_memberships, true );
+		if ( $valid_memberships ) {
+			$valid = \in_array( $membership_id, $valid_memberships, true );
+		} else {
+			$valid = null;
+		}
 
 		if ( $valid ) {
 			$membership_data     = Factory::get_instance( WCFMTools::class )->elemental_get_wcfm_memberships( null, $membership_id );
@@ -188,48 +230,45 @@ class OnboardShortcode {
 	 * @return void
 	 */
 	private function enqueue_style_scripts( bool $register_only = null ) {
-		global $WCFM, $WCFMgs, $WCFMvm;
-		$css_lib_url       = $WCFM->plugin_url . 'assets/css/';
-		$upload_dir        = wp_upload_dir();
-		$wcfm_style_custom = get_option( 'wcfm_style_custom' );
+		$css_lib_url = plugin_dir_url( __FILE__ ) . '../../../assets/wc/css/';
+		$wc_lib_url  = plugin_dir_url( __FILE__ ) . '../../../assets/wc/';
+		$version     = Factory::get_instance( Version::class )->get_plugin_version();
 
 		if ( true === $register_only ) {
-			wp_enqueue_style( 'wcfm_membership_steps_css', $WCFMvm->library->css_lib_url_min . 'wcfmvm-style-membership-steps.css', array(), $WCFMvm->version );
-			wp_enqueue_style( 'wcfm_menu_css', $WCFM->library->css_lib_url_min . 'menu/wcfm-style-menu.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_settings_css', $css_lib_url . 'settings/wcfm-style-settings.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_template_css', $WCFM->plugin_url . 'templates/classic/template-style.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_dashboard_css', $css_lib_url . 'dashboard/wcfm-style-dashboard.css', array(), $WCFM->version );
-			// wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
+			wp_enqueue_style( 'wcfm_membership_steps_css', $css_lib_url . 'wcfmvm-style-membership-steps.css', array(), $version );
+			wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'menu/wcfm-style-menu.css', array(), $version );
+			wp_enqueue_style( 'wcfm_settings_css', $css_lib_url . 'settings/wcfm-style-settings.css', array(), $version );
+			wp_enqueue_style( 'wcfm_template_css', $css_lib_url . 'assets/template-style.css', array(), $version );
+			wp_enqueue_style( 'wcfm_dashboard_css', $css_lib_url . 'dashboard/wcfm-style-dashboard.css', array(), $version );
 
 		} else {
-			\wp_enqueue_script( 'elemental-iframe-handler' );
-			wp_enqueue_style( 'wcfm_capability_css', $WCFM->library->css_lib_url . 'capability/wcfm-style-capability.css', false, 1 );
-			wp_enqueue_style( 'collapsible_css', $WCFM->library->css_lib_url . 'wcfm-style-collapsible.css', false, $WCFMgs->version );
-			wp_enqueue_style( 'wcfmgs_staffs_manage_css', $WCFMgs->plugin_url . 'assets/css/wcfmgs-style-staffs-manage.css', false, $WCFMgs->version );
-			wp_enqueue_style( 'wcfm_menu_css', $WCFM->library->css_lib_url_min . 'menu/wcfm-style-menu.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_settings_css', $css_lib_url . 'settings/wcfm-style-settings.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_messages_css', $css_lib_url . 'messages/wcfm-style-messages.css', array(), $WCFM->version );
-			wp_enqueue_style( 'collapsible_css', $css_lib_url . 'wcfm-style-collapsible.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_notice_view_css', $css_lib_url . 'notice/wcfm-style-notice-view.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_dashboard_css', $css_lib_url . 'dashboard/wcfm-style-dashboard.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_dashboard_welcomebox_css', $css_lib_url . 'dashboard/wcfm-style-dashboard-welcomebox.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_template_css', $WCFM->plugin_url . 'templates/classic/template-style.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_no_menu_css', $css_lib_url . 'menu/wcfm-style-no-menu.css', array( 'wcfm_menu_css' ), $WCFM->version );
-			wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'min/menu/wcfm-style-menu.css', array(), $WCFM->version );
-			wp_enqueue_style( 'wcfm_products_manage_css', $css_lib_url . 'products-manager/wcfm-style-products-manage.css', array(), $WCFM->version );
-			// wp_enqueue_style( 'wcfm_custom_css', trailingslashit( $upload_dir['baseurl'] ) . 'wcfm/' . $wcfm_style_custom, array( 'wcfm_menu_css' ), $WCFM->version );
-			wp_enqueue_style( 'elemental-menutab-header' );
+			\wp_enqueue_script( 'elementalplugin-iframe-handler' );
+			wp_enqueue_style( 'wcfm_capability_css', $css_lib_url . 'capability/wcfm-style-capability.css', false, $version );
+			wp_enqueue_style( 'collapsible_css', $css_lib_url . 'wcfm-style-collapsible.css', false, $version );
+			wp_enqueue_style( 'wcfmgs_staffs_manage_css', $css_lib_url . 'assets/wcfmgs-style-staffs-manage.css', false, $version );
+			wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'menu/wcfm-style-menu.css', array(), $version );
+			wp_enqueue_style( 'wcfm_settings_css', $css_lib_url . 'settings/wcfm-style-settings.css', array(), $version );
+			wp_enqueue_style( 'wcfm_messages_css', $css_lib_url . 'messages/wcfm-style-messages.css', array(), $version );
+			wp_enqueue_style( 'collapsible_css', $css_lib_url . 'wcfm-style-collapsible.css', array(), $version );
+			wp_enqueue_style( 'wcfm_notice_view_css', $css_lib_url . 'notice/wcfm-style-notice-view.css', array(), $version );
+			wp_enqueue_style( 'wcfm_dashboard_css', $css_lib_url . 'dashboard/wcfm-style-dashboard.css', array(), $version );
+			wp_enqueue_style( 'wcfm_dashboard_welcomebox_css', $css_lib_url . 'dashboard/wcfm-style-dashboard-welcomebox.css', array(), $version );
+			wp_enqueue_style( 'wcfm_template_css', $css_lib_url . 'assets/template-style.css', array(), $version );
+			wp_enqueue_style( 'wcfm_no_menu_css', $css_lib_url . 'menu/wcfm-style-no-menu.css', array( 'wcfm_menu_css' ), $version );
+			wp_enqueue_style( 'wcfm_products_manage_css', $css_lib_url . 'products-manager/wcfm-style-products-manage.css', array(), $version );
+			wp_enqueue_style( 'elementalplugin-menutab-header' );
 		}
 		// Render WCFM Partner AJax.
-		wp_enqueue_script( 'select2_js', $WCFM->plugin_url . 'includes/libs/select2/select2.js', array( 'jquery' ), $WCFM->version, true );
-		wp_enqueue_style( 'select2_css', $WCFM->plugin_url . 'includes/libs/select2/select2.css', array(), $WCFM->version );
+		wp_enqueue_script( 'select2_js', $wc_lib_url . 'includes/select2/select2.js', array( 'jquery' ), $version, true );
+		wp_enqueue_style( 'select2_css', $wc_lib_url . 'includes/select2/select2.css', array(), $version );
 		wp_enqueue_script( 'wc-country-select' );
 		add_action( 'wp_ajax_wcfmvm_store_slug_verification', array( $this, 'wcfmvm_store_slug_verification' ) );
 		add_action( 'wp_ajax_nopriv_wcfmvm_store_slug_verification', array( $this, 'wcfmvm_store_slug_verification' ) );
-		wp_enqueue_style( 'wcfm_membership_steps_css', $WCFMvm->library->css_lib_url_min . 'wcfmvm-style-membership-steps.css', array(), $WCFMvm->version );
-		wp_enqueue_style( 'wcfm_membership_registration_css', $WCFMvm->library->css_lib_url_min . 'wcfmvm-style-membership-registration.css', array(), $WCFMvm->version );
+		wp_enqueue_style( 'wcfm_membership_steps_css', $css_lib_url . 'wcfmvm-style-membership-steps.css', array(), $version );
+		wp_enqueue_style( 'wcfm_membership_registration_css', $css_lib_url . 'wcfmvm-style-membership-registration.css', array(), $version );
 		wp_enqueue_script( 'wcfm_membership_registration_js' );
-
+		\wp_enqueue_script( 'elemental-protect-username' );
+		\wp_enqueue_style( 'dashicons' );
 		// Render Core Control Ajax.
 		\wp_enqueue_script( 'elemental-onboard-js' );
 		\wp_enqueue_style( 'elemental-onboard-css' );

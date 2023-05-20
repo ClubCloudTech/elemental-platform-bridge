@@ -12,6 +12,7 @@ use ElementalPlugin\Module\Membership\Onboard;
 use ElementalPlugin\Module\WooCommerceSubscriptions\Library\SubscriptionHelpers;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\EmailHelpers;
+use ElementalPlugin\Library\UserHelpers;
 
 /**
  * Class OnboardAjax - Provides the Onboard Ajax Control.
@@ -35,6 +36,7 @@ class OnboardAjax {
 		$email        = Factory::get_instance( Ajax::class )->get_string_parameter( 'email' );
 		$first_name   = Factory::get_instance( Ajax::class )->get_string_parameter( 'first_name' );
 		$user_id      = Factory::get_instance( Ajax::class )->get_string_parameter( 'userid' );
+		$membership   = Factory::get_instance( Ajax::class )->get_string_parameter( 'membership' );
 
 		/*
 		* Check Login.
@@ -58,6 +60,14 @@ class OnboardAjax {
 			$response['available'] = Factory::get_instance( EmailHelpers::class )->verify_user_by_email_ajax( $email );
 			return \wp_send_json( $response );
 		}
+		/*
+		* Check Company is Available.
+		*
+		*/
+		if ( 'check_company' === $action_taken ) {
+			$response['available'] = Factory::get_instance( UserHelpers::class )->verify_company_available( $email );
+			return \wp_send_json( $response );
+		}
 
 		/*
 		* Create Organisation.
@@ -68,6 +78,42 @@ class OnboardAjax {
 				$membership = sanitize_text_field( wp_unslash( $_POST['membership'] ) );
 			}
 			$user_id = Factory::get_instance( MembershipUser::class )->create_organisation_wordpress_user( $first_name, $email );
+			if ( $user_id ) {
+				if ( ! is_user_logged_in() ) {
+					$user_obj = \get_user_by( 'id', $user_id );
+					wp_set_current_user( $user_id );
+					wp_set_auth_cookie( $user_id );
+					do_action( 'wp_login', $email, $user_obj );
+				}
+				// Set Registration Process Cookie.
+				Factory::get_instance( Onboard::class )->delete_setup_cookie();
+				Factory::get_instance( Onboard::class )->create_setup_cookie();
+				$response['feedback']   = true;
+				$response['membership'] = $membership;
+
+				$this->wcfm_choose_membership( intval( $membership ) );
+				$response['table'] = Factory::get_instance( OnboardShortcode::class )->render_wcfm_step( $user_id );
+
+			} else {
+				$response['feedback'] = 'Error Creating Account';
+			}
+			return \wp_send_json( $response );
+		}
+
+		/*
+		* Create Free Tenant.
+		*
+		*/
+		if ( 'create_free_tenant' === $action_taken ) {
+			$last_name = Factory::get_instance( Ajax::class )->get_string_parameter( 'last_name' );
+			$company   = Factory::get_instance( Ajax::class )->get_string_parameter( 'company' );
+			$country   = Factory::get_instance( Ajax::class )->get_string_parameter( 'country' );
+			$password  = Factory::get_instance( Ajax::class )->get_string_parameter( 'password' );
+			if ( ! $membership && isset( $_POST['membership'] ) ) {
+				$membership = sanitize_text_field( wp_unslash( $_POST['membership'] ) );
+			}
+
+			$user_id = Factory::get_instance( MembershipUser::class )->create_free_tenant_parent( $first_name, $last_name, $email, $company, $country, $password, $membership );
 			if ( $user_id ) {
 				if ( ! is_user_logged_in() ) {
 					$user_obj = \get_user_by( 'id', $user_id );

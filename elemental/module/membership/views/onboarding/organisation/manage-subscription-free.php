@@ -5,7 +5,7 @@
  * Manage Onboarding.
  *
  * @author  Club Cloud based on template from WC Lovers
- * @package elemental/membership/views/onboarding/individual/manage-individual-paid.php
+ * @package elemental/membership/views/onboarding/individual/manage-subscription-free.php
  * @version 1.0.0
  *
  * @param string $add_account_form - add an account form
@@ -15,9 +15,10 @@
 return function (
 	string $paid_user_form = null,
 	string $redirect_url = null,
-	string $level_name
+	array $level_data
 ): string {
 	$user_logged_in = is_user_logged_in();
+	$level_name     = $level_data['label'];
 	ob_start();
 	if ( $redirect_url ) {
 			echo '<script type="text/javascript"> window.location = "' . esc_url( $redirect_url ) . '"; </script>';
@@ -41,6 +42,9 @@ return function (
 				);
 			?>
 		</h3>
+		<p class="elemental-role-description">
+			<?php echo esc_textarea( $level_data['description'] ); ?>
+		</p>
 		<div class="elemental-clearfix"></div>
 
 		<div id="elemental-adduser-frame" class="wcfm-container wcfm-top-element-container">

@@ -38,7 +38,7 @@ return function (
 
 
 				<div id="elemental-notification-frame"></div>
-				<div class="wcfm-clearfix"></div><br />
+				<div class="elemental-clearfix"></div><br />
 
 				<div id="elemental-membership-table">
 					<?php

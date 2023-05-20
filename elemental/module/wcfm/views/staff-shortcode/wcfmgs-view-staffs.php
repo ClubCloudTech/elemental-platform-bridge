@@ -43,9 +43,9 @@ global $WCFM;
 			
 			<?php	echo apply_filters( 'wcfm_staffs_limit_label', '' ); ?>
 			
-			<div class="wcfm-clearfix"></div>
+			<div class="elemental-clearfix"></div>
 		</div>
-	  <div class="wcfm-clearfix"></div><br />
+	  <div class="elemental-clearfix"></div><br />
 			
 		<?php do_action( 'before_wcfm_shop_staffs' ); ?>
 		
@@ -71,7 +71,7 @@ global $WCFM;
 						</tr>
 					</tfoot>
 				</table>
-				<div class="wcfm-clearfix"></div>
+				<div class="elemental-clearfix"></div>
 			</div>
 		</div>
 		<?php

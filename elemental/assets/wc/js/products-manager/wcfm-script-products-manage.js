@@ -784,13 +784,13 @@ jQuery( document ).ready( function( $ ) {
 	  if( $multi_input_block.find('select').length > 0 ) {
 	  	$attrlimit = $multi_input_block.find('select').data('attrlimit');
 	  	if( $attrlimit != 1 ) {
-	  		$multi_input_block.find('select').after($('<div class="wcfm-clearfix"></div>'));
+	  		$multi_input_block.find('select').after($('<div class="elemental-clearfix"></div>'));
 				$multi_input_block.find('select').after($('<button type="button" class="button wcfm_add_attribute_term wcfm_select_all_attributes">'+wcfm_dashboard_messages.select_all+'</button>'));
 				$multi_input_block.find('select').after($('<button type="button" class="button wcfm_add_attribute_term wcfm_select_no_attributes">'+wcfm_dashboard_messages.select_none+'</button>'));
 				if( $multi_input_block.find('select').hasClass('allow_add_term') ) {
 					$multi_input_block.find('select').after($('<button type="button" class="button wcfm_add_attribute_term wcfm_add_attributes_new_term">'+wcfm_dashboard_messages.add_new+'</button>'));
 				}
-				$multi_input_block.find('select').after($('<div class="wcfm-clearfix"></div>'));
+				$multi_input_block.find('select').after($('<div class="elemental-clearfix"></div>'));
 			}
 			$multi_input_block.find('select').each(function() {
 				$(this).select2({

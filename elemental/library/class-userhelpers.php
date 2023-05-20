@@ -25,8 +25,9 @@ class UserHelpers {
 	const CHANGE_PASSWORD_MENU_CP_SETTING    = 'elemental-change-password-menu-setting';
 	const LOGIN_ADDRESS_MENU_CP_SETTING      = 'elemental-login-address-menu-setting';
 	const IMAGE_URL_MENU_CP_SETTING          = 'elemental-image-url-menu-setting';
+	const COMPANY_SUFFIX_DOMAIN              = '@finxone.net';
 
-	
+
 	/**
 	 * Init
 	 *
@@ -465,4 +466,43 @@ class UserHelpers {
 
 		Factory::get_instance( EmailHelpers::class )->send_generic_email( $email_address, $subject_line, $welcome_message, $body_message, $detail );
 	}
+	/**
+	 * Verify User Exists by Company
+	 *
+	 * @param string $company_name - the email to verify.
+	 * @return bool
+	 */
+	public function verify_company_available( string $company_name ): bool {
+
+		$formatted_company_email = $this->format_company_email_address( $company_name );
+		$company_exists          = get_user_by( 'user_email', $formatted_company_email );
+
+		if ( $company_exists ) {
+			$available = false;
+		} else {
+			$available = true;
+		}
+		return apply_filters( 'elemental_company_available_check', $available );
+	}
+	/**
+	 * Format Company Name
+	 *
+	 * @param string $company_name - the company name to verify.
+	 * @return string
+	 */
+	private function format_company_name( string $company_name ): string {
+		$company_name = str_replace( ' ', '-', $company_name ); // Replaces all spaces with hyphens.
+		return preg_replace( '/[^A-Za-z0-9\-]/', '', $company_name ); // Removes special chars.
+	}
+	/**
+	 * Format Company Email Address
+	 *
+	 * @param string $company_name - the name to create.
+	 * @return string
+	 */
+	public function format_company_email_address( string $company_name ): string {
+		$formatted_company_name = $this->format_company_name( $company_name );
+		return $formatted_company_name . self::COMPANY_SUFFIX_DOMAIN;
+	}
+
 }

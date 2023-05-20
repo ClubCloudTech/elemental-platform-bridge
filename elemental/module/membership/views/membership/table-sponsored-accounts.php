@@ -50,7 +50,7 @@ return function (
 
 					</tfoot>
 				</table>
-				<div class="wcfm-clearfix"></div>
+				<div class="elemental-clearfix"></div>
 				<div class="wcfm-container wcfm-top-element-container" style="box-shadow: none;display: inline;">
 
 					<?php
@@ -62,7 +62,7 @@ return function (
 					echo $accounts_remaining;
 					?>
 
-					<div class="wcfm-clearfix"></div>
+					<div class="elemental-clearfix"></div>
 				</div>
 			</div><!-- wwcfm_shop_staffsesc_html_expander end -->
 		</div><!-- Div wcfm-container end -->

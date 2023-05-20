@@ -25,7 +25,7 @@ return function (
 		<div class="wcfm-container wcfm-top-element-container">
 			<h2><?php esc_html_e( 'Account Creation Conflict', 'elemental' ); ?></h2>
 
-			<div class="wcfm-clearfix"></div>
+			<div class="elemental-clearfix"></div>
 		</div>
 		<div id="elemental-adduser-frame" class="wcfm-container wcfm-top-element-container" >
 		<div id="elemental-adduser-target" class="wcfm-container wcfm-top-element-container" >
@@ -45,7 +45,7 @@ return function (
 
 		</div>
 		<div id="elemental-notification-frame"></div>
-		<div class="wcfm-clearfix"></div><br />
+		<div class="elemental-clearfix"></div><br />
 </div>
 	</div>
 		<?php

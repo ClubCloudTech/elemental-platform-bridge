@@ -25,7 +25,7 @@ class Onboard {
 
 	const TABLE_NAME_MEMBERSHIPS = 'elemental_memberships';
 	const TABLE_NAME_MEMBERSYNC  = 'elemental_membersync';
-	const SHORTCODE_TAG          = Admin::SHORTCODE_TAG . 'onboarding';
+	const SHORTCODE_TAG          = 'elemental_onboarding';
 	const CHECKOUT_SHORTCODE     = Admin::SHORTCODE_TAG . 'checkout_header';
 
 

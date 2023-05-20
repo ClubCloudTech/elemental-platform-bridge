@@ -52,7 +52,7 @@ return function (
 				</tr>
 			</tfoot>
 		</table>
-		<div class="wcfm-clearfix"></div>
+		<div class="elemental-clearfix"></div>
 	</div>
 </div>
 		<?php

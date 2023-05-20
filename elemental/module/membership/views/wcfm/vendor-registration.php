@@ -660,7 +660,7 @@ return function ( $user_id_inbound ): string {
 								'class'             => 'wcfm_ele wcfm-html-content',
 								'label_class'       => 'wcfm_title wcfm_html_content_title',
 								'hints'             => esc_html__( $wcfmvm_registration_custom_field['help_text'], 'WCfM' ),
-								'value'             => $content . '<div class="wcfm-clearfix"></div>',
+								'value'             => $content . '<div class="elemental-clearfix"></div>',
 							),
 						)
 					);
@@ -729,7 +729,7 @@ return function ( $user_id_inbound ): string {
 	}
 	?>
 				</div>
-				<div class="wcfm-clearfix"></div>
+				<div class="elemental-clearfix"></div>
 			</div>
 
 			<?php if ( apply_filters( 'wcfm_is_allow_registration_recaptcha', true ) ) { ?>
@@ -756,7 +756,7 @@ return function ( $user_id_inbound ): string {
 					</div>
 				<?php } ?>
 			<?php } ?>
-			<div class="wcfm-clearfix"></div>
+			<div class="elemental-clearfix"></div>
 			<div class="wcfm-message" tabindex="-1"></div>
 
 			<div id="wcfm_membership_registration_submit" class="wcfm_form_simple_submit_wrapper">
@@ -776,7 +776,7 @@ return function ( $user_id_inbound ): string {
 					<?php esc_html_e( 'Your user role is not allowed to subscribe', 'wc-multivendor-membership' ); ?>
 				<?php } ?>
 			</div>
-			<div class="wcfm-clearfix"></div>
+			<div class="elemental-clearfix"></div>
 		</form>
 	</div>
 	<?php

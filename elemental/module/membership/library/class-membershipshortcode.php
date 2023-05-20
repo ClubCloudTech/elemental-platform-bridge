@@ -201,10 +201,8 @@ class MembershipShortCode {
 	 */
 	public function enqueue_style_scripts() {
 
-		$css_lib_url       = plugin_dir_url( __FILE__ ) . '../../../assets/wc/css/';
-		$version           = Factory::get_instance( Version::class )->get_plugin_version();
-		$upload_dir        = wp_upload_dir();
-		$wcfm_style_custom = get_option( 'wcfm_style_custom' );
+		$css_lib_url = plugin_dir_url( __FILE__ ) . '../../../assets/wc/css/';
+		$version     = Factory::get_instance( Version::class )->get_plugin_version();
 		\wp_enqueue_script( 'elementalplugin-iframe-handler' );
 		wp_enqueue_style( 'wcfm_capability_css', $css_lib_url . 'capability/wcfm-style-capability.css', false, 1 );
 		wp_enqueue_style( 'collapsible_css', $css_lib_url . 'wcfm-style-collapsible.css', false, $version );
@@ -218,7 +216,6 @@ class MembershipShortCode {
 		wp_enqueue_style( 'wcfm_dashboard_welcomebox_css', $css_lib_url . 'dashboard/wcfm-style-dashboard-welcomebox.css', array(), $version );
 		wp_enqueue_style( 'wcfm_template_css', $css_lib_url . 'assets/template-style.css', array(), $version );
 		wp_enqueue_style( 'wcfm_no_menu_css', $css_lib_url . 'menu/wcfm-style-no-menu.css', array( 'wcfm_menu_css' ), $version );
-		wp_enqueue_style( 'wcfm_menu_css', $css_lib_url . 'min/menu/wcfm-style-menu.css', array(), $version );
 		wp_enqueue_style( 'wcfm_products_manage_css', $css_lib_url . 'products-manager/wcfm-style-products-manage.css', array(), $version );
 		wp_enqueue_style( 'elementalplugin-menutab-header' );
 

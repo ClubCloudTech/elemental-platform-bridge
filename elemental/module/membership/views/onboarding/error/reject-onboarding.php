@@ -17,27 +17,21 @@ return function (): string {
 	?>
 
 <div class="collapse wcfm-collapse" id="elemental-onboard-listing">
-	<div class="wcfm-page-headig">
-		<span class="wcfmfa fa-user"></span>
-		<span class="wcfm-page-heading-text"><?php esc_html_e( 'Account Creation', 'elemental' ); ?></span>
-	<?php do_action( 'wcfm_page_heading' ); ?>
-	</div>
-
 	<div class="wcfm-collapse-content">
 		<div id="wcfm_page_load "></div>
 		<div class="wcfm-container wcfm-top-element-container">
-			<h2><?php esc_html_e( 'Create a New Organisation Account', 'elemental' ); ?></h2>
+			<h2><?php esc_html_e( 'Unable to Create Account', 'elemental' ); ?></h2>
 
-			<div class="wcfm-clearfix"></div>
+			<div class="elemental-clearfix"></div>
 		</div>
 		<div id="elemental-adduser-frame" class="wcfm-container wcfm-top-element-container" >
 		<div id="elemental-adduser-target" class="wcfm-container wcfm-top-element-container" >
 
-			<h3 class="elemental-align-left"><?php esc_html_e( 'You Must provide a Valid Membership ID to use this page.', 'elemental' ); ?></h3>
+			<h3 style="color:black;" class="elemental-align-left"><?php esc_html_e( 'You Must provide a Valid Membership ID to use this page.', 'elemental' ); ?></h3>
 
 		</div>
 		<div id="elemental-notification-frame"></div>
-		<div class="wcfm-clearfix"></div><br />
+		<div class="elemental-clearfix"></div><br />
 </div>
 	</div>
 		<?php

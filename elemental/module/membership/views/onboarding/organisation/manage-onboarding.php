@@ -34,7 +34,7 @@ return function (
 				);
 				?>
 			</h4>
-			<div class="wcfm-clearfix"></div>
+			<div class="elemental-clearfix"></div>
 
 		<div id="elemental-adduser-frame" class="elemental-onboard-text">
 			<div id="elemental-adduser-target">

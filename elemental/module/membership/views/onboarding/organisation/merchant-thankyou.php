@@ -34,7 +34,7 @@ return function (
 		<div class="">
 			<h2 class="elemental-onboard-header"><?php esc_html_e( 'Thank you for Joining', 'elemental' ); ?></h2>
 
-			<div class="wcfm-clearfix"></div>
+			<div class="elemental-clearfix"></div>
 		</div>
 		<div id="elemental-adduser-frame" class="" >
 		<div id="elemental-adduser-target" class="" >
@@ -64,7 +64,7 @@ return function (
 		</div>
 
 		<div id="elemental-notification-frame"></div>
-		<div class="wcfm-clearfix"></div><br />
+		<div class="elemental-clearfix"></div><br />
 </div>
 	</div>
 		<?php
