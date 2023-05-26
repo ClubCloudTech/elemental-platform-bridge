@@ -15,6 +15,7 @@ use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\HttpGet;
 use ElementalPlugin\Library\UserHelpers;
+use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\BuddyPress\ElementalBP;
 use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
@@ -127,14 +128,15 @@ class LoginHandler {
 	public function elemental_login_out( string $type, bool $show_join_button = null ): string {
 		$output = '';
 		// Get Identities.
-		$is_vendor = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
-		$is_staff  = Factory::get_instance( UserRoles::class )->is_wcfm_shop_staff();
+		$is_vendor         = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
+		$is_tenant_account = Factory::get_instance( UserRoles::class )->is_tenant_account();
+		$is_staff          = Factory::get_instance( UserRoles::class )->is_tenant_admin_account();
 
 		$is_setup = Factory::get_instance( Onboard::class )->decode_setup_cookie();
-		// Case recently created first time vendor with setup cookie- adding child admin account.
+		// WCFM ONLY Case recently created first time vendor with setup cookie- adding child admin account.
 		if ( $is_vendor && $is_setup ) {
 
-			$staff_id = Factory::get_instance( WCFMTools::class )->elemental_get_staff_member_ids();
+			$staff_id = Factory::get_instance( UserRoles::class )->get_child_ids_staff_tenant_admins();
 
 			if ( count( $staff_id ) === 1 ) {
 				$this->create_user_child_cookie( $staff_id[0] );
@@ -145,16 +147,25 @@ class LoginHandler {
 				die();
 			}
 		}
-
-		// Case Time Vendor - need to check if staff/admin accounts exist and if not go to admin account add.
-		if ( $is_vendor ) {
+		// Check enough tenant admin accounts exist.
+		if ( $is_vendor || $is_tenant_account ) {
 			// Decide Correct Redirect Path based on Staff Account Count.
-			$staff_count = Factory::get_instance( WCFMTools::class )->elemental_get_staff_member_count();
-			if ( $staff_count >= 1 ) {
+			$staff_count = Factory::get_instance( MembershipUser::class )->get_staff_tenant_admin_user_count();
+
+			if ( 1 === $staff_count ) {
+				$tenant_admin_array = Factory::get_instance( UserRoles::class )->get_child_ids_staff_tenant_admins();
+				$child_id           = $tenant_admin_array[0];
+				$noncechild         = \wp_create_nonce( 'child' );
+				$target             = Factory::get_instance( Encryption::class )->encrypt_string( $child_id );
+				$url                = get_site_url() . '/login?action=child&noncechild=' . $noncechild . '&object=' . $target;
+				$output            .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Exit Admin Mode', 'elementalplugin' ) . '</a>';
+
+			} elseif ( $staff_count > 1 ) {
 				$child_id = $this->decode_user_child_cookie();
 				if ( $child_id ) {
 					$noncechild = \wp_create_nonce( 'child' );
-					$url        = get_site_url() . '/login?action=child&noncechild=' . $noncechild;
+					$target     = Factory::get_instance( Encryption::class )->encrypt_string( $child_id );
+					$url                = get_site_url() . '/login?action=child&noncechild=' . $noncechild . '&object=' . $target;
 					$output    .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Exit Admin Mode', 'elementalplugin' ) . '</a>';
 				}
 			} else {
@@ -168,10 +179,8 @@ class LoginHandler {
 		}
 		// Case Normal Staff Member - need to encode user id in cookie so Parent account knows which user to return to.
 		if ( $is_staff ) {
-			$atts        = array(
-				'type' => 'text',
-			);
-			$org_name    = Factory::get_instance( ElementalMenus::class )->render_header_logo_shortcode( $atts );
+			$my_parent   = Factory::get_instance( UserRoles::class )->get_tenant_parent_id();
+			$org_name    = Factory::get_instance( UserRoles::class )->get_tenant_name( $my_parent );
 			$nonceparent = \wp_create_nonce( 'parent' );
 			$url         = get_site_url() . '/login?action=parent&nonceparent=' . $nonceparent;
 			$output     .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Switch to ', 'elementalplugin' ) . $org_name . ' Admin</a>';
@@ -233,9 +242,12 @@ class LoginHandler {
 			\wp_safe_redirect( $url );
 			die();
 		}
-		$noncechild = $http_get_library->get_string_parameter( 'noncechild' );
+		$noncechild      = $http_get_library->get_string_parameter( 'noncechild' );
+		$encoded_user_id = $http_get_library->get_string_parameter( 'object' );
+		$decoded_user_id = Factory::get_instance( Encryption::class )->decrypt_string( $encoded_user_id );
+
 		if ( 'child' === $action && \wp_verify_nonce( $noncechild, 'child' ) ) {
-			Factory::get_instance( WCFMTools::class )->login_to_child_account();
+			Factory::get_instance( UserRoles::class )->login_to_child_account( intval( $decoded_user_id ) );
 			$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
 			$url      = get_permalink( $template );
 			\wp_safe_redirect( $url );
@@ -244,7 +256,7 @@ class LoginHandler {
 		// Login to Parent Account if coming from Child with Correct Security.
 		$nonceparent = $http_get_library->get_string_parameter( 'nonceparent' );
 		if ( 'parent' === $action && \wp_verify_nonce( $nonceparent, 'parent' ) ) {
-			Factory::get_instance( WCFMTools::class )->login_to_parent_account();
+			Factory::get_instance( UserRoles::class )->login_to_parent_account();
 			$template = Factory::get_instance( UMPMemberships::class )->get_landing_template_for_a_user();
 			$url      = get_permalink( $template );
 			if ( ! $template ) {
@@ -254,11 +266,10 @@ class LoginHandler {
 			}
 			die();
 		}
-
 		$is_tenant_account = Factory::get_instance( UserRoles::class )->is_tenant_account();
 		if ( $is_tenant_account ) {
 			// Decide Correct Redirect Path based on Staff Account Count.
-			$staff_count = Factory::get_instance( WCFMTools::class )->elemental_get_staff_member_count();
+			$staff_count = Factory::get_instance( MembershipUser::class )->get_staff_tenant_admin_user_count();
 			if ( $staff_count >= 1 ) {
 				$url = \get_site_url() . '/control/';
 			} else {
@@ -282,7 +293,7 @@ class LoginHandler {
 	 */
 	public function elemental_add_staff_account_cookie_hook( string $user_login, object $user_object ):void {
 
-		$is_staff = Factory::get_instance( UserRoles::class )->is_wcfm_shop_staff( $user_object->ID );
+		$is_staff = Factory::get_instance( UserRoles::class )->is_tenant_admin_account( $user_object->ID );
 
 		if ( $is_staff ) {
 			$this->create_user_child_cookie( $user_object->ID );
@@ -403,7 +414,6 @@ class LoginHandler {
 	 * @return void
 	 */
 	public function create_user_child_cookie( int $user_id = null ): void {
-
 		if ( ! $user_id ) {
 			$user_id = \get_current_user_id();
 		}
@@ -449,6 +459,11 @@ class LoginHandler {
 	 */
 	public function loginland_redirect() {
 
+		esc_html_e( 'Redirecting', 'elementalplugin' );
+		if ( ! \is_user_logged_in() ) {
+			echo '<script type="text/javascript"> window.location="' . esc_url( \get_site_url() ) . '";</script>';
+			die();
+		}
 		if ( Factory::get_instance( UserRoles::class )->is_wordpress_administrator() ) {
 			$url = \get_site_url() . '/wp-admin/admin.php?page=elemental';
 			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
@@ -478,9 +493,6 @@ class LoginHandler {
 			\esc_html_e( 'No template found', 'elementalplugin' );
 		}
 
-		if ( ! \is_user_logged_in() ) {
-			return null;
-		}
 		if ( Factory::get_instance( ElementalBP::class )->is_buddypress_available() ) {
 			return Factory::get_instance( ElementalBP::class )->bp_profile_redirect();
 		}
@@ -493,13 +505,13 @@ class LoginHandler {
 	 *  @return void
 	 */
 	private function register_scripts(): void {
-
+		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
 		// Company Profile  handler.
 		wp_register_script(
 			'elemental_companyhandler',
 			plugins_url( '../js/companyhandler.js', __FILE__ ),
 			array( 'jquery' ),
-			false,
+			$plugin_version,
 			true
 		);
 
@@ -525,11 +537,12 @@ class LoginHandler {
 	 * @return string
 	 */
 	public function elemental_company_edit(): string {
+		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
 		wp_dequeue_style( 'login-form-min.css' );
 		wp_enqueue_script( 'elemental_companyhandler' );
-		wp_enqueue_style( 'company-companyEdit', plugin_dir_url( __FILE__ ) . '../css/companyEdit.css', false );
-		wp_enqueue_style( 'fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false );
-		wp_enqueue_style( 'bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false );
+		wp_enqueue_style( 'company-companyEdit', plugin_dir_url( __FILE__ ) . '../css/companyEdit.css', null, $plugin_version );
+		wp_enqueue_style( 'fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', null, $plugin_version );
+		wp_enqueue_style( 'bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', null, $plugin_version );
 
 		$current_user = wp_get_current_user();
 		$render       = ( require __DIR__ . '/../views/membership/view-companyedit.php' );
@@ -544,11 +557,12 @@ class LoginHandler {
 	 * @return string
 	 */
 	public function elemental_add_user(): string {
+		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
 		wp_dequeue_style( 'login-form-min.css' );
 		wp_enqueue_script( 'elemental_companyhandler' );
-		wp_enqueue_style( 'company-companyEdit', plugin_dir_url( __FILE__ ) . '../css/companyEdit.css', false );
-		wp_enqueue_style( 'fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', false );
-		wp_enqueue_style( 'bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', false );
+		wp_enqueue_style( 'company-companyEdit', plugin_dir_url( __FILE__ ) . '../css/companyEdit.css', null, $plugin_version );
+		wp_enqueue_style( 'fontAwesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', null, $plugin_version );
+		wp_enqueue_style( 'bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', null, $plugin_version );
 
 		$current_user = wp_get_current_user();
 		$render       = ( require __DIR__ . '/../views/membership/view-adduser.php' );

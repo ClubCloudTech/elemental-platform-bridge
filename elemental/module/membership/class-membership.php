@@ -132,6 +132,7 @@ class Membership {
 		} else {
 			return esc_html__( 'UMP is not installed', 'elementalplugin' );
 		}
+		
 	}
 
 	/**

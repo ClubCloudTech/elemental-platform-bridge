@@ -199,32 +199,17 @@ window.addEventListener('load', function () {
         success: function (response) {
           var state_response = JSON.parse(response)
           console.log(state_response.feedback)
-          if (state_response.feedback == true) {
-            if (state_response.table) {
-              mainvideo_parent = step_window.parent().attr('id')
-              parent_element = $('#' + mainvideo_parent)
-              step_window.remove()
-              step_window.parent().empty()
-              parent_element.html(state_response.table)
-            }
-            change_to_step2()
-
-            $('#elemental-email-status').removeClass('elemental-checking')
-            $('#elemental-email-status').removeClass('elemental-invalid')
-            $('#elemental-email-status').removeClass('elemental-email-taken')
-            $('#elemental-email-status').addClass('elemental-email-available')
-            $('#elemental-email-status').html('Account Created')
-            $('#submit').prop('value', 'Account Created')
-            $('#submit').prop('disabled', true)
-            $('#first_name').prop('value', '')
-            $('#elemental-inbound-email').prop('value', '')
-            $('#elemental-email-status').attr('data-status', '')
-            $('#first-name-icon').hide()
-            $('#last-name-icon').hide()
-            setTimeout(function () {
-              $('#wcfm_membership_register_button').click()
-            }, 500)
+          
+          if (state_response.feedback) {
+            user_window = $('elemental-adduser-frame')
+            user_window.empty()
+            user_window.html(state_response.feedback)
           }
+          console.log(state_response.redirect)
+            setTimeout(function () {
+              window.location=state_response.redirect
+            }, 1500)
+          
         },
         error: function (response) {
           console.log('Error Create Organisation')
@@ -508,6 +493,12 @@ window.addEventListener('load', function () {
       var email = $('#elemental-inbound-email').val(),
         valid_email = validateEmail(email),
         form_type = $('#pageinfo').attr('data-formtype')
+      if ( email.length >= 1 ) {
+        console.log('Email Check');
+      } else {
+        $('#elemental-email-status').removeClass('elemental-invalid')
+        return;
+      }
 
       if (!valid_email) {
         $('#elemental-email-status').removeClass('elemental-checking')
@@ -525,8 +516,7 @@ window.addEventListener('load', function () {
         $('#elemental-email-status').removeClass('elemental-email-taken')
         $('#elemental-email-status').addClass('elemental-checking')
         $('#elemental-email-status').html('Checking is Free')
-        $('#email-icon').fadeIn(200)
-        $('#elemental-email-status').fadeOut(500)
+        //$('#elemental-email-status').fadeOut(500)
       }
       var form_data = new FormData()
       form_data.append('action', 'elemental_onboardadmin_ajax')
@@ -548,13 +538,15 @@ window.addEventListener('load', function () {
             $('#elemental-email-status').removeClass('elemental-email-available')
             $('#elemental-email-status').removeClass('elemental-invalid')
             $('#elemental-email-status').addClass('elemental-email-taken')
+            $('#email-icon').hide()
             $('#elemental-email-status').html('Email Taken')
-
+            return;
           } else {
             $('#elemental-email-status').removeClass('elemental-checking')
             $('#elemental-email-status').removeClass('elemental-invalid')
             $('#elemental-email-status').removeClass('elemental-email-taken')
             $('#elemental-email-status').addClass('elemental-email-available')
+            $('#email-icon').fadeIn(200)
             $('#elemental-email-status').html('Email Available')
             $('#elemental-email-status').attr('data-status', 'checked')
             if (form_type === "free-tenant") {
@@ -681,7 +673,7 @@ window.addEventListener('load', function () {
       var capital = document.getElementById("capital");
       var number = document.getElementById("number");
       var length = document.getElementById("length");
-
+      
       // When the user clicks on the password field, show the message box
       myInput.onfocus = function () {
         document.getElementById("message").style.display = "block";

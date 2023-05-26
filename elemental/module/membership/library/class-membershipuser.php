@@ -14,6 +14,7 @@ use ElementalPlugin\Module\WCFM\Library\WCFMTools;
 use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\Encryption;
 use ElementalPlugin\Library\UserHelpers;
+use ElementalPlugin\Library\UserRoles;
 use ElementalPlugin\Module\UltimateMembershipPro\ElementalUMP;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
 
@@ -257,11 +258,14 @@ class MembershipUser {
 			$meta_key,
 			$meta_value
 		);
+		// Add Subscription to Parent.
+		Factory::get_instance( UMPMemberships::class )->add_user_ump_subscription( $parent_user_id, intval( $membership ) );
 
-		// Check with the Sync Engine that this does not exist in a node already.
-		\apply_filters( 'elemental_post_tenant_add', $parent_user_id, $password );
+		/*/
+		* User Admin Account Section.  //
 
-		//// User Admin Account Section.
+
+		*/
 		$admin_account_user_id = wp_create_user( $email, $password, $email );
 		// Update Additional User Parameters.
 		wp_update_user(
@@ -276,6 +280,9 @@ class MembershipUser {
 		);
 		// Notify User of Password.
 		$this->notify_user_credential( $password, $email, $first_name );
+
+		// Register Account in Database as Dependent.
+		Factory::get_instance( MemberSyncDAO::class )->register_child_account( $admin_account_user_id, $parent_user_id, Membership::MEMBERSHIP_ROLE_TENANT_ADMIN );
 
 		// Inject Parent ID.
 		$meta_key   = self::TENANT_PARENT_META_KEY;
@@ -294,6 +301,9 @@ class MembershipUser {
 			$meta_key,
 			$meta_value
 		);
+
+		// Add Subscription to Admin Child Account.
+		Factory::get_instance( UMPMemberships::class )->add_tenant_admin_ump_subscription( $admin_account_user_id );
 
 		return $admin_account_user_id;
 	}
@@ -564,7 +574,7 @@ class MembershipUser {
 	 */
 	public function set_last_login( string $user_name ) {
 
-		$user              = get_user_by( 'login', $user_name );
+		$user              = get_user_by( 'email', $user_name );
 		$curent_login_time = get_user_meta( $user->ID, 'current_login', true );
 
 		// Add or update the last login value for logged in user.
@@ -600,5 +610,24 @@ class MembershipUser {
 			$the_last_login = mysql2date( $date_format, $last_login, false );
 		}
 		return $the_last_login;
+	}
+
+	/**
+	 * Get the Count of User Tenant Admin or WCFM Staff Accounts
+	 *
+	 * @param  int $parent_id - The user ID of the parent - uses currently logged in user if blank.
+	 * @return ?int
+	 */
+	public function get_staff_tenant_admin_user_count( int $parent_id = null ):?int {
+		if ( ! $parent_id ) {
+			$parent_id = \get_current_user_id();
+		}
+		$is_tenant_account = Factory::get_instance( UserRoles::class )->is_tenant_account();
+		if ( $is_tenant_account ) {
+			$count = Factory::get_instance( MemberSyncDAO::class )->get_child_count( $parent_id, Membership::MEMBERSHIP_ROLE_TENANT_ADMIN );
+		} else {
+			$count = Factory::get_instance( WCFMTools::class )->elemental_get_staff_member_count();
+		}
+		return $count;
 	}
 }

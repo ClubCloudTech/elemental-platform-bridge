@@ -106,7 +106,7 @@ class GroupSearch {
 	public function elemental_group_shortcode( $atts = array() ) {
 
 		$youzify_loaded = ! Factory::get_instance( MemberSearch::class )->is_youzer_available();
-		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version() . wp_rand( 1, 2000 );
+		$plugin_version = Factory::get_instance( Version::class )->get_plugin_version();
 
 		$defaults = array(
 			'per_page'     => 12,

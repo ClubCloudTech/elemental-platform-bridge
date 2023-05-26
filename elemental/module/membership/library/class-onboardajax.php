@@ -112,23 +112,23 @@ class OnboardAjax {
 			if ( ! $membership && isset( $_POST['membership'] ) ) {
 				$membership = sanitize_text_field( wp_unslash( $_POST['membership'] ) );
 			}
+			$redirect_slug        = get_option( WooCommerceHelpers::SETTING_ONBOARD_POST_SUB_SLUG );
+			$redirect_url         = \get_site_url() . '/' . $redirect_slug;
+			$response['redirect'] = $redirect_url;
 
-			$user_id = Factory::get_instance( MembershipUser::class )->create_free_tenant_parent( $first_name, $last_name, $email, $company, $country, $password, $membership );
-			if ( $user_id ) {
+			$admin_user_id = Factory::get_instance( MembershipUser::class )->create_free_tenant_parent( $first_name, $last_name, $email, $company, $country, $password, $membership );
+			if ( $admin_user_id ) {
 				if ( ! is_user_logged_in() ) {
-					$user_obj = \get_user_by( 'id', $user_id );
-					wp_set_current_user( $user_id );
-					wp_set_auth_cookie( $user_id );
+					$user_obj = \get_user_by( 'id', $admin_user_id );
+					wp_set_current_user( $admin_user_id );
+					wp_set_auth_cookie( $admin_user_id );
 					do_action( 'wp_login', $email, $user_obj );
 				}
-				// Set Registration Process Cookie.
-				Factory::get_instance( Onboard::class )->delete_setup_cookie();
-				Factory::get_instance( Onboard::class )->create_setup_cookie();
-				$response['feedback']   = true;
+				$redirect_slug          = get_option( WooCommerceHelpers::SETTING_ONBOARD_POST_SUB_SLUG );
+				$redirect_url           = \get_site_url() . '/' . $redirect_slug;
+				$response['redirect']   = $redirect_url;
+				$response['feedback']   = esc_html__( 'Account created successfully', 'elementalplugin' );
 				$response['membership'] = $membership;
-
-				$this->wcfm_choose_membership( intval( $membership ) );
-				$response['table'] = Factory::get_instance( OnboardShortcode::class )->render_wcfm_step( $user_id );
 
 			} else {
 				$response['feedback'] = 'Error Creating Account';

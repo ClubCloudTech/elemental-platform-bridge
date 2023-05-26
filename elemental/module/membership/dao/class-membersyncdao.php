@@ -255,7 +255,7 @@ class MemberSyncDAO {
 	}
 
 	/**
-	 * Get All Child Accounts from Database by Parent.
+	 * Get Child Account Info from Database.
 	 *
 	 * @param int    $child_id The Parent ID to query.
 	 * @param string $account_type Type of account to register - defaults to Sponsored.
@@ -330,7 +330,7 @@ class MemberSyncDAO {
 			$account_type = Membership::MEMBERSHIP_ROLE_SPONSORED;
 		}
 
-		$result = \wp_cache_get( $parent_id, __METHOD__ );
+		$result = \wp_cache_get( $parent_id . $account_type, __METHOD__ );
 
 		if ( false === $result ) {
          // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
@@ -363,7 +363,7 @@ class MemberSyncDAO {
 			}
 
 			$rowcount = $wpdb->num_rows;
-			\wp_cache_set( $parent_id, $rowcount, __METHOD__ );
+			\wp_cache_set( $parent_id . $account_type, $rowcount, __METHOD__ );
 			if ( $rowcount ) {
 				return $rowcount;
 			} else {
@@ -388,7 +388,7 @@ class MemberSyncDAO {
 			$account_type = Membership::MEMBERSHIP_ROLE_SPONSORED;
 		}
 
-		$cache_key = $parent_id;
+		$cache_key = $parent_id . $account_type;
 		if ( ! $parent_id ) {
 			$cache_key = '__ALL__';
 		}

@@ -7,6 +7,7 @@
 
 namespace ElementalPlugin\Module\Menus;
 
+use ElementalPlugin\Library\Ajax;
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Library\UserRoles;
@@ -20,8 +21,9 @@ use ElementalPlugin\Module\WCFM\Library\WCFMTools;
  */
 class ElementalMenus {
 
-	const SHORTCODE_TEAM_MENU = 'elemental_teamlogoname';
-	const SHORTCODE_USER_MENU = 'elemental_userlogoname';
+	const SHORTCODE_TEAM_MENU       = 'elemental_teamlogoname';
+	const SHORTCODE_USER_MENU       = 'elemental_userlogoname';
+	const SETTING_SUBSCRIPTION_MODE = 'elemental_subscription_mode';
 	/**
 	 * Runtime Shortcodes and Setup
 	 */
@@ -29,6 +31,10 @@ class ElementalMenus {
 		Factory::get_instance( Switches::class )->init();
 		\add_shortcode( self::SHORTCODE_TEAM_MENU, array( $this, 'render_header_logo_shortcode' ) );
 		\add_shortcode( self::SHORTCODE_USER_MENU, array( $this, 'render_user_logo_shortcode' ) );
+
+		// Option for Email URL.
+		\add_filter( 'elemental_maintenance_result_listener', array( $this, 'process_subscription_mode_menu_cp_setting' ), 9, 2 );
+		\add_filter( 'elemental_page_option', array( $this, 'update_subscription_mode_menu_cp_setting' ), 9, 2 );
 	}
 
 	/**
@@ -149,14 +155,14 @@ class ElementalMenus {
 		} else {
 			$picture_url = \plugins_url( '../../assets/img/user-icon.png', __FILE__ );
 		}
-		$is_vendor         = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
+		$is_tenant         = Factory::get_instance( UserRoles::class )->is_tenant_account();
 		$file_notification = Factory::get_instance( FileManagement::class )->check_user_notification( $user_id );
 		$docvault_url      = \get_site_url() . get_option( UserHelpers::DOCVAULT_MENU_CP_SETTING );
 			// Case Store Owner.
-		if ( $is_vendor ) {
-			$user_id    = \get_current_user_id();
-			$store_name = get_user_meta( $user_id, 'store_name', true );
-			$output     = $store_name;
+		if ( $is_tenant ) {
+			$user_id     = \get_current_user_id();
+			$tenant_name = Factory::get_instance( UserRoles::class )->get_tenant_name();
+			$output      = $tenant_name;
 			// @TODO Only whilst in sandbox only mode - as a new control panel page will be built and this url can lose the extension
 			$profile_control_url = \get_site_url() . get_option( UserHelpers::PROFILE_MENU_CP_SETTING );
 			// Case Not Org Admin Account but signed in.
@@ -197,6 +203,8 @@ class ElementalMenus {
 	</div>
 	<div class="dropdown-content">
 		<?php
+		// File Notification Item.
+
 		if ( $file_notification ) {
 			?>
 		<a href="<?php echo esc_url( $docvault_url ); ?>" class="elemental-host-link">
@@ -207,22 +215,26 @@ class ElementalMenus {
 
 			<?php
 		} elseif ( \is_user_logged_in() ) {
+
+			// Document Vault Menu Item.
 			?>
 		<a href="<?php echo esc_url( $docvault_url ); ?>"
 			class="elemental-host-link"><?php echo \esc_html__( 'Document Vault', 'elementalplugin' ); ?></a>
 			<?php
 		}
-
+		// Change to Parent/Child.
 		if ( $user_id ) {
 				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'role' );
 
+			// Account Settings Menu Item.
 			?>
 		<a href="<?php echo esc_url( $profile_control_url ); ?>"
 			class="elemental-host-link"><?php echo \esc_html__( 'Account Settings', 'elementalplugin' ); ?></a>
 			<?php
 		}
 
+		// Sign Out Menu Item.
 				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'login' );
 		?>
@@ -236,6 +248,51 @@ class ElementalMenus {
 	}
 
 
+	/**
+	 * Add Subscription Mode Control Panel Setting
+	 *
+	 * @param array $input - the filter input.
+	 * @return array
+	 */
+	public function update_subscription_mode_menu_cp_setting( array $input ): array {
+		if ( 'true' === get_option( self::SETTING_SUBSCRIPTION_MODE ) ) {
+			$retrieved_value = 'checked';
+		} else {
+			$retrieved_value = '';
+		}
+		$input_add = ' 
+		<td>
+		<span>' . esc_html__( 'Site Subscription Mode', 'elementalplugin' ) . '</span>
+		</td>
+		<td>
+		<input type="checkbox" 
+		class="elemental-maintenance-checkbox-setting"
+		id="' . esc_attr( self::SETTING_SUBSCRIPTION_MODE ) . '"
+		name="' . esc_attr( self::SETTING_SUBSCRIPTION_MODE ) . '"
+		value="' . esc_attr( self::SETTING_SUBSCRIPTION_MODE ) . '"
+		. ' . $retrieved_value . '>
+			<label for="' . esc_attr( self::SETTING_SUBSCRIPTION_MODE ) . '">' . \esc_html__( ' UMP Only Subscription Mode', 'elementalplugin' ) . '</label>
+		<i class="elemental-dashicons elemental-icons dashicons-editor-help" title="' . \esc_html__( ' Ticked for UMP only subscription unticked for WCFM/WooCommerce subscription', 'elementalplugin' ) . '"></i><br>
+		</td>';
+		\array_push( $input, $input_add );
+		return $input;
 
+	}
+	/**
+	 * Process Update Result. Subscription Mode CP Setting.
+	 *
+	 * @param array $response -  Inbound response Elements that will go back to the Ajax Script.
+	 * @return array
+	 */
+	public function process_subscription_mode_menu_cp_setting( array $response ): array {
+		$current_value = \get_option( self::SETTING_SUBSCRIPTION_MODE );
+		$field         = strval( Factory::get_instance( Ajax::class )->get_string_parameter( self::SETTING_SUBSCRIPTION_MODE ) );
+
+		if ( $field !== $current_value ) {
+			\update_option( self::SETTING_SUBSCRIPTION_MODE, $field );
+			$response['feedback'] = \esc_html__( 'Site Subscription Setting Saved', 'elementalplugin' );
+		}
+		return $response;
+	}
 
 }

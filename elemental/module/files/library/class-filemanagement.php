@@ -109,7 +109,7 @@ class FileManagement {
 	 *
 	 * @return void
 	 */
-	public function create_user_dir( $user_id ) {
+	public function create_user_dir( int $user_id ) {
 		$user_info = get_userdata( $user_id );
 		// Only create if user folder does not exist.
 		if ( ! $this->check_user_dir_exists( $user_info->user_login ) ) {
@@ -121,12 +121,12 @@ class FileManagement {
 	/**
 	 * Make a User Home Folder on user creation
 	 *
-	 * @param $user_login - The User id passed in.
+	 * @param $user_login - The User login passed in.
 	 *
 	 * @return bool
 	 */
-	public function check_user_dir_exists( $user_login ): bool {
-		$user_info = \get_user_by( 'login', $user_login );
+	public function check_user_dir_exists( string $user_login ): bool {
+		$user_info = \get_user_by( 'email', $user_login );
 		$user_dir  = $this->get_user_upload_directory( $user_info->user_login );
 		return is_dir( $user_dir );
 	}

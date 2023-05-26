@@ -100,12 +100,13 @@ class OnboardShortcode {
 			$is_woo_commerce_sub = null;
 			$is_ump_subscription = null;
 		}
-		
 
 		if ( 434 === $membership_id && ! Factory::get_instance( MembershipSetup::class )->is_page_elementor() ) {
-			$url = \get_site_url() . '/settings/loginlanding/';
+			$redirect_slug = get_option( WooCommerceHelpers::SETTING_ONBOARD_POST_SUB_SLUG );
+			$redirect_url  = \get_site_url() . '/' . $redirect_slug;
+
 			// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
-			echo '<script type="text/javascript"> window.location="' . esc_url( $url ) . '";</script>';
+			echo '<script type="text/javascript"> window.location="' . esc_url( $redirect_url ) . '";</script>';
 			die();
 		}
 		// Case Thank you Subscription Order.
@@ -116,12 +117,6 @@ class OnboardShortcode {
 			$render        = ( require __DIR__ . '/../views/onboarding/individual/manage-individual-paid.php' );
 			return $render( null, $redirect_url );
 		}
-
-
-
-
-
-
 
 		// Case Free Individual. Only for single user account that doesn't have a subscription.
 		if ( Membership::MEMBERSHIP_INDIVIDUAL_ID === $membership_status ) {
@@ -136,7 +131,7 @@ class OnboardShortcode {
 				'type' => 'all',
 			);
 			$level_name = Factory::get_instance( ShortCodesUMP::class )->render_level_name( $atts );
-			
+
 			// Is user onboard pending.
 
 			// TODO change to remove and update logic of redirect....
@@ -149,7 +144,7 @@ class OnboardShortcode {
 			// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
 			return $render( $manage_user_form( $membership_id ), $redirect_url, $level_name );
 
-		/* Case WooCommerce Subscription which Has to be purchased to execute level */
+			/* Case WooCommerce Subscription which Has to be purchased to execute level */
 		} elseif ( $is_woo_commerce_sub ) {
 			// Is user onboard pending.
 			if ( $user_logged_in && Factory::get_instance( MembershipUser::class )->is_user_subscription_onboarding( $user_id ) ) {

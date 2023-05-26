@@ -490,7 +490,7 @@ class UserHelpers {
 	 * @param string $company_name - the company name to verify.
 	 * @return string
 	 */
-	private function format_company_name( string $company_name ): string {
+	public function format_company_name( string $company_name ): string {
 		$company_name = str_replace( ' ', '-', $company_name ); // Replaces all spaces with hyphens.
 		return preg_replace( '/[^A-Za-z0-9\-]/', '', $company_name ); // Removes special chars.
 	}
@@ -504,5 +504,4 @@ class UserHelpers {
 		$formatted_company_name = $this->format_company_name( $company_name );
 		return $formatted_company_name . self::COMPANY_SUFFIX_DOMAIN;
 	}
-
 }

@@ -32,7 +32,7 @@ class UMPMemberships {
 		$membership_levels = array_keys( $ihc_data );
 		$return_array      = array();
 		foreach ( $membership_levels as $level => $value ) {
-			if ( $value === $membership_id || Factory::get_instance( ElementalUMPDAO::class )->translate_ump_level_to_wc( $value ) === $membership_id ) {
+			if ( null === $membership_id || $value === $membership_id || Factory::get_instance( ElementalUMPDAO::class )->translate_ump_level_to_wc( $value ) === $membership_id ) {
 				$record_data                      = Factory::get_instance( MembershipDAO::class )->get_limit_info( intval( $value ) );
 				$record_array                     = array();
 				$record_array['level']            = $value;

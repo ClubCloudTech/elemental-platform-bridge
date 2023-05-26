@@ -64,7 +64,7 @@ return function (
 		?>
 	<p>
 		<?php
-		esc_html_e( 'You don\'t current have any membership levels.', 'elemental' );
+		esc_html_e( 'You don\'t current have any membership levels detected.', 'elemental' );
 		?>
 	</p>
 		<?php

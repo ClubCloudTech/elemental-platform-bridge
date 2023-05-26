@@ -27,7 +27,8 @@ return function (
 	<form method="" action="#">
 	<!-- Email Section -->	
 	<p class="city wcfm_title wcfm_ele">
-			<strong><?php esc_html_e( 'Email', 'elementalplugin' ); ?></strong><br>
+			<strong><?php esc_html_e( 'Email', 'elementalplugin' ); ?><span
+					class="required">*</span></strong><br>
 		</p>
 		<label class="screen-reader-text" for="elemental-inbound-email"></label>
 		<input type="email" id="elemental-inbound-email" name="elemental-inbound-email"
@@ -36,7 +37,8 @@ return function (
 			style="display:none"></i>
 	<!-- First Name Section -->
 		<p class="city wcfm_title wcfm_ele">
-			<strong><?php esc_html_e( 'First Name ', 'elementalplugin' ); ?></strong><br>
+			<strong><?php esc_html_e( 'First Name ', 'elementalplugin' ); ?><span
+					class="required">*</span></strong><br>
 		</p>
 
 		<label for="first_name" class="screen-reader-text"><?php esc_html_e( 'First Name ', 'elementalplugin' ); ?>
@@ -49,7 +51,8 @@ return function (
 			style="display:none"></i>
 	<!-- Last Name Section -->
 		<p class="city wcfm_title wcfm_ele">
-			<strong><?php esc_html_e( 'Last Name ', 'elementalplugin' ); ?>
+			<strong><?php esc_html_e( 'Last Name ', 'elementalplugin' ); ?><span
+					class="required">*</span></strong>
 		</p>
 
 		<label for="last_name" class="screen-reader-text "><?php esc_html_e( 'Last Name ', 'elementalplugin' ); ?></label>
@@ -62,7 +65,8 @@ return function (
 			style="display:none;"></i>
 <!-- Password Section-->
 <p class="city wcfm_title wcfm_ele">
-			<strong><?php esc_html_e( 'Password', 'elementalplugin' ); ?></strong><br>
+			<strong><?php esc_html_e( 'Password', 'elementalplugin' ); ?><span
+					class="required">*</span></strong><br>
 		</p>
 
 		<label for="password" class="screen-reader-text "><?php esc_html_e( 'Password', 'elementalplugin' ); ?></label>
@@ -92,7 +96,8 @@ return function (
 		</div>
 <!-- Company Name-->
 		<p class="city wcfm_title wcfm_ele">
-			<strong><?php esc_html_e( 'Company Name', 'elementalplugin' ); ?></strong><br>
+			<strong><?php esc_html_e( 'Company Name', 'elementalplugin' ); ?><span
+					class="required">*</span></strong><br>
 		</p>
 		<label for="company" class="screen-reader-text">
 			<?php esc_html_e( 'Company Name ', 'elementalplugin' ); ?>
@@ -191,7 +196,7 @@ return function (
 		</select>
 		<i id="country-icon" class="card elemental-dashicons elemental-icons dashicons-saved"
 				title="Country Ready" style="display:none"></i>
-		
+
 		<div class="">
 		<?php
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -199,10 +204,11 @@ return function (
 				'add_subscription',
 				esc_html__( 'Activate Account', 'elementalplugin' )
 			);
-		?> <strong>Requirements:</strong>
-		<div id="elemental-company-status" data-valid="" class="elemental-company-status-individual elemental-membership-displayconf"></div>
-	<div id="password-strength" class="elemental-membership-displayconf elemental-email-taken">No Password</div>	
-	<div id="elemental-email-status" data-valid="" class="elemental-membership-displayconf"></div>
+		?>
+		<strong>Requirements:</strong>
+	<div id="elemental-company-status" style="display:none;"data-valid="" class="elemental-company-status-individual elemental-membership-displayconf"></div>
+	<div id="password-strength" style="display:none;" class="elemental-membership-displayconf elemental-email-taken">No Password</div>	
+	<div id="elemental-email-status" style="display:none;" data-valid="" class="elemental-membership-displayconf"></div>
 	</div>
 
 	<!-- Button -->
@@ -212,7 +218,7 @@ return function (
 
 </div>
 
-<?php
+	<?php
 
 	return ob_get_clean();
 };
