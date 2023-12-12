@@ -127,6 +127,9 @@ class FileManagement {
 	 */
 	public function check_user_dir_exists( string $user_login ): bool {
 		$user_info = \get_user_by( 'email', $user_login );
+		if ( ! $user_info ) {
+			$user_info = \wp_get_current_user();
+		}
 		$user_dir  = $this->get_user_upload_directory( $user_info->user_login );
 		return is_dir( $user_dir );
 	}
