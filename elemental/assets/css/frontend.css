@@ -26,6 +26,10 @@
 			width: 25px;
 		}
 
+		.elemental-text-menu-override{
+			color: #b5b5b6;
+		}
+
 		.elemental-title-header {
 			display: inline !important;
 			margin-bottom: 10px;

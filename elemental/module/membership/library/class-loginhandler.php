@@ -216,11 +216,8 @@ class LoginHandler {
 			} else {
 				$join_button = '';
 			}
-			if ( ! $mobileflag ) {
-				$output .= ' <a class="elemental-host-link" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'elementalplugin' ) . '</a>' . $join_button;
-			} else {
-				$output .= '';
-			}
+
+			$output .= ' <a class="elemental-host-link elemental-text-menu-override" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'elementalplugin' ) . '</a>' . $join_button;
 		}
 		return $output;
 	}
