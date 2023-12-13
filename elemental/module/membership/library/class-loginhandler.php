@@ -17,7 +17,6 @@ use ElementalPlugin\Library\HttpGet;
 use ElementalPlugin\Library\UserHelpers;
 use ElementalPlugin\Library\Version;
 use ElementalPlugin\Module\BuddyPress\ElementalBP;
-use ElementalPlugin\Module\Menus\ElementalMenus;
 use ElementalPlugin\Module\UltimateMembershipPro\Library\UMPMemberships;
 
 
@@ -73,6 +72,9 @@ class LoginHandler {
 
 		$this->register_scripts();
 		$this->initialise_loginhandler_ajax();
+
+		// Redirect non admin users out of WP-admin
+		add_action( 'init', array( $this, 'restrict_admin_with_redirect' ), 1 );
 	}
 
 	/**
@@ -300,6 +302,25 @@ class LoginHandler {
 		}
 
 	}
+
+	/**
+	 * Restrict access to the administration screens.
+	 *
+	 * Only administrators will be allowed to access the admin screens,
+	 * all other users will be automatically redirected to the front of
+	 * the site instead.
+	 *
+	 */
+	public function restrict_admin_with_redirect() {
+		$url = $_SERVER['REQUEST_URI'];
+		$wpa_url = 'wp-admin';
+		$is_wpadmin_url = str_contains( $url, $wpa_url);
+		if ( $is_wpadmin_url && ! current_user_can( 'manage_options' ) && ( ! wp_doing_ajax() ) ) {
+			wp_safe_redirect( site_url() ); 
+		}
+	}
+
+
 
 	/**
 	 * Login Switch

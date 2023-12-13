@@ -11,10 +11,10 @@ declare(strict_types=1);
  * Plugin Name:         Finxone Site Platform
  * Plugin URI:          https://finxone.com
  * Description:         Adds user management, multi-entity onboarding, and integration support functions for Ultimate Member Pro, BuddyPress, WooCommerce, and WCFM.
- * Version:             1.0alpha
+ * Version:             1.0alpha1
  * Requires PHP:        7.4
  * Requires at least:   5.6
- * Author:              Fred Mocellin, Alex Dale and Finxone team
+ * Author:              Fred Mocellin, Ben Baumhardt, Alex Dale and Finxone team
  * Author URI:          https://clubcloud.tech/
  * License:             GPLv2 or later
  * License URI:         https://www.gnu.org/licenses/gpl-2.0.html
