@@ -24,20 +24,11 @@
 	line-height: 1.2 ! important;
 }
 
-.elemental-name-shortcode {
-	color: #3674FD ! important;
-}
-
 .elemental-name-shortcode-icon {
 	color: #979799;
 	border: 3px white solid;
 	border-radius: 28px;
 	width: 32px;
-}
-
-.dropdown-content a:hover {
-	background-color: #3674FD ! important;
-	color: white ! important;
 }
 
 .ui-tabs .ui-tabs-nav {
@@ -679,8 +670,20 @@ span.wcfm_title strong {
 	fill: #FFFFFF;
 	font-family: "Montserrat", Sans-serif;
 	font-weight: 600;
-	font-size: 14px;
+	color:#002855!important;
+	font-size: 15px;
 	font-family: var(--e-global-typography-primary-font-family), Sans-serif;
+}
+
+.dropdown-content a:hover {
+	background-color: #002855 ! important;
+	color: white ! important;
+	border-radius: 8px;
+	margin:10px;
+}
+
+.elemental-name-shortcode {
+	color: #fff ! important;
 }
 
 .elemental-user-create-form {

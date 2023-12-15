@@ -142,11 +142,19 @@ class ElementalMenus {
 		if ( ! isset( $attributes['user_id'] ) ) {
 			$user_id = \get_current_user_id();
 		}
-
+		//Font Size
+		if ( isset( $attributes['font-size'] ) && intval( $attributes['font-size'] ) > 1 ) {
+			$style_tag = 'style ="font-size:' . $attributes['font-size'] . 'px;" ';
+		} else {
+			$style_tag = null;
+		}
 		$user       = \get_user_by( 'id', $user_id );
 		$attributes = array(
 			'force_default' => true,
 		);
+
+
+		// Images.
 		$ump_image  = get_user_meta( $user_id, 'ihc_avatar' );
 		if ( isset( $attributes['image'] ) && 'avatar' === $attributes['image'] && $user_id ) {
 			$picture_url = get_avatar_url( $user, $attributes );
@@ -183,11 +191,16 @@ class ElementalMenus {
 		ob_start();
 		?>
 <div class="elemental-button-primary-nav-area dropdown">
-	<div class="elemental-primary-nav-settings">
+	<div style="color:black; font-size:12px;" class="elemental-primary-nav-settings">
 		<a href="<?php echo esc_url( $profile_control_url ); ?>" class="elemental-host-link">
 			<div class="elemental-primary-nav-img"
 				style="background-image: url(<?php echo esc_url( $picture_url ); ?> )"></div>
-			<span class="elemental-name-shortcode"><?php echo esc_attr( $output ); ?><i
+			<span 
+			<?php
+			//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - output formatted with text number only
+			echo $style_tag; 
+			?>
+			class="elemental-name-shortcode"><?php echo esc_attr( $output ); ?><i
 					class="dropdown elemental-dashicons elemental-icons dashicons-arrow-down-alt2 "></i></span>
 		</a>
 		<?php
@@ -207,7 +220,12 @@ class ElementalMenus {
 
 		if ( $file_notification ) {
 			?>
-		<a href="<?php echo esc_url( $docvault_url ); ?>" class="elemental-host-link">
+		<a 
+		<?php
+			//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - output formatted with text number only
+			echo $style_tag; 
+			?>
+		href="<?php echo esc_url( $docvault_url ); ?>" class="elemental-host-link">
 			<i class="elemental-dashicons elemental-name-shortcode-icon dashicons-media-document"
 				title="<?php echo \esc_html__( 'You have a new file in your vault. Click to access', 'elemental' ); ?>"></i>
 			<?php esc_html_e( 'New Documents to View', 'elementalplugin' ); ?>

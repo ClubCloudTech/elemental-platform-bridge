@@ -312,11 +312,11 @@ class LoginHandler {
 	 *
 	 */
 	public function restrict_admin_with_redirect() {
-		$url = $_SERVER['REQUEST_URI'];
-		$wpa_url = 'wp-admin';
-		$is_wpadmin_url = str_contains( $url, $wpa_url);
+		$url            = $_SERVER['REQUEST_URI'];
+		$wpa_url        = 'wp-admin';
+		$is_wpadmin_url = str_contains( $url, $wpa_url );
 		if ( $is_wpadmin_url && ! current_user_can( 'manage_options' ) && ( ! wp_doing_ajax() ) ) {
-			wp_safe_redirect( site_url() ); 
+			wp_safe_redirect( site_url() );
 		}
 	}
 
@@ -353,7 +353,7 @@ class LoginHandler {
 
 
 	/**
-	 * Add WCFM Premium Account List.
+	 * Login template setting.
 	 *
 	 * @param array $input - the filter input.
 	 * @return array
