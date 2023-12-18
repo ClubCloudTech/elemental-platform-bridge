@@ -124,10 +124,11 @@ class LoginHandler {
 	 *
 	 * @param string $type = the type of shortcode to return, login = login only, role = role switch only, all or null is both.
 	 * @param bool   $show_join_button = don't show join button.
+	 * @param string $mobileflag = this is for mobile browser breakpoint and will not show menu.
 	 *
 	 * @return string
 	 */
-	public function elemental_login_out( string $type, bool $show_join_button = null ): string {
+	public function elemental_login_out( string $type, bool $show_join_button = null, string $mobileflag = null ): string {
 		$output = '';
 		// Get Identities.
 		$is_vendor         = Factory::get_instance( UserRoles::class )->is_wcfm_vendor();
@@ -215,8 +216,11 @@ class LoginHandler {
 			} else {
 				$join_button = '';
 			}
-
-			$output .= ' <a class="elemental-host-link" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'elementalplugin' ) . '</a>' . $join_button;
+			if ( ! $mobileflag ) {
+				$output .= ' <a class="elemental-host-link" href="' . \get_site_url() . '/login" >' . esc_html__( 'Login', 'elementalplugin' ) . '</a>' . $join_button;
+			} else {
+				$output .= '';
+			}
 		}
 		return $output;
 	}

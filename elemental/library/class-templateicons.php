@@ -40,7 +40,7 @@ class TemplateIcons {
 				break;
 			case 'deletefile':
 				$button_label = '<span title ="' . esc_html__( 'Delete your file', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-dismiss"></span>';
-				$button_class = 'elemental-ul-style-menu elemental-button-separation elemental-button-override';
+				$button_class = 'elemental-ul-style-menu elemental-icon elemental-button-separation elemental-button-override';
 				$a_class      = '';
 				$id           = 'elemental-delete-file';
 				break;

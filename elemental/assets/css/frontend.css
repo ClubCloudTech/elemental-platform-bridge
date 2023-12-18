@@ -460,7 +460,11 @@
 
 		.elemental-ul-style-menu span {
 			font-size: 28px;
-			color: rgb(58, 45, 45);
+			color: rgb(82, 82, 82);
+		}
+		.elemental-icon {
+			padding: 2px!important;
+			background-color: #ffffff00!important;
 		}
 
 		.elemental-nav-settingstabs-outer-wrap {

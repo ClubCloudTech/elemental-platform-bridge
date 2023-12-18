@@ -26,47 +26,51 @@ return function (
 	?>
 <div id="elemental-welcome-page" class=" " data-checksum="<?php echo esc_attr( $encrypted_user_id ); ?>">
 	<div>
-		<H1 style=" text-align:centre;">
-			<?php echo esc_html__( 'File Vault for : ', 'elementalplugin' ) . esc_attr( $user->display_name ); ?></H1>
+		<span style=" text-align:centre;">
+			<?php echo esc_html__( 'File Vault for : ', 'elementalplugin' ) . esc_attr( $user->display_name ); ?></span>
 	</div>
 
-	<div style="background : #d8d8d8; border: 4px solid black; border-bottom:0px;">
-		<div class="elemental-left">
-			<strong><?php esc_html_e( ' File Uploads: ', 'elementalplugin' ); ?></strong>
-			<input type="file" accept=".gif,.jpg,.jpeg,.png,.pdf,.txt,.xls,.xlsx,.doc,.docx"
+	<div style=" ">
+		<div  class="elemental-left">
+		<input type="file" accept=".gif,.jpg,.jpeg,.png,.pdf,.txt,.xls,.xlsx,.doc,.docx"
 				id="elemental-file-input" />
 		</div>
 		<div class="elemental-right-nofloat">
 		<?php
+		
 			//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - already escaped.
-			echo Factory::get_instance( TemplateIcons::class )->format_button_icon( 'close_window' );
+			//echo Factory::get_instance( TemplateIcons::class )->format_button_icon( 'close_window' );
 		?>
+
 		</div>
 	</div>
 
 	<div id="elemental-top-notification" class=""></div>
 	<table class="collapse wp-list-table widefat plugins elemental-table-adjust"
-		style="background : #d8d8d8; border: 4px solid black;">
+		style="border: 2px solid black;">
 		<thead>
 			<tr style="border-bottom: 2px solid black;">
 				<th></th>
 				<th>
-					<h1>Name</h1>
+					Name
 				</th>
 				<th>
-					<h1>Type</h1>
+					Type
 				</th>
 				<th>
-					<h1>Size</h1>
+					Size
 				</th>
 				<th>
-					<h1>Last Modified</h1>
+					Last Modified
+				</th>
+				<th>
+					Action
 				</th>
 			</tr>
 
 		</thead>
 		<tbody>
-			<?PHP
+			<?php
 			if ( $dir_list ) {
 				foreach ( $dir_list as $file ) {
 					echo '<td style="max-width=25%;"><a href="' . esc_url( $file['url'] ) . '"><img src="' . esc_url( $file['url'] ) . '" width="90" alt=""></a></td>';
@@ -83,7 +87,7 @@ return function (
 
 				}
 			} else {
-				echo '<tr><td colspan="4"><h2>' . esc_html__( 'There are no files in your digital vault', 'elementalplugin' ) . '</h2></td></tr>';
+				echo '<tr><td colspan="4">' . esc_html__( 'There are no files in your digital vault', 'elementalplugin' ) . '</td></tr>';
 			}
 
 			?>

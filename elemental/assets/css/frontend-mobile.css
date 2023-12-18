@@ -270,8 +270,12 @@ td {
 
 .elemental-ul-style-menu span {
 	font-size: 28px;
-	color: rgb(58, 45, 45);
+	color: rgb(236, 236, 236);
 }
+.elemental-icon span {
+	color: rgb(236, 236, 236);
+}
+
 
 .elemental-dashicons,
 .elemental-dashicons-before:before {

@@ -142,20 +142,35 @@ class ElementalMenus {
 		if ( ! isset( $attributes['user_id'] ) ) {
 			$user_id = \get_current_user_id();
 		}
-		//Font Size
-		if ( isset( $attributes['font-size'] ) && intval( $attributes['font-size'] ) > 1 ) {
-			$style_tag = 'style ="font-size:' . $attributes['font-size'] . 'px;" ';
+		//Font Size and Weight
+		if ( isset( $attributes['font-size'] ) || isset( $attributes['font-weight'] ) ) {
+			$style_tag = 'style ="';
+			if ( intval( $attributes['font-size'] ) > 1 ) {
+				$style_tag .= 'font-size:' . $attributes['font-size'] . 'px; ';
+			}
+			if ( intval( $attributes['font-weight'] ) > 1 ) {
+				$style_tag .= ' font-weight:' . $attributes['font-weight'] . ' ';
+			}
+			$style_tag .= '"';
 		} else {
 			$style_tag = null;
 		}
-		$user       = \get_user_by( 'id', $user_id );
+
+		$user = \get_user_by( 'id', $user_id );
+
+		//Mobile View
+		if ( isset( $attributes['mobile'] ) && 'yes' === $attributes['mobile'] ) {
+			$mobile_view = true;
+		} else {
+			$mobile_view = false;
+		}
+
 		$attributes = array(
 			'force_default' => true,
 		);
 
-
 		// Images.
-		$ump_image  = get_user_meta( $user_id, 'ihc_avatar' );
+		$ump_image = get_user_meta( $user_id, 'ihc_avatar' );
 		if ( isset( $attributes['image'] ) && 'avatar' === $attributes['image'] && $user_id ) {
 			$picture_url = get_avatar_url( $user, $attributes );
 		} elseif ( $ump_image ) {
@@ -187,9 +202,12 @@ class ElementalMenus {
 		if ( isset( $attributes['type'] ) && 'text' === $attributes['type'] ) {
 			return $output;
 		}
-
+	
 		ob_start();
-		?>
+
+		// Desktop View Template
+		if ( false === $mobile_view ) {
+			?>
 <div class="elemental-button-primary-nav-area dropdown">
 	<div style="color:black; font-size:12px;" class="elemental-primary-nav-settings">
 		<a href="<?php echo esc_url( $profile_control_url ); ?>" class="elemental-host-link">
@@ -203,23 +221,83 @@ class ElementalMenus {
 			class="elemental-name-shortcode"><?php echo esc_attr( $output ); ?><i
 					class="dropdown elemental-dashicons elemental-icons dashicons-arrow-down-alt2 "></i></span>
 		</a>
-		<?php
-		if ( $file_notification ) {
-			?>
+			<?php
+			if ( $file_notification ) {
+				?>
 		<a href="<?php echo esc_url( $docvault_url ); ?>" class="elemental-host-link">
 			<i class="elemental-dashicons elemental-name-shortcode-icon dashicons-media-document"
 				title="<?php echo \esc_html__( 'You have a new file in your vault. Click to access', 'elemental' ); ?>"></i></a>
 
-			<?php
-		}
-		?>
+				<?php
+			}
+			?>
 	</div>
 	<div class="dropdown-content">
-		<?php
-		// File Notification Item.
+			<?php
+			// File Notification Item.
 
-		if ( $file_notification ) {
+			if ( $file_notification ) {
+				?>
+		<a 
+				<?php
+				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - output formatted with text number only
+				echo $style_tag; 
+				?>
+		href="<?php echo esc_url( $docvault_url ); ?>" class="elemental-host-link">
+			<i class="elemental-dashicons elemental-name-shortcode-icon dashicons-media-document"
+				title="<?php echo \esc_html__( 'You have a new file in your vault. Click to access', 'elemental' ); ?>"></i>
+				<?php esc_html_e( 'New Documents to View', 'elementalplugin' ); ?>
+		</a>
+
+				<?php
+			} elseif ( \is_user_logged_in() ) {
+
+				// Document Vault Menu Item.
+				?>
+		<a href="<?php echo esc_url( $docvault_url ); ?>"
+			class="elemental-host-link"><?php echo \esc_html__( 'Document Vault', 'elementalplugin' ); ?></a>
+				<?php
+			}
+			// Change to Parent/Child.
+			if ( $user_id ) {
+				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'role' );
+
+				// Account Settings Menu Item.
+				?>
+		<a href="<?php echo esc_url( $profile_control_url ); ?>"
+			class="elemental-host-link"><?php echo \esc_html__( 'Account Settings', 'elementalplugin' ); ?></a>
+				<?php
+			}
+
+			// Sign Out Menu Item.
+				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'login', null, true );
 			?>
+
+	</div>
+</div>
+
+			<?php
+			//Mobile View Template
+		} else {
+			?>
+<div class="elemental-button-primary-nav-area">
+	<div >
+		<a href="<?php echo esc_url( $profile_control_url ); ?>" class="elemental-host-link">
+			<div class="elemental-primary-nav-img"
+				style="background-image: url(<?php echo esc_url( $picture_url ); ?> )"></div>
+			<span 
+			<?php
+			//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - output formatted with text number only
+			echo $style_tag; 
+			?>
+			>
+			<?php echo esc_attr( $output ); ?></span>
+		</a>
+			<?php
+			if ( $file_notification ) {
+				?>
 		<a 
 		<?php
 			//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - output formatted with text number only
@@ -227,42 +305,64 @@ class ElementalMenus {
 			?>
 		href="<?php echo esc_url( $docvault_url ); ?>" class="elemental-host-link">
 			<i class="elemental-dashicons elemental-name-shortcode-icon dashicons-media-document"
+				title="<?php echo \esc_html__( 'You have a new file in your vault. Click to access', 'elemental' ); ?>"></i></a>
+
+				<?php
+			}
+			?>
+	</div>
+	<div <?php
+				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - output formatted with text number only
+				echo $style_tag; 
+				?>>
+			<?php
+			// File Notification Item.
+
+			if ( $file_notification ) {
+				?>
+		<a href="<?php echo esc_url( $docvault_url ); ?>" class="elemental-host-link">
+			<i class="elemental-dashicons elemental-name-shortcode-icon dashicons-media-document"
 				title="<?php echo \esc_html__( 'You have a new file in your vault. Click to access', 'elemental' ); ?>"></i>
-			<?php esc_html_e( 'New Documents to View', 'elementalplugin' ); ?>
+				<?php esc_html_e( 'New Documents to View', 'elementalplugin' ); ?>
 		</a>
 
-			<?php
-		} elseif ( \is_user_logged_in() ) {
+				<?php
+			} elseif ( \is_user_logged_in() ) {
 
-			// Document Vault Menu Item.
-			?>
+				// Document Vault Menu Item.
+				?>
 		<a href="<?php echo esc_url( $docvault_url ); ?>"
 			class="elemental-host-link"><?php echo \esc_html__( 'Document Vault', 'elementalplugin' ); ?></a>
-			<?php
-		}
-		// Change to Parent/Child.
-		if ( $user_id ) {
+				<?php
+			}
+			// Change to Parent/Child.
+			if ( $user_id ) {
 				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'role' );
 
-			// Account Settings Menu Item.
-			?>
+				// Account Settings Menu Item.
+				?>
 		<a href="<?php echo esc_url( $profile_control_url ); ?>"
 			class="elemental-host-link"><?php echo \esc_html__( 'Account Settings', 'elementalplugin' ); ?></a>
-			<?php
-		}
+				<?php
+			}
 
-		// Sign Out Menu Item.
+			// Sign Out Menu Item.
+
 				//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo Factory::get_instance( LoginHandler::class )->elemental_login_out( 'login' );
-		?>
+			?>
 
 	</div>
 </div>
 
-		<?php
-		return ob_get_clean();
+			<?php
 
+
+
+		}
+			return ob_get_clean();
+		
 	}
 
 
