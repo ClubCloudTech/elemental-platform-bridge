@@ -11,7 +11,7 @@ use ElementalPlugin\Module\Membership\Library\MembershipAjax;
 use ElementalPlugin\Module\Membership\Membership;
 
 /**
- * Render the Picture page
+ * Render the User View page
  *
  * @param ?string $details_section Optional details section.
  * @param ?string $room_name Room Name.

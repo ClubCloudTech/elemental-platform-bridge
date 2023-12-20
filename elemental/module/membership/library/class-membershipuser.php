@@ -407,15 +407,16 @@ class MembershipUser {
 		$return_array = array();
 
 		foreach ( $sponsored_objects as $account ) {
-			$user                         = \get_user_by( 'ID', $account['user_id'] );
-			$record_array                 = array();
-			$record_array['user_id']      = $account['user_id'];
-			$record_array['last_login']   = $this->get_last_login_by_user_id( $account['user_id'] );
-			$record_array['created']      = date_i18n( get_option( 'date_format' ), $account['timestamp'] );
-			$record_array['parent_id']    = $account['parent_id'];
-			$record_array['display_name'] = $user->display_name;
-			$record_array['account_type'] = $account['account_type'];
-			$record_array['email']        = $user->user_email;
+			$user                           = \get_user_by( 'ID', $account['user_id'] );
+			$record_array                   = array();
+			$record_array['user_id']        = $account['user_id'];
+			$record_array['encrypted-user'] = Factory::get_instance( Encryption::class )->encrypt_string( \strval( $account['user_id'] ) );
+			$record_array['last_login']     = $this->get_last_login_by_user_id( $account['user_id'] );
+			$record_array['created']        = date_i18n( get_option( 'date_format' ), $account['timestamp'] );
+			$record_array['parent_id']      = $account['parent_id'];
+			$record_array['display_name']   = $user->display_name;
+			$record_array['account_type']   = $account['account_type'];
+			$record_array['email']          = $user->user_email;
 
 			\array_push( $return_array, $record_array );
 		}

@@ -27,14 +27,14 @@ class TemplateIcons {
 		switch ( $type ) {
 			case 'photo':
 				$button_label = '<span title ="' . esc_html__( 'Update Profile Picture across site.', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-camera"></span>';
-				$button_class = 'elemental-ul-style-menu elemental-button-separation elemental-button-override';
+				$button_class = 'elemental-ul-style-menu elemental-profile-button elemental-button-separation elemental-button-override';
 				$a_class      = '';
 				$id           = 'elemental-photo-image';
 				break;
 
 			case 'forgetme':
 				$button_label = '<span title ="' . esc_html__( 'Delete your picture, and clear temporary information', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-dismiss"></span>';
-				$button_class = 'elemental-ul-style-menu elemental-button-separation elemental-button-override';
+				$button_class = 'elemental-ul-style-menu elemental-icon elemental-button-separation elemental-button-override';
 				$a_class      = '';
 				$id           = 'elemental-forget-me';
 				break;

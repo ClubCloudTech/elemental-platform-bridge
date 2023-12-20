@@ -40,9 +40,9 @@ return function (
 					<tbody>
 						<?php
 						$child_account_table_render = include __DIR__ . '/child-account-items.php';
-						foreach ( $user_accounts as $level ) {
+						foreach ( $user_accounts as $account ) {
 							//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
-							echo $child_account_table_render($level);
+							echo $child_account_table_render($account);
 						}
 						?>
 					</tbody>

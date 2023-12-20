@@ -1,6 +1,6 @@
 <?php
 /**
- * Shows Child/Sponsored Account Room Items
+ * Shows Child/Sponsored Account User Object Items
  *
  * @package ElementalPlugin\Module\Membership\Views\child-account-items.php
  */
@@ -33,7 +33,7 @@ return function (
 		array_push(
 			$edit_actions,
 			array(
-				__( 'Manage Files' ),
+				__( 'Manage Files ' ),
 				null,
 				'elemental-dashicons dashicons-media-document elemental-file-manager',
 				array(

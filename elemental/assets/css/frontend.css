@@ -466,6 +466,12 @@
 			padding: 2px!important;
 			background-color: #ffffff00!important;
 		}
+		.elemental-profile-button {
+			padding: 4px!important;
+			background-color: #e9e9e942!important;
+			border: 1px solid #303030;
+			font-size: 32px;
+		}
 
 		.elemental-nav-settingstabs-outer-wrap {
 			border: 1px solid #c3c4c7;
