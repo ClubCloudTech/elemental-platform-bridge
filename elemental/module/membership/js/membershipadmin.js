@@ -39,6 +39,7 @@ window.addEventListener('load', function () {
       $('#elemental-email-status').hide()
       $('#submit').click(function (e) {
         e.stopPropagation()
+        e.stopImmediatePropagation()
         e.preventDefault()
         createUser(e)
         $(this).prop('value', 'Creating Account')

@@ -32,7 +32,10 @@
 			margin-top: 10px;
 		}
 
-
+		.elemental-button-clear{
+			padding: 2px!important;
+			background: white;
+		}
 
 		#basket-video-host-wrap-table,
 		#elemental-main-basket-window {

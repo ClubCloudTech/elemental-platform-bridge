@@ -59,9 +59,14 @@ class MembershipUMP {
 		if ( ! $user_id ) {
 			$user_id = \get_current_user_id();
 		}
-		if ( current_user_can( 'editor' ) || current_user_can( 'administrator' ) ) {
+
+		// Check Admin section.
+		$user          = \wp_get_current_user();
+		$allowed_roles = array( 'editor', 'administrator' );
+		if ( array_intersect( $allowed_roles, $user->roles ) ) {
 			return 434;
 		}
+
 		// Get Max Quota.
 		$quota          = $this->highest_user_membership_quota( $user_id );
 		$currently_used = Factory::get_instance( MemberSyncDAO::class )->get_child_count( $user_id );

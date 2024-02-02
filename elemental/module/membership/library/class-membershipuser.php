@@ -53,7 +53,10 @@ class MembershipUser {
 			return $return_array;
 		}
 
-		if ( strlen( $first_name ) < 3 || strlen( $last_name ) < 3 || ! \sanitize_email( $email ) || \username_exists( $email ) ) {
+		// Reject incorrect input.
+		$user_exists_check = \get_user_by( 'email', $email );
+
+		if ( strlen( $first_name ) < 3 || strlen( $last_name ) < 3 || ! \sanitize_email( $email ) || \username_exists( $email ) || $user_exists_check ) {
 			$return_array['status']   = false;
 			$return_array['feedback'] = \esc_html__( 'Incorrect Validation, First Name, Last Name, or Email', 'elementalplugin' );
 			return $return_array;
@@ -62,7 +65,8 @@ class MembershipUser {
 		$password = wp_generate_password( 12, false );
 
 		$user_id = wp_create_user( $email, $password, $email );
-		if ( ! $user_id ) {
+
+		if ( ! \is_integer( $user_id ) ) {
 			$return_array['feedback'] = \esc_html__( 'WordPress User Account Creation Error', 'elementalplugin' );
 			$return_array['status']   = false;
 			return $return_array;

@@ -1,6 +1,6 @@
 <?php
 /**
- * User View Frames
+ * User View Frames - Deep Dive
  *
  * @package ElementalPlugin/views/user/table-user-views.php
  */
@@ -50,7 +50,7 @@ return function (
 						?>
 </td>
 					<td class="elemental-right">
-						<?php
+					<?php
 				// phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped -  icon already  escaped.
 				echo Factory::get_instance( TemplateIcons::class )->format_button_icon( 'forgetme' );
 						?>
@@ -91,7 +91,7 @@ return function (
 				</tr>
 				<tr class="elemental-table-row"><td></td>
 				<td><label for="re-invite"><?php echo \esc_html__( 'Re-Send Invite', 'elementalplugin' ); ?></label>
-					<a id ="<?php echo esc_textarea( MembershipAjax::REINVITE_USER );?>"href="" class="elemental-icons elemental-dashicons dashicons-email-alt" title="Re-send Invitation Mail"></a></td>
+					<a id ="<?php echo esc_textarea( MembershipAjax::REINVITE_USER ); ?>"href="" class="elemental-icons elemental-dashicons dashicons-email-alt" title="Re-send Invitation Mail"></a></td>
 					<td><label for="reset-password"><?php echo \esc_html__( 'Reset Password', 'elementalplugin' ); ?></label>
 					<a id ="reset-password"href="" class="elemental-icons elemental-dashicons dashicons-admin-network " title="Reset Password"></a>
 					<label for="delete-user-click"><?php echo \esc_html__( 'Delete User', 'elementalplugin' ); ?></label>

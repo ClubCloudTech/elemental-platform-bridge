@@ -5,6 +5,8 @@
  * @package ElementalPlugin\Module\Membership\Views\email-template.php
  */
 
+use ElementalPlugin\Library\UserHelpers;
+
 /**
  * Render the Membership Welcome Email.
  *
@@ -71,7 +73,7 @@ return function (
 						<td align="center" valign="middle" class="header"
 						style="word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top;  -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; margin: 0; Margin: 0; text-align: left; font-size: 14px; line-height: 140%; background-color: #ffffff; padding: 60px 75px 45px 75px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; border-left: 1px solid #ddd; border-top: 3px solid #809eb0;">
 						<?php
-						$image_header = wp_get_attachment_url( get_theme_mod( 'custom_logo' ) );
+						$image_header = 'https://finxone.com/wp-content/uploads/2023/04/cropped-Fixone-Master-Logo-1.png';
 						if ( $image_header ) {
 							?>
 								<img src="<?php echo esc_url( $image_header ); ?>"
@@ -90,17 +92,17 @@ return function (
 							<div class="success" style="text-align: center;">
 								<p class="text-extra-large text-center congrats"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; line-height: 140%; font-size: 20px; text-align: center; margin: 0 0 20px 0; Margin: 0 0 20px 0;">
-									<?php echo esc_html__( 'Welcome ', 'elemental' ) . esc_textarea( $first_name ) . esc_html__( ' to ', 'elemental ' ) . esc_textarea( get_bloginfo( 'name' ) ); ?>
+									<?php echo esc_html__( 'Welcome ', 'elemental' ) . esc_textarea( $first_name ) . esc_html__( ' to ', 'elemental ' ) . esc_textarea( get_bloginfo( 'name' ) ) . esc_html( ' Investor Portal' ); ?>
 								</p>
 								<p class="text-large"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0; font-size: 16px;">
-									<?php echo esc_html__( 'Your sponsored account has been successfully created, you can use it to immediately access benefits on our platform ', 'elemental' ); ?>
+									<?php echo esc_html__( 'Your account on our platform has been successfully created. ', 'elemental' ); ?>
 								</p>
 								<p class="text-large"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0; font-size: 16px;">
 									<?php
-									echo esc_html__( 'To begin, you can access your account ', 'elemental' ) .
-									'<a href="' . esc_url( \get_site_url() ) . '">' . \esc_html__( ' Here ', 'elemental' ) . '<a>';
+									echo esc_html__( 'To access your dataroom, click ', 'elemental' ) .
+									'<a href="' . esc_url( \get_site_url() ) . esc_url( get_option( UserHelpers::LOGIN_ADDRESS_MENU_CP_SETTING ) ) . '">' . \esc_html__( ' Here ', 'elemental' ) . '<a>';
 									?>
 									<div>
 										<table id="elemental-table-basket-frame"

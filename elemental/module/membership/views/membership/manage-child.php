@@ -3,10 +3,9 @@
 /**
  * WCFM plugin view
  *
- * WCFM Child Account View
  *
- * @author  Club Cloud based on template from WC Lovers
- * @package elemental/membership/views/manage-child.php
+ * @author  ClubCloud
+ * @package module/membership/views/membership/manage-child.php
  * @version 1.0.0
  *
  * @param string $add_account_form - add an account form

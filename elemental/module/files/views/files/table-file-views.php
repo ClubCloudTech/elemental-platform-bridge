@@ -32,14 +32,14 @@ return function (
 
 	<div style=" ">
 		<div  class="elemental-left">
-		<input type="file" accept=".gif,.jpg,.jpeg,.png,.pdf,.txt,.xls,.xlsx,.doc,.docx"
+		<input type="file" accept=".gif,.jpg,.jpeg,.png,.pdf,.txt,.xls,.xlsx,.doc,.docx,.zip"
 				id="elemental-file-input" />
 		</div>
 		<div class="elemental-right-nofloat">
 		<?php
-		
+
 			//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - already escaped.
-			//echo Factory::get_instance( TemplateIcons::class )->format_button_icon( 'close_window' );
+			echo Factory::get_instance( TemplateIcons::class )->format_button_icon( 'close_window' );
 		?>
 
 		</div>

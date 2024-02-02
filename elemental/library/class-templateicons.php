@@ -33,8 +33,8 @@ class TemplateIcons {
 				break;
 
 			case 'forgetme':
-				$button_label = '<span title ="' . esc_html__( 'Delete your picture, and clear temporary information', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-dismiss"></span>';
-				$button_class = 'elemental-ul-style-menu elemental-icon elemental-button-separation elemental-button-override';
+				$button_label = '<span title ="' . esc_html__( 'Delete or Close', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-dismiss"></span>';
+				$button_class = 'elemental-ul-style-menu elemental-icon elemental-button-clear elemental-button-separation elemental-button-override';
 				$a_class      = '';
 				$id           = 'elemental-forget-me';
 				break;
@@ -46,7 +46,7 @@ class TemplateIcons {
 				break;
 			case 'close_window':
 				$button_label = '<span title ="' . esc_html__( 'Close the Window', 'elementalplugin' ) . '" class="elemental-dashicons dashicons-no"></span>';
-				$button_class = 'elemental-ul-style-menu elemental-button-separation elemental-button-override';
+				$button_class = 'elemental-ul-style-menu elemental-icon elemental-button-separation elemental-button-override';
 				$a_class      = '';
 				$id           = 'elemental-close-window';
 				break;
