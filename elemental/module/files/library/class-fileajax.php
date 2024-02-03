@@ -186,7 +186,7 @@ class FileAjax {
 				$file_name = sanitize_file_name( wp_unslash( $_FILES['upfile']['tmp_name'] ) );
 			}
 			// Filter files here.
-			$arr_img_ext = array( 'image/png', 'application/zip', 'application/x-zip-compressed','image/jpeg', 'image/jpg', 'image/gif', 'text/plain', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' );
+			$arr_img_ext = array( 'image/png', 'application/zip', 'application/x-zip-compressed', 'image/jpeg', 'image/jpg', 'image/gif', 'text/plain', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' );
 
 			if ( isset( $_FILES['upfile']['type'] ) && ! in_array( $_FILES['upfile']['type'], $arr_img_ext, true ) ) {
 				$response['message'] = esc_html__( 'Incorrect Attachment Type Sent', 'elementalplugin' );
