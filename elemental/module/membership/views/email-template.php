@@ -32,7 +32,7 @@ return function (
 	<meta name="viewport" content="width=device-width">
 	<title>
 	<?php
-	\esc_html__( ' Welcome to ', 'elemental' ) . get_bloginfo( 'name' );
+	\esc_html__( ' Welcome to ', 'elemental' ) . get_bloginfo( 'name' ) . ' Investment Relations';
 	?>
 	</title>
 	<style type="text/css">
@@ -92,11 +92,11 @@ return function (
 							<div class="success" style="text-align: center;">
 								<p class="text-extra-large text-center congrats"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; line-height: 140%; font-size: 20px; text-align: center; margin: 0 0 20px 0; Margin: 0 0 20px 0;">
-									<?php echo esc_html__( 'Welcome ', 'elemental' ) . esc_textarea( $first_name ) . esc_html__( ' to ', 'elemental ' ) . esc_textarea( get_bloginfo( 'name' ) ) . esc_html( ' Investor Portal' ); ?>
+									<?php echo esc_textarea( $first_name ) . esc_html__( '\'s Investor Relations Invitation', 'elemental ' ); ?>
 								</p>
 								<p class="text-large"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0; font-size: 16px;">
-									<?php echo esc_html__( 'Your account on our platform has been successfully created. ', 'elemental' ); ?>
+									<?php echo esc_html__( 'Thank you very much for your interest in Finxone. Your Investment Relations account has been created. You can now access our data room. ', 'elemental' ); ?>
 								</p>
 								<p class="text-large"
 									style="-ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; padding: 0; text-align: left; line-height: 140%; margin: 0 0 15px 0; Margin: 0 0 15px 0; font-size: 16px;">

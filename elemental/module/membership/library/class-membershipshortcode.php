@@ -265,9 +265,9 @@ class MembershipShortCode {
 		if ( current_user_can( 'editor' ) || current_user_can( 'administrator' ) ) {
 			return '<div id="div-holder-temp" class="elemental-initial"> <div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You have unlimited invitations remaining ', 'elementalplugin' ) . '</div></div>';
 		} elseif ( $accounts_remaining > 0 ) {
-			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You have ', 'elementalplugin' ) . esc_textarea( $accounts_remaining_display ) . ' ' . esc_textarea( $account_description ) . esc_html__( ' invitations remaining', 'elementalplugin' ) . '</div></div>';
+			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You have ', 'elementalplugin' ) . esc_textarea( $accounts_remaining_display ) . ' ' . esc_html__( ' invitations remaining', 'elementalplugin' ) . '</div></div>';
 		} elseif ( 0 === $accounts_remaining ) {
-			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You have No ', 'elementalplugin' ) . esc_textarea( $account_description ) . esc_html__( ' invitations remaining', 'elementalplugin' ) . '</div></div>';
+			return '<div id="div-holder-temp" class="elemental-initial"><div id="elemental-remaining-counter" class="elemental-accounts-remaining" data-remaining="' . esc_textarea( $accounts_remaining ) . '">' . esc_html__( 'You have No ', 'elementalplugin' ) . esc_html__( ' invitations remaining', 'elementalplugin' ) . '</div></div>';
 		}
 		return null;
 	}
