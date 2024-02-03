@@ -606,7 +606,7 @@ class MembershipUser {
 			$user_id = \get_current_user_id();
 		}
 
-		$last_login  = get_user_meta( $user_id, 'last_login', true );
+		$last_login  = get_user_meta( $user_id, 'current_login', true );
 		$date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 
 		if ( wp_is_mobile() ) {

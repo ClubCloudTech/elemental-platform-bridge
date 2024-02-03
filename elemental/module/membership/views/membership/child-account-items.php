@@ -92,7 +92,13 @@ return function (
 		<a href="" class="elemental-icons <?php echo esc_attr( $action[2] ); ?>"
 			data-userid="<?php echo esc_attr( $child_account_object['encrypted-user'] ); ?>"
 			data-nonce="<?php echo esc_attr( $save_nonce ); ?>" title="<?php echo esc_attr( $action[0] ); ?>" 
-			data-type="<?php echo esc_attr( $child_account_object['allusers'] ); ?>" title="<?php echo esc_attr( $action[0] ); ?>" 
+			data-type="
+			<?php
+			if ( isset( $child_account_object['allusers'] ) ) {
+				echo esc_attr( $child_account_object['allusers'] );
+			}
+			?>
+			" title="<?php echo esc_attr( $action[0] ); ?>" 
 		></a>
 			<?php
 		}

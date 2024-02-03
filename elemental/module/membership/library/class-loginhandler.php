@@ -172,7 +172,6 @@ class LoginHandler {
 					$output    .= '<a href="' . $url . '" class="elemental-host-link">' . esc_html__( 'Exit Admin Mode', 'elementalplugin' ) . '</a>';
 				}
 			} else {
-
 				// There are Insufficient Admin Accounts - so redirect to Admin Account Addin page.
 				$url = \get_site_url() . '/control/manage-accounts/firstadmin/';
 				// Javascript as wp_safe_redirect runs too late when invoked in Shortcode.
