@@ -27,7 +27,7 @@ return function (
 			<div id="wwcfm_shop_staffsesc_html_expander" class="wcfm-content">
 				<table id="elemental-membership-table" class="display" cellspacing="0" width="100%">
 					<thead>
-						<tr>
+						<tr>						
 							<th><?php esc_html_e( 'Account', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Created', 'elementalplugin' ); ?></th>
 							<th><?php esc_html_e( 'Type', 'elementalplugin' ); ?></th>

@@ -114,6 +114,11 @@ window.addEventListener('load', function () {
         e.preventDefault()
         updatePassword(e, null, 'true')
       })
+      $('#search-button').click(function (e) {
+        e.stopPropagation()
+        e.preventDefault()
+        executeSearch()
+      })
       $('#elemental-password-reset-approved').click(function (e) {
         e.stopPropagation()
         e.preventDefault()
@@ -321,6 +326,74 @@ window.addEventListener('load', function () {
         }
       })
     }
+
+/**
+     * Create New User post checks (used in main add new user form)
+     */
+var executeSearch = function () {
+  
+  var searchTerm = $('#elemental-search-input').val(),
+    account_window = $('#elemental-membership-table'),
+    counter_window = $('#elemental-remaining-counter'),
+    form_data = new FormData()
+
+  form_data.append('action', 'elemental_membershipadmin_ajax')
+  form_data.append('action_taken', 'execute_search')
+  form_data.append('search_term', searchTerm)
+  form_data.append('security', elemental_membershipadmin_ajax.security)
+
+  $.ajax({
+    type: 'post',
+    dataType: 'html',
+    url: elemental_membershipadmin_ajax.ajax_url,
+    contentType: false,
+    processData: false,
+    data: form_data,
+    success: function (response) {
+      var state_response = JSON.parse(response)
+      if (state_response.status == true) {
+        if (state_response.table) {
+          account_window.html(state_response.table)
+        }
+        if (state_response.counter) {
+          mainvideo_parent = counter_window.parent().attr('id')
+          parent_element = $('#' + mainvideo_parent)
+          counter_window.remove()
+          counter_window.parent().empty()
+          parent_element.html(state_response.counter)
+        }
+        console.log('stat' + state_response.status)
+        if (state_response.status == true) {
+          $('#elemental-email-status').removeClass('elemental-checking')
+          $('#elemental-email-status').removeClass('elemental-invalid')
+          $('#elemental-email-status').removeClass('elemental-email-taken')
+          $('#elemental-email-status').addClass('elemental-email-available')
+          $('#elemental-email-status').html('Account Created')
+          $('#submit').prop('value', 'Account Created')
+          $('#submit').prop('disabled', true)
+          $('#first_name').prop('value', '')
+          $('#last_name').prop('value', '')
+          $('#elemental-inbound-email').prop('value', '')
+          $('#elemental-email-status').attr('data-status', '')
+          $('#first-name-icon').hide()
+          $('#last-name-icon').hide()
+          $('#elemental-adduser-frame').slideToggle()
+          init()
+        }
+      } else {
+        $('#elemental-email-status').removeClass(
+          'elemental-email-available'
+        )
+        $('#elemental-email-status').addClass('elemental-invalid')
+        $('#elemental-email-status').html(state_response.feedback)
+      }
+    },
+    error: function (response) {
+      console.log('Error Uploading')
+    }
+  })
+}
+
 
     /**
      * Create New User post checks (used in main add new user form)
