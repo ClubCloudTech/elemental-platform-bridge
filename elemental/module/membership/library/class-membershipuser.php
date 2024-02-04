@@ -492,8 +492,8 @@ class MembershipUser {
 				usort(
 					$array_to_sort,
 					function ( $a, $b ) {
-						$a_val = (int) $a['last_login'];
-						$b_val = (int) $b['last_login'];
+						$a_val = (int) strtotime( $a['last_login'] );
+						$b_val = (int) strtotime( $b['last_login'] );
 						if ( $a_val > $b_val ) {
 							return -1;
 						}
@@ -508,8 +508,8 @@ class MembershipUser {
 				usort(
 					$array_to_sort,
 					function ( $a, $b ) {
-						$a_val = (int) $a['created'];
-						$b_val = (int) $b['created'];
+						$a_val = (int) strtotime( $a['created'] );
+						$b_val = (int) strtotime( $b['created'] );
 						if ( $a_val > $b_val ) {
 							return -1;
 						}
@@ -528,10 +528,10 @@ class MembershipUser {
 						$a_val = (string) $a['parent_name'];
 						$b_val = (string) $b['parent_name'];
 						if ( $a_val > $b_val ) {
-							return -1;
+							return 1;
 						}
 						if ( $a_val < $b_val ) {
-							return 1;
+							return -1;
 						}
 						return 0;
 					}
@@ -557,8 +557,8 @@ class MembershipUser {
 				usort(
 					$array_to_sort,
 					function ( $a, $b ) {
-						$a_val = (string) $a['email'];
-						$b_val = (string) $b['email'];
+						$a_val = (string) \strtolower( $a['email'][0] );
+						$b_val = (string) \strtolower( $b['email'][0] );
 						if ( $a_val > $b_val ) {
 							return 1;
 						}
