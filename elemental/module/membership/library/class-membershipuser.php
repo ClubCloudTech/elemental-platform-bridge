@@ -429,30 +429,52 @@ class MembershipUser {
 	/**
 	 * Gets the complete list of User Sponsored Accounts
 	 *
+	 * @param string $search_term - what to search for.
 	 * @return array
 	 */
-	public function get_all_sponsored_users() :array {
+	public function get_all_sponsored_users( string $search_term = null ) :array {
 
-		$sponsored_objects = Factory::get_instance( MemberSyncDAO::class )->get_all_child_accounts();
+		$sponsored_objects = Factory::get_instance( MemberSyncDAO::class )->get_all_child_accounts( null, $search_term );
 
 		$return_array = array();
+		if ( $search_term ) {
+			foreach ( $sponsored_objects as $account ) {
+				$user         = \get_user_by( 'ID', $account['user_id'] );
+				$parent       = \get_user_by( 'ID', $account['parent_id'] );
+				$record_array = array();
+				if ( \str_contains( $user->display_name, $search_term ) || \str_contains( $user->user_email, $search_term ) ) {
+					$record_array['user_id']        = $account['user_id'];
+					$record_array['last_login']     = $this->get_last_login_by_user_id( $account['user_id'] );
+					$record_array['created']        = date_i18n( get_option( 'date_format' ), $account['timestamp'] );
+					$record_array['parent_name']    = $parent->display_name;
+					$record_array['display_name']   = $user->display_name;
+					$record_array['account_type']   = $account['account_type'];
+					$record_array['email']          = $user->user_email;
+					$record_array['encrypted-user'] = Factory::get_instance( Encryption::class )->encrypt_string( $account['user_id'] );
+					$record_array['allusers']       = \wp_create_nonce( self::VERIFICATION_NONCE );
 
-		foreach ( $sponsored_objects as $account ) {
-			$user                           = \get_user_by( 'ID', $account['user_id'] );
-			$parent                         = \get_user_by( 'ID', $account['parent_id'] );
-			$record_array                   = array();
-			$record_array['user_id']        = $account['user_id'];
-			$record_array['last_login']     = $this->get_last_login_by_user_id( $account['user_id'] );
-			$record_array['created']        = date_i18n( get_option( 'date_format' ), $account['timestamp'] );
-			$record_array['parent_name']    = $parent->display_name;
-			$record_array['display_name']   = $user->display_name;
-			$record_array['account_type']   = $account['account_type'];
-			$record_array['email']          = $user->user_email;
-			$record_array['encrypted-user'] = Factory::get_instance( Encryption::class )->encrypt_string( $account['user_id'] );
-			$record_array['allusers']       = \wp_create_nonce( self::VERIFICATION_NONCE );
-
-			\array_push( $return_array, $record_array );
+					\array_push( $return_array, $record_array );
+				}
+			}
+			// No search term.
+		} else {
+			foreach ( $sponsored_objects as $account ) {
+				$user                           = \get_user_by( 'ID', $account['user_id'] );
+				$parent                         = \get_user_by( 'ID', $account['parent_id'] );
+				$record_array                   = array();
+				$record_array['user_id']        = $account['user_id'];
+				$record_array['last_login']     = $this->get_last_login_by_user_id( $account['user_id'] );
+				$record_array['created']        = date_i18n( get_option( 'date_format' ), $account['timestamp'] );
+				$record_array['parent_name']    = $parent->display_name;
+				$record_array['display_name']   = $user->display_name;
+				$record_array['account_type']   = $account['account_type'];
+				$record_array['email']          = $user->user_email;
+				$record_array['encrypted-user'] = Factory::get_instance( Encryption::class )->encrypt_string( $account['user_id'] );
+				$record_array['allusers']       = \wp_create_nonce( self::VERIFICATION_NONCE );
+				\array_push( $return_array, $record_array );
+			}
 		}
+
 		return $return_array;
 	}
 

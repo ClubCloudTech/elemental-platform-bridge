@@ -396,8 +396,9 @@ class MemberSyncDAO {
 		$result = \wp_cache_get( $cache_key, __METHOD__ );
 
 		if ( false === $result ) {
+
 			if ( $parent_id ) {
-             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$rows = $wpdb->get_results(
 					$wpdb->prepare(
 						'
@@ -411,13 +412,13 @@ class MemberSyncDAO {
 					)
 				);
 			} else {
-             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$rows = $wpdb->get_results(
 					'
-                        SELECT user_id, timestamp, parent_id, account_type
-                        FROM ' . /*phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared*/ $this->get_table_name() . '
-                        ORDER BY parent_id ASC
-                    '
+						SELECT user_id, timestamp, parent_id, account_type
+						FROM ' . /*phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared*/ $this->get_table_name() . '
+						ORDER BY parent_id ASC
+					'
 				);
 			}
 

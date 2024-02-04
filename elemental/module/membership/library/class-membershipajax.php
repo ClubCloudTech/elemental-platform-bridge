@@ -48,6 +48,7 @@ class MembershipAjax {
 		$user_id_encrypt  = Factory::get_instance( Ajax::class )->get_string_parameter( 'userid' );
 		$nonce            = Factory::get_instance( Ajax::class )->get_string_parameter( 'nonce' );
 		$type             = Factory::get_instance( Ajax::class )->get_string_parameter( 'type' );
+		$search_term      = Factory::get_instance( Ajax::class )->get_string_parameter( 'search_term' );
 		$user_id          = Factory::get_instance( Encryption::class )->decrypt_string( $user_id_encrypt );
 
 		/*
@@ -250,6 +251,40 @@ class MembershipAjax {
 
 			return \wp_send_json( $response );
 		}
+
+		/*
+		* Search.
+		*
+		*/
+		if ( 'execute_search' === $action_taken ) {
+
+			if ( $type && \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE ) ) {
+				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_all_sponsored_accounts_table( null, $search_term );
+			} else {
+				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_sponsored_account_table();
+			}
+				$response['table']   = $new_table;
+				$response['counter'] = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
+
+			return \wp_send_json( $response );
+		}
+		/*
+		* Refresh Page.
+		*
+		*/
+		if ( 'refresh_page' === $action_taken ) {
+
+			if ( $type && \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE ) ) {
+				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_all_sponsored_accounts_table();
+			} else {
+				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_sponsored_account_table();
+			}
+				$response['table']   = $new_table;
+				$response['counter'] = Factory::get_instance( MembershipShortCode::class )->render_remaining_account_count();
+
+			return \wp_send_json( $response );
+		}
+
 		/*
 		* Delete User.
 		*
@@ -268,7 +303,7 @@ class MembershipAjax {
 				$response['feedback'] = \esc_html__( 'Invalid Security Nonce received - First', 'elementalplugin' );
 				return \wp_send_json( $response );
 			}
-			
+	
 			//TODO redo parent delete routine
 			/*
 			$my_user_id  = \get_current_user_id();
