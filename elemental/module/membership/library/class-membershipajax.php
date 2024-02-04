@@ -274,7 +274,9 @@ class MembershipAjax {
 		*
 		*/
 		if ( 'refresh_page' === $action_taken ) {
-
+			if ( 'undefined' === $sort_field ) {
+				$sort_field = null;
+			}
 			if ( $type && \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE ) ) {
 				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_all_sponsored_accounts_table( null, null, $sort_field );
 			} else {
