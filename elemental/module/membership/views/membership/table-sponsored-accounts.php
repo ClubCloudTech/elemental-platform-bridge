@@ -19,7 +19,7 @@ return function (
 	string $admin_nonce = null,
 ): string {
 	ob_start();
-	
+
 	?>
 <div class="wcfm-container wcfm-collapse-content wcfm-main-contentainer" id="user-add-form"
 	data-type="<?php echo esc_attr( $admin_nonce ); ?>">
@@ -31,29 +31,29 @@ return function (
 			<a href="#" id="clear-search"
 				style="display: none;"><?php esc_html_e( 'Clear Search', 'elementalplugin' ); ?></a>
 		</div>
-<?php
+	<?php
 	if ( $user_accounts ) {
 		?>
 		<table id="elemental-membership-table" class="display wcfm-container wcfm-top-element-container" cellspacing="0"
 			width="100%">
 			<thead>
 				<tr>
-					<th><?php esc_html_e( 'Account', 'elementalplugin' ); ?></th>
-					<th><?php esc_html_e( 'Name', 'elementalplugin' ); ?></th>
-					<th><?php esc_html_e( 'Last Login', 'elementalplugin' ); ?></th>
-					<th><?php esc_html_e( 'Created', 'elementalplugin' ); ?></th>
-					<th><?php esc_html_e( 'Invited By', 'elementalplugin' ); ?></th>
+					<th><a href="#" class="elemental-column-sort" data-sort-field="email"><?php esc_html_e( 'Account', 'elementalplugin' ); ?></a></th>
+					<th><a href="#" class="elemental-column-sort" data-sort-field="display_name"><?php esc_html_e( 'Name', 'elementalplugin' ); ?></a></th>
+					<th><a href="#" class="elemental-column-sort" data-sort-field="last_login"><?php esc_html_e( 'Last Login', 'elementalplugin' ); ?></a></th>
+					<th><a href="#" class="elemental-column-sort" data-sort-field="created"><?php esc_html_e( 'Created', 'elementalplugin' ); ?></a></th>
+					<th><a href="#" class="elemental-column-sort" data-sort-field="parent_name"><?php esc_html_e( 'Invited By', 'elementalplugin' ); ?></a></th>
 					<th><?php esc_html_e( 'Actions', 'elementalplugin' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php
 						$child_account_table_render = include __DIR__ . '/child-account-items.php';
-						foreach ( $user_accounts as $account ) {
-							//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
-							echo $child_account_table_render($account);
-						}
-						?>
+				foreach ( $user_accounts as $account ) {
+					//phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $child_account_table_render($account);
+				}
+				?>
 			</tbody>
 			<tfoot>
 
@@ -64,17 +64,17 @@ return function (
 
 			<?php
 					echo '<a id="add-new-button" class="text_tip" href="#" data-tip="' . esc_html__( 'Add New Account', 'elementalplugin' ) . '"><button class="text" style="  background-color: #0d173b; border: none;  color: white;  padding: 2%;  text-align: center;  text-decoration: none;  display: inline-block;  font-size: 13px;  margin: 2px 2px;  cursor: pointer;border-radius: 8px;">' . esc_html__( 'Add New', 'wc-frontend-manager' ) . '</button></a>';
-					?>
+			?>
 
 			<?php
 					// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
 					echo $accounts_remaining;
-					?>
+			?>
 
 			<div class="elemental-clearfix"></div>
 		</div>
 
-<?php
+		<?php
 	} else {
 		?>
 		
@@ -82,15 +82,15 @@ return function (
 	<p>
 		<?php
 				esc_html_e( 'No Users Found.', 'elementalplugin' );
-				?>
+		?>
 	</p>
-	<?php
+		<?php
 					echo '<a id="add-new-button"  href="#" data-tip="' . esc_html__( 'Add New Account', 'elementalplugin' ) . '"><button class="text" style="  background-color: #0d173b; border: none;  color: white;  padding: 2%;  text-align: center;  text-decoration: none;  display: inline-block;  font-size: 13px;  margin: 2px 2px;  cursor: pointer;border-radius: 8px;">' . esc_html__( 'Add New', 'wc-frontend-manager' ) . '</button></a>';
-			?>
+		?>
 </div>
 </div><!-- wwcfm_shop_staffsesc_html_expander end -->
 </div><!-- Div wcfm-container end -->
-<?php
+		<?php
 	}
 	return ob_get_clean();
 };

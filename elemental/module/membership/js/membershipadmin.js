@@ -124,6 +124,12 @@ window.addEventListener('load', function () {
         executeSearch()
         }
         })
+        $('.elemental-column-sort').click(function (e){
+          e.stopPropagation()
+          e.preventDefault()
+          sort_field = $(this).attr('data-sort-field')
+          refreshPage( sort_field )
+          })
       $('#clear-search').click(function (e) {
         e.stopPropagation()
         e.preventDefault()
@@ -379,7 +385,7 @@ var executeSearch = function () {
 /**
      * Create New User post checks (used in main add new user form)
      */
-var refreshPage = function () {
+var refreshPage = function (sort_field) {
   var account_window = $('#elemental-membership-table'),
     type = $('#user-add-form').attr('data-type'),
     form_data = new FormData()
@@ -387,6 +393,7 @@ var refreshPage = function () {
   form_data.append('action', 'elemental_membershipadmin_ajax')
   form_data.append('action_taken', 'refresh_page')
   form_data.append('type', type)
+  form_data.append('sort_field', sort_field)
   form_data.append('security', elemental_membershipadmin_ajax.security)
 
   $.ajax({

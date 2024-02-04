@@ -405,7 +405,7 @@ class MemberSyncDAO {
 							SELECT user_id, timestamp, parent_id, account_type
 							FROM ' . /*phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared*/ $this->get_table_name() . '
 							WHERE parent_id = %d AND account_type = %s
-							ORDER BY parent_id ASC
+							ORDER BY timestamp DESC
 						',
 						$parent_id,
 						$account_type
@@ -417,7 +417,7 @@ class MemberSyncDAO {
 					'
 						SELECT user_id, timestamp, parent_id, account_type
 						FROM ' . /*phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared*/ $this->get_table_name() . '
-						ORDER BY parent_id ASC
+						ORDER BY timestamp DESC
 					'
 				);
 			}

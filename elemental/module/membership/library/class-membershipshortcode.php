@@ -113,16 +113,17 @@ class MembershipShortCode {
 	 *
 	 * @param  int    $user_id The WP User ID.
 	 * @param  string $search_term - what to search for.
+	 * @param  string $sort_field - if field is sorting.
 	 * @return ?string
 	 */
-	public function generate_all_sponsored_accounts_table( int $user_id = null, string $search_term = null ): ?string {
+	public function generate_all_sponsored_accounts_table( int $user_id = null, string $search_term = null, string $sort_field = null ): ?string {
 		// Enqueuing Scripts for Required Frame Windows in File Manager.
 		Factory::get_instance( FileManagement::class )->enqueue_scripts_user_management();
 		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}
 		$accounts_remaining = $this->render_remaining_account_count( $user_id );
-		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_all_sponsored_users( $search_term );
+		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_all_sponsored_users( $search_term, $sort_field );
 		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
 		$admin_nonce        = \wp_create_nonce( MembershipUser::VERIFICATION_NONCE );
 		return $render( $sponsored_accounts, $accounts_remaining, $admin_nonce );

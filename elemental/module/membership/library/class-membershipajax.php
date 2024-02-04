@@ -49,6 +49,7 @@ class MembershipAjax {
 		$nonce            = Factory::get_instance( Ajax::class )->get_string_parameter( 'nonce' );
 		$type             = Factory::get_instance( Ajax::class )->get_string_parameter( 'type' );
 		$search_term      = Factory::get_instance( Ajax::class )->get_string_parameter( 'search_term' );
+		$sort_field       = Factory::get_instance( Ajax::class )->get_string_parameter( 'sort_field' );
 		$user_id          = Factory::get_instance( Encryption::class )->decrypt_string( $user_id_encrypt );
 
 		/*
@@ -275,7 +276,7 @@ class MembershipAjax {
 		if ( 'refresh_page' === $action_taken ) {
 
 			if ( $type && \wp_verify_nonce( $type, MembershipUser::VERIFICATION_NONCE ) ) {
-				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_all_sponsored_accounts_table();
+				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_all_sponsored_accounts_table( null, null, $sort_field );
 			} else {
 				$new_table = Factory::get_instance( MembershipShortCode::class )->generate_sponsored_account_table();
 			}

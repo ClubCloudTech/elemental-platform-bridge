@@ -430,13 +430,13 @@ class MembershipUser {
 	 * Gets the complete list of User Sponsored Accounts
 	 *
 	 * @param string $search_term - what to search for.
+	 * @param string $sort_field - sort by
 	 * @return array
 	 */
-	public function get_all_sponsored_users( string $search_term = null ) :array {
+	public function get_all_sponsored_users( string $search_term = null, string $sort_field = null ) :array {
 
-		$sponsored_objects = Factory::get_instance( MemberSyncDAO::class )->get_all_child_accounts( null, $search_term );
-
-		$return_array = array();
+		$sponsored_objects = Factory::get_instance( MemberSyncDAO::class )->get_all_child_accounts();
+		$return_array      = array();
 		if ( $search_term ) {
 			foreach ( $sponsored_objects as $account ) {
 				$user         = \get_user_by( 'ID', $account['user_id'] );
@@ -452,7 +452,6 @@ class MembershipUser {
 					$record_array['email']          = $user->user_email;
 					$record_array['encrypted-user'] = Factory::get_instance( Encryption::class )->encrypt_string( $account['user_id'] );
 					$record_array['allusers']       = \wp_create_nonce( self::VERIFICATION_NONCE );
-
 					\array_push( $return_array, $record_array );
 				}
 			}
@@ -473,10 +472,109 @@ class MembershipUser {
 				$record_array['allusers']       = \wp_create_nonce( self::VERIFICATION_NONCE );
 				\array_push( $return_array, $record_array );
 			}
+			if ( $sort_field ) {
+				$return_array = $this->sort_by_field( $return_array, $sort_field );
+			}
 		}
-
 		return $return_array;
 	}
+	/**
+	 * Sort Array by Fields
+	 *
+	 * @param int $user_id - The User_ID to be deleted.
+	 *
+	 * @return bool
+	 */
+	private function sort_by_field( array $array_to_sort, string $sort_field ): array {
+		switch ( $sort_field ) {
+
+			case 'last_login':
+				usort(
+					$array_to_sort,
+					function ( $a, $b ) {
+						$a_val = (int) $a['last_login'];
+						$b_val = (int) $b['last_login'];
+						if ( $a_val > $b_val ) {
+							return -1;
+						}
+						if ( $a_val < $b_val ) {
+							return 1;
+						}
+						return 0;
+					}
+				);
+				return $array_to_sort;
+			case 'created':
+				usort(
+					$array_to_sort,
+					function ( $a, $b ) {
+						$a_val = (int) $a['created'];
+						$b_val = (int) $b['created'];
+						if ( $a_val > $b_val ) {
+							return -1;
+						}
+						if ( $a_val < $b_val ) {
+							return 1;
+						}
+						return 0;
+					}
+				);
+				return $array_to_sort;
+
+			case 'parent_name':
+				usort(
+					$array_to_sort,
+					function ( $a, $b ) {
+						$a_val = (string) $a['parent_name'];
+						$b_val = (string) $b['parent_name'];
+						if ( $a_val > $b_val ) {
+							return -1;
+						}
+						if ( $a_val < $b_val ) {
+							return 1;
+						}
+						return 0;
+					}
+				);
+				return $array_to_sort;
+			case 'display_name':
+				usort(
+					$array_to_sort,
+					function ( $a, $b ) {
+						$a_val = (string) $a['display_name'];
+						$b_val = (string) $b['display_name'];
+						if ( $a_val > $b_val ) {
+							return 1;
+						}
+						if ( $a_val < $b_val ) {
+							return -1;
+						}
+						return 0;
+					}
+				);
+				return $array_to_sort;
+			case 'email':
+				usort(
+					$array_to_sort,
+					function ( $a, $b ) {
+						$a_val = (string) $a['email'];
+						$b_val = (string) $b['email'];
+						if ( $a_val > $b_val ) {
+							return 1;
+						}
+						if ( $a_val < $b_val ) {
+							return -1;
+						}
+						return 0;
+					}
+				);
+				return $array_to_sort;
+		}
+
+	}
+
+
+
 
 	/**
 	 * Delete WordPress user from Membership form Ajax call.
