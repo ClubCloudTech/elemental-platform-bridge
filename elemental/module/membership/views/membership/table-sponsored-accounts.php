@@ -21,7 +21,7 @@ return function (
 
 	?>
 <div class="wcfm-container wcfm-collapse-content wcfm-main-contentainer" id="user-add-form"
-    data-type="<?php echo esc_attr( $admin_nonce ); ?>">
+    data-type="<?php echo esc_attr( $admin_nonce ); ?>" data-borg="assimilation">
     <div id="wwcfm_shop_staffsesc_html_expander wcfm-content" class="wcfm-content">
         <div class="topnav">
             <input id="elemental-search-input" type="text" placeholder="Search.." style="width:80%; height:38px;">

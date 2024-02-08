@@ -123,11 +123,11 @@ class MembershipShortCode {
 		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}
-		$accounts_remaining = $this->render_remaining_account_count( $user_id );
+		//$accounts_remaining = $this->render_remaining_account_count( $user_id );
 		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_all_sponsored_users( $search_term, $sort_field );
 		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
 		$admin_nonce        = \wp_create_nonce( MembershipUser::VERIFICATION_NONCE );
-		return $render( $sponsored_accounts, $accounts_remaining, $admin_nonce );
+		return $render( $sponsored_accounts, $admin_nonce );
 
 	}
 
