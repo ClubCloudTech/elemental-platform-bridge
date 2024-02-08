@@ -83,10 +83,12 @@ class MembershipShortCode {
 			);
 			$login_form = wp_login_form( $args );
 		}
+		$user_id             = get_current_user_id();
+		$accounts_remaining  = $this->render_remaining_account_count( $user_id );
 		$render              = ( require __DIR__ . '/../views/membership/manage-child.php' );
 		$manage_account_form = ( require __DIR__ . '/../views/membership/add-new-user.php' );
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
-		return $render( $manage_account_form(), $child_account_table, $login_form );
+		return $render( $manage_account_form( $accounts_remaining ), $child_account_table, $login_form );
 	}
 
 	/**
@@ -100,11 +102,10 @@ class MembershipShortCode {
 		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}
-		$accounts_remaining = $this->render_remaining_account_count( $user_id );
 		$sponsored_accounts = Factory::get_instance( MembershipUser::class )->get_sponsored_users_by_parent( $user_id );
 		$render             = ( include __DIR__ . '/../views/membership/table-sponsored-accounts.php' );
 		wp_enqueue_style( 'dashicons' );
-		return $render( $sponsored_accounts, $accounts_remaining );
+		return $render( $sponsored_accounts );
 
 	}
 	/**

@@ -2,43 +2,53 @@
 /**
  * Handles the Add New User Procedure for Membership Management.
  *
- * @package ElementalPlugin\Module\Membership\Views\add-new-user.php
+ * @package ElementalPlugin/module/membership/views/membership/add-new-user.php
  */
 
 use ElementalPlugin\Library\Factory;
 use ElementalPlugin\Library\HTML;
 use ElementalPlugin\Library\HttpPost;
+use ElementalPlugin\Library\TemplateIcons;
 
 /**
  * Render the admin page
  *
  * @return string
  */
-return function (): string {
+return function (
+	string $accounts_remaining
+): string {
 	ob_start();
 
 	$html_library = Factory::get_instance( HTML::class, array( 'site-conference-center-new-room' ) );
 
+	//phpcs:ignore --WordPress.Security.EscapeOutput.OutputNotEscaped - already escaped.
+	echo Factory::get_instance( TemplateIcons::class )->format_button_icon( 'close_window' );
 	?>
 	<div class="row erow headrow" style=" text-align: center; background: #323064;color:white;font-size:15px;padding:1%; border-top-left-radius: 10px; border-top-right-radius: 10px;">
 		<div class="col-xs-6" id="demoContainer">
-			Add User
+			<?php esc_html_e( 'Add User', 'elementalplugin' ); ?>
+
+
 		</div>
 	</div>
 	<div class="elemental-nav-settingstabs-outer-wrap elemental-align-left">
-
+	<?php
+		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped (already escaped in its view)
+		echo $accounts_remaining;
+?>
 		<form method="" action="#">
 
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label" for="<?php echo esc_attr( $html_library->get_id( 'title' ) ); ?>">
-					<?php esc_html_e( 'Email Address ', 'elemental' ); ?>
+					<?php esc_html_e( 'Email Address ', 'elementalplugin' ); ?>
 				</label>
 				<span>( 
 				<?php
 						esc_html_e(
 							'Please enter the User email address, note this must be unique on our platform, and we will confirm prior to submission',
-							'elemental'
+							'elementalplugin'
 						);
 				?>
 						)</span>
