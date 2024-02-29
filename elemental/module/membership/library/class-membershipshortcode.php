@@ -58,10 +58,11 @@ class MembershipShortCode {
 			);
 			$login_form = wp_login_form( $args );
 		}
+		$accounts_remaining  = $this->render_remaining_account_count( $user_id );
 		$render              = ( require __DIR__ . '/../views/membership/manage-child.php' );
 		$manage_account_form = ( require __DIR__ . '/../views/membership/add-new-user.php' );
 		// phpcs:ignore -- WordPress.Security.EscapeOutput.OutputNotEscaped . Functions already escaped
-		return $render( $manage_account_form(), $child_account_table, $login_form );
+		return $render( $manage_account_form( $accounts_remaining ), $child_account_table, $login_form );
 	}
 	/**
 	 * Get ALL Sponsored Account Shortcode Worker Function

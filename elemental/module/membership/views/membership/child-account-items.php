@@ -9,6 +9,7 @@ use ElementalPlugin\Module\Membership\Membership;
 
 /**
  * Render the Child/Sponsored Account User Items.
+ * Used by table for dataroom admin view and dataroom non-admin view
  *
  * @param \stdClass $child_account_object The room
  * @param ?string $child_account_object_type  Category of Room to Filter.
@@ -20,6 +21,19 @@ return function (
 ): string {
 	ob_start();
 
+	if ( isset( $child_account_object['allusers'] ) ) {
+		$data_type     = $child_account_object['allusers'];
+		$show_advanced = true;
+	} else {
+		$data_type     = '';
+		$show_advanced = false;
+	}
+	if ( isset( $child_account_object['parent_name'] ) ) {
+		$parent_name = $child_account_object['parent_name'];
+	} else {
+		$parent_name = '';
+	}
+
 		$save_nonce     = wp_create_nonce( Membership::MEMBERSHIP_NONCE_PREFIX_DU . strval( $child_account_object['user_id'] ) );
 		$edit_actions[] = array(
 			__( 'Delete User' ),
@@ -27,34 +41,37 @@ return function (
 			'elemental-dashicons dashicons-dismiss elemental-delete-user-account',
 			array(
 				'data-nonce' => $save_nonce,
-				'data-type'  => $child_account_object['allusers'],
+				'data-type'  => $data_type,
 			),
 		);
-		array_push(
-			$edit_actions,
-			array(
-				__( 'Manage Files ' ),
-				null,
-				'elemental-dashicons dashicons-media-document elemental-file-manager',
+		if ( true === $show_advanced ) {
+			array_push(
+				$edit_actions,
 				array(
-					'data-nonce' => $save_nonce,
-					'data-type'  => $child_account_object['allusers'],
-				),
-			)
-		);
-		array_push(
-			$edit_actions,
-			array(
-				__( 'Manage Users' ),
-				null,
-				'elemental-dashicons dashicons-admin-users elemental-user-manager',
+					__( 'Manage Files ' ),
+					null,
+					'elemental-dashicons dashicons-media-document elemental-file-manager',
+					array(
+						'data-nonce' => $save_nonce,
+						'data-type'  => $data_type,
+					),
+				)
+			);
+			array_push(
+				$edit_actions,
 				array(
-					'data-nonce' => $save_nonce,
-					'data-type'  => $child_account_object['allusers'],
-				),
-			)
-		);
-
+					__( 'Manage Users' ),
+					null,
+					'elemental-dashicons dashicons-admin-users elemental-user-manager',
+					array(
+						'data-nonce' => $save_nonce,
+						'data-type'  => $data_type,
+					),
+				)
+			);
+	
+		}
+		
 	?>
 <tr class="active elemental-table-mobile">
 	<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
@@ -68,7 +85,7 @@ return function (
 		?>
 	</td>
 
-	<td class="plugin-title column-primary elemental-mobile-table-row-adjust">
+	<td class=" plugin-title column-primary elemental-mobile-table-row-adjust">
 		<?php
 
 		echo esc_textarea( $child_account_object['last_login'] );
@@ -82,7 +99,7 @@ return function (
 	</td>
 	<td>
 		<?php
-				echo esc_textarea( $child_account_object['parent_name'] );
+				echo esc_textarea( $parent_name );
 		?>
 	</td>
 	<td>

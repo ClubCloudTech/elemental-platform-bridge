@@ -19,6 +19,9 @@ window.addEventListener('load', function () {
         $('#elemental-email-status').empty()
         $('#elemental-adduser-frame').slideToggle()
       })
+      $('.elemental-close-window').click(function (e) {
+        window.location.reload()
+      })
       $('#submit').hide()
       $('#submit').prop('disabled', true)
       $('#submitemail').hide()
@@ -838,8 +841,8 @@ var refreshPage = function (sort_field) {
             account_window.html(state_response.table)
           }
           init()
-          window.elemental_stream_init()
-		  window.elemental_screenprotect_init()
+         window.elemental_stream_init()
+		     window.elemental_screenprotect_init()
         },
         error: function (response) {
           console.log('Error in server')
