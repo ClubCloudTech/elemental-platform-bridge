@@ -481,7 +481,6 @@ var refreshPage = function (sort_field) {
               $('#first-name-icon').hide()
               $('#last-name-icon').hide()
               $('#elemental-adduser-frame').slideToggle()
-              init()
             }
           } else {
             $('#elemental-email-status').removeClass(
@@ -490,6 +489,7 @@ var refreshPage = function (sort_field) {
             $('#elemental-email-status').addClass('elemental-invalid')
             $('#elemental-email-status').html(state_response.feedback)
           }
+          init()
         },
         error: function (response) {
           console.log('Error Uploading')
